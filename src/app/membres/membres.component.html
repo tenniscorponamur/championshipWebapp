@@ -85,26 +85,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td class="text-uppercase">Marot</td>
-              <td>Virginie</td>
-              <td>UNAMUR</td>
-              <td>C15-2 (45)</td>
-              <td><i class="fa fa-search"></i></td>
-            </tr>
-            <tr>
-              <td class="text-uppercase">Beauthier</td>
-              <td>Charlotte</td>
-              <td>UNAMUR</td>
-              <td>C30-2 (30)</td>
-              <td><i class="fa fa-search"></i></td>
-            </tr>
-            <tr>
-              <td class="text-uppercase">Calay</td>
-              <td>Fabrice</td>
+                
+            <tr *ngFor="let membre of membres">
+              <td class="text-uppercase">{{membre.nom}}</td>
+              <td>{{membre.prenom}}</td>
               <td>UNAMUR</td>
               <td>N/A (5)</td>
-              <td><button (click)="openMember()"><i class="fa fa-search" ></i></button></td>
+              <td><button (click)="ouvrirMembre(membre)"><i class="fa fa-search" ></i></button></td>
             </tr>
             </tbody>
           </table>
@@ -113,7 +100,7 @@
       </div>
   </div>
   <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
-    <app-membre-detail></app-membre-detail>
+    <app-membre-detail [membre]="selectedMember"></app-membre-detail>
   </div>
   </div>
 </div>

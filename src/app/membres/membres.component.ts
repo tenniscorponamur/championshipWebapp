@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { Membre } from '../membre';
+import { MembreService } from '../membre.service';
 
 @Component({
   selector: 'app-membres',
@@ -8,16 +10,22 @@ import { NgClass } from '@angular/common';
 })
 export class MembresComponent implements OnInit {
 
+    membres:Membre[];
   memberListClass:string = "tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6";
-  selectedMember:string;
+  selectedMember:Membre;
 
-  constructor() { }
+  constructor(private membreService:MembreService) { }
 
   ngOnInit() {
+      this.getMembres();
   }
 
-  openMember():void{
-    this.selectedMember="test";
+    getMembres():void{
+        this.membreService.getMembres().subscribe(membres => this.membres = membres);
+    }
+
+  ouvrirMembre(membre:Membre):void{
+    this.selectedMember=membre;
   }
 
 }
