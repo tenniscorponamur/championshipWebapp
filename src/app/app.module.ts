@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 
 /* Services */
 import { MembreService } from './membre.service';
+import { MembreDetailComponent } from './membre-detail/membre-detail.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MembreService } from './membre.service';
     AppComponent,
     MembresComponent,
     RencontresComponent,
-    HomeComponent
+    HomeComponent,
+    MembreDetailComponent
   ],
   imports: [
     BrowserModule,
