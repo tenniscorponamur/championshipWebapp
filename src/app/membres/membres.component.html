@@ -12,18 +12,64 @@
               <input class="form-control" type="text" placeholder="Nom/Prénom">
              </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="clubGroupSelect">Club</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="clubGroupSelect">Club</label>
+                  </div>
+                  <select class="custom-select" id="clubGroupSelect">
+                    <option selected>Choisir...</option>
+                    <option value="1">TC Wallonie</option>
+                    <option value="2">UNAMUR</option>
+                    <option value="3">IATA</option>
+                  </select>
+               </div>
+             </div>
+          </div>
+          <div align="right">
+            <a data-toggle="collapse" href="#otherCriterias" role="button" aria-expanded="false" aria-controls="otherCriterias">Autres critères</a>
+          </div>
+          <div class="collapse" id="otherCriterias">
+            <div class="card card-body">
+              <div class="row">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="classementGroupSelect">Classement</label>
+                  </div>
+                  <select class="custom-select" id="classementGroupSelect">
+                    <option selected>Choisir...</option>
+                    <option value="1">C30-4</option>
+                    <option value="2">C30-2</option>
+                    <option value="3">C30</option>
+                    <option value="4">C15-4</option>
+                  </select>
                 </div>
-                <select class="custom-select" id="clubGroupSelect">
-                  <option selected>Choisir...</option>
-                  <option value="1">TC Wallonie</option>
-                  <option value="2">UNAMUR</option>
-                  <option value="3">IATA</option>
-                </select>
-             </div>
-             </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text">Actif</label>
+                  </div>
+                  <div>
+                    &nbsp;
+                    &nbsp;
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Oui</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Non</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
+                    <label class="form-check-label" for="inlineRadio3">Pas d'importance</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
           </div>
           <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
           <div class="table-responsive">
@@ -39,21 +85,21 @@
             </thead>
             <tbody>
             <tr>
-              <td>MAROT</td>
+              <td class="text-uppercase">Marot</td>
               <td>Virginie</td>
               <td>UNAMUR</td>
               <td>C15-2 (45)</td>
               <td><i class="fa fa-search"></i></td>
             </tr>
             <tr>
-              <td>BEAUTHIER</td>
+              <td class="text-uppercase">Beauthier</td>
               <td>Charlotte</td>
               <td>UNAMUR</td>
               <td>C30-2 (30)</td>
               <td><i class="fa fa-search"></i></td>
             </tr>
             <tr>
-              <td>CALAY</td>
+              <td class="text-uppercase">Calay</td>
               <td>Fabrice</td>
               <td>UNAMUR</td>
               <td>N/A (5)</td>
