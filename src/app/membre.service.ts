@@ -21,5 +21,15 @@ export class MembreService {
 //      );
     return of(MEMBRES);
   }
+  
+  getMembre(id: number): Observable<Membre> {
+//    return this.http.get<Player>(`${this.playersUrl}/${id}`)
+//      .pipe(
+//          tap(_ => this.log(`fetched player id = ${id} from server`)),
+//          catchError(this.handleError<Player>(`getPlayer id=${id}`))
+//      );
+      return of(MEMBRES.find(membre => membre.id === id));
+  }
+  
 
 }

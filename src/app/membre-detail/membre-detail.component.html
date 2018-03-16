@@ -1,13 +1,33 @@
-<div class="card tennisCorpoBox" >
-    <h4 class="card-header">
-      Membre
-    </h4>
-    <div class="card-body text-center">
-    <div class="row">
-      <i class="fa fa-user-4"> Ceci est un test : {{membre.prenom}}</i>
-    </div>
-  </div>
-  <div align="center">
-    <button class="btn btn-success">Sauvegarder le membre</button>
-  </div>
-</div>
+        <div class="card tennisCorpoBox" >
+            <h4 class="card-header">
+              Membre
+            </h4>
+            <div class="card-body">
+            <div class="row">
+                <div class="col-6" align="center">
+                    <i class="fa fa-user fa-5x" style="color:cornflowerblue"></i>
+                </div>
+
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Nom</span>
+                          </div>      
+                        <input class="form-control" type="text" value="{{membre.nom}}" />
+                      </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Prénom</span>
+                          </div>      
+                        <input class="form-control" type="text" value="{{membre.prenom}}" disabled />
+                      </div>
+                    </div>
+            </div>
+            <!--<i class="fa fa-user fa-5x" style="color:pink"></i>-->
+            </div>
+          <div align="center">
+            <button class="btn btn-danger" (click)="goBack()">Annuler</button>
+            <button class="btn btn-success" (click)="save()">Sauvegarder</button>
+          </div>
+        </div>
+              
