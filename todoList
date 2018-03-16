@@ -4,7 +4,7 @@
 - Pouvoir paginer une liste --> voir lien disponible sur gmail
 
 
-- Ouvrir le formulaire de membre lors d'un clic sur un membre --> ouvrir une page sur la droite du formulaire (reactivite de la page pour faire joli)
+- Ouvrir le formulaire de membre lors d'un clic sur un membre --> ouvrir une page sur la droite du formulaire (reactivite de la page pour faire joli) --> utiliser un ngIf pour tester si le formulaire est affiché ??
 
 -Afficher un bouton pour pouvoir modifier un membre uniquement si personne habilitee
 
