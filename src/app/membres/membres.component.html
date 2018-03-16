@@ -1,3 +1,68 @@
-<p>
-  membres works!
-</p>
+<div class="card" >
+  <img class="card-img" src="/assets/images/home.jpg" alt="Card image">
+  <div class="card-img-overlay">
+    <div class="homeBox col-12">
+      <div class="card text-center">
+        <h4 class="card-header">
+          Membres
+        </h4>
+        <div class="card-body text-center">
+          <div class="row" style="margin-bottom:10px;">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <input class="form-control" type="text" placeholder="Nom/Prénom">
+             </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="clubGroupSelect">Club</label>
+                </div>
+                <select class="custom-select" id="clubGroupSelect">
+                  <option selected>Choisir...</option>
+                  <option value="1">TC Wallonie</option>
+                  <option value="2">UNAMUR</option>
+                  <option value="3">IATA</option>
+                </select>
+             </div>
+             </div>
+          </div>
+          <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
+          <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead class="bg-info">
+            <tr>
+              <th scope="col">Nom</th>
+              <th scope="col">Prénom</th>
+              <th scope="col">Club</th>
+              <th scope="col">Classement</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>MAROT</td>
+              <td>Virginie</td>
+              <td>UNAMUR</td>
+              <td>C15-2 (45)</td>
+              <td><i class="fa fa-search"></i></td>
+            </tr>
+            <tr>
+              <td>BEAUTHIER</td>
+              <td>Charlotte</td>
+              <td>UNAMUR</td>
+              <td>C30-2 (30)</td>
+              <td><i class="fa fa-search"></i></td>
+            </tr>
+            <tr>
+              <td>CALAY</td>
+              <td>Fabrice</td>
+              <td>UNAMUR</td>
+              <td>N/A (5)</td>
+              <td><i class="fa fa-search"></i></td>
+            </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
