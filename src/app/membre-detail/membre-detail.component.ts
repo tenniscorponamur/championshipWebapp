@@ -32,7 +32,7 @@ export class MembreDetailComponent implements OnInit {
     
   ouvrirHistoriqueClassement(): void {
     let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {
-      data: { membre: this.membre }, width: "50%"
+      data: { membre: this.membre }, panelClass: "historiqueClassementDialog"
     });
 
     historiqueClassementDialogRef.afterClosed().subscribe(result => {
