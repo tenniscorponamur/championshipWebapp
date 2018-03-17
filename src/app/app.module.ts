@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule } from '@angular/common/http'; // <-- Http Client lives here
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material'; // <-- Dialog lives here
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // <-- dialog needs
 
 /* Component */
 
@@ -10,7 +12,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent } from './membres/membres.component';
 import { RencontresComponent } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
-import { MembreDetailComponent } from './membre-detail/membre-detail.component';
+import { MembreDetailComponent, HistoriqueClassementDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
 import { MembreService } from './membre.service';
@@ -22,17 +24,25 @@ import { MembreService } from './membre.service';
     MembresComponent,
     RencontresComponent,
     HomeComponent,
-    MembreDetailComponent
+    MembreDetailComponent,
+    HistoriqueClassementDialog
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    BrowserAnimationsModule
+  ],
+  entryComponents: [
+      HistoriqueClassementDialog
   ],
   providers: [
     MembreService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:false }}
     ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

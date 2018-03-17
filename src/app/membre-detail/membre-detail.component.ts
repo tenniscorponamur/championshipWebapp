@@ -1,4 +1,6 @@
-import { Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
+import { Component, Inject, EventEmitter, OnInit, Input, Output} from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
 import { Membre } from '../membre';
 
 import { Router,ActivatedRoute } from '@angular/router';
@@ -20,11 +22,22 @@ export class MembreDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private membreService: MembreService,
-    private location: Location
+    private location: Location,
+    public dialog: MatDialog
     ) { }
 
   ngOnInit() {
-    this.getMembre();
+    //this.getMembre();
+  }
+    
+  ouvrirHistoriqueClassement(): void {
+    let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {
+      data: { membre: this.membre }, width: "50%"
+    });
+
+    historiqueClassementDialogRef.afterClosed().subscribe(result => {
+      console.log('Le classement a ete ferme');
+    });
   }
   
   getMembre(): void {
@@ -41,6 +54,23 @@ export class MembreDetailComponent implements OnInit {
   save():void{
     this.childResult.emit('saveChild');
 //     this.goBack();
+  }
+  
+}
+
+
+@Component({
+  selector: 'historique-classement-dialog',
+  templateUrl: './historiqueClassementDialog.html',
+})
+export class HistoriqueClassementDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<HistoriqueClassementDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }
