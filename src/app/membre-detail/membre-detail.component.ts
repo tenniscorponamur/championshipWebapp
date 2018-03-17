@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
 import { Membre } from '../membre';
 
 import { Router,ActivatedRoute } from '@angular/router';
@@ -13,6 +13,8 @@ import {MembreService} from '../membre.service';
 export class MembreDetailComponent implements OnInit {
 
   @Input() membre: Membre;
+  @Input('master') masterName: string;
+  @Output() childResult = new EventEmitter<string>();
   
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +39,7 @@ export class MembreDetailComponent implements OnInit {
   }
 
   save():void{
+    this.childResult.emit('saveChild');
 //     this.goBack();
   }
 

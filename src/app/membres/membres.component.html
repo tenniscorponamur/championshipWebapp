@@ -100,7 +100,7 @@
       </div>
   </div>
   <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
-    <app-membre-detail [membre]="selectedMember"></app-membre-detail>
+    <app-membre-detail [membre]="selectedMember" [master]="componentName" (childResult)="childResult($event)" ></app-membre-detail>
   </div>
   </div>
 </div>

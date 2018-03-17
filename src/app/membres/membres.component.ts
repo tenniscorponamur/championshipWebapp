@@ -12,6 +12,7 @@ export class MembresComponent implements OnInit {
 
     filtreNomPrenom:string;
     membres:Membre[];
+    componentName:string="membresComponent";
   memberListClass:string = "tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6";
   selectedMember:Membre;
 
@@ -27,6 +28,10 @@ export class MembresComponent implements OnInit {
 
   ouvrirMembre(membre:Membre):void{
     this.selectedMember=membre;
+  }
+  
+  childResult(childResult : string){
+      console.log("resultat : " + childResult);
   }
 
 }
