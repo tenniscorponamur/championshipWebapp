@@ -13,13 +13,13 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Nom</span>
                           </div>      
-                        <input class="form-control" type="text" value="{{membre.nom}}" />
+                        <input class="form-control" type="text" [(ngModel)]="membre.nom" />
                       </div>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Prénom</span>
                           </div>      
-                        <input class="form-control" type="text" value="{{membre.prenom}}" disabled />
+                        <input class="form-control" type="text" [(ngModel)]="membre.prenom" disabled />
                       </div>
                     </div>
             </div>
