@@ -1,34 +1,33 @@
-        <div class="card tennisCorpoBox" >
-            <h4 class="card-header">
-              Membre
-            </h4>
-            <div class="card-body">
-            <div class="row">
-                <div class="col-6" align="center">
-                    <i class="fa fa-user fa-5x" style="color:cornflowerblue"></i>
-                </div>
+<div class="card tennisCorpoBox" >
+    <h4 class="card-header">
+        Membre
+    </h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6" align="center">
+                <i class="fa fa-user fa-5x" style="color:cornflowerblue"></i>
+            </div>
 
-                    <div class="col-6">
-                        <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Nom</span>
-                          </div>      
-                        <input class="form-control" type="text" [(ngModel)]="membre.nom" />
-                      </div>
-                        <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Prénom</span>
-                          </div>      
-                        <input class="form-control" type="text" [(ngModel)]="membre.prenom" disabled />
-                      </div>
-                    </div>
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Nom</span>
+                    </div>      
+                    <input class="form-control" type="text" [(ngModel)]="membre.nom" />
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Prénom</span>
+                    </div>      
+                    <input class="form-control" type="text" [(ngModel)]="membre.prenom" disabled />
+                </div>
             </div>
-            <button class="btn btn-primary" (click)="ouvrirHistoriqueClassement()" >Historique classement</button>
-            <!--<i class="fa fa-user fa-5x" style="color:pink"></i>-->
-            </div>
-          <div align="center">
-            <button class="btn btn-danger" (click)="goBack()">Annuler</button>
-            <button class="btn btn-success" (click)="save()">Sauvegarder</button>
-          </div>
         </div>
-              
+        <button class="btn btn-primary" (click)="ouvrirHistoriqueClassement()" >Historique classement</button>
+        <!--<i class="fa fa-user fa-5x" style="color:pink"></i>-->
+    </div>
+    <div align="center">
+        <button class="btn btn-danger" (click)="goBack()">Annuler</button>
+        <button class="btn btn-success" (click)="save()">Sauvegarder</button>
+    </div>
+</div>

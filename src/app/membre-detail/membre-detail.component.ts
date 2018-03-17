@@ -53,6 +53,7 @@ export class MembreDetailComponent implements OnInit {
 
   save():void{
     this.childResult.emit('saveChild');
+    // TODO : vider le formulaire : membre = null;
 //     this.goBack();
   }
   
