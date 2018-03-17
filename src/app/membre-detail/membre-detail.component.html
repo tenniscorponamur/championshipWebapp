@@ -5,7 +5,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-6" align="center">
-                <i class="fa fa-user fa-5x" style="color:cornflowerblue"></i>
+                <i [ngClass]="userImageClass" ></i>
             </div>
 
             <div class="col-6">
@@ -24,7 +24,6 @@
             </div>
         </div>
         <button class="btn btn-primary" (click)="ouvrirHistoriqueClassement()" >Historique classement</button>
-        <!--<i class="fa fa-user fa-5x" style="color:pink"></i>-->
     </div>
     <div align="center">
         <button class="btn btn-danger" (click)="goBack()">Annuler</button>

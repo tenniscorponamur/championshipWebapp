@@ -14,9 +14,10 @@ import {MembreService} from '../membre.service';
 })
 export class MembreDetailComponent implements OnInit {
 
-  @Input() membre: Membre;
   @Input('master') masterName: string;
   @Output() childResult = new EventEmitter<string>();
+  
+  userImageClass:string = "fa fa-user fa-5x undefinedMember";
   
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +30,22 @@ export class MembreDetailComponent implements OnInit {
   ngOnInit() {
     //this.getMembre();
   }
+  
+  private _membre: Membre;
+  
+  @Input()
+  set membre(membre: Membre) {
+    this._membre = membre;
+      if (this._membre) { 
+          if (this._membre.prenom=='Fabrice'){
+          this.userImageClass = "fa fa-user fa-5x maleMember";
+        }else{
+            this.userImageClass = "fa fa-user fa-5x femaleMember";
+        }
+      }
+  }
+  
+  get membre(): Membre { return this._membre; }
     
   ouvrirHistoriqueClassement(): void {
     let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {

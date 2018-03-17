@@ -31,12 +31,12 @@ export class MembresComponent implements OnInit {
 
   ouvrirMembre(membre:Membre):void{
     this.selectedMember=membre;
-    this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
   }
   
   childResult(childResult : string){
       console.log("resultat : " + childResult);
-    this.membreListComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    //this.membreListComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
 }
