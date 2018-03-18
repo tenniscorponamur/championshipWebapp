@@ -47,9 +47,19 @@ export class MembreDetailComponent implements OnInit {
   
   get membre(): Membre { return this._membre; }
     
+  ouvrirInfosGenerales() {
+    let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
+      data: { membre: this.membre }, panelClass: "historiqueClassementDialog"
+    });
+
+    membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
+      console.log('Les informations generales ont ete modifiees a ete ferme : ' + result);
+    });
+  }
+  
   ouvrirHistoriqueClassement(): void {
     let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {
-      data: { membre: this.membre }, panelClass: "historiqueClassementDialog"
+      data: { membre: this.membre }, panelClass: "historiqueClassementDialog", disableClose:false
     });
 
     historiqueClassementDialogRef.afterClosed().subscribe(result => {
@@ -91,4 +101,34 @@ export class HistoriqueClassementDialog {
     this.dialogRef.close();
   }
 
+}
+
+@Component({
+  selector: 'infos-generales-membre-dialog',
+  templateUrl: './infosGeneralesMembreDialog.html',
+})
+export class InfosGeneralesMembreDialog {
+    
+    prenom:string;
+    nom:string;
+    
+    private _membre:Membre;
+    
+  constructor(
+    public dialogRef: MatDialogRef<InfosGeneralesMembreDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+        this._membre = data.membre;
+        this.prenom = this._membre.prenom;
+        this.nom = this._membre.nom;
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+  
+  save(): void {
+      this._membre.prenom=this.prenom;
+      this._membre.nom=this.nom;
+    this.dialogRef.close(this._membre);
+  }
 }

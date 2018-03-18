@@ -1,6 +1,9 @@
 <div class="card tennisCorpoBox" >
     <h4 class="card-header">
-        Membre
+        Membre 
+        <div align="right">
+            <button class="btn btn-secondary" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
+        </div>
     </h4>
     <div class="card-body">
         <div class="row">
@@ -8,8 +11,35 @@
                 <i [ngClass]="userImageClass" ></i>
             </div>
 
-            <div class="col-6">
-                <div class="input-group mb-3">
+            <div class="col-6" *ngIf="membre">
+                <div class="row membreRow" >
+                    <div class="col-10">
+                        <div class="col-12">
+                            <span><strong>{{membre.nom|uppercase}}</strong>&nbsp;{{membre.prenom}}</span>
+                            <span>02/11/1982</span>
+                        </div>
+                    </div> 
+                    <div class="col-2 editionMembreDiv" (click)="ouvrirInfosGenerales();" >
+                        <a><i class="fa fa-pencil fa-2"></i></a>
+                    </div>
+                </div>
+                <div class="row membreRow">
+                    <div class="col-10">
+                        <div class="col-12">
+                            <span>Rue de Saint Hubert</span>
+                            <span>508B</span>
+                        </div>
+                        <div class="col-12">
+                            <span>5300</span>
+                            <span>VEZIN</span>
+                        </div>
+                    </div> 
+                    <div class="col-2 editionMembreDiv" >
+                        <i class="fa fa-pencil fa-2"></i>
+                    </div>
+                </div>
+                
+<!--                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">Nom</span>
                     </div>      
@@ -20,13 +50,20 @@
                         <span class="input-group-text" id="basic-addon1">Prénom</span>
                     </div>      
                     <input class="form-control" type="text" [(ngModel)]="membre.prenom" disabled />
+                </div>-->
+                <div align="center">
+                    <button class="btn btn-primary" (click)="ouvrirHistoriqueClassement()" >Historique classement</button>
                 </div>
             </div>
+            
+            <div class="col-6" *ngIf="!membre">
+                    
+            </div>
         </div>
-        <button class="btn btn-primary" (click)="ouvrirHistoriqueClassement()" >Historique classement</button>
     </div>
-    <div align="center">
+    
+<!--    <div align="center">
         <button class="btn btn-danger" (click)="goBack()">Annuler</button>
         <button class="btn btn-success" (click)="save()">Sauvegarder</button>
-    </div>
+    </div>-->
 </div>

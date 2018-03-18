@@ -9,3 +9,19 @@
 .undefinedMember{
     color:lightgrey;
 }
+
+.membreRow {
+    margin-bottom: 10px;   
+}
+
+.editionMembreDiv{
+    margin:auto;
+    vertical-align:middle;
+    border-radius:10px;
+    text-align:center;
+}
+
+.editionMembreDiv:hover{
+    background-color:cornflowerblue;
+    color:white;
+}
