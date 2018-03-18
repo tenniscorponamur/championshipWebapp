@@ -31,5 +31,10 @@ export class MembreService {
       return of(MEMBRES.find(membre => membre.id === id));
   }
   
+  ajoutMembre(membre:Membre){
+      MEMBRES.push(membre);
+      membre.id = MEMBRES.length;
+  }
+  
 
 }

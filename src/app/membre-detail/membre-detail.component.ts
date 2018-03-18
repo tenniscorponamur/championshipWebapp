@@ -49,7 +49,7 @@ export class MembreDetailComponent implements OnInit {
     
   ouvrirInfosGenerales() {
     let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
-      data: { membre: this.membre }, panelClass: "historiqueClassementDialog"
+      data: { membre: this.membre }, panelClass: "infosGeneralesMembreDialog"
     });
 
     membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
@@ -116,7 +116,8 @@ export class InfosGeneralesMembreDialog {
     
   constructor(
     public dialogRef: MatDialogRef<InfosGeneralesMembreDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membreService: MembreService) { 
         this._membre = data.membre;
         this.prenom = this._membre.prenom;
         this.nom = this._membre.nom;
@@ -127,6 +128,10 @@ export class InfosGeneralesMembreDialog {
   }
   
   save(): void {
+      if (!this._membre.id){
+          // Ajout d'un nouveau membre
+          this.membreService.ajoutMembre(this._membre);
+      }
       this._membre.prenom=this.prenom;
       this._membre.nom=this.nom;
     this.dialogRef.close(this._membre);

@@ -96,10 +96,13 @@
             </tbody>
           </table>
           </div>
+        <div align="right">
+            <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
+        </div>
         </div>
       </div>
   </div>
-  <div #membreDetail class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+  <div #membreDetail class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="selectedMember">
     <app-membre-detail [membre]="selectedMember" [master]="componentName" (childResult)="childResult($event)" ></app-membre-detail>
   </div>
   </div>

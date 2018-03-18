@@ -1,21 +1,18 @@
 <div class="card tennisCorpoBox" >
     <h4 class="card-header">
         Membre 
-        <div align="right">
-            <button class="btn btn-secondary" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
-        </div>
     </h4>
     <div class="card-body">
-        <div class="row">
-            <div class="col-6" align="center">
+        <div class="row" >
+            <div class="col-3" align="center">
                 <i [ngClass]="userImageClass" ></i>
             </div>
 
-            <div class="col-6" *ngIf="membre">
+            <div class="col-9" >
                 <div class="row membreRow" >
                     <div class="col-10">
                         <div class="col-12">
-                            <span><strong>{{membre.nom|uppercase}}</strong>&nbsp;{{membre.prenom}}</span>
+                            <span><strong>{{membre.nom|uppercase}}</strong>&nbsp;</span><span>{{membre.prenom}}</span>
                             <span>02/11/1982</span>
                         </div>
                     </div> 
@@ -56,9 +53,6 @@
                 </div>
             </div>
             
-            <div class="col-6" *ngIf="!membre">
-                    
-            </div>
         </div>
     </div>
     

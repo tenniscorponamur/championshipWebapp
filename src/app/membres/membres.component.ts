@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {InfosGeneralesMembreDialog} from '../membre-detail/membre-detail.component';
 
 @Component({
   selector: 'app-membres',
@@ -19,7 +21,8 @@ export class MembresComponent implements OnInit {
   @ViewChild("membreDetail") membreDetailComponent: ElementRef;
   @ViewChild("membreList") membreListComponent: ElementRef;
 
-  constructor(private membreService:MembreService) { }
+  constructor(private membreService:MembreService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
       this.getMembres();
@@ -27,6 +30,20 @@ export class MembresComponent implements OnInit {
 
     getMembres():void{
         this.membreService.getMembres().subscribe(membres => this.membres = membres);
+    }
+    
+    nouveauMembre(){
+        let nouveauMembre: Membre = new Membre();
+        
+        let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
+            data: {membre: nouveauMembre }, panelClass: "infosGeneralesMembreDialog"
+        });
+
+        membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
+            if (result){
+                this.selectedMember = result;
+            }
+        });
     }
 
   ouvrirMembre(membre:Membre):void{
