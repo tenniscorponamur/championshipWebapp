@@ -19,6 +19,8 @@ import {MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreD
 /* Services */
 import { MembreService } from './membre.service';
 import { RencontreDetailComponent } from './rencontre-detail/rencontre-detail.component';
+import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
+import { ClassementsComponent } from './classements/classements.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { RencontreDetailComponent } from './rencontre-detail/rencontre-detail.co
     MembreDetailComponent,
     HistoriqueClassementDialog,
     InfosGeneralesMembreDialog,
-    RencontreDetailComponent
+    RencontreDetailComponent,
+    ClassementDetailComponent,
+    ClassementsComponent
   ],
   imports: [
     BrowserModule,
