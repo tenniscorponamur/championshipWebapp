@@ -1,0 +1,84 @@
+<h1 mat-dialog-title>Match S#2</h1>
+<div mat-dialog-content>
+
+  <div class="row" style="background-color:coral">
+    <div class="col-3" style="border-left:2px solid white;border-right:2px solid white;border-top:2px solid white;"></div>
+    <div class="col-3" align="center" style="border-right:1px solid white;border-top:2px solid white;border-bottom:1px solid white;">
+
+      <button *ngIf="false" class="btn btn-sm btn-success matchPlayerButton" >
+        A2
+      </button>
+
+    </div>
+    <div class="col-3" style="border-left:1px solid white;border-right:1px solid white;border-bottom:1px solid white;border-top:2px solid white;"></div>
+    <div class="col-3" align="center" style="border-left:1px solid white;border-right:2px solid white;border-top:2px solid white;">
+
+      <button class="btn btn-sm btn-success matchPlayerButton" style="margin:5px 5px">
+        M. Humot
+      </button>
+
+    </div>
+    <div class="w-100"></div>
+    <div class="col-3" align="center" style="border-left:2px solid white;border-right:2px solid white;border-bottom:2px solid white;">
+
+      <button class="btn btn-sm btn-success matchPlayerButton" style="margin:5px 5px">
+        N. Dupont
+      </button>
+
+    </div>
+    <div class="col-3" style="border-right:1px solid white;border-top:1px solid white;border-bottom:2px solid white;"></div>
+    <div class="col-3" align="center" style="border-left:1px solid white;border-right:1px solid white;border-bottom:2px solid white;border-top:1px solid white;">
+
+      <button *ngIf="false" class="btn btn-sm btn-success matchPlayerButton" style="margin:5px 5px">
+        B2
+      </button>
+
+    </div>
+    <div class="col-3" style="border-left:1px solid white;border-right:2px solid white;border-bottom:2px solid white;"></div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-sm" style="text-align:center">
+          <thead class="bg-info">
+          <tr>
+            <th scope="col">Adversaires</th>
+            <th scope="col">Set 1</th>
+            <th scope="col">Set 2</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>N. Dupont</td>
+            <td><strong>5</strong></td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>M. Humot</td>
+            <!--DROWDOWN - SELECT-->
+              <select class="form-control input-sm" >
+                <option selected>Choisir...</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="3">4</option>
+                <option value="3">5</option>
+              </select>
+            <!--<td>1</td>-->
+            <td><strong>4</strong></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div align="center">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    <button class="btn btn-success" (click)="save();">Sauver</button>
+  </div>
+
+</div>

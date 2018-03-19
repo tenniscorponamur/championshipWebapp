@@ -18,7 +18,7 @@ import {MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreD
 
 /* Services */
 import { MembreService } from './membre.service';
-import { RencontreDetailComponent } from './rencontre-detail/rencontre-detail.component';
+import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 
@@ -33,8 +33,9 @@ import { ClassementsComponent } from './classements/classements.component';
     HistoriqueClassementDialog,
     InfosGeneralesMembreDialog,
     RencontreDetailComponent,
+    MatchDialog,
     ClassementDetailComponent,
-    ClassementsComponent
+    ClassementsComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +49,8 @@ import { ClassementsComponent } from './classements/classements.component';
   ],
   entryComponents: [
       HistoriqueClassementDialog,
-      InfosGeneralesMembreDialog
+      InfosGeneralesMembreDialog,
+      MatchDialog
   ],
   providers: [
     MembreService,
