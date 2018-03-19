@@ -37,16 +37,20 @@ export class MembreDetailComponent implements OnInit {
   @Input()
   set membre(membre: Membre) {
     this._membre = membre;
-      if (this._membre) {
-          if (this._membre.genre==GENRE_HOMME){
-          this.userImageClass = "fa fa-user fa-5x maleMember";
-        }else{
-            this.userImageClass = "fa fa-user fa-5x femaleMember";
-        }
-      }
+    this.refreshUserImage();
   }
 
   get membre(): Membre { return this._membre; }
+
+  refreshUserImage(){
+    if (this._membre) {
+        if (this._membre.genre==GENRE_HOMME){
+          this.userImageClass = "fa fa-user fa-5x maleMember";
+      }else{
+          this.userImageClass = "fa fa-user fa-5x femaleMember";
+      }
+    }
+  }
 
   ouvrirInfosGenerales() {
     let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
@@ -55,6 +59,7 @@ export class MembreDetailComponent implements OnInit {
 
     membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
       console.log('Les informations generales ont ete modifiees a ete ferme : ' + result);
+      this.refreshUserImage();
     });
   }
 
@@ -110,8 +115,11 @@ export class HistoriqueClassementDialog {
 })
 export class InfosGeneralesMembreDialog {
 
-    prenom:string;
-    nom:string;
+    genres = GENRES;
+
+    _genre:Genre;
+    _prenom:string;
+    _nom:string;
 
     private _membre:Membre;
 
@@ -120,8 +128,9 @@ export class InfosGeneralesMembreDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private membreService: MembreService) {
         this._membre = data.membre;
-        this.prenom = this._membre.prenom;
-        this.nom = this._membre.nom;
+        this._prenom = this._membre.prenom;
+        this._nom = this._membre.nom;
+        this._genre = this._membre.genre;
     }
 
   cancel(): void {
@@ -133,8 +142,9 @@ export class InfosGeneralesMembreDialog {
           // Ajout d'un nouveau membre
           this.membreService.ajoutMembre(this._membre);
       }
-      this._membre.prenom=this.prenom;
-      this._membre.nom=this.nom;
-    this.dialogRef.close(this._membre);
+      this._membre.prenom=this._prenom;
+      this._membre.nom=this._nom;
+      this._membre.genre=this._genre;
+      this.dialogRef.close(this._membre);
   }
 }

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http'; // <-- Http Client live
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatInputModule } from '@angular/material'; // <-- Dialog lives here
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // <-- dialog needs
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatRadioModule} from '@angular/material/radio';
 
 /* Component */
 
@@ -36,7 +37,8 @@ import { MembreService } from './membre.service';
     HttpClientModule,
     MatDialogModule,
     BrowserAnimationsModule,
-    MatFormFieldModule,MatInputModule
+    MatFormFieldModule,MatInputModule,
+    MatRadioModule
   ],
   entryComponents: [
       HistoriqueClassementDialog,
