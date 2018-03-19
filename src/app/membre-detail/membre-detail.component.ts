@@ -1,6 +1,7 @@
 import { Component, Inject, EventEmitter, OnInit, Input, Output} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
+import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import { Membre } from '../membre';
 
 import { Router,ActivatedRoute } from '@angular/router';
@@ -16,9 +17,9 @@ export class MembreDetailComponent implements OnInit {
 
   @Input('master') masterName: string;
   @Output() childResult = new EventEmitter<string>();
-  
+
   userImageClass:string = "fa fa-user fa-5x undefinedMember";
-  
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,23 +31,23 @@ export class MembreDetailComponent implements OnInit {
   ngOnInit() {
     //this.getMembre();
   }
-  
+
   private _membre: Membre;
-  
+
   @Input()
   set membre(membre: Membre) {
     this._membre = membre;
-      if (this._membre) { 
-          if (this._membre.prenom=='Fabrice'){
+      if (this._membre) {
+          if (this._membre.genre==GENRE_HOMME){
           this.userImageClass = "fa fa-user fa-5x maleMember";
         }else{
             this.userImageClass = "fa fa-user fa-5x femaleMember";
         }
       }
   }
-  
+
   get membre(): Membre { return this._membre; }
-    
+
   ouvrirInfosGenerales() {
     let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
       data: { membre: this.membre }, panelClass: "infosGeneralesMembreDialog"
@@ -56,7 +57,7 @@ export class MembreDetailComponent implements OnInit {
       console.log('Les informations generales ont ete modifiees a ete ferme : ' + result);
     });
   }
-  
+
   ouvrirHistoriqueClassement(): void {
     let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {
       data: { membre: this.membre }, panelClass: "historiqueClassementDialog", disableClose:false
@@ -66,13 +67,13 @@ export class MembreDetailComponent implements OnInit {
       console.log('Le classement a ete ferme');
     });
   }
-  
+
   getMembre(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.membreService.getMembre(id)
       .subscribe(membre => this.membre = membre);
   }
-  
+
   goBack():void{
 //    this.router.navigate(['/membres',{filtreNomPrenom:'ceci est un test'}]);
 //      this.location.back();
@@ -83,7 +84,7 @@ export class MembreDetailComponent implements OnInit {
     // TODO : vider le formulaire : membre = null;
 //     this.goBack();
   }
-  
+
 }
 
 
@@ -108,16 +109,16 @@ export class HistoriqueClassementDialog {
   templateUrl: './infosGeneralesMembreDialog.html',
 })
 export class InfosGeneralesMembreDialog {
-    
+
     prenom:string;
     nom:string;
-    
+
     private _membre:Membre;
-    
+
   constructor(
     public dialogRef: MatDialogRef<InfosGeneralesMembreDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private membreService: MembreService) { 
+    private membreService: MembreService) {
         this._membre = data.membre;
         this.prenom = this._membre.prenom;
         this.nom = this._membre.nom;
@@ -126,7 +127,7 @@ export class InfosGeneralesMembreDialog {
   cancel(): void {
     this.dialogRef.close();
   }
-  
+
   save(): void {
       if (!this._membre.id){
           // Ajout d'un nouveau membre
