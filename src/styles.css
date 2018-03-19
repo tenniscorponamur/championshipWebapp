@@ -12,17 +12,40 @@ body {
   padding-bottom:25px;
 }
 
+.myBox{
+  margin:10px;
+  border-radius:10px;
+  background-color:lightgrey;
+  border-color:lightgrey;
+  border-style:solid;
+  border-width: thin;
+}
+.myBox .myBoxTitle{
+  padding:5px 10px 5px 10px;
+  display: block;
+}
+.myBox .myBoxContent{
+  padding:5px 5px 10px 10px;
+  background-color:white;
+  border-radius:0px 0px 10px 10px;
+}
+.myBox.myBoxEditable:hover .myBoxTitle {
+  background-color:cornflowerblue;
+  border-radius:10px 10px 0px 0px;
+  cursor:pointer;
+  color:white;
+}
 
 /* Small devices (landscape phones, 576px and up)*/
-@media (min-width: 576px) { 
+@media (min-width: 576px) {
 }
 
 /* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {  
+@media (min-width: 768px) {
 }
 
 /* Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {  
+@media (min-width: 992px) {
 }
 
 /* Extra large devices (large desktops, 1200px and up)*/

@@ -6,3 +6,5 @@
 -Afficher un bouton pour pouvoir modifier un membre uniquement si personne habilitee
 
 - Gérer l'aspect authentification
+
+- Verifier que le premier match a bien ete joue par les deux meilleurs joues alignes, et ainsi de suite pour les matchs suivants
