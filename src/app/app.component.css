@@ -1,0 +1,4 @@
+/* Workaround pour dialog angular material au dessus de navbar bootstrap */
+.tennisCorpoNavbar{
+    z-index:999;
+}

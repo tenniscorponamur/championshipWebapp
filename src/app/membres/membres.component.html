@@ -1,109 +1,105 @@
-<div class="card" >
-  <img class="card-img" src="/assets/images/home.jpg" alt="Card image">
-  <div class="card-img-overlay">
-    <div class="row">
+<div class="row">
     <div #membreList [ngClass]="memberListClass">
-      <div class="card text-center">
-        <h4 class="card-header">
-          Membres
-        </h4>
-        <div class="card-body text-center">
-          <div class="row" style="margin-bottom:10px;">
-            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <input class="form-control" type="text" placeholder="Nom/Prénom" value="{{filtreNomPrenom}}">
-             </div>
-            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="clubGroupSelect">Club</label>
-                  </div>
-                  <select class="custom-select" id="clubGroupSelect">
-                    <option selected>Choisir...</option>
-                    <option value="1">TC Wallonie</option>
-                    <option value="2">UNAMUR</option>
-                    <option value="3">IATA</option>
-                  </select>
-               </div>
-             </div>
-          </div>
-          <div align="right">
-            <a data-toggle="collapse" href="#otherCriterias" role="button" aria-expanded="false" aria-controls="otherCriterias">Autres critères</a>
-          </div>
-          <div class="collapse" id="otherCriterias">
-            <div class="card card-body">
-              <div class="row">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="classementGroupSelect">Classement</label>
-                  </div>
-                  <select class="custom-select" id="classementGroupSelect">
-                    <option selected>Choisir...</option>
-                    <option value="1">C30-4</option>
-                    <option value="2">C30-2</option>
-                    <option value="3">C30</option>
-                    <option value="4">C15-4</option>
-                  </select>
+        <div class="card text-center">
+            <h4 class="card-header">
+                Membres
+            </h4>
+            <div class="card-body text-center">
+                <div class="row" style="margin-bottom:10px;">
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <input class="form-control" type="text" placeholder="Nom/Prénom" value="{{filtreNomPrenom}}">
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="clubGroupSelect">Club</label>
+                            </div>
+                            <select class="custom-select" id="clubGroupSelect">
+                                <option selected>Choisir...</option>
+                                <option value="1">TC Wallonie</option>
+                                <option value="2">UNAMUR</option>
+                                <option value="3">IATA</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text">Actif</label>
-                  </div>
-                  <div>
-                    &nbsp;
-                    &nbsp;
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                    <label class="form-check-label" for="inlineRadio1">Oui</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Non</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
-                    <label class="form-check-label" for="inlineRadio3">Sans importance</label>
-                  </div>
+                <div align="right">
+                    <a data-toggle="collapse" href="#otherCriterias" role="button" aria-expanded="false" aria-controls="otherCriterias">Autres critères</a>
                 </div>
-              </div>
+                <div class="collapse" id="otherCriterias">
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="classementGroupSelect">Classement</label>
+                                    </div>
+                                    <select class="custom-select" id="classementGroupSelect">
+                                        <option selected>Choisir...</option>
+                                        <option value="1">C30-4</option>
+                                        <option value="2">C30-2</option>
+                                        <option value="3">C30</option>
+                                        <option value="4">C15-4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text">Actif</label>
+                                    </div>
+                                    <div>
+                                        &nbsp;
+                                        &nbsp;
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                        <label class="form-check-label" for="inlineRadio1">Oui</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                        <label class="form-check-label" for="inlineRadio2">Non</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
+                                        <label class="form-check-label" for="inlineRadio3">Sans importance</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
+                <div class="table-responsive">
+                    <table class="membreTable table table-sm table-hover">
+                        <!--table-striped-->
+                        <thead class="bg-info">
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Club</th>
+                                <th scope="col">Classement AFT</th>
+                                <th scope="col">Points Corpo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let membre of membres" (click)="ouvrirMembre(membre);">
+                                <td class="text-uppercase">{{membre.nom}}</td>
+                                <td>{{membre.prenom}}</td>
+                                <td>UNAMUR</td>
+                                <td>C30-2</td>
+                                <td>20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div align="right">
+                    <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
+                </div>
             </div>
-            </div>
-          </div>
-          <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
-          <div class="table-responsive">
-            <table class="membreTable table table-sm table-hover">
-              <!--table-striped-->
-              <thead class="bg-info">
-              <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Club</th>
-                <th scope="col">Classement AFT</th>
-                <th scope="col">Points Corpo</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let membre of membres" (click)="ouvrirMembre(membre);">
-                <td class="text-uppercase">{{membre.nom}}</td>
-                <td>{{membre.prenom}}</td>
-                <td>UNAMUR</td>
-                <td>C30-2</td>
-                <td>20</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        <div align="right">
-            <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
         </div>
-        </div>
-      </div>
-  </div>
-  <div #membreDetail class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="selectedMember">
-    <app-membre-detail [membre]="selectedMember" [master]="componentName" (childResult)="childResult($event)" ></app-membre-detail>
-  </div>
-  </div>
+    </div>
+    <div #membreDetail class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="selectedMember">
+        <app-membre-detail [membre]="selectedMember" [master]="componentName" (childResult)="childResult($event)" ></app-membre-detail>
+    </div>
 </div>
