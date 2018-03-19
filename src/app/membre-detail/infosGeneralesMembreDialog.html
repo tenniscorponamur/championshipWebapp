@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>Informations générales</h1>
 <div mat-dialog-content>
     <div class="col-12">
-      <mat-radio-group class="example-radio-group" [(ngModel)]="_genre">
-        <mat-radio-button class="example-radio-button" *ngFor="let genre of genres" [value]="genre">
+      <mat-radio-group [(ngModel)]="_genre">
+        <mat-radio-button *ngFor="let genre of genres" [value]="genre" style="margin-right:10px">
           {{genre.libelle}}
         </mat-radio-button>
       </mat-radio-group>
@@ -16,6 +16,8 @@
       <mat-form-field>
         <input matInput placeholder="Nom" [(ngModel)]="_nom">
       </mat-form-field>
+    </div>
+    <div class="col-12">
     </div>
     <div align="center">
         <button class="btn btn-danger" (click)="cancel();">Annuler</button>
