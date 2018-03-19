@@ -1,63 +1,87 @@
-<div class="card tennisCorpoBox" >
-    <h4 class="card-header">
-        Membre 
-    </h4>
-    <div class="card-body">
-        <div class="row" >
-            <div class="col-3" align="center">
-                <i [ngClass]="userImageClass" ></i>
-            </div>
+<div class="card tennisCorpoBox">
+  <h4 class="card-header">
+    Membre
+  </h4>
+  <div class="card-body">
 
-            <div class="col-9" >
-                <div class="row membreRow" >
-                    <div class="col-10">
-                        <div class="col-12">
-                            <span><strong>{{membre.nom|uppercase}}</strong>&nbsp;</span><span>{{membre.prenom}}</span>
-                            <span>02/11/1982</span>
-                        </div>
-                    </div> 
-                    <div class="col-2 editionMembreDiv" (click)="ouvrirInfosGenerales();" >
-                        <a><i class="fa fa-pencil fa-2"></i></a>
-                    </div>
-                </div>
-                <div class="row membreRow">
-                    <div class="col-10">
-                        <div class="col-12">
-                            <span>Rue de Saint Hubert</span>
-                            <span>508B</span>
-                        </div>
-                        <div class="col-12">
-                            <span>5300</span>
-                            <span>VEZIN</span>
-                        </div>
-                    </div> 
-                    <div class="col-2 editionMembreDiv" >
-                        <i class="fa fa-pencil fa-2"></i>
-                    </div>
-                </div>
-                
-<!--                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Nom</span>
-                    </div>      
-                    <input class="form-control" type="text" [(ngModel)]="membre.nom" />
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Prénom</span>
-                    </div>      
-                    <input class="form-control" type="text" [(ngModel)]="membre.prenom" disabled />
-                </div>-->
-                <div align="center">
-                    <button class="btn btn-primary" (click)="ouvrirHistoriqueClassement()" >Historique classement</button>
-                </div>
-            </div>
-            
+    <div class="row">
+
+      <div class="col-2">
+        <div style="text-align:right;">
+          <i [ngClass]="userImageClass"></i>
         </div>
+      </div>
+
+      <div class="col-10">
+        <div class="myBox">
+          <div class="myBoxTitle" (click)="ouvrirInfosGenerales();">
+            Informations générales<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
+            <span><strong>{{membre.nom|uppercase}}</strong>&nbsp;</span><span>{{membre.prenom}}</span>
+            <span>02/11/1982</span>
+          </div>
+        </div>
+      </div>
     </div>
-    
-<!--    <div align="center">
-        <button class="btn btn-danger" (click)="goBack()">Annuler</button>
-        <button class="btn btn-success" (click)="save()">Sauvegarder</button>
-    </div>-->
+
+    <div class="row">
+
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle" (click)="ouvrirCoordonnees();">
+            Coordonnées<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
+              <span>Rue de Saint Hubert</span>
+              <span>508B</span>
+              <span>5300</span>
+              <span>VEZIN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle" (click)="ouvrirContacts();">
+            Contacts<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
+            <a href="mailto:fabrice.calay@gmail.com">fabrice.calay@gmail.com</a>
+            <br />
+            <a href="tel:0494899464">0494/89.94.64</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <!--                <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">Nom</span>
+                          </div>
+                          <input class="form-control" type="text" [(ngModel)]="membre.nom" />
+                      </div>
+                      <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">Prénom</span>
+                          </div>
+                          <input class="form-control" type="text" [(ngModel)]="membre.prenom" disabled />
+                      </div>-->
+      <div class="col-12" align="center">
+        <button class="btn btn-primary" (click)="ouvrirHistoriqueClassement()">Historique classement</button>
+      </div>
+
+  </div>
+
+  <!--    <div align="center">
+          <button class="btn btn-danger" (click)="goBack()">Annuler</button>
+          <button class="btn btn-success" (click)="save()">Sauvegarder</button>
+      </div>-->
+</div>
+
 </div>

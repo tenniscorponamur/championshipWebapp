@@ -11,9 +11,9 @@
 }
 
 .membreRow {
-    margin-bottom: 10px;   
+    margin-bottom: 10px;
 }
-
+/*
 .editionMembreDiv{
     margin:auto;
     vertical-align:middle;
@@ -24,4 +24,29 @@
 .editionMembreDiv:hover{
     background-color:cornflowerblue;
     color:white;
+}
+*/
+
+.myBox{
+  margin:10px;
+  border-radius:10px;
+  background-color:lightgrey;
+  border-color:lightgrey;
+  border-style:solid;
+  border-width: thin;
+}
+.myBox .myBoxTitle{
+  padding:5px 10px 5px 10px;
+  display: block;
+}
+.myBox .myBoxContent{
+  padding:5px 5px 10px 10px;
+  background-color:white;
+  border-radius:0px 0px 10px 10px;
+}
+.myBox:hover .myBoxTitle{
+  background-color:cornflowerblue;
+  border-radius:10px 10px 0px 0px;
+  cursor:pointer;
+  color:white;
 }

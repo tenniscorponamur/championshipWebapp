@@ -74,27 +74,27 @@
           </div>
           <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
           <div class="table-responsive">
-          <table class="table table-striped table-sm">
-            <thead class="bg-info">
-            <tr>
-              <th scope="col">Nom</th>
-              <th scope="col">Prénom</th>
-              <th scope="col">Club</th>
-              <th scope="col">Classement</th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-                
-            <tr *ngFor="let membre of membres">
-              <td class="text-uppercase">{{membre.nom}}</td>
-              <td>{{membre.prenom}}</td>
-              <td>UNAMUR</td>
-              <td>N/A (5)</td>
-              <td><button (click)="ouvrirMembre(membre);"><i class="fa fa-search" ></i></button></td>
-            </tr>
-            </tbody>
-          </table>
+            <table class="membreTable table table-sm table-hover">
+              <!--table-striped-->
+              <thead class="bg-info">
+              <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Club</th>
+                <th scope="col">Classement AFT</th>
+                <th scope="col">Points Corpo</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let membre of membres" (click)="ouvrirMembre(membre);">
+                <td class="text-uppercase">{{membre.nom}}</td>
+                <td>{{membre.prenom}}</td>
+                <td>UNAMUR</td>
+                <td>C30-2</td>
+                <td>20</td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         <div align="right">
             <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
