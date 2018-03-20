@@ -120,6 +120,7 @@ export class InfosGeneralesMembreDialog {
     _genre:Genre;
     _prenom:string;
     _nom:string;
+    _dateNaissance:Date;
 
     private _membre:Membre;
 
@@ -145,6 +146,7 @@ export class InfosGeneralesMembreDialog {
       this._membre.prenom=this._prenom;
       this._membre.nom=this._nom;
       this._membre.genre=this._genre;
+      console.log("Date de naissance : " +  this._dateNaissance);
       this.dialogRef.close(this._membre);
   }
 }
