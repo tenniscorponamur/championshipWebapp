@@ -122,6 +122,8 @@ export class InfosGeneralesMembreDialog {
     _nom:string;
     _dateNaissance:Date;
 
+    showAlert:boolean=false;
+
     private _membre:Membre;
 
   constructor(
@@ -143,6 +145,13 @@ export class InfosGeneralesMembreDialog {
   }
 
   save(): void {
+
+      if (this._nom && this._nom.trim().length > 0){
+        this.showAlert=false;
+      }else{
+        this.showAlert=true;
+      }
+
       if (!this._membre.id){
           // Ajout d'un nouveau membre
           this.membreService.ajoutMembre(this._membre);
@@ -151,6 +160,8 @@ export class InfosGeneralesMembreDialog {
       this._membre.nom=this._nom;
       this._membre.genre=this._genre;
       console.log("Date de naissance : " +  this._dateNaissance);
-      this.dialogRef.close(this._membre);
+
+
+      //this.dialogRef.close(this._membre);
   }
 }

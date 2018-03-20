@@ -1,5 +1,10 @@
 <h1 mat-dialog-title>Informations générales</h1>
-<div mat-dialog-content>
+<div mat-dialog-content >
+    <div *ngIf="showAlert" class="col-12">
+      <div class="alert alert-danger" role="alert">
+        Le formulaire contient des erreurs
+      </div>
+    </div>
     <div class="col-12">
       <mat-radio-group required [(ngModel)]="_genre">
         <mat-radio-button color="primary" *ngFor="let genre of genres" [value]="genre" style="margin-right:10px">
