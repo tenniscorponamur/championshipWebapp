@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 
 /* Component */
 
@@ -48,7 +50,9 @@ import { ClassementsComponent } from './classements/classements.component';
     MatFormFieldModule,MatInputModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule // <-- #2 add to @NgModule imports
   ],
   entryComponents: [
       HistoriqueClassementDialog,

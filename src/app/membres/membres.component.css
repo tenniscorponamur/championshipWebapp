@@ -1,3 +1,7 @@
 .membreTable:hover td{
   cursor:pointer;
 }
+
+.mat-option{
+    height:20px;
+}

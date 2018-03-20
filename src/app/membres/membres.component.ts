@@ -4,6 +4,13 @@ import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {InfosGeneralesMembreDialog} from '../membre-detail/membre-detail.component';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {of} from 'rxjs/observable/of';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
+import {startWith} from 'rxjs/operators/startWith';
+import {map} from 'rxjs/operators/map'; 
 
 @Component({
   selector: 'app-membres',
@@ -12,22 +19,57 @@ import {InfosGeneralesMembreDialog} from '../membre-detail/membre-detail.compone
 })
 export class MembresComponent implements OnInit {
 
+clubCtrl: FormControl=new FormControl();
+
     filtreNomPrenom:string;
     membres:Membre[];
     componentName:string="membresComponent";
   memberListClass:string = "tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6";
   selectedMember:Membre;
   
+  clubs:string[]=["UNAMUR","TC WALLONIE","IATA","GAZELEC"];
+  
+  filteredClubs:Observable<string[]>;
+  
   @ViewChild("membreDetail") membreDetailComponent: ElementRef;
   @ViewChild("membreList") membreListComponent: ElementRef;
 
   constructor(private membreService:MembreService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) { 
+      this.clubCtrl = new FormControl();
+      this.filteredClubs = this.clubCtrl.valueChanges
+      .pipe(
+        startWith(''),
+          map(club => club ? this.filterClubs(club) : this.clubs.slice())
+      );
+    }
 
   ngOnInit() {
       this.getMembres();
   }
+  
+  
+  filterClubs(name: string) {
+    return this.clubs.filter(club =>
+      club.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
 
+    filtre(nomPrenom: string): void {
+        
+//            this.players$ = this.searchTerms.pipe(
+//              // wait 300ms after each keystroke before considering the term
+//              debounceTime(300),
+//
+//              // ignore new term if same as previous term
+//              distinctUntilChanged(),
+//
+//              // switch to new search observable each time the term changes
+//              switchMap((term: string) => this.playerService.searchPlayers(term)),
+//            );
+        
+        this.membreService.searchMembres(nomPrenom).subscribe(membres => this.membres = membres);
+    }
+    
     getMembres():void{
         this.membreService.getMembres().subscribe(membres => this.membres = membres);
     }

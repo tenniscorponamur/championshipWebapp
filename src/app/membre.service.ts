@@ -22,6 +22,12 @@ export class MembreService {
     return of(MEMBRES);
   }
   
+  searchMembres(nomPrenom:string): Observable<Membre[]> {
+      return of(MEMBRES.filter(membre =>
+            membre.nom.toLowerCase().includes(nomPrenom.toLowerCase()) 
+         || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase())));
+  }
+  
   getMembre(id: number): Observable<Membre> {
 //    return this.http.get<Player>(`${this.playersUrl}/${id}`)
 //      .pipe(
