@@ -146,22 +146,49 @@ export class InfosGeneralesMembreDialog {
 
   save(): void {
 
-      if (this._nom && this._nom.trim().length > 0){
-        this.showAlert=false;
+    this.showAlert=false;
+
+      // Verification du genre
+      if (this._genre){
+          //this.showAlert=false;
+      }else{
+          this.showAlert=true;
+      }
+      
+       // Verification du prenom
+      if (this._prenom && this._prenom.trim().length > 0){
+        //this.showAlert=false;
       }else{
         this.showAlert=true;
       }
-
-      if (!this._membre.id){
-          // Ajout d'un nouveau membre
-          this.membreService.ajoutMembre(this._membre);
+      
+    // Verification du nom 
+      if (this._nom && this._nom.trim().length > 0){
+        //this.showAlert=false;
+      }else{
+        this.showAlert=true;
       }
-      this._membre.prenom=this._prenom;
-      this._membre.nom=this._nom;
-      this._membre.genre=this._genre;
-      console.log("Date de naissance : " +  this._dateNaissance);
+      
+      // Verification de la date de naissance
+      if (this._dateNaissance){
+          //this.showAlert=false;
+      }else{
+          this.showAlert=true;
+      }
+      
+      if (!this.showAlert){
+          
+        if (!this._membre.id){
+            // Ajout d'un nouveau membre
+            this.membreService.ajoutMembre(this._membre);
+        }
+        this._membre.prenom=this._prenom;
+        this._membre.nom=this._nom;
+        this._membre.genre=this._genre;
+        console.log("Date de naissance : " +  this._dateNaissance);
+          
+        this.dialogRef.close(this._membre);
+      }
 
-
-      //this.dialogRef.close(this._membre);
   }
 }
