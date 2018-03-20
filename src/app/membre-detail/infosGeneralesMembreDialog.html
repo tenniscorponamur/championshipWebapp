@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Informations générales</h1>
 <div mat-dialog-content>
     <div class="col-12">
-      <mat-radio-group [(ngModel)]="_genre">
+      <mat-radio-group required [(ngModel)]="_genre">
         <mat-radio-button *ngFor="let genre of genres" [value]="genre" style="margin-right:10px">
           {{genre.libelle}}
         </mat-radio-button>
@@ -9,17 +9,17 @@
     </div>
     <div class="col-12">
       <mat-form-field>
-        <input matInput placeholder="Prénom" [(ngModel)]="_prenom">
+        <input matInput required placeholder="Prénom" [(ngModel)]="_prenom">
       </mat-form-field>
     </div>
     <div class="col-12">
       <mat-form-field>
-        <input matInput placeholder="Nom" [(ngModel)]="_nom">
+        <input matInput required placeholder="Nom" [(ngModel)]="_nom">
       </mat-form-field>
     </div>
     <div class="col-12">
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Date de naissance (dd/mm/yyyy)" [(ngModel)]="_dateNaissance">
+        <input matInput required [matDatepicker]="picker" placeholder="Date de naissance (dd/mm/yyyy)" [(ngModel)]="_dateNaissance">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi="true" #picker></mat-datepicker>
       </mat-form-field>

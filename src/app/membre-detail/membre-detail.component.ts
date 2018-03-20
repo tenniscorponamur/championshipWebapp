@@ -132,6 +132,10 @@ export class InfosGeneralesMembreDialog {
         this._prenom = this._membre.prenom;
         this._nom = this._membre.nom;
         this._genre = this._membre.genre;
+
+        const [day, month, year]: string[] = "02/11/1982".split('/');
+        this._dateNaissance = new Date();
+        this._dateNaissance.setFullYear(+year,+month-1,+day);
     }
 
   cancel(): void {
