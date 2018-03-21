@@ -12,17 +12,16 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-
-                    <form>
-                      <mat-form-field>
-                        <input matInput placeholder="Club" aria-label="Club" [matAutocomplete]="auto" [formControl]="clubCtrl" >
-                        <mat-autocomplete classList="clubAutoComplete" #auto="matAutocomplete">
-                            <mat-option *ngFor="let club of filteredClubs | async" [value]="club">
-                                <small>{{ club }}</small>
-                            </mat-option>
-                        </mat-autocomplete>
-                      </mat-form-field>
-                    </form>
+                      <form>
+                        <mat-form-field>
+                          <input matInput placeholder="Club" aria-label="Club" [matAutocomplete]="auto" [formControl]="clubCtrl" >
+                          <mat-autocomplete classList="clubAutoComplete" #auto="matAutocomplete">
+                              <mat-option *ngFor="let club of filteredClubs | async" [value]="club">
+                                  <small>{{ club }}</small>
+                              </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </form>
 <!--                        <div class="input-group">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="clubGroupSelect">Club</label>
@@ -89,9 +88,23 @@
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
                     <div class="myBoxContent">
-                      UNAMUR
-                      <br />
-                      C30-4 / 5 points
+                      <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
+                    </div>
+                  </div>
+                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
+                    <div class="myBoxTitle">
+                      <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
+                    </div>
+                    <div class="myBoxContent">
+                      <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
+                    </div>
+                  </div>
+                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
+                    <div class="myBoxTitle">
+                      <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
+                    </div>
+                    <div class="myBoxContent">
+                      <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
                     </div>
                   </div>
                 </div>
