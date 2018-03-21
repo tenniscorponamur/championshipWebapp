@@ -10,6 +10,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import { RxResponsiveModule } from 'rx-responsive';
+import { MatTableModule } from '@angular/material/table'; // <-- Material Table
+import { MatSortModule } from '@angular/material/sort'
 
 
 /* Component */
@@ -55,7 +57,9 @@ import { ClassementsComponent } from './classements/classements.component';
     MatNativeDateModule,
     MatAutocompleteModule,
     ReactiveFormsModule, // <-- #2 add to @NgModule imports
-    RxResponsiveModule.forRoot()
+    RxResponsiveModule.forRoot(),
+    MatTableModule,
+    MatSortModule
   ],
   entryComponents: [
       HistoriqueClassementDialog,
