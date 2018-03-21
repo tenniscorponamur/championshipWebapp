@@ -8,3 +8,6 @@
 - Gérer l'aspect authentification
 
 - Verifier que le premier match a bien ete joue par les deux meilleurs joues alignes, et ainsi de suite pour les matchs suivants
+
+- Utiliser select au lieu d'autocomplete pour la liste des clubs
+

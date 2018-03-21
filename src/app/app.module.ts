@@ -9,6 +9,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
+import { RxResponsiveModule } from 'rx-responsive';
+
 
 /* Component */
 
@@ -52,7 +54,8 @@ import { ClassementsComponent } from './classements/classements.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
-    ReactiveFormsModule // <-- #2 add to @NgModule imports
+    ReactiveFormsModule, // <-- #2 add to @NgModule imports
+    RxResponsiveModule.forRoot()
   ],
   entryComponents: [
       HistoriqueClassementDialog,

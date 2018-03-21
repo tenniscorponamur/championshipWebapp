@@ -10,7 +10,8 @@ import {of} from 'rxjs/observable/of';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map'; 
+import {map} from 'rxjs/operators/map';
+import { RxResponsiveService } from 'rx-responsive';
 
 @Component({
   selector: 'app-membres',
@@ -26,16 +27,17 @@ clubCtrl: FormControl=new FormControl();
     componentName:string="membresComponent";
   memberListClass:string = "tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6";
   selectedMember:Membre;
-  
+
   clubs:string[]=["UNAMUR","TC WALLONIE","IATA","GAZELEC"];
-  
+
   filteredClubs:Observable<string[]>;
-  
+
   @ViewChild("membreDetail") membreDetailComponent: ElementRef;
   @ViewChild("membreList") membreListComponent: ElementRef;
 
-  constructor(private membreService:MembreService,
-    public dialog: MatDialog) { 
+  constructor(public media: RxResponsiveService,
+    private membreService:MembreService,
+    public dialog: MatDialog) {
       this.clubCtrl = new FormControl();
       this.filteredClubs = this.clubCtrl.valueChanges
       .pipe(
@@ -47,15 +49,15 @@ clubCtrl: FormControl=new FormControl();
   ngOnInit() {
       this.getMembres();
   }
-  
-  
+
+
   filterClubs(name: string) {
     return this.clubs.filter(club =>
       club.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
     filtre(nomPrenom: string): void {
-        
+
 //            this.players$ = this.searchTerms.pipe(
 //              // wait 300ms after each keystroke before considering the term
 //              debounceTime(300),
@@ -66,17 +68,17 @@ clubCtrl: FormControl=new FormControl();
 //              // switch to new search observable each time the term changes
 //              switchMap((term: string) => this.playerService.searchPlayers(term)),
 //            );
-        
+
         this.membreService.searchMembres(nomPrenom).subscribe(membres => this.membres = membres);
     }
-    
+
     getMembres():void{
         this.membreService.getMembres().subscribe(membres => this.membres = membres);
     }
-    
+
     nouveauMembre(){
         let nouveauMembre: Membre = new Membre();
-        
+
         let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
             data: {membre: nouveauMembre }, panelClass: "infosGeneralesMembreDialog"
         });
@@ -92,7 +94,7 @@ clubCtrl: FormControl=new FormControl();
     this.selectedMember=membre;
     //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
   }
-  
+
   childResult(childResult : string){
       console.log("resultat : " + childResult);
     //this.membreListComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
