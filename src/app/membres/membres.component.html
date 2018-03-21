@@ -83,30 +83,10 @@
                     </div>
                 </div>
                 <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
-                <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:150px;overflow-y:auto;margin-bottom:10px">
-                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox">
+                <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
-                      <span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
-                    </div>
-                    <div class="myBoxContent">
-                      UNAMUR
-                      <br />
-                      C30-4 / 5 points
-                    </div>
-                  </div>
-                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox">
-                    <div class="myBoxTitle">
-                      <span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
-                    </div>
-                    <div class="myBoxContent">
-                      UNAMUR
-                      <br />
-                      C30-4 / 5 points
-                    </div>
-                  </div>
-                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox">
-                    <div class="myBoxTitle">
-                      <span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
+                      <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
                     <div class="myBoxContent">
                       UNAMUR
@@ -116,7 +96,7 @@
                   </div>
                 </div>
                 <div *ngIf="media.is.lg.or.xl | async">
-                  <div class="table-responsive" style="height:100px;">
+                  <div class="table-responsive" style="height:300px;">
                       <table class="membreTable table table-sm table-hover">
                           <!--table-striped-->
                           <thead class="bg-info" >
@@ -161,13 +141,15 @@
                       </table>
                   </div>
                 </div>
-                <div align="right">
+                <div align="right" style="margin-top:10px;">
                     <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
                 </div>
             </div>
         </div>
     </div>
-    <div #membreDetail class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="selectedMember">
-        <app-membre-detail [membre]="selectedMember" [master]="componentName" (childResult)="childResult($event)" ></app-membre-detail>
+
+    <div #membreDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
+        <app-membre-detail *ngIf="selectedMember" [membre]="selectedMember" [master]="componentName" (childResult)="childResult($event)" ></app-membre-detail>
     </div>
+
 </div>

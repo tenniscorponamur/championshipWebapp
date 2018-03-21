@@ -91,8 +91,12 @@ clubCtrl: FormControl=new FormControl();
     }
 
   ouvrirMembre(membre:Membre):void{
+    let scrollPosition = "end";
+    if (!this.selectedMember){
+      scrollPosition = "start";
+    }
     this.selectedMember=membre;
-    //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
   }
 
   childResult(childResult : string){
