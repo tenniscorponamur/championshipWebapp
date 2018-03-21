@@ -50,8 +50,8 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   clubs:string[]=["UNAMUR","TC WALLONIE","IATA","GAZELEC"];
 
-  sortedData;
-  actualSort;
+  sortedData:Membre[];
+  actualSort:Sort;
 
   filteredClubs:Observable<string[]>;
 
@@ -77,19 +77,22 @@ export class MembresComponent implements OnInit, AfterViewInit {
   sortData(sort: Sort) {
     this.actualSort=sort;
     const data = this.membres.slice();
-    if (!sort.active || sort.direction == '') {
-      this.sortedData = data;
-      return;
-    }
+    if (sort){        
+        if (!sort.active || sort.direction == '') {
+          this.sortedData = data;
+          return;
+        }
 
-    this.sortedData = data.sort((a, b) => {
-      let isAsc = sort.direction == 'asc';
-      switch (sort.active) {
-        case 'nom': return compare(a.nom, b.nom, isAsc);
-        case 'prenom': return compare(a.prenom, b.prenom, isAsc);
-        default: return 0;
-      }
-    });
+        this.sortedData = data.sort((a, b) => {
+          let isAsc = sort.direction == 'asc';
+          switch (sort.active) {
+            case 'nom': return compare(a.nom, b.nom, isAsc);
+            case 'prenom': return compare(a.prenom, b.prenom, isAsc);
+            default: return 0;
+          }
+        });
+    
+    }
   }
 
   filterClubs(name: string) {
@@ -110,7 +113,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
 //              switchMap((term: string) => this.playerService.searchPlayers(term)),
 //            );
 
-        this.membreService.searchMembres(nomPrenom).subscribe(membres => {this.membres = membres; this.sortData(this.actualSort);});
+        this.membreService.searchMembres(nomPrenom).subscribe(membres => {this.membres = membres; this.sortedData = membres.slice();this.sortData(this.actualSort);});
     }
 
     getMembres():void{

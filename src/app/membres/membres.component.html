@@ -83,7 +83,7 @@
                 </div>
                 <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
-                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
+                  <div *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
@@ -91,7 +91,7 @@
                       <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
                     </div>
                   </div>
-                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
+                  <div *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
@@ -99,7 +99,7 @@
                       <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
                     </div>
                   </div>
-                  <div *ngFor="let membre of membres" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
+                  <div *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
@@ -123,6 +123,20 @@
                               </tr>
                           </thead>
                           <tbody>
+                              <tr *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);">
+                                  <td class="text-uppercase">{{membre.nom}}</td>
+                                  <td>{{membre.prenom}}</td>
+                                  <td>UNAMUR</td>
+                                  <td>C30-2</td>
+                                  <td>20</td>
+                              </tr>
+                              <tr *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);">
+                                  <td class="text-uppercase">{{membre.nom}}</td>
+                                  <td>{{membre.prenom}}</td>
+                                  <td>UNAMUR</td>
+                                  <td>C30-2</td>
+                                  <td>20</td>
+                              </tr>
                               <tr *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);">
                                   <td class="text-uppercase">{{membre.nom}}</td>
                                   <td>{{membre.prenom}}</td>
