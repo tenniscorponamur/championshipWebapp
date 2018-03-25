@@ -11,7 +11,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import { RxResponsiveModule } from 'rx-responsive';
 import { MatTableModule } from '@angular/material/table'; // <-- Material Table
-import { MatSortModule } from '@angular/material/sort'
+import { MatSortModule } from '@angular/material/sort';
 
 
 /* Component */
@@ -59,7 +59,8 @@ import { ClassementsComponent } from './classements/classements.component';
     ReactiveFormsModule, // <-- #2 add to @NgModule imports
     RxResponsiveModule.forRoot(),
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    HttpClientModule
   ],
   entryComponents: [
       HistoriqueClassementDialog,
