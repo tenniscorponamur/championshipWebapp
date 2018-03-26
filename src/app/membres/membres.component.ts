@@ -77,7 +77,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   sortData(sort: Sort) {
     this.actualSort=sort;
     const data = this.membres.slice();
-    if (sort){        
+    if (sort){
         if (!sort.active || sort.direction == '') {
           this.sortedData = data;
           return;
@@ -91,7 +91,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
             default: return 0;
           }
         });
-    
+
     }
   }
 
@@ -140,7 +140,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
       scrollPosition = "start";
     }
     this.selectedMember=membre;
-    this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
+    //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
   }
 
   childResult(childResult : string){

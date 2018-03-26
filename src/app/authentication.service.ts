@@ -20,8 +20,8 @@ export class AuthenticationService {
     this.getToken().subscribe(
         result => {
             if (result){
-                console.log("Je dois conserver mon jeton : " + result.access_token);
                 localStorage.setItem("tennisCorpoAccessToken",result.access_token);
+                localStorage.setItem("tennisCorpoRefreshToken",result.refresh_token);
             }
           }
       );
@@ -29,25 +29,36 @@ export class AuthenticationService {
 
   disconnect() {
       localStorage.removeItem("tennisCorpoAccessToken");
+      localStorage.removeItem("tennisCorpoRefreshToken");
   }
 
-  getMyToken():string{
+  getAccessToken():string{
     return localStorage.getItem("tennisCorpoAccessToken");
   }
 
-  /*
+  getRefreshToken():string{
+    return localStorage.getItem("tennisCorpoRefreshToken");
+  }
 
+  refreshToken(): Observable<string> {
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVubmlzY29ycG9yZXNvdXJjZWlkIl0sInVzZXJfbmFtZSI6Imxlb3BvbGQiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXSwiZXhwIjoxNTIyMDI3Mjg3LCJhdXRob3JpdGllcyI6WyJBRE1JTl9VU0VSIl0sImp0aSI6IjUwMmEzZGZhLTMxMzMtNDc2OS1hMjI4LTAwNjI1OGVlNTMyOCIsImNsaWVudF9pZCI6InRlbm5pc2NvcnBvY2xpZW50aWQifQ.p6jDwfcQnDf1pe3Pdd9vZa8pBsQ8FDALWSPHIwaFVsc";
+    let httpAuthOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json',
+         'Authorization':'Basic ' + btoa(this.clientId + ":" + this.clientPassword)
+        }
+        )
+    };
 
-
-    clearSession(){
-        localStorage.removeItem("tennisCorpoUser");
-        //sessionStorage.removeItem("tennisCorpoUser");
-        this.testEngine = null;
-    }
-
-  */
+    return this.http.post<any>("http://localhost:9100/oauth/token?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(),{}, httpAuthOptions)
+      .pipe(
+          tap(result => {
+                localStorage.setItem("tennisCorpoAccessToken",result.access_token);
+                localStorage.setItem("tennisCorpoRefreshToken",result.refresh_token);
+          }),
+          catchError(this.handleError<any>('getRefreshToken', 'dfgfgdsgdsgsdgsdg'))
+      );
+  }
 
   getToken() : Observable<any> {
 
@@ -61,7 +72,7 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVubmlzY29ycG9y
     return this.http.post<any>("http://localhost:9100/oauth/token?grant_type=password&username=fca&password=jwtpass",{}, httpAuthOptions)
       .pipe(
           tap(result => {console.log("token obtained");}),
-          catchError(this.handleError<any>('getToken', ))
+          catchError(this.handleError<any>('getToken', ''))
       );
   }
 
@@ -70,8 +81,7 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVubmlzY29ycG9y
   getUser(): Observable<any> {
     let httpOptions = {
       headers: new HttpHeaders(
-        {'Content-Type': 'application/json',
-        'Authorization':'Bearer ' + this.getMyToken()}
+        {'Content-Type': 'application/json'}
         )
     };
 
@@ -92,13 +102,8 @@ const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVubmlzY29ycG9y
    */
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
       console.log(`${operation} failed: ${error.message}`);
-
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };

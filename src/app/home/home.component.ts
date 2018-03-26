@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
 
   testDisconnect(){
     this.authenticationService.disconnect();
+    this.testEngine=null;
   }
 
   testAppelUser() {
