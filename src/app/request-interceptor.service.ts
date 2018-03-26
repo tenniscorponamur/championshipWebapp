@@ -14,30 +14,19 @@ export class RequestInterceptorService implements HttpInterceptor {
 
   constructor(private authenticationService: AuthenticationService) { }
 
-  addTokenIfEmpty(req: HttpRequest<any>, token: string): HttpRequest<any> {
-      if (req.headers.get("Authorization")){
-        return req;
-      }else{
-        return req.clone({ headers : req.headers.set("Authorization", 'Bearer ' + token)});
-      }
-  }
-
   replayWithNewToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
      return req.clone({ headers : req.headers.set("Authorization", 'Bearer ' + token)});
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable< any > {
-    let completeRequest = this.addTokenIfEmpty(req,this.authenticationService.getAccessToken());
-
-    //send the newly created request
-    return next.handle(completeRequest)
+    return next.handle(req)
     .catch((error, caught) => {
       if (error instanceof HttpErrorResponse) {
             switch ((<HttpErrorResponse>error).status) {
                 case 400:
                     return this.handle400Error(error);
                 case 401:
-                    return this.handle401Error(completeRequest, next);
+                    return this.handle401Error(req, next);
             }
         } else {
             return Observable.throw(error);

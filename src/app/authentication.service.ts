@@ -94,6 +94,20 @@ export class AuthenticationService {
       );
   }
 
+    addHeaderIfNecessary():void {
+
+    }
+
+  /*
+  addTokenIfEmpty(req: HttpRequest<any>, token: string): HttpRequest<any> {
+      if (req.headers.get("Authorization")){
+        return req;
+      }else{
+        return req.clone({ headers : req.headers.set("Authorization", 'Bearer ' + token)});
+      }
+  }
+  */
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
