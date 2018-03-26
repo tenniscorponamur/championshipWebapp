@@ -24,6 +24,7 @@ import { HomeComponent } from './home/home.component';
 import {MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
+import { AuthenticationService } from './authentication.service';
 import { MembreService } from './membre.service';
 import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
@@ -68,6 +69,7 @@ import { ClassementsComponent } from './classements/classements.component';
       MatchDialog
   ],
   providers: [
+    AuthenticationService,
     MembreService,
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:true}},
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
