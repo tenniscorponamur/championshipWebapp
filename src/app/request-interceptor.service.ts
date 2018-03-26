@@ -5,6 +5,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import 'rxjs/add/observable/throw'
 import 'rxjs/add/operator/catch';
 import { AuthenticationService } from './authentication.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class RequestInterceptorService implements HttpInterceptor {
@@ -12,7 +13,7 @@ export class RequestInterceptorService implements HttpInterceptor {
   isRefreshingToken: boolean = false;
     tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private router:Router, private authenticationService: AuthenticationService) { }
 
   replayWithNewToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
      return req.clone({ headers : req.headers.set("Authorization", 'Bearer ' + token)});
@@ -52,7 +53,7 @@ export class RequestInterceptorService implements HttpInterceptor {
           // comes back from the refreshToken call.
           this.tokenSubject.next(null);
 
-          return this.authenticationService.refreshToken()
+          return this.authenticationService.requestRefreshToken()
               .switchMap((newToken : any) => {
                   if (newToken.access_token) {
                       this.tokenSubject.next(newToken.access_token);
@@ -81,7 +82,7 @@ export class RequestInterceptorService implements HttpInterceptor {
 
 
   logoutUser() {
-      // Route to the login page (implementation up to you)
+      this.router.navigate(['/'])
       return Observable.throw("");
   }
 

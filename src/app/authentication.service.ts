@@ -5,6 +5,9 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { environment } from '../environments/environment';
 
+const TENNIS_CORPO_ACCESS_TOKEN_KEY = "tennisCorpoAccessToken";
+const TENNIS_CORPO_REFRESH_TOKEN_KEY = "tennisCorpoRefreshToken";
+
 @Injectable()
 export class AuthenticationService {
 
@@ -13,100 +16,78 @@ export class AuthenticationService {
   private clientPassword:string = environment.clientPassword;
 
   constructor(private http: HttpClient) { }
-
-  //TODO : stocker correctement le jeton et prevoir une methode unique pour la recuperation du jeton --> appel ou localStorage
+  
+  getPublicApiHttpOptions(){
+      return {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'}
+        )
+    };
+  }
+  
+  getPrivateApiHttpOptions(){
+      return {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + this.getAccessToken()}
+        )
+    };
+  }
 
   login() {
-    this.getToken().subscribe(
+    this.requestAccessToken().subscribe(
         result => {
             if (result){
-                localStorage.setItem("tennisCorpoAccessToken",result.access_token);
-                localStorage.setItem("tennisCorpoRefreshToken",result.refresh_token);
+                console.log("authentification reussie")
             }
           }
       );
   }
 
   disconnect() {
-      localStorage.removeItem("tennisCorpoAccessToken");
-      localStorage.removeItem("tennisCorpoRefreshToken");
+      localStorage.removeItem(TENNIS_CORPO_ACCESS_TOKEN_KEY);
+      localStorage.removeItem(TENNIS_CORPO_REFRESH_TOKEN_KEY);
   }
 
   getAccessToken():string{
-    return localStorage.getItem("tennisCorpoAccessToken");
+    return localStorage.getItem(TENNIS_CORPO_ACCESS_TOKEN_KEY);
   }
 
   getRefreshToken():string{
-    return localStorage.getItem("tennisCorpoRefreshToken");
+    return localStorage.getItem(TENNIS_CORPO_REFRESH_TOKEN_KEY);
   }
-
-  refreshToken(): Observable<string> {
-
-    let httpAuthOptions = {
-      headers: new HttpHeaders(
-        {'Content-Type': 'application/json',
-         'Authorization':'Basic ' + btoa(this.clientId + ":" + this.clientPassword)
-        }
-        )
-    };
-
-    return this.http.post<any>("http://localhost:9100/oauth/token?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(),{}, httpAuthOptions)
-      .pipe(
-          tap(result => {
-                localStorage.setItem("tennisCorpoAccessToken",result.access_token);
-                localStorage.setItem("tennisCorpoRefreshToken",result.refresh_token);
-          }),
-          catchError(this.handleError<any>('getRefreshToken', 'dfgfgdsgdsgsdgsdg'))
-      );
-  }
-
-  getToken() : Observable<any> {
-
-    let httpAuthOptions = {
+  
+  private getHttpOptionsForTokenRequest(){
+    return {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
         'Authorization':'Basic ' + btoa(this.clientId + ":" + this.clientPassword)}
         )
     };
-
-    return this.http.post<any>("http://localhost:9100/oauth/token?grant_type=password&username=fca&password=jwtpass",{}, httpAuthOptions)
+  }
+  
+  requestAccessToken() : Observable<any> {
+    return this.http.post<any>(this.tokenUrl+ "?grant_type=password&username=fca&password=jwtpass",{}, this.getHttpOptionsForTokenRequest())
       .pipe(
-          tap(result => {console.log("token obtained");}),
+          tap(result => {
+                localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
+                localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
+                }),
           catchError(this.handleError<any>('getToken', ''))
       );
   }
+  
 
-  //TODO : a deplacer dans le service approprie
-
-  getUser(): Observable<any> {
-    let httpOptions = {
-      headers: new HttpHeaders(
-        {'Content-Type': 'application/json'}
-        )
-    };
-
-    return this.http.get<any>("http://localhost:9100/api/private/user", httpOptions)
+  requestRefreshToken(): Observable<string> {
+      return this.http.post<any>(this.tokenUrl + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
       .pipe(
           tap(result => {
-                console.log("it s ok : " + result.principal);
-            }),
-          catchError(this.handleError<String>('testAppel', ))
+            localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
+            localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
+          }),
+          catchError(this.handleError<any>('getRefreshToken', 'dfgfgdsgdsgsdgsdg'))
       );
   }
-
-    addHeaderIfNecessary():void {
-
-    }
-
-  /*
-  addTokenIfEmpty(req: HttpRequest<any>, token: string): HttpRequest<any> {
-      if (req.headers.get("Authorization")){
-        return req;
-      }else{
-        return req.clone({ headers : req.headers.set("Authorization", 'Bearer ' + token)});
-      }
-  }
-  */
 
   /**
    * Handle Http operation that failed.
