@@ -30,6 +30,7 @@ export class RequestInterceptorService implements HttpInterceptor {
                     return this.handle401Error(req, next);
             }
         } else {
+            console.log("another type of error")
             return Observable.throw(error);
         }
     }) as any;
@@ -84,7 +85,10 @@ export class RequestInterceptorService implements HttpInterceptor {
   logoutUser() {
 
     //TODO : clear session ??? --> a tester via un refreshToken perime et voir si on passe bien par cette methode a present
-
+       console.log("Logout user");
+      this.authenticationService.disconnect();
+      //this.router.navigate(['/'])
+       //TODO : navigate to home (reset all)
       return Observable.throw("");
   }
 

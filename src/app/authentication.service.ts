@@ -56,15 +56,15 @@ export class AuthenticationService {
     };
   }
 
-  requestAccessToken(login:string, password:string) {
+  requestAccessToken(login:string, password:string, rememberMe:boolean) {
     return this.http.post<any>(this.tokenUrl+ "?grant_type=password&username=" + login + "&password="+password,{}, this.getHttpOptionsForTokenRequest())
     .map(result => {
-       localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
-       localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
+        console.log("stock tokens");
+      this.storeAccessToken(result.access_token);
+        if (rememberMe){
+            this.storeRefreshToken(result.refresh_token);
+        }
        return result;
-     })
-     .catch(error => {
-        return Observable.throw(error);
      })
   }
 
@@ -72,13 +72,24 @@ export class AuthenticationService {
   requestRefreshToken(): Observable<string> {
       return this.http.post<any>(this.tokenUrl + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
       .map(result => {
-         localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
-         localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
+          this.storeAccessToken(result.access_token);
+          this.storeRefreshToken(result.refresh_token);
          return result;
        })
-       .catch(error => {
-          return Observable.throw(error);
-       })
+  }
+  
+  /**
+   * Permet de stocker le token d'acces aux ressources
+   */
+  storeAccessToken(accessToken:string){
+      localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,accessToken);
+  }
+  
+  /**
+   * Permet de stocker le token de rafraichissement
+   */
+  storeRefreshToken(refreshToken:string){
+      localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,refreshToken);
   }
 
 }

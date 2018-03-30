@@ -22,6 +22,11 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  disconnect(){
+    this.authenticationService.disconnect();
+  }
+
+
   testAppelUser() {
     this.getUser().subscribe(
         result => {

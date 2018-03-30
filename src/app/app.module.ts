@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import { RxResponsiveModule } from 'rx-responsive';
 import { MatTableModule } from '@angular/material/table'; // <-- Material Table
 import { MatSortModule } from '@angular/material/sort';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 /* Component */
@@ -26,6 +27,7 @@ import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembre
 /* Services */
 import { AuthenticationService } from './authentication.service';
 import { MembreService } from './membre.service';
+import { UserService } from './user.service';
 import { RequestInterceptorService } from './request-interceptor.service';
 import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
@@ -63,6 +65,7 @@ import { ClassementsComponent } from './classements/classements.component';
     RxResponsiveModule.forRoot(),
     MatTableModule,
     MatSortModule,
+    MatCheckboxModule,
     HttpClientModule
   ],
   entryComponents: [
@@ -74,6 +77,7 @@ import { ClassementsComponent } from './classements/classements.component';
   providers: [
     AuthenticationService,
     MembreService,
+    UserService,
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService,multi: true},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:true}},
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},

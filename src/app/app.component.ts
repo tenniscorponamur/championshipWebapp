@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { AuthenticationService } from './authentication.service';
+import {UserService} from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,10 @@ import { AuthenticationService } from './authentication.service';
 export class AppComponent {
   title = 'Tennis Corpo Namur';
 
-  constructor(private authenticationService: AuthenticationService, public dialog: MatDialog) {
+  constructor(
+        private authenticationService: AuthenticationService,
+        private userService: UserService,
+      public dialog: MatDialog) {
 
     // TODO : si refreshToken existe, faire un appel a une methode securisee de test pour eventuellement rafrachir l'accessToken
     // Si l'appel est concluant, se connecter automatiquement
@@ -29,6 +33,9 @@ export class AppComponent {
    }
 
    //TODO : gerer le "rememberMe" au niveau de l'authentication service
+   
+   
+   
 
   ouvrirLoginForm(): void {
     let loginFormDialogRef = this.dialog.open(LoginFormDialog, {
@@ -38,15 +45,19 @@ export class AppComponent {
     loginFormDialogRef.afterClosed().subscribe(result => {
       if (result){
         console.log("Connexion avec " + result + " - accessToken recupere");
-        //TODO : appel a la methode de test ? pas necessaire a ce niveau
+          this.showConnectedUser();
+        //TODO : recuperation des informations de l'utilisateur
+        
       }else{
-        console.log('La fenetre de login a ete fermee sans connexion');
+      
+        //console.log('La fenetre de login a ete fermee sans connexion');
+      
       }
     });
   }
 
-  doTest(){
-    console.log("test");
+  showConnectedUser(){
+      this.userService.getUser().subscribe(user => console.log(user.principal));
   }
 
   disconnect(){
@@ -64,6 +75,7 @@ export class LoginFormDialog {
 
   private _login:string;
   private _password:string;
+  private _rememberMe:boolean=true;
 
   constructor(
     private http: HttpClient, private authenticationService: AuthenticationService,
@@ -71,7 +83,10 @@ export class LoginFormDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   connexion(): void {
-    this.authenticationService.requestAccessToken(this._login,this._password).subscribe(
+      this.authenticationService.requestAccessToken(this._login, this._password, this._rememberMe)
+     .catch(error => {
+        return Observable.throw(error);
+     }).subscribe(
         result => {
             if (result){
               console.log("authentification reussie avec " + this._login);
@@ -79,7 +94,8 @@ export class LoginFormDialog {
             }
           },
          error => {
-            console.log("bad credentials");
+             //TODO : gestion des erreurs de connexion (mot de passe incorrect)
+            console.log("bad credentials " + this._rememberMe);
             console.log(error);
           }
       );
