@@ -22,21 +22,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  testAppelToken(){
-    this.authenticationService.login().subscribe(
-          result => {
-              if (result){
-                  console.log("authentification reussie")
-              }
-            }
-        );
-  }
-
-  testDisconnect(){
-    this.authenticationService.disconnect();
-    this.testEngine=null;
-  }
-
   testAppelUser() {
     this.getUser().subscribe(
         result => {

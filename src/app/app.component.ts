@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs/observable/of';
+import { AuthenticationService } from './authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +13,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class AppComponent {
   title = 'Tennis Corpo Namur';
 
-  constructor(public dialog: MatDialog) {
+  constructor(private authenticationService: AuthenticationService, public dialog: MatDialog) {
 
     // TODO : si refreshToken existe, faire un appel a une methode securisee de test pour eventuellement rafrachir l'accessToken
     // Si l'appel est concluant, se connecter automatiquement
@@ -24,6 +28,8 @@ export class AppComponent {
 
    }
 
+   //TODO : gerer le "rememberMe" au niveau de l'authentication service
+
   ouvrirLoginForm(): void {
     let loginFormDialogRef = this.dialog.open(LoginFormDialog, {
       data: { }, panelClass: "loginFormDialog", disableClose:false
@@ -31,7 +37,8 @@ export class AppComponent {
 
     loginFormDialogRef.afterClosed().subscribe(result => {
       if (result){
-        console.log("Connexion avec " + result);
+        console.log("Connexion avec " + result + " - accessToken recupere");
+        //TODO : appel a la methode de test ? pas necessaire a ce niveau
       }else{
         console.log('La fenetre de login a ete fermee sans connexion');
       }
@@ -40,6 +47,10 @@ export class AppComponent {
 
   doTest(){
     console.log("test");
+  }
+
+  disconnect(){
+    this.authenticationService.disconnect();
   }
 
 }
@@ -55,11 +66,23 @@ export class LoginFormDialog {
   private _password:string;
 
   constructor(
+    private http: HttpClient, private authenticationService: AuthenticationService,
     public dialogRef: MatDialogRef<LoginFormDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   connexion(): void {
-    this.dialogRef.close(this._login);
+    this.authenticationService.requestAccessToken(this._login,this._password).subscribe(
+        result => {
+            if (result){
+              console.log("authentification reussie avec " + this._login);
+              this.dialogRef.close(this._login);
+            }
+          },
+         error => {
+            console.log("bad credentials");
+            console.log(error);
+          }
+      );
   }
 
 }

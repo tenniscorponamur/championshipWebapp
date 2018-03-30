@@ -82,7 +82,6 @@ export class RequestInterceptorService implements HttpInterceptor {
 
 
   logoutUser() {
-      this.router.navigate(['/'])
       return Observable.throw("");
   }
 

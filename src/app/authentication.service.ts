@@ -34,10 +34,6 @@ export class AuthenticationService {
     };
   }
 
-  login(): Observable<any> {
-    return this.requestAccessToken();
-  }
-
   disconnect() {
       localStorage.removeItem(TENNIS_CORPO_ACCESS_TOKEN_KEY);
       localStorage.removeItem(TENNIS_CORPO_REFRESH_TOKEN_KEY);
@@ -60,47 +56,29 @@ export class AuthenticationService {
     };
   }
 
-  requestAccessToken() : Observable<any> {
-    return this.http.post<any>(this.tokenUrl+ "?grant_type=password&username=fca&password=jwtpass",{}, this.getHttpOptionsForTokenRequest())
-      .pipe(
-          tap(result => {
-                localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
-                localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
-                }),
-          catchError(this.handleError<any>('getToken', ''))
-      );
+  requestAccessToken(login:string, password:string) {
+    return this.http.post<any>(this.tokenUrl+ "?grant_type=password&username=" + login + "&password="+password,{}, this.getHttpOptionsForTokenRequest())
+    .map(result => {
+       localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
+       localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
+       return result;
+     })
+     .catch(error => {
+        return Observable.throw(error);
+     })
   }
 
 
   requestRefreshToken(): Observable<string> {
-
-      // TODO : clear tokens from session juste avant d'effectuer l'appel ???
-
-      //TODO : idealement, capter une erreur 401 (jeton expire ou invalide) suite a cet appel et nettoyer la session uniquement a ce moment la
-
       return this.http.post<any>(this.tokenUrl + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
-      .pipe(
-          tap(result => {
-            localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
-            localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
-          }),
-          catchError(this.handleError<any>('getRefreshToken', ''))
-      );
-  }
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      console.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+      .map(result => {
+         localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
+         localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
+         return result;
+       })
+       .catch(error => {
+          return Observable.throw(error);
+       })
   }
 
 }
