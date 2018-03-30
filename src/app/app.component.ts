@@ -57,7 +57,7 @@ export class AppComponent {
   }
 
   showConnectedUser(){
-      this.userService.getUser().subscribe(user => console.log(user.principal));
+      this.userService.getUser().subscribe(user => console.log(user.username + " - " + user.nom + " - " + user.prenom));
   }
 
   disconnect(){
