@@ -82,6 +82,9 @@ export class RequestInterceptorService implements HttpInterceptor {
 
 
   logoutUser() {
+
+    //TODO : clear session ??? --> a tester via un refreshToken perime et voir si on passe bien par cette methode a present
+
       return Observable.throw("");
   }
 
