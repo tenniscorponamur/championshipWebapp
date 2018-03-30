@@ -73,6 +73,11 @@ export class AuthenticationService {
 
 
   requestRefreshToken(): Observable<string> {
+
+      // TODO : clear tokens from session juste avant d'effectuer l'appel ???
+
+      //TODO : idealement, capter une erreur 401 (jeton expire ou invalide) suite a cet appel et nettoyer la session uniquement a ce moment la
+
       return this.http.post<any>(this.tokenUrl + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
       .pipe(
           tap(result => {

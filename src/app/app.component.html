@@ -2,8 +2,8 @@
 
 <nav class="tennisCorpoNavbar navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="height:25px;" >
     <div class="ml-auto">
-        <a data-toggle="modal" data-target="#connexionModal" style="color:white;cursor:pointer">
-            Connexion
+        <a (click)="ouvrirLoginForm();" style="color:white;cursor:pointer"> <!-- data-toggle="modal" data-target="#connexionModal"-->
+          Connexion
         </a>
     </div>
 </nav>
@@ -98,24 +98,24 @@
     </div>
 </div>-->
 
-<!-- Connexion Modal -->
-<div class="modal fade" id="connexionModal" tabindex="-1" role="dialog" aria-labelledby="connexionModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="connexionModalLabel">Connexion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <button class="btn btn-light btn-block"><i class="fa fa-key"></i>&nbsp;Connexion via Login</button>
-                <button class="btn btn-primary btn-block"><i class="fa fa-facebook" style="width:20px;border-style:solid;border-width:1px;padding:2px;border-radius:5px"></i>&nbsp;Connexion via Facebook</button>
-                <button class="btn btn-danger btn-block"><i class="fa fa-google" style="width:20px;border-style:solid;border-width:1px;padding:2px;border-radius:5px"></i>&nbsp;Connexion via Google</button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--&lt;!&ndash; Connexion Modal &ndash;&gt;-->
+<!--<div class="modal fade" id="connexionModal" tabindex="-1" role="dialog" aria-labelledby="connexionModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<h5 class="modal-title" id="connexionModalLabel">Connexion</h5>-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                    <!--<span aria-hidden="true">&times;</span>-->
+                <!--</button>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<button class="btn btn-light btn-block"><i class="fa fa-key"></i>&nbsp;Connexion via Login</button>-->
+                <!--<button class="btn btn-primary btn-block"><i class="fa fa-facebook" style="width:20px;border-style:solid;border-width:1px;padding:2px;border-radius:5px"></i>&nbsp;Connexion via Facebook</button>-->
+                <!--<button class="btn btn-danger btn-block"><i class="fa fa-google" style="width:20px;border-style:solid;border-width:1px;padding:2px;border-radius:5px"></i>&nbsp;Connexion via Google</button>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

@@ -16,12 +16,12 @@ import { MatSortModule } from '@angular/material/sort';
 
 /* Component */
 
-import { AppComponent } from './app.component';
+import { AppComponent, LoginFormDialog } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent } from './membres/membres.component';
 import { RencontresComponent } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
-import {MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreDialog } from './membre-detail/membre-detail.component';
+import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
@@ -39,6 +39,7 @@ import { ClassementsComponent } from './classements/classements.component';
     RencontresComponent,
     HomeComponent,
     MembreDetailComponent,
+    LoginFormDialog,
     HistoriqueClassementDialog,
     InfosGeneralesMembreDialog,
     RencontreDetailComponent,
@@ -65,6 +66,7 @@ import { ClassementsComponent } from './classements/classements.component';
     HttpClientModule
   ],
   entryComponents: [
+      LoginFormDialog,
       HistoriqueClassementDialog,
       InfosGeneralesMembreDialog,
       MatchDialog
