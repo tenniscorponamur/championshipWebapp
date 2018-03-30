@@ -23,7 +23,13 @@ export class HomeComponent implements OnInit {
   }
 
   testAppelToken(){
-    this.authenticationService.login();
+    this.authenticationService.login().subscribe(
+          result => {
+              if (result){
+                  console.log("authentification reussie")
+              }
+            }
+        );
   }
 
   testDisconnect(){
@@ -42,7 +48,7 @@ export class HomeComponent implements OnInit {
           }
       );
   }
-  
+
 
   //TODO : a deplacer dans le service approprie
 
@@ -54,9 +60,9 @@ export class HomeComponent implements OnInit {
             }),
           catchError(this.handleError<String>('testAppel', ))
       );
-      
+
   }
-  
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

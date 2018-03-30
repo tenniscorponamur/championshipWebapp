@@ -16,7 +16,7 @@ export class AuthenticationService {
   private clientPassword:string = environment.clientPassword;
 
   constructor(private http: HttpClient) { }
-  
+
   getPublicApiHttpOptions(){
       return {
       headers: new HttpHeaders(
@@ -24,7 +24,7 @@ export class AuthenticationService {
         )
     };
   }
-  
+
   getPrivateApiHttpOptions(){
       return {
       headers: new HttpHeaders(
@@ -34,14 +34,8 @@ export class AuthenticationService {
     };
   }
 
-  login() {
-    this.requestAccessToken().subscribe(
-        result => {
-            if (result){
-                console.log("authentification reussie")
-            }
-          }
-      );
+  login(): Observable<any> {
+    return this.requestAccessToken();
   }
 
   disconnect() {
@@ -56,7 +50,7 @@ export class AuthenticationService {
   getRefreshToken():string{
     return localStorage.getItem(TENNIS_CORPO_REFRESH_TOKEN_KEY);
   }
-  
+
   private getHttpOptionsForTokenRequest(){
     return {
       headers: new HttpHeaders(
@@ -65,7 +59,7 @@ export class AuthenticationService {
         )
     };
   }
-  
+
   requestAccessToken() : Observable<any> {
     return this.http.post<any>(this.tokenUrl+ "?grant_type=password&username=fca&password=jwtpass",{}, this.getHttpOptionsForTokenRequest())
       .pipe(
@@ -76,7 +70,7 @@ export class AuthenticationService {
           catchError(this.handleError<any>('getToken', ''))
       );
   }
-  
+
 
   requestRefreshToken(): Observable<string> {
       return this.http.post<any>(this.tokenUrl + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
@@ -85,7 +79,7 @@ export class AuthenticationService {
             localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,result.access_token);
             localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,result.refresh_token);
           }),
-          catchError(this.handleError<any>('getRefreshToken', 'dfgfgdsgdsgsdgsdg'))
+          catchError(this.handleError<any>('getRefreshToken', ''))
       );
   }
 
