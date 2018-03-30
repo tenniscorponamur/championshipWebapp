@@ -1,41 +1,39 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { AuthenticationService } from './authentication.service';
 import {UserService} from './user.service';
+import {User} from './user';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+    
   title = 'Tennis Corpo Namur';
+   
+   private user:User;
 
   constructor(
-        private authenticationService: AuthenticationService,
-        private userService: UserService,
+      private authenticationService: AuthenticationService,
+      private userService: UserService,
       public dialog: MatDialog) {
 
-    // TODO : si refreshToken existe, faire un appel a une methode securisee de test pour eventuellement rafrachir l'accessToken
-    // Si l'appel est concluant, se connecter automatiquement
-    // Si l'appel est non-concluant, l'appel au refreshToken va faire en sorte de recuperer un nouveau accessToken
-    // Si le refreshToken n'est plus valable, la session doit etre nettoyee
-    // et on va faire un refresh de la page afin de reinitialiser le isRefreshingToken de l'interceptor a false
+       }
 
-    // TODO : s'il n'y a pas de refreshToken
-    // TODO : on fait appel a une methode securisee de test
-    // TODO : si appel concluant, connexion ok
-    // TODO : si ko, clear de la session pour nettoyer le token perime
-
-   }
-
-   //TODO : gerer le "rememberMe" au niveau de l'authentication service
-   
-   
-   
+  ngOnInit() {
+    this.userService.getUser().subscribe(
+      user => {
+          if (user){
+              this.user=user;
+          }
+        }
+      );
+  }
 
   ouvrirLoginForm(): void {
     let loginFormDialogRef = this.dialog.open(LoginFormDialog, {
@@ -44,28 +42,26 @@ export class AppComponent {
 
     loginFormDialogRef.afterClosed().subscribe(result => {
       if (result){
-        console.log("Connexion avec " + result + " - accessToken recupere");
-          this.showConnectedUser();
         //TODO : recuperation des informations de l'utilisateur
-        
+        this.userService.getUser().subscribe(user => this.user=user);
       }else{
-      
         //console.log('La fenetre de login a ete fermee sans connexion');
-      
       }
     });
   }
-
-  showConnectedUser(){
-      this.userService.getUser().subscribe(user => console.log(user.username + " - " + user.nom + " - " + user.prenom));
+  
+  ouvrirCompteUtilisateur(): void {
+      //TODO
+      console.log("ouvrir fenetre de changement de mot de passe/deconnexion");
+      this.disconnect();
   }
 
   disconnect(){
-    this.authenticationService.disconnect();
+    this.authenticationService.disconnect();   
+    this.user=null; 
   }
 
 }
-
 
 @Component({
   selector: 'login-form-dialog',
@@ -89,7 +85,7 @@ export class LoginFormDialog {
      }).subscribe(
         result => {
             if (result){
-              console.log("authentification reussie avec " + this._login);
+              //console.log("authentification reussie avec " + this._login);
               this.dialogRef.close(this._login);
             }
           },

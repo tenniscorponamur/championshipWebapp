@@ -59,7 +59,6 @@ export class AuthenticationService {
   requestAccessToken(login:string, password:string, rememberMe:boolean) {
     return this.http.post<any>(this.tokenUrl+ "?grant_type=password&username=" + login + "&password="+password,{}, this.getHttpOptionsForTokenRequest())
     .map(result => {
-        console.log("stock tokens");
       this.storeAccessToken(result.access_token);
         if (rememberMe){
             this.storeRefreshToken(result.refresh_token);

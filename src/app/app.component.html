@@ -2,8 +2,11 @@
 
 <nav class="tennisCorpoNavbar navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="height:25px;" >
     <div class="ml-auto">
-        <a (click)="ouvrirLoginForm();" style="color:white;cursor:pointer"> <!-- data-toggle="modal" data-target="#connexionModal"-->
+        <a *ngIf="!user" (click)="ouvrirLoginForm();" style="color:white;cursor:pointer"> <!-- data-toggle="modal" data-target="#connexionModal"-->
           Connexion
+        </a>
+        <a *ngIf="user" (click)="ouvrirCompteUtilisateur();" style="color:white;cursor:pointer"> <!-- data-toggle="modal" data-target="#connexionModal"-->
+            <i class="fa fa-user"></i>&nbsp;{{user.prenom}}&nbsp;{{user.nom}}
         </a>
     </div>
 </nav>
