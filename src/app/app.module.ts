@@ -28,6 +28,7 @@ import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembre
 import { AuthenticationService } from './authentication.service';
 import { MembreService } from './membre.service';
 import { UserService } from './user.service';
+import { AuthGuardService } from './auth-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
 import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
@@ -78,6 +79,7 @@ import { ClassementsComponent } from './classements/classements.component';
     AuthenticationService,
     MembreService,
     UserService,
+    AuthGuardService,
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService,multi: true},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:true}},
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
