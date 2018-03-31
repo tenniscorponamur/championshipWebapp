@@ -27,16 +27,13 @@
             <li class="nav-item">
                 <a class="nav-link" routerLink="/membres" >Membres</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" >Clubs</a>
-            </li>
             <li *ngIf="user" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Administration
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Paramètres</a>
-                    <a class="dropdown-item" href="#">Administrateurs</a>
+                    <a class="dropdown-item" routerLink="/clubs">Clubs</a>
+                    <a class="dropdown-item" >Terrains</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Nouvelle saison</a>
                 </div>

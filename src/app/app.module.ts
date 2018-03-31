@@ -26,6 +26,7 @@ import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembre
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
+import { ClubService } from './club.service';
 import { MembreService } from './membre.service';
 import { UserService } from './user.service';
 import { AuthGuardService } from './auth-guard.service';
@@ -33,6 +34,8 @@ import { RequestInterceptorService } from './request-interceptor.service';
 import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
+import { ClubsComponent } from './clubs/clubs.component';
+import { ClubDetailComponent } from './club-detail/club-detail.component';
 
 
 @NgModule({
@@ -49,6 +52,8 @@ import { ClassementsComponent } from './classements/classements.component';
     MatchDialog,
     ClassementDetailComponent,
     ClassementsComponent,
+    ClubsComponent,
+    ClubDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +82,7 @@ import { ClassementsComponent } from './classements/classements.component';
   ],
   providers: [
     AuthenticationService,
+    ClubService,
     MembreService,
     UserService,
     AuthGuardService,

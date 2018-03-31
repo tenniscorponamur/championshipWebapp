@@ -17,6 +17,10 @@ export class AuthGuardService  implements CanActivate {
     
       if (this.authenticationService.isConnected()){
         console.log(this.authenticationService.getConnectedUser().username);
+        return true;
+      }else{
+        console.log(url + " not authorized");
+        return false;
       }
 
     // TODO : si l'url est soumise a du controle, il faut regarder si l'utilisateur est authentifie 
@@ -24,9 +28,6 @@ export class AuthGuardService  implements CanActivate {
 
     //TODO : tester l'url pour autoriser l'acces ou non (l'url correspond a ce qui est defini dans les routeLink de la page html
 
-    console.log(url);
-    
-    return true;
   }
 
 }
