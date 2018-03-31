@@ -15,7 +15,7 @@ import {User} from './user';
 export class AppComponent implements OnInit {
     
   title = 'Tennis Corpo Namur';
-   
+
    private user:User;
 
   constructor(
@@ -28,9 +28,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.userService.getUser().subscribe(
       user => {
-          if (user){
-              this.user=user;
-          }
+          this.authenticationService.setConnectedUser(user);
+          this.user=user;
         }
       );
   }
@@ -43,7 +42,10 @@ export class AppComponent implements OnInit {
     loginFormDialogRef.afterClosed().subscribe(result => {
       if (result){
         //TODO : recuperation des informations de l'utilisateur
-        this.userService.getUser().subscribe(user => this.user=user);
+        this.userService.getUser().subscribe(user => {
+            this.authenticationService.setConnectedUser(user);
+            this.user=user;
+          });
       }else{
         //console.log('La fenetre de login a ete fermee sans connexion');
       }
@@ -57,8 +59,8 @@ export class AppComponent implements OnInit {
   }
 
   disconnect(){
-    this.authenticationService.disconnect();   
-    this.user=null; 
+    this.authenticationService.disconnect();  
+    this.user=null;
   }
 
 }

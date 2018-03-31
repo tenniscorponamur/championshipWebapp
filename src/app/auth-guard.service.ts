@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
+import {AuthenticationService} from './authentication.service';
 
 @Injectable()
 export class AuthGuardService  implements CanActivate {
@@ -9,10 +10,14 @@ export class AuthGuardService  implements CanActivate {
 //    return true;
 //  }
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService) { }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = state.url;
+    
+      if (this.authenticationService.isConnected()){
+        console.log(this.authenticationService.getConnectedUser().username);
+      }
 
     // TODO : si l'url est soumise a du controle, il faut regarder si l'utilisateur est authentifie 
     // deplacer le user connecte dans authenticationService

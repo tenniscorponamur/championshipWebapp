@@ -4,6 +4,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { environment } from '../environments/environment';
+import {User} from './user';
 
 const TENNIS_CORPO_ACCESS_TOKEN_KEY = "tennisCorpoAccessToken";
 const TENNIS_CORPO_REFRESH_TOKEN_KEY = "tennisCorpoRefreshToken";
@@ -11,11 +12,27 @@ const TENNIS_CORPO_REFRESH_TOKEN_KEY = "tennisCorpoRefreshToken";
 @Injectable()
 export class AuthenticationService {
 
+  private connectedUser:User;
+
   private tokenUrl = environment.tokenUrl;
   private clientId = environment.clientId;
   private clientPassword:string = environment.clientPassword;
 
   constructor(private http: HttpClient) { }
+
+  setConnectedUser(user:User){
+      if (user){
+          this.connectedUser = user;
+      }
+  }
+  
+  getConnectedUser():User{
+      return this.connectedUser;
+  }
+  
+  isConnected():boolean{
+      return this.connectedUser!=null;
+  }
 
   getPublicApiHttpOptions(){
       return {
@@ -37,6 +54,7 @@ export class AuthenticationService {
   disconnect() {
       localStorage.removeItem(TENNIS_CORPO_ACCESS_TOKEN_KEY);
       localStorage.removeItem(TENNIS_CORPO_REFRESH_TOKEN_KEY);
+      this.connectedUser=null;
   }
 
   getAccessToken():string{
