@@ -8,6 +8,7 @@ import { HomeComponent }      from './home/home.component';
 import { MembresComponent }      from './membres/membres.component';
 import { RencontresComponent }      from './rencontres/rencontres.component';
 import {ClubsComponent} from './clubs/clubs.component';
+import {UtilisateursComponent} from './utilisateurs/utilisateurs.component';
 
 const routes: Routes = [
   { path: 'classements', component: ClassementsComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'clubs', component: ClubsComponent, canActivate: [AuthGuardService] },
   { path: 'membres', component: MembresComponent },
   { path: 'rencontres', component: RencontresComponent },
+  { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
