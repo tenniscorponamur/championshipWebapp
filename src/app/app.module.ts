@@ -17,7 +17,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 
 /* Component */
 
-import { AppComponent, LoginFormDialog } from './app.component';
+import { AppComponent, LoginFormDialog, CompteUtilisateurDialog } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent } from './membres/membres.component';
 import { RencontresComponent } from './rencontres/rencontres.component';
@@ -48,6 +48,7 @@ import { UtilisateurDetailComponent } from './utilisateur-detail/utilisateur-det
     HomeComponent,
     MembreDetailComponent,
     LoginFormDialog,
+    CompteUtilisateurDialog,
     HistoriqueClassementDialog,
     InfosGeneralesMembreDialog,
     RencontreDetailComponent,
@@ -80,6 +81,7 @@ import { UtilisateurDetailComponent } from './utilisateur-detail/utilisateur-det
   ],
   entryComponents: [
       LoginFormDialog,
+      CompteUtilisateurDialog,
       HistoriqueClassementDialog,
       InfosGeneralesMembreDialog,
       MatchDialog

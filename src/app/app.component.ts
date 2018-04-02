@@ -51,13 +51,17 @@ export class AppComponent implements OnInit {
   }
   
   ouvrirCompteUtilisateur(): void {
-      //TODO
-      console.log("ouvrir fenetre de changement de mot de passe/deconnexion");
-      this.disconnect();
-  }
-
-  disconnect(){
-    this.authenticationService.disconnect();  
+    let compteUtilisateurDialogRef = this.dialog.open(CompteUtilisateurDialog, {
+      data: { }, panelClass: "compteUtilisateurDialog", disableClose:false
+    });
+    
+    compteUtilisateurDialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.authenticationService.disconnect();  
+      }else{
+        //console.log('La fenetre de login a ete fermee sans deconnexion');
+      }
+    });
   }
 
 }
@@ -94,6 +98,30 @@ export class LoginFormDialog {
             console.log(error);
           }
       );
+  }
+
+}
+
+
+@Component({
+  selector: 'compte-utilisateur-dialog',
+  templateUrl: './compteUtilisateur.html',
+})
+export class CompteUtilisateurDialog {
+
+  constructor(
+    private http: HttpClient, private authenticationService: AuthenticationService,
+    public dialogRef: MatDialogRef<CompteUtilisateurDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+    get user(): User {return this.authenticationService.getConnectedUser(); }
+    
+    changePassword(): void {
+        //TODO : permettre de changer le mot de passe
+    }
+
+  deconnexion(): void {
+    this.dialogRef.close(true);
   }
 
 }
