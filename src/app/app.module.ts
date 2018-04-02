@@ -36,6 +36,8 @@ import { ClassementDetailComponent } from './classement-detail/classement-detail
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
 import { ClubDetailComponent } from './club-detail/club-detail.component';
+import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
+import { UtilisateurDetailComponent } from './utilisateur-detail/utilisateur-detail.component';
 
 
 @NgModule({
@@ -54,6 +56,8 @@ import { ClubDetailComponent } from './club-detail/club-detail.component';
     ClassementsComponent,
     ClubsComponent,
     ClubDetailComponent,
+    UtilisateursComponent,
+    UtilisateurDetailComponent,
   ],
   imports: [
     BrowserModule,

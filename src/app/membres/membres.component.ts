@@ -140,6 +140,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
       scrollPosition = "start";
     }
     this.selectedMember=membre;
+    //TODO : scroll only if mobile
     //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
   }
 
