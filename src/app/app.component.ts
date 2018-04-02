@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     get user(): User {return this.authenticationService.getConnectedUser(); }
   
   ngOnInit() {
-    this.userService.getUser().subscribe(
+    this.userService.getCurrentUser().subscribe(
       user => {
           this.authenticationService.setConnectedUser(user);
         }
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
     loginFormDialogRef.afterClosed().subscribe(result => {
       if (result){
         //TODO : recuperation des informations de l'utilisateur
-        this.userService.getUser().subscribe(user => {
+        this.userService.getCurrentUser().subscribe(user => {
             this.authenticationService.setConnectedUser(user);
           });
       }else{
