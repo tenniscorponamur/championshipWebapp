@@ -11,6 +11,6 @@ export class UserService {
 
 
   getCurrentUser(): Observable<any> {
-    return this.http.get<any>(environment.privateApiUrl + "/user/current", this.authenticationService.getPrivateApiHttpOptions());
+    return this.http.get<any>(environment.privateApiUrl + "/currentUser", this.authenticationService.getPrivateApiHttpOptions());
   }
 }
