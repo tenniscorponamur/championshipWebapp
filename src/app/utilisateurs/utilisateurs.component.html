@@ -1,3 +1,47 @@
-<p>
-  utilisateurs works!
-</p>
+<div class="row">
+    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="card text-center">
+            <h4 class="card-header">
+                Utilisateurs
+            </h4>
+            <div class="card-body text-center">
+                
+                <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+                  <div *ngFor="let utilisateur of sortedUsers" (click)="ouvrirUtilisateur(utilisateur);" class="myBox text-left" style="cursor:pointer;">
+                    <div class="myBoxTitle">
+                      <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{utilisateur.nom}}</strong></span>&nbsp;{{utilisateur.prenom}}
+                    </div>
+                  </div>
+                </div>
+                
+                <div *ngIf="media.is.lg.or.xl | async">
+                  <div class="table-responsive" style="height:300px;">
+                      <table class="utilisateurTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+                          <!--table-striped-->
+                          <thead class="bg-info" >
+                              <tr>
+                                  <th scope="col" mat-sort-header="nom">Nom</th>
+                                  <th scope="col" mat-sort-header="prenom">Prénom</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let utilisateur of sortedUsers" (click)="ouvrirUtilisateur(utilisateur);" class="text-left">
+                                  <td class="text-uppercase">{{utilisateur.nom}}</td>
+                                  <td>{{utilisateur.prenom}}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+                <div align="right" style="margin-top:10px;">
+                    <button class="btn btn-secondary" (click)="nouvelUtilisateur();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouvel utilisateur</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div #utilisateurDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
+        <app-utilisateur-detail *ngIf="selectedUser" [utilisateur]="selectedUser" ></app-utilisateur-detail>
+    </div>
+
+</div>
