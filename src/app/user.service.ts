@@ -11,8 +11,8 @@ export class UserService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
 
 
-  getCurrentUser(): Observable<any> {
-    return this.http.get<any>(environment.privateApiUrl + "/currentUser", this.authenticationService.getPrivateApiHttpOptions());
+  getCurrentUser(): Observable<any> { 
+    return this.http.get<any>(environment.privateApiUrl + "/user/current", this.authenticationService.getPrivateApiHttpOptions());
   }
   
   getUsers(): Observable<User[]> {
@@ -20,13 +20,11 @@ export class UserService {
   }
   
   ajoutUtilisateur(utilisateur:User){
-      console.log('add user')
     return this.http.post<User[]>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }
   
   updateUtilisateur(utilisateur:User){
-      console.log('update user')
-      return this.http.put<User[]>(environment.privateApiUrl + "/user/" + utilisateur.id,utilisateur, this.authenticationService.getPrivateApiHttpOptions());
+      return this.http.put<User[]>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }
   
 }
