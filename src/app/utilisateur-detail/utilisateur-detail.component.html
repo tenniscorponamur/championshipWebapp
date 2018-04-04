@@ -1,3 +1,35 @@
-<p>
-  utilisateur-detail works!
-</p>
+<div class="card tennisCorpoBox">
+  <h4 class="card-header">
+    Utilisateur
+  </h4>
+  <div class="card-body">
+
+    <div class="row">
+
+      <div class="col-2">
+        <div style="text-align:right;">
+          <i class="fa fa-user fa-5x"></i>
+        </div>
+      </div>
+
+      <div class="col-10">
+        <div class="myBox myBoxEditable">
+          <div class="myBoxTitle" (click)="ouvrirUtilisateurDetail();">
+            Détails<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
+              <div class="col-12">
+                <span><strong>{{utilisateur.username}}</strong></span>
+              </div>
+              <div class="col-12">
+                <span>{{utilisateur.nom|uppercase}}&nbsp;</span><span>{{utilisateur.prenom}}</span>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <button class="btn btn-primary">Reset Password</button>
+      <button class="btn btn-danger">Supprimer</button>
+</div>
+
+</div>

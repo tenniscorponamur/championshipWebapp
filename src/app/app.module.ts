@@ -37,7 +37,7 @@ import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
 import { ClubDetailComponent } from './club-detail/club-detail.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
-import { UtilisateurDetailComponent } from './utilisateur-detail/utilisateur-detail.component';
+import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 
 
 @NgModule({
@@ -59,6 +59,7 @@ import { UtilisateurDetailComponent } from './utilisateur-detail/utilisateur-det
     ClubDetailComponent,
     UtilisateursComponent,
     UtilisateurDetailComponent,
+    UserDialog,
   ],
   imports: [
     BrowserModule,
@@ -84,7 +85,8 @@ import { UtilisateurDetailComponent } from './utilisateur-detail/utilisateur-det
       CompteUtilisateurDialog,
       HistoriqueClassementDialog,
       InfosGeneralesMembreDialog,
-      MatchDialog
+      MatchDialog,
+      UserDialog,
   ],
   providers: [
     AuthenticationService,

@@ -75,6 +75,7 @@ export class LoginFormDialog {
   private _login:string;
   private _password:string;
   private _rememberMe:boolean=true;
+  showAlert:boolean=false;
 
   constructor(
     private http: HttpClient, private authenticationService: AuthenticationService,
@@ -93,8 +94,9 @@ export class LoginFormDialog {
             }
           },
          error => {
+             this.showAlert=true;
              //TODO : gestion des erreurs de connexion (mot de passe incorrect)
-            console.log("bad credentials " + this._rememberMe);
+            console.log("bad credentials");
             console.log(error);
           }
       );

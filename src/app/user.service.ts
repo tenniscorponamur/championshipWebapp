@@ -19,4 +19,14 @@ export class UserService {
     return this.http.get<User[]>(environment.privateApiUrl + "/users", this.authenticationService.getPrivateApiHttpOptions());
   }
   
+  ajoutUtilisateur(utilisateur:User){
+      console.log('add user')
+    return this.http.post<User[]>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
+  }
+  
+  updateUtilisateur(utilisateur:User){
+      console.log('update user')
+      return this.http.put<User[]>(environment.privateApiUrl + "/user/" + utilisateur.id,utilisateur, this.authenticationService.getPrivateApiHttpOptions());
+  }
+  
 }

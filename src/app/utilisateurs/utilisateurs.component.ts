@@ -10,6 +10,7 @@ import {map} from 'rxjs/operators/map';
 import { RxResponsiveService } from 'rx-responsive';
 import {User} from '../user';
 import {UserService} from '../user.service';
+import {UserDialog} from '../utilisateur-detail/utilisateur-detail.component';
 
 @Component({
   selector: 'app-utilisateurs',
@@ -20,9 +21,11 @@ export class UtilisateursComponent implements OnInit {
 
   actualSort:Sort;
   sortedUsers:User[];
+  selectedUser:User;
 
   constructor(public media: RxResponsiveService,
-    private userService:UserService) { }
+    private userService:UserService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
       this.userService.getUsers().subscribe(utilisateurs => {this.sortedUsers = utilisateurs; this.sortData(this.actualSort);});
@@ -47,6 +50,26 @@ export class UtilisateursComponent implements OnInit {
         });
 
     }
+  }
+  
+    nouvelUtilisateur(){
+        let nouvelUtilisateur: User = new User();
+
+        let userDialogRef = this.dialog.open(UserDialog, {
+            data: { utilisateur: nouvelUtilisateur }, panelClass: "userDialog"
+        });
+
+        userDialogRef.afterClosed().subscribe(result => {
+            if (result){
+                this.selectedUser = result;
+                this.sortedUsers.push(this.selectedUser);
+                this.sortData(this.actualSort);
+            }
+        });
+    }
+  
+  ouvrirUtilisateur(utilisateur:User):void{
+    this.selectedUser=utilisateur;
   }
 
 }
