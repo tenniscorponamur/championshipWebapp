@@ -43,6 +43,7 @@ export class UtilisateursComponent implements OnInit {
         this.sortedUsers = data.sort((a, b) => {
           let isAsc = sort.direction == 'asc';
           switch (sort.active) {
+            case 'username': return compare(a.username, b.username, isAsc);
             case 'nom': return compare(a.nom, b.nom, isAsc);
             case 'prenom': return compare(a.prenom, b.prenom, isAsc);
             default: return 0;

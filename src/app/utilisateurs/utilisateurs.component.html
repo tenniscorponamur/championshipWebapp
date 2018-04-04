@@ -9,7 +9,7 @@
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let utilisateur of sortedUsers" (click)="ouvrirUtilisateur(utilisateur);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
-                      <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{utilisateur.nom}}</strong></span>&nbsp;{{utilisateur.prenom}}
+                        <i class="fa fa-user"></i>&nbsp;<strong>{{utilisateur.username}}</strong>&nbsp;<span class="text-uppercase">{{utilisateur.nom}}</span>&nbsp;{{utilisateur.prenom}}
                     </div>
                   </div>
                 </div>
@@ -20,12 +20,14 @@
                           <!--table-striped-->
                           <thead class="bg-info" >
                               <tr>
+                                  <th scope="col" mat-sort-header="username">Login</th>
                                   <th scope="col" mat-sort-header="nom">Nom</th>
                                   <th scope="col" mat-sort-header="prenom">Prénom</th>
                               </tr>
                           </thead>
                           <tbody>
                               <tr *ngFor="let utilisateur of sortedUsers" (click)="ouvrirUtilisateur(utilisateur);" class="text-left">
+                                  <td>{{utilisateur.username}}</td>
                                   <td class="text-uppercase">{{utilisateur.nom}}</td>
                                   <td>{{utilisateur.prenom}}</td>
                               </tr>
