@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { NgClass, DatePipe } from '@angular/common';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
@@ -20,43 +20,37 @@ import { RxResponsiveService } from 'rx-responsive';
 })
 export class MembresComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  @ViewChild(MatSort) sort: MatSort;
-
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-
+//  applyFilter(filterValue: string) {
+//    filterValue = filterValue.trim(); // Remove whitespace
+//    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+//    this.dataSource.filter = filterValue;
+//  }
+//  @ViewChild(MatSort) sort: MatSort;
+//
   /**
    * Set the sort after the view init since this component will
    * be able to query its view for the initialized sort.
    */
   ngAfterViewInit() {
-      console.log("sort");
-      this.dataSource.sort = this.sort;
+//      console.log("sort");
+//      this.dataSource.sort = this.sort;
   }
 
   clubCtrl: FormControl=new FormControl();
+  clubs:string[]=["UNAMUR","TC WALLONIE","IATA","GAZELEC"];
+  filteredClubs:Observable<string[]>;
+
+    componentName:string="membresComponent";
+    @ViewChild("membreDetail") membreDetailComponent: ElementRef;
+    @ViewChild("membreList") membreListComponent: ElementRef;
+
 
     filtreNomPrenom:string;
     membres:Membre[];
-    componentName:string="membresComponent";
-  memberListClass:string = "tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6";
-  selectedMember:Membre;
-
-  clubs:string[]=["UNAMUR","TC WALLONIE","IATA","GAZELEC"];
-
-  sortedData:Membre[];
-  actualSort:Sort;
-
-  filteredClubs:Observable<string[]>;
-
-  @ViewChild("membreDetail") membreDetailComponent: ElementRef;
-  @ViewChild("membreList") membreListComponent: ElementRef;
+    sortedMembers:Membre[];
+    filteredMembers:Membre[];
+    actualSort:Sort;
+    selectedMember:Membre;
 
   constructor(public media: RxResponsiveService,
     private membreService:MembreService,
@@ -70,36 +64,39 @@ export class MembresComponent implements OnInit, AfterViewInit {
     }
 
   ngOnInit() {
-      this.getMembres();
+      this.membreService.getMembres().subscribe(membres => {this.sortedMembers = membres; this.sortData(this.actualSort);});
   }
 
   sortData(sort: Sort) {
     this.actualSort=sort;
-    const data = this.membres.slice();
+    const data = this.sortedMembers.slice();
     if (sort){
         if (!sort.active || sort.direction == '') {
-          this.sortedData = data;
+          this.sortedMembers = data;
           return;
         }
 
-        this.sortedData = data.sort((a, b) => {
+        this.sortedMembers = data.sort((a, b) => {
           let isAsc = sort.direction == 'asc';
           switch (sort.active) {
             case 'nom': return compare(a.nom, b.nom, isAsc);
             case 'prenom': return compare(a.prenom, b.prenom, isAsc);
+            case 'dateNaissance': return compare(a.dateNaissance, b.dateNaissance, isAsc);
             default: return 0;
           }
         });
-
     }
-  }
-
-  filterClubs(name: string) {
-    return this.clubs.filter(club =>
-      club.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    this.filtre(this.filtreNomPrenom);
   }
 
     filtre(nomPrenom: string): void {
+        if (nomPrenom && nomPrenom.trim().length > 0){
+            this.filteredMembers = this.sortedMembers.filter(membre =>
+                membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
+             || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase()))
+        }else{
+            this.filteredMembers = this.sortedMembers;
+        }
 
 //            this.players$ = this.searchTerms.pipe(
 //              // wait 300ms after each keystroke before considering the term
@@ -111,17 +108,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
 //              // switch to new search observable each time the term changes
 //              switchMap((term: string) => this.playerService.searchPlayers(term)),
 //            );
-
-        this.membreService.searchMembres(nomPrenom).subscribe(membres => {this.membres = membres; this.sortedData = membres.slice();this.sortData(this.actualSort);});
-    }
-
-    getMembres():void{
-        this.membreService.getMembres().subscribe(membres =>
-        {
-          this.membres = membres;
-          this.sortedData = this.membres.slice();
-        }
-      );
+        //this.membreService.searchMembres(nomPrenom).subscribe(membres => {this.membres = membres; this.sortedData = membres.slice();this.sortData(this.actualSort);});
     }
 
     nouveauMembre(){
@@ -138,16 +125,22 @@ export class MembresComponent implements OnInit, AfterViewInit {
         });
     }
 
-  ouvrirMembre(membre:Membre):void{
-    let scrollPosition = "end";
-    if (!this.selectedMember){
-      scrollPosition = "start";
+    ouvrirMembre(membre:Membre):void{
+      let scrollPosition = "end";
+      if (!this.selectedMember){
+        scrollPosition = "start";
+      }
+      this.selectedMember=membre;
+      //TODO : scroll only if mobile
+      //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
     }
-    this.selectedMember=membre;
-    //TODO : scroll only if mobile
-    //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
-  }
 
+
+  filterClubs(name: string) {
+    return this.clubs.filter(club =>
+      club.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
+  
   childResult(childResult : string){
       console.log("resultat : " + childResult);
     //this.membreListComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -156,36 +149,37 @@ export class MembresComponent implements OnInit, AfterViewInit {
 }
 
 function compare(a, b, isAsc) {
+    //TODO : voir comment comparer avec null
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
-
-export interface Element {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: Element[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];
-
+//
+//export interface Element {
+//  name: string;
+//  position: number;
+//  weight: number;
+//  symbol: string;
+//}
+//
+//const ELEMENT_DATA: Element[] = [
+//  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
+//  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
+//  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
+//  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
+//  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+//  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
+//  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
+//  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
+//  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
+//  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+//  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
+//  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
+//  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
+//  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
+//  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
+//  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
+//  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
+//  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
+//  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
+//  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
+//];
+//

@@ -1,5 +1,5 @@
 <div class="row">
-    <div #membreList [ngClass]="memberListClass">
+    <div #membreList class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <div class="card text-center">
             <h4 class="card-header">
                 Membres
@@ -83,23 +83,7 @@
                 </div>
                 <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
-                  <div *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
-                    <div class="myBoxTitle">
-                      <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
-                    </div>
-                    <div class="myBoxContent">
-                      <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
-                    </div>
-                  </div>
-                  <div *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
-                    <div class="myBoxTitle">
-                      <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
-                    </div>
-                    <div class="myBoxContent">
-                      <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
-                    </div>
-                  </div>
-                  <div *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
+                  <div *ngFor="let membre of filteredMembers" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
@@ -117,17 +101,17 @@
                               <tr>
                                   <th scope="col" mat-sort-header="nom">Nom</th>
                                   <th scope="col" mat-sort-header="prenom">Prénom</th>
-                                  <th scope="col">Date de naissance</th>
+                                  <!--<th scope="col" mat-sort-header="dateNaissance">Date de naissance</th>-->
                                   <th scope="col">Club</th>
                                   <th scope="col">Classement AFT</th>
                                   <th scope="col">Points Corpo</th>
                               </tr>
                           </thead>
                           <tbody>
-                              <tr *ngFor="let membre of sortedData" (click)="ouvrirMembre(membre);">
+                              <tr *ngFor="let membre of filteredMembers" (click)="ouvrirMembre(membre);" class="text-left">
                                   <td class="text-uppercase">{{membre.nom}}</td>
                                   <td>{{membre.prenom}}</td>
-                                  <td>{{membre.dateNaissance}}</td>
+                                  <!--<td>{{membre.dateNaissance| date:'dd/MM/yyyy'}}</td>-->
                                   <td>UNAMUR</td>
                                   <td>C30-2</td>
                                   <td>20</td>
@@ -135,44 +119,6 @@
                           </tbody>
                       </table>
                   </div>
-
-                  <!--<div class="mat-elevation-z8">-->
-                    <!--<div class="example-header">-->
-                      <!--<mat-form-field>-->
-                        <!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">-->
-                      <!--</mat-form-field>-->
-                    <!--</div>-->
-
-                    <!--<mat-table #table [dataSource]="dataSource" matSort  >-->
-
-                      <!--&lt;!&ndash; Position Column &ndash;&gt;-->
-                      <!--<ng-container matColumnDef="position">-->
-                        <!--<mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>-->
-                        <!--<mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>-->
-                      <!--</ng-container>-->
-
-                      <!--&lt;!&ndash; Name Column &ndash;&gt;-->
-                      <!--<ng-container matColumnDef="name">-->
-                        <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>-->
-                        <!--<mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>-->
-                      <!--</ng-container>-->
-
-                      <!--&lt;!&ndash; Weight Column &ndash;&gt;-->
-                      <!--<ng-container matColumnDef="weight">-->
-                        <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Weight </mat-header-cell>-->
-                        <!--<mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>-->
-                      <!--</ng-container>-->
-
-                      <!--&lt;!&ndash; Symbol Column &ndash;&gt;-->
-                      <!--<ng-container matColumnDef="symbol">-->
-                        <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </mat-header-cell>-->
-                        <!--<mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>-->
-                      <!--</ng-container>-->
-
-                      <!--<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>-->
-                      <!--<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>-->
-                    <!--</mat-table>-->
-                  <!--</div>-->
 
                 </div>
                 <div align="right" style="margin-top:10px;">
