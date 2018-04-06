@@ -14,20 +14,16 @@ export class MembreService {
   constructor(private http: HttpClient) { }
 
   getMembres(): Observable<Membre[]> {
-//    return this.http.get<Player[]>(this.playersUrl)
-//      .pipe(
-//          tap(players => this.log(`fetched players from server`)),
-//          catchError(this.handleError('getPlayers', []))
-//      );
-    return of(MEMBRES);
+    return this.http.get<Membre[]>(environment.publicApiUrl + "/membres");
+    //return of(MEMBRES);
   }
-  
+
   searchMembres(nomPrenom:string): Observable<Membre[]> {
       return of(MEMBRES.filter(membre =>
-            membre.nom.toLowerCase().includes(nomPrenom.toLowerCase()) 
+            membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
          || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase())));
   }
-  
+
   getMembre(id: number): Observable<Membre> {
 //    return this.http.get<Player>(`${this.playersUrl}/${id}`)
 //      .pipe(
@@ -36,11 +32,11 @@ export class MembreService {
 //      );
       return of(MEMBRES.find(membre => membre.id === id));
   }
-  
+
   ajoutMembre(membre:Membre){
       MEMBRES.push(membre);
       membre.id = MEMBRES.length;
   }
-  
+
 
 }

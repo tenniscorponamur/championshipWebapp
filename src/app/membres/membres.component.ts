@@ -71,7 +71,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
       this.getMembres();
-      this.sortedData = this.membres.slice();
   }
 
   sortData(sort: Sort) {
@@ -117,7 +116,12 @@ export class MembresComponent implements OnInit, AfterViewInit {
     }
 
     getMembres():void{
-        this.membreService.getMembres().subscribe(membres => this.membres = membres);
+        this.membreService.getMembres().subscribe(membres =>
+        {
+          this.membres = membres;
+          this.sortedData = this.membres.slice();
+        }
+      );
     }
 
     nouveauMembre(){
