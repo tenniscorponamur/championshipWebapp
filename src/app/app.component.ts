@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   title = 'Tennis Corpo Namur';
 
   constructor(
+      private router:Router,
       private authenticationService: AuthenticationService,
       private userService: UserService,
       public dialog: MatDialog) {
@@ -58,7 +59,8 @@ export class AppComponent implements OnInit {
     
     compteUtilisateurDialogRef.afterClosed().subscribe(result => {
       if (result){
-        this.authenticationService.disconnect();  
+        this.authenticationService.disconnect(); 
+        this.router.navigate(['/home']); 
       }else{
         //console.log('La fenetre de login a ete fermee sans deconnexion');
       }
@@ -113,7 +115,6 @@ export class LoginFormDialog {
 export class CompteUtilisateurDialog {
 
   constructor(
-    private router:Router,
     private http: HttpClient, private authenticationService: AuthenticationService,
     public dialogRef: MatDialogRef<CompteUtilisateurDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -125,7 +126,6 @@ export class CompteUtilisateurDialog {
     }
 
   deconnexion(): void {
-    this.router.navigate(['/home']);
     this.dialogRef.close(true);
   }
 
