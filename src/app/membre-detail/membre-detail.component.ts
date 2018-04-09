@@ -182,9 +182,7 @@ export class InfosGeneralesMembreDialog {
         this._membre.prenom=this._prenom;
         this._membre.nom=this._nom;
         this._membre.genre=this._genre;
-        
-        console.log("Date de naissance : " +  this._dateNaissance);
-        console.log("Genre : " +  this._genre);
+          this._membre.dateNaissance = this._dateNaissance;
         
         if (!this._membre.id){
             // Ajout d'un nouveal utilisateur
