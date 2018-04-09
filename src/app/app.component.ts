@@ -6,6 +6,7 @@ import {of} from 'rxjs/observable/of';
 import { AuthenticationService } from './authentication.service';
 import {UserService} from './user.service';
 import {User} from './user';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -112,6 +113,7 @@ export class LoginFormDialog {
 export class CompteUtilisateurDialog {
 
   constructor(
+    private router:Router,
     private http: HttpClient, private authenticationService: AuthenticationService,
     public dialogRef: MatDialogRef<CompteUtilisateurDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -123,6 +125,7 @@ export class CompteUtilisateurDialog {
     }
 
   deconnexion(): void {
+    this.router.navigate(['/home']);
     this.dialogRef.close(true);
   }
 
