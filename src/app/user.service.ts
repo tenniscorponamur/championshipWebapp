@@ -20,11 +20,11 @@ export class UserService {
   }
   
   ajoutUtilisateur(utilisateur:User){
-    return this.http.post<User[]>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
+    return this.http.post<User>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }
   
   updateUtilisateur(utilisateur:User){
-      return this.http.put<User[]>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
+      return this.http.put<User>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }
   
 }

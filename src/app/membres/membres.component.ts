@@ -121,8 +121,12 @@ export class MembresComponent implements OnInit, AfterViewInit {
         membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
             if (result){
                 this.selectedMember = result;
+                this.sortedMembers.push(this.selectedMember);
+                this.sortData(this.actualSort);
             }
         });
+        
+        
     }
 
     ouvrirMembre(membre:Membre):void{

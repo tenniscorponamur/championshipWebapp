@@ -179,17 +179,27 @@ export class InfosGeneralesMembreDialog {
       
       if (!this.showAlert){
           
-        if (!this._membre.id){
-            // Ajout d'un nouveau membre
-            this.membreService.ajoutMembre(this._membre);
-        }
         this._membre.prenom=this._prenom;
         this._membre.nom=this._nom;
         this._membre.genre=this._genre;
+        
         console.log("Date de naissance : " +  this._dateNaissance);
         console.log("Genre : " +  this._genre);
-          
-        this.dialogRef.close(this._membre);
+        
+        if (!this._membre.id){
+            // Ajout d'un nouveal utilisateur
+            this.membreService.ajoutMembre(this._membre).subscribe(
+                result => {
+                    this.dialogRef.close(this._membre);
+             });
+        }else{
+            //Mise a jour de l'utilisateur
+            this.membreService.updateMembre(this._membre).subscribe(
+                result => {
+                    this.dialogRef.close(this._membre);
+             });
+        }
+        
       }
 
   }

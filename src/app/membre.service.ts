@@ -33,10 +33,13 @@ export class MembreService {
       return of(MEMBRES.find(membre => membre.id === id));
   }
 
-  ajoutMembre(membre:Membre){
-      MEMBRES.push(membre);
-      membre.id = MEMBRES.length;
-  }
 
+  ajoutMembre(membre:Membre){
+    return this.http.post<Membre>(environment.publicApiUrl + "/membre",membre);
+  }
+  
+  updateMembre(membre:Membre){
+      return this.http.put<Membre>(environment.publicApiUrl + "/membre",membre);
+  }
 
 }
