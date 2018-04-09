@@ -7,7 +7,7 @@
     </div>
     <div class="col-12">
       <mat-radio-group required [(ngModel)]="_genre">
-        <mat-radio-button color="primary" *ngFor="let genre of genres" [value]="genre" style="margin-right:10px">
+        <mat-radio-button color="primary" *ngFor="let genre of genres" [value]="genre.code" style="margin-right:10px">
           {{genre.libelle}}
         </mat-radio-button>
       </mat-radio-group>

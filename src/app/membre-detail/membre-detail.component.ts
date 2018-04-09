@@ -44,7 +44,7 @@ export class MembreDetailComponent implements OnInit {
 
   refreshUserImage(){
     if (this._membre) {
-        if (this._membre.genre==GENRE_HOMME){
+        if (this._membre.genre == GENRE_HOMME.code){
           this.userImageClass = "fa fa-user fa-5x maleMember";
       }else{
           this.userImageClass = "fa fa-user fa-5x femaleMember";
@@ -117,7 +117,7 @@ export class InfosGeneralesMembreDialog {
 
     genres = GENRES;
 
-    _genre:Genre;
+    _genre:string;
     _prenom:string;
     _nom:string;
     _dateNaissance:Date;
@@ -134,10 +134,11 @@ export class InfosGeneralesMembreDialog {
         this._prenom = this._membre.prenom;
         this._nom = this._membre.nom;
         this._genre = this._membre.genre;
+        this._dateNaissance = this._membre.dateNaissance;
 
-        const [day, month, year]: string[] = "02/11/1982".split('/');
-        this._dateNaissance = new Date();
-        this._dateNaissance.setFullYear(+year,+month-1,+day);
+//        const [day, month, year]: string[] = "02/11/1982".split('/');
+//        this._dateNaissance = new Date();
+//        this._dateNaissance.setFullYear(+year,+month-1,+day);
     }
 
   cancel(): void {
@@ -168,13 +169,13 @@ export class InfosGeneralesMembreDialog {
       }else{
         this.showAlert=true;
       }
-      
-      // Verification de la date de naissance
-      if (this._dateNaissance){
-          //this.showAlert=false;
-      }else{
-          this.showAlert=true;
-      }
+
+//      // Verification de la date de naissance
+//      if (this._dateNaissance){
+//          //this.showAlert=false;
+//      }else{
+//          this.showAlert=true;
+//      }
       
       if (!this.showAlert){
           
@@ -186,6 +187,7 @@ export class InfosGeneralesMembreDialog {
         this._membre.nom=this._nom;
         this._membre.genre=this._genre;
         console.log("Date de naissance : " +  this._dateNaissance);
+        console.log("Genre : " +  this._genre);
           
         this.dialogRef.close(this._membre);
       }
