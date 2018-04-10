@@ -35,7 +35,7 @@ import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencon
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
-import { ClubDetailComponent } from './club-detail/club-detail.component';
+import { ClubDetailComponent, ClubDialog } from './club-detail/club-detail.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 
@@ -57,6 +57,7 @@ import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/uti
     ClassementsComponent,
     ClubsComponent,
     ClubDetailComponent,
+    ClubDialog,
     UtilisateursComponent,
     UtilisateurDetailComponent,
     UserDialog,
@@ -86,6 +87,7 @@ import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/uti
       HistoriqueClassementDialog,
       InfosGeneralesMembreDialog,
       MatchDialog,
+      ClubDialog,
       UserDialog,
   ],
   providers: [

@@ -1,3 +1,54 @@
-<p>
-  clubs works!
-</p>
+<div class="row">
+  <div #membreList class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div class="card text-center">
+      <h4 class="card-header">
+        Clubs
+      </h4>
+      <div class="card-body text-center">
+
+        <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+          <div *ngFor="let club of sortedClubs" (click)="ouvrirClub(club);" class="myBox text-left" style="cursor:pointer;">
+            <div class="myBoxTitle">
+              <span class="text-uppercase">{{club.nom}}</span>
+            </div>
+            <div class="myBoxContent">
+              {{club.numero}}
+              <br/>
+              {{club.description}}
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="media.is.lg.or.xl | async">
+
+          <div class="table-responsive" style="height:300px;">
+            <table class="clubTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+              <!--table-striped-->
+              <thead class="bg-info" >
+              <tr>
+                <th scope="col" mat-sort-header="numero">Numéro</th>
+                <th scope="col" mat-sort-header="nom">Nom</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let club of sortedClubs" (click)="ouvrirClub(club);" class="text-left">
+                <td>{{club.numero}}</td>
+                <td class="text-uppercase">{{club.nom}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div align="right" style="margin-top:10px;">
+          <button class="btn btn-secondary" (click)="nouveauClub();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau club</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #clubDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
+    <app-club-detail *ngIf="selectedClub" [membre]="selectedClub" [master]="componentName" (childResult)="childResult($event)" ></app-club-detail>
+  </div>
+
+</div>

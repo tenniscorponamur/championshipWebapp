@@ -1,8 +1,26 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {AuthenticationService} from './authentication.service';
+import {Observable} from 'rxjs/Observable';
+import { environment } from '../environments/environment';
+import {Club} from './club';
 
 @Injectable()
 export class ClubService {
 
-  constructor() { }
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
+
+  getClubs(): Observable<Club[]> {
+    return this.http.get<Club[]>(environment.publicApiUrl + "/clubs");
+  }
+
+  ajoutClub(club:Club){
+    return this.http.post<Club>(environment.privateApiUrl + "/club",club, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  updateClub(club:Club){
+      return this.http.put<Club>(environment.privateApiUrl + "/club",club, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
 
 }
