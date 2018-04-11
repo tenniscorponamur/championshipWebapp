@@ -10,9 +10,23 @@ import {ClubService} from '../club.service';
 })
 export class ClubDetailComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  private club: Club; 
+  
+  constructor(
+    public dialog: MatDialog
+    ) { }
 
   ngOnInit() {
+  }
+  
+  ouvrirClub() {
+    let clubDialogRef = this.dialog.open(ClubDialog, {
+      data: { club: this.club }, panelClass: "infosGeneralesMembreDialog"
+    });
+
+    clubDialogRef.afterClosed().subscribe(result => {
+    });
   }
 
 }
@@ -70,6 +84,7 @@ export class ClubDialog {
 
         this._club.numero=this._numero;
         this._club.nom=this._nom;
+        this._club.description=this._description;
 
         if (!this._club.id){
             // Ajout d'un nouveal utilisateur

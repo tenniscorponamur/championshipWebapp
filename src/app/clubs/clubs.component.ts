@@ -63,6 +63,16 @@ export class ClubsComponent implements OnInit {
         });
     }
 
+    ouvrirClub(club:Club):void{
+      let scrollPosition = "end";
+        if (!this.selectedClub){
+        scrollPosition = "start";
+      }
+      //TODO : getMembreById --> pour recuperer l'ensemble des informations du membre --> voir en fonction du role de l'utilisateur ??
+      this.selectedClub=club;
+      //TODO : scroll only if mobile
+      //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
+    }
 }
 
 function compare(a, b, isAsc) {

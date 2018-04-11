@@ -1,3 +1,28 @@
-<p>
-  club-detail works!
-</p>
+<div class="card tennisCorpoBox">
+  <h4 class="card-header">
+    Club
+  </h4>
+  <div class="card-body">
+
+    <div class="row">
+
+      <div class="col-2">
+        <div style="text-align:right;">
+          <i class="fa fa-users fa-4x"></i>
+        </div>
+      </div>
+
+      <div class="col-10">
+        <div class="myBox myBoxEditable">
+          <div class="myBoxTitle" (click)="ouvrirClub();">
+            Informations du club<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
+            <span><strong>{{club.nom|uppercase}}</strong>&nbsp;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+</div>
