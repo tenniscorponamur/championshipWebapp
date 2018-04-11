@@ -192,7 +192,7 @@ export class InfosGeneralesMembreDialog {
              });
         }else{
             //Mise a jour de l'utilisateur
-            this.membreService.updateMembre(this._membre).subscribe(
+            this.membreService.updateMembreInfosGenerales(this._membre).subscribe(
                 result => {
                     this.dialogRef.close(this._membre);
              });

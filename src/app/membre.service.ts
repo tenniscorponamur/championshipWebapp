@@ -38,8 +38,8 @@ export class MembreService {
     return this.http.post<Membre>(environment.publicApiUrl + "/membre",membre);
   }
   
-  updateMembre(membre:Membre){
-      return this.http.put<Membre>(environment.publicApiUrl + "/membre",membre);
+  updateMembreInfosGenerales(membre:Membre){
+      return this.http.put<Membre>(environment.publicApiUrl + "/membre/infosGenerales",membre);
   }
 
 }
