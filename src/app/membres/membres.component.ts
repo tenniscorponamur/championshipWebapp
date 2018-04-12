@@ -94,16 +94,21 @@ export class MembresComponent implements OnInit, AfterViewInit {
             
         if (nomPrenom && nomPrenom.trim().length > 0){
             
-            this.filteredMembers = this.sortedMembers.filter(membre =>
+            this.filteredMembers = this.filteredMembers.filter(membre =>
                 membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
              || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase()))
              
         }
         if (selectedClubs && selectedClubs.length > 0){
-            
-            this.filteredMembers = this.sortedMembers.filter(membre =>
-                selectedClubs.includes(membre.club))
-             
+            console.log(this.filteredMembers);
+            this.filteredMembers = this.filteredMembers.filter(({club}) => {
+                // Workaround car je ne parviens pas a faire en sorte que la methode includes retourne true
+                return selectedClubs.some(selectedClub => {
+                    if (club){
+                        return selectedClub.id==club.id
+                    }
+                    return false;
+                })});
         }
 
     }
