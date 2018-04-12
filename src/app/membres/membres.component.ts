@@ -100,7 +100,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
              
         }
         if (selectedClubs && selectedClubs.length > 0){
-            console.log(this.filteredMembers);
             this.filteredMembers = this.filteredMembers.filter(({club}) => {
                 // Workaround car je ne parviens pas a faire en sorte que la methode includes retourne true
                 return selectedClubs.some(selectedClub => {

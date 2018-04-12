@@ -100,7 +100,7 @@
                                   <td class="text-uppercase">{{membre.nom}}</td>
                                   <td>{{membre.prenom}}</td>
                                   <!--<td>{{membre.dateNaissance| date:'dd/MM/yyyy'}}</td>-->
-                                  <td>UNAMUR</td>
+                                  <td><span *ngIf="membre.club">{{membre.club.nom}}</span></td>
                                   <td>C30-2</td>
                                   <td>20</td>
                               </tr>
