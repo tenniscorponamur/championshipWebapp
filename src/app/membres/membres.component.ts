@@ -89,26 +89,23 @@ export class MembresComponent implements OnInit, AfterViewInit {
   }
 
     filtre(nomPrenom: string,selectedClubs:Club[]): void {
-        console.log(selectedClubs);
+        
+        this.filteredMembers = this.sortedMembers;
+            
         if (nomPrenom && nomPrenom.trim().length > 0){
+            
             this.filteredMembers = this.sortedMembers.filter(membre =>
                 membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
              || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase()))
-        }else{
-            this.filteredMembers = this.sortedMembers;
+             
+        }
+        if (selectedClubs && selectedClubs.length > 0){
+            
+            this.filteredMembers = this.sortedMembers.filter(membre =>
+                selectedClubs.includes(membre.club))
+             
         }
 
-//            this.players$ = this.searchTerms.pipe(
-//              // wait 300ms after each keystroke before considering the term
-//              debounceTime(300),
-//
-//              // ignore new term if same as previous term
-//              distinctUntilChanged(),
-//
-//              // switch to new search observable each time the term changes
-//              switchMap((term: string) => this.playerService.searchPlayers(term)),
-//            );
-        //this.membreService.searchMembres(nomPrenom).subscribe(membres => {this.membres = membres; this.sortedData = membres.slice();this.sortData(this.actualSort);});
     }
 
     nouveauMembre(){

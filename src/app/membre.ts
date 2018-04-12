@@ -1,3 +1,5 @@
+import {Club} from "./club";
+
 export class Membre {
   id: number;
   nom: string;
@@ -5,4 +7,5 @@ export class Membre {
   dateNaissance: Date;
   actif: boolean;
   genre: string;
+  club:Club;
 }
