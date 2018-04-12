@@ -12,6 +12,8 @@ import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import { RxResponsiveService } from 'rx-responsive';
+import {ClubService} from '../club.service';
+import {Club} from '../club';
 
 @Component({
   selector: 'app-membres',
@@ -37,8 +39,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   }
 
   clubCtrl: FormControl=new FormControl();
-  clubs:string[]=["UNAMUR","TC WALLONIE","IATA","GAZELEC"];
-  filteredClubs:Observable<string[]>;
+  clubs:Observable<Club[]>;
 
     componentName:string="membresComponent";
     @ViewChild("membreDetail") membreDetailComponent: ElementRef;
@@ -46,6 +47,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
 
     filtreNomPrenom:string;
+    filtreSelectedClubs:Club[]=[];
     membres:Membre[];
     sortedMembers:Membre[];
     filteredMembers:Membre[];
@@ -54,13 +56,10 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   constructor(public media: RxResponsiveService,
     private membreService:MembreService,
+    private clubService:ClubService,
     public dialog: MatDialog) {
       this.clubCtrl = new FormControl();
-      this.filteredClubs = this.clubCtrl.valueChanges
-      .pipe(
-        startWith(''),
-          map(club => club ? this.filterClubs(club) : this.clubs.slice())
-      );
+      this.clubs = this.clubService.getClubs();
     }
 
   ngOnInit() {
@@ -86,10 +85,11 @@ export class MembresComponent implements OnInit, AfterViewInit {
           }
         });
     }
-    this.filtre(this.filtreNomPrenom);
+    this.filtre(this.filtreNomPrenom,this.filtreSelectedClubs);
   }
 
-    filtre(nomPrenom: string): void {
+    filtre(nomPrenom: string,selectedClubs:Club[]): void {
+        console.log(selectedClubs);
         if (nomPrenom && nomPrenom.trim().length > 0){
             this.filteredMembers = this.sortedMembers.filter(membre =>
                 membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
@@ -140,11 +140,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
       //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
     }
 
-
-  filterClubs(name: string) {
-    return this.clubs.filter(club =>
-      club.toLowerCase().indexOf(name.toLowerCase()) === 0);
-  }
   
   childResult(childResult : string){
       console.log("resultat : " + childResult);

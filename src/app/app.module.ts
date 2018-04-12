@@ -13,6 +13,7 @@ import { RxResponsiveModule } from 'rx-responsive';
 import { MatTableModule } from '@angular/material/table'; // <-- Material Table
 import { MatSortModule } from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
 
 
 /* Component */
@@ -79,6 +80,7 @@ import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/uti
     MatTableModule,
     MatSortModule,
     MatCheckboxModule,
+    MatSelectModule,
     HttpClientModule
   ],
   entryComponents: [

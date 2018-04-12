@@ -8,11 +8,21 @@
                 <div class="row" style="margin-bottom:10px;">
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <mat-form-field>
-                          <input #searchBox matInput placeholder="Nom/Prénom" [(ngModel)]="filtreNomPrenom" (keyup)="filtre(searchBox.value)">
+                          <input #searchBox matInput placeholder="Nom/Prénom" [(ngModel)]="filtreNomPrenom" (keyup)="filtre(searchBox.value,clubSelect.value)">
                         </mat-form-field>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <form>
+                            <mat-form-field>
+                              <mat-select #clubSelect placeholder="Clubs" [(ngModel)]="filtreSelectedClubs" [formControl]="clubCtrl" multiple (selectionChange)="filtre(searchBox.value,clubSelect.value)">
+                                  <mat-option *ngFor="let club of clubs | async" [value]="club">
+                                      <small>{{ club.nom }}</small>
+                                  </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+<!--                          
+                          
+                          
                         <mat-form-field>
                           <input matInput placeholder="Club" aria-label="Club" [matAutocomplete]="auto" [formControl]="clubCtrl" >
                           <mat-autocomplete classList="clubAutoComplete" #auto="matAutocomplete">
@@ -20,7 +30,7 @@
                                   <small>{{ club }}</small>
                               </mat-option>
                           </mat-autocomplete>
-                        </mat-form-field>
+                        </mat-form-field>-->
                       </form>
 <!--                        <div class="input-group">
                             <div class="input-group-prepend">
