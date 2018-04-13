@@ -41,5 +41,9 @@ export class MembreService {
   updateMembreInfosGenerales(membre:Membre){
       return this.http.put<Membre>(environment.publicApiUrl + "/membre/infosGenerales",membre);
   }
+  
+  updateClubInfos(membre:Membre){
+      return this.http.put<Membre>(environment.publicApiUrl + "/membre/clubInfos",membre); 
+  }
 
 }

@@ -34,6 +34,7 @@
           </div>
           <div class="myBoxContent">
               <span *ngIf="membre.club">{{membre.club.nom}}</span>
+              <span *ngIf="!membre.club"><em>Aucun club</em></span>
           </div>
         </div>
       </div>

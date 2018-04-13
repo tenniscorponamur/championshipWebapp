@@ -7,6 +7,10 @@ import { Membre } from '../membre';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {MembreService} from '../membre.service';
+import {Club} from '../club';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
+import {ClubService} from '../club.service';
 
 @Component({
   selector: 'app-membre-detail',
@@ -58,10 +62,17 @@ export class MembreDetailComponent implements OnInit {
     });
 
     membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
-      console.log('Les informations generales ont ete modifiees a ete ferme : ' + result);
       this.refreshUserImage();
     });
   }
+
+    ouvrirClub() {
+        let clubInfosDialogRef = this.dialog.open(ClubInfosDialog, {
+          data: { membre: this.membre }, panelClass: "clubInfosDialog"
+        });
+
+        clubInfosDialogRef.afterClosed().subscribe();
+    }
 
   ouvrirHistoriqueClassement(): void {
     let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {
@@ -200,5 +211,61 @@ export class InfosGeneralesMembreDialog {
         
       }
 
+  }
+}
+
+
+@Component({
+  selector: 'club-informations-dialog',
+  templateUrl: './clubInformationsDialog.html',
+})
+export class ClubInfosDialog {
+
+  clubCtrl: FormControl=new FormControl();
+  clubs:Observable<Club[]>;
+  
+    _clubId:number;
+    private _membre:Membre;
+
+  constructor(
+    public dialogRef: MatDialogRef<InfosGeneralesMembreDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membreService: MembreService,
+    private clubService:ClubService
+    ) {
+    
+      this.clubCtrl = new FormControl();
+      this.clubs = this.clubService.getClubs();
+      
+        this._membre = data.membre;
+        if (this._membre.club){
+          this._clubId = this._membre.club.id;
+        }
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+      if (this._membre.id){
+          if (this._clubId){
+            this.clubService.getClub(this._clubId).subscribe(club => {
+                this._membre.club=club;
+                this.updateClubInfosAndCloseDialog();
+            });
+          }else{
+              this._membre.club=null;
+              this.updateClubInfosAndCloseDialog();
+          }
+      }
+  }
+  
+  updateClubInfosAndCloseDialog(){
+    //Mise a jour du club du membre
+    this.membreService.updateClubInfos(this._membre).subscribe(
+        result => {
+            this.dialogRef.close(this._membre);
+     });
   }
 }

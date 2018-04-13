@@ -76,7 +76,7 @@
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
                     <div class="myBoxContent">
-                      <small>C30-4 / 5 points<span style="float:right;"><em>UNAMUR</em></span></small>
+                      <small>C30-4 / 5 points<span style="float:right;"><span *ngIf="membre.club"><em>{{membre.club.nom}}</em></span></span></small>
                     </div>
                   </div>
                 </div>

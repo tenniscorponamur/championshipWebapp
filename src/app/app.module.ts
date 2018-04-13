@@ -23,7 +23,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent } from './membres/membres.component';
 import { RencontresComponent } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
-import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreDialog } from './membre-detail/membre-detail.component';
+import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreDialog, ClubInfosDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
@@ -52,6 +52,7 @@ import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/uti
     CompteUtilisateurDialog,
     HistoriqueClassementDialog,
     InfosGeneralesMembreDialog,
+    ClubInfosDialog,
     RencontreDetailComponent,
     MatchDialog,
     ClassementDetailComponent,
@@ -88,6 +89,7 @@ import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/uti
       CompteUtilisateurDialog,
       HistoriqueClassementDialog,
       InfosGeneralesMembreDialog,
+      ClubInfosDialog,
       MatchDialog,
       ClubDialog,
       UserDialog,

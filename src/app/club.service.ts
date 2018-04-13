@@ -13,6 +13,10 @@ export class ClubService {
   getClubs(): Observable<Club[]> {
     return this.http.get<Club[]>(environment.publicApiUrl + "/clubs");
   }
+  
+  getClub(id:number): Observable<Club> {
+    return this.http.get<Club>(environment.publicApiUrl + "/club?id="+id);
+  }
 
   ajoutClub(club:Club){
     return this.http.post<Club>(environment.privateApiUrl + "/club",club, this.authenticationService.getPrivateApiHttpOptions());
