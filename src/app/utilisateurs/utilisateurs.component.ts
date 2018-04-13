@@ -11,6 +11,7 @@ import { RxResponsiveService } from 'rx-responsive';
 import {User} from '../user';
 import {UserService} from '../user.service';
 import {UserDialog} from '../utilisateur-detail/utilisateur-detail.component';
+import {compare} from '../utility';
 
 @Component({
   selector: 'app-utilisateurs',
@@ -73,8 +74,4 @@ export class UtilisateursComponent implements OnInit {
     this.selectedUser=utilisateur;
   }
 
-}
-
-function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

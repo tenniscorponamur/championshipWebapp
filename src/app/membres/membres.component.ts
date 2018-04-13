@@ -14,6 +14,7 @@ import {map} from 'rxjs/operators/map';
 import { RxResponsiveService } from 'rx-responsive';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
+import {compare} from '../utility';
 
 @Component({
   selector: 'app-membres',
@@ -149,10 +150,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
 }
 
-function compare(a, b, isAsc) {
-    //TODO : voir comment comparer avec null
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}
 //
 //export interface Element {
 //  name: string;

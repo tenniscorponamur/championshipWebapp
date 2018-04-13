@@ -4,6 +4,7 @@ import { RxResponsiveService } from 'rx-responsive';
 import {Club} from '../club';
 import {ClubService} from '../club.service';
 import {ClubDialog} from '../club-detail/club-detail.component';
+import {compare} from '../utility';
 
 @Component({
   selector: 'app-clubs',
@@ -73,8 +74,4 @@ export class ClubsComponent implements OnInit {
       //TODO : scroll only if mobile
       //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
     }
-}
-
-function compare(a, b, isAsc) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
