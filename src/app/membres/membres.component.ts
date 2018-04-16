@@ -81,7 +81,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
           switch (sort.active) {
             case 'nom': return compare(a.nom, b.nom, isAsc);
             case 'prenom': return compare(a.prenom, b.prenom, isAsc);
-            case 'dateNaissance': return compare(a.dateNaissance, b.dateNaissance, isAsc);
+            //case 'club': return compare(a.club.nom, b.club.nom, isAsc);
             default: return 0;
           }
         });
