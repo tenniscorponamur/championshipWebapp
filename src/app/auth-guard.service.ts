@@ -20,6 +20,7 @@ export class AuthGuardService  implements CanActivate {
         return true;
       }else{
         console.log(url + " not authorized");
+        //return true;
         return false;
       }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-championnats',
@@ -7,7 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChampionnatsComponent implements OnInit {
 
-  constructor() { }
+  typeCtrl: FormControl=new FormControl();
+  categorieCtrl: FormControl=new FormControl();
+  type:string="hiver";
+  categories:string[]=["messieurs","dames","mixte"];
+    saison: number = new Date().getFullYear();
+  
+  constructor() { 
+      this.typeCtrl = new FormControl();
+      this.categorieCtrl = new FormControl();
+    }
 
   ngOnInit() {
   }
