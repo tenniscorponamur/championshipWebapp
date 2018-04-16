@@ -9,11 +9,13 @@ import { MembresComponent }      from './membres/membres.component';
 import { RencontresComponent }      from './rencontres/rencontres.component';
 import {ClubsComponent} from './clubs/clubs.component';
 import {UtilisateursComponent} from './utilisateurs/utilisateurs.component';
+import {ChampionnatsComponent} from './championnats/championnats.component';
 
 const routes: Routes = [
   { path: 'classements', component: ClassementsComponent },
   { path: 'home', component: HomeComponent },
   { path: 'clubs', component: ClubsComponent, canActivate: [AuthGuardService] },
+  { path: 'championnats', component: ChampionnatsComponent, canActivate: [AuthGuardService] },
   { path: 'membres', component: MembresComponent },
   { path: 'rencontres', component: RencontresComponent },
   { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [AuthGuardService] },
