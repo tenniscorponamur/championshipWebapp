@@ -41,6 +41,7 @@ import { ClubDetailComponent, ClubDialog } from './club-detail/club-detail.compo
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 import { ChampionnatsComponent } from './championnats/championnats.component';
+import { ChampionnatEquipesComponent } from './championnat-equipes/championnat-equipes.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { ChampionnatsComponent } from './championnats/championnats.component';
     UtilisateurDetailComponent,
     UserDialog,
     ChampionnatsComponent,
+    ChampionnatEquipesComponent,
   ],
   imports: [
     BrowserModule,
