@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table'; // <-- Material Table
 import { MatSortModule } from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 /* Component */
@@ -84,6 +85,7 @@ import { ChampionnatsComponent } from './championnats/championnats.component';
     MatSortModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatSliderModule,
     HttpClientModule
   ],
   entryComponents: [

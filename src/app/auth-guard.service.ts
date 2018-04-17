@@ -20,8 +20,8 @@ export class AuthGuardService  implements CanActivate {
         return true;
       }else{
         console.log(url + " not authorized");
-        //return true;
-        return false;
+        return true;
+        //return false;
       }
 
     // TODO : si l'url est soumise a du controle, il faut regarder si l'utilisateur est authentifie 
