@@ -1,1 +1,80 @@
-<input type="file" >
+<!--<input type="file" (change)="onChange($event)" multiple>
+<button class="btn btn-primary" (click)="loadFile();">Charger fichier</button>-->
+
+<div class="row">
+    <div *ngFor="let club of clubs" class="col-1" >
+        <mat-slide-toggle labelPosition="before" color="primary">
+            {{club}}
+          </mat-slide-toggle>
+    </div>
+</div>
+
+<mat-accordion multi="true">
+  <mat-expansion-panel expanded >
+    <mat-expansion-panel-header style="background-color:steelblue">
+      <mat-panel-title>
+        Messieurs
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
+        <div class="card">
+            <h6 class="card-header">
+                Division 1 (max 400 points)
+            </h6>
+            <div class="card-body col-12">
+                <div class="row">
+                    <div *ngFor="let club of clubs" class="col-xl-2 col-lg-4 col-md-6 col-sm-12" style="background-color:lightblue;border-radius:15px;padding:10px;">
+                        <div class="col-12">
+                            <strong>{{club}}</strong>
+                        </div>
+                        <div class="col-12">
+                            (2 équipes)
+                            <span style="float:right;">
+                                <button class="btn btn-danger btn-sm" style="border-radius: 15px;"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-success btn-sm" style="border-radius: 15px;"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header style="background-color:pink">
+      <mat-panel-title>
+        Dames
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
+        <div class="card">
+            <h6 class="card-header">
+                Division 1 (max 600 points)
+            </h6>
+            <div class="card-body col-12">
+                <div class="row">
+                    <div *ngFor="let club of clubs" class="col-xl-2 col-lg-4 col-md-6 col-sm-12" style="background-color:pink;border-radius:15px;padding:10px;">
+                        <div class="col-12">
+                            <strong>{{club}}</strong>
+                        </div>
+                        <div class="col-12">
+                            (2 équipes)
+                            <span style="float:right;">
+                                <button class="btn btn-danger btn-sm" style="border-radius: 15px;"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-success btn-sm" style="border-radius: 15px;"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header style="background:linear-gradient(90deg,pink, steelblue);">
+      <mat-panel-title>
+        Mixte
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+</mat-accordion>

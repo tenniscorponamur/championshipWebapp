@@ -15,6 +15,8 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 /* Component */
@@ -88,6 +90,8 @@ import { ChampionnatEquipesComponent } from './championnat-equipes/championnat-e
     MatCheckboxModule,
     MatSelectModule,
     MatSliderModule,
+    MatExpansionModule,
+    MatSlideToggleModule,
     HttpClientModule
   ],
   entryComponents: [
