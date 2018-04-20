@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Sélection des clubs</h1>
+<button class="btn btn-sm btn-primary">Tous</button>
+<button class="btn btn-sm btn-primary">Aucun</button>
+<div mat-dialog-content >
+    <div *ngFor="let club of clubs" >
+        <mat-slide-toggle color="primary">
+            {{club.nom}}
+          </mat-slide-toggle>
+    </div>
+</div>

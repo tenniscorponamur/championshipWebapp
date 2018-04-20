@@ -1,13 +1,18 @@
 <!--<input type="file" (change)="onChange($event)" multiple>
 <button class="btn btn-primary" (click)="loadFile();">Charger fichier</button>-->
 
-<div class="row">
+<div style="margin-bottom:10px">
+    <button class="btn btn-primary" (click)="selectionClubs()" >Sélection des clubs</button>
+</div>
+
+
+<!--<div class="row">
     <div *ngFor="let club of clubs" class="col-1" >
         <mat-slide-toggle labelPosition="before" color="primary">
             {{club}}
           </mat-slide-toggle>
     </div>
-</div>
+</div>-->
 
 <mat-accordion multi="true">
   <mat-expansion-panel expanded >
@@ -19,21 +24,20 @@
     <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
         <div class="card">
             <h6 class="card-header">
-                Division 1 (max 400 points)
+                Division 1 (max 400 points) - 4 équipes inscrites 
             </h6>
-            <div class="card-body col-12">
+            <div class="card-body">
                 <div class="row">
-                    <div *ngFor="let club of clubs" class="col-xl-2 col-lg-4 col-md-6 col-sm-12" style="background-color:lightblue;border-radius:15px;padding:10px;">
-                        <div class="col-12">
-                            <strong>{{club}}</strong>
+                    <div *ngFor="let club of clubs" style="background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;margin:5px;">
+                        <div style="margin-bottom:5px;">
+                            <strong>{{club.nom}}</strong><br/>(7 équipes)
                         </div>
-                        <div class="col-12">
-                            (2 équipes)
-                            <span style="float:right;">
-                                <button class="btn btn-danger btn-sm" style="border-radius: 15px;"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-success btn-sm" style="border-radius: 15px;"><i class="fa fa-plus"></i></button>
-                            </span>
-                        </div>
+                        <span style="float:left;">
+                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(club);"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(club);"><i class="fa fa-plus"></i></button>
+                        </span>
+                        &nbsp;
+                        <span style="font-size:3em;"><strong>{{club.equipe}}</strong></span>
                     </div>
                 </div>
             </div>

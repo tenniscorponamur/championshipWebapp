@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
+import {ClubService} from '../club.service';
+import {Club} from '../club';
 
 @Component({
   selector: 'app-championnat-equipes',
@@ -7,10 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChampionnatEquipesComponent implements OnInit {
 
-    clubs:string[]=["UNAMUR","TC WALLONIE","IATA","GAZELEC","RAIL","VIVAQUA","POLICE NAMUR"]
+    clubs=[
+    {nom:"UNAMUR",equipe:1},
+    {nom:"BNP FORTIS",equipe:0},
+    {nom:"TC WALLONIE",equipe:2},
+    {nom:"IATA",equipe:0},
+    {nom:"GAZELEC",equipe:1},
+    {nom:"RAIL",equipe:0},
+    {nom:"POLICE NAMUR",equipe:0},
+    ]
   fichier:File;
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+    ) { }
 
   ngOnInit() {
   }
@@ -32,4 +45,43 @@ export class ChampionnatEquipesComponent implements OnInit {
 
       fileReader.readAsBinaryString(this.fichier);
   }
+  
+  removeOneTeam(data:any){
+      if (data.equipe>0){
+        data.equipe--;
+      }
+  }
+  
+  addOneTeam(data:any){
+      data.equipe++;
+  }
+  
+    selectionClubs() {
+      let clubDialogRef = this.dialog.open(SelectionClubDialog, {
+        data: {  }, panelClass: "selectionClubDialog", disableClose:false
+      });
+
+      clubDialogRef.afterClosed().subscribe(result => {
+           console.log("selection des clubs termines")
+      });
+  }
+}
+
+
+@Component({
+  selector: 'selection-club-dialog',
+  templateUrl: './selectionClubDialog.html',
+})
+export class SelectionClubDialog {
+
+    private clubs:Club[];
+
+  constructor(
+    public dialogRef: MatDialogRef<SelectionClubDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private clubService: ClubService) {
+
+        this.clubService.getClubs().subscribe(clubs => {this.clubs = clubs;});
+
+    }
 }

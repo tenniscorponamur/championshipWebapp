@@ -43,7 +43,7 @@ import { ClubDetailComponent, ClubDialog } from './club-detail/club-detail.compo
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 import { ChampionnatsComponent } from './championnats/championnats.component';
-import { ChampionnatEquipesComponent } from './championnat-equipes/championnat-equipes.component';
+import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-equipes/championnat-equipes.component';
 
 
 @NgModule({
@@ -70,6 +70,7 @@ import { ChampionnatEquipesComponent } from './championnat-equipes/championnat-e
     UserDialog,
     ChampionnatsComponent,
     ChampionnatEquipesComponent,
+    SelectionClubDialog
   ],
   imports: [
     BrowserModule,
@@ -103,6 +104,7 @@ import { ChampionnatEquipesComponent } from './championnat-equipes/championnat-e
       MatchDialog,
       ClubDialog,
       UserDialog,
+      SelectionClubDialog
   ],
   providers: [
     AuthenticationService,
