@@ -18,7 +18,7 @@
   <mat-expansion-panel expanded >
     <mat-expansion-panel-header style="background-color:steelblue">
       <mat-panel-title>
-        Messieurs
+        Messieurs - 15 équipes inscrites
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
@@ -28,16 +28,18 @@
             </h6>
             <div class="card-body">
                 <div class="row">
-                    <div *ngFor="let club of clubs" style="background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;margin:5px;">
-                        <div style="margin-bottom:5px;">
-                            <strong>{{club.nom}}</strong><br/>(7 équipes)
+                    <div  *ngFor="let club of clubs">
+                        <div *ngIf="displayTeam(club)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
+                            <div style="margin-bottom:5px;">
+                                <strong>{{club.nom}}</strong><br/>(7 équipes)
+                            </div>
+                            <span *ngIf="club.selected" style="float:left;">
+                                <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(club);"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(club);"><i class="fa fa-plus"></i></button>
+                            </span>
+                            &nbsp;
+                            <span style="float:right;font-size:3em;"><strong>{{club.equipe}}</strong></span>
                         </div>
-                        <span style="float:left;">
-                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(club);"><i class="fa fa-minus"></i></button>
-                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(club);"><i class="fa fa-plus"></i></button>
-                        </span>
-                        &nbsp;
-                        <span style="font-size:3em;"><strong>{{club.equipe}}</strong></span>
                     </div>
                 </div>
             </div>
@@ -47,7 +49,7 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header style="background-color:pink">
       <mat-panel-title>
-        Dames
+        Dames - 12 équipes inscrites
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">

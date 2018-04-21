@@ -11,13 +11,13 @@ import {Club} from '../club';
 export class ChampionnatEquipesComponent implements OnInit {
 
     clubs=[
-    {nom:"UNAMUR",equipe:1},
-    {nom:"BNP FORTIS",equipe:0},
-    {nom:"TC WALLONIE",equipe:2},
-    {nom:"IATA",equipe:0},
-    {nom:"GAZELEC",equipe:1},
-    {nom:"RAIL",equipe:0},
-    {nom:"POLICE NAMUR",equipe:0},
+    {nom:"UNAMUR",equipe:1,selected:false},
+    {nom:"BNP FORTIS",equipe:0,selected:true},
+    {nom:"TC WALLONIE",equipe:2,selected:false},
+    {nom:"IATA",equipe:0,selected:false},
+    {nom:"GAZELEC",equipe:1,selected:false},
+    {nom:"RAIL",equipe:0,selected:false},
+    {nom:"POLICE NAMUR",equipe:0,selected:false},
     ]
   fichier:File;
 
@@ -44,6 +44,10 @@ export class ChampionnatEquipesComponent implements OnInit {
     }
 
       fileReader.readAsBinaryString(this.fichier);
+  }
+  
+  displayTeam(data:any):boolean{
+      return data.equipe>0||data.selected;
   }
   
   removeOneTeam(data:any){
