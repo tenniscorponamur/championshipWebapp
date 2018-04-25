@@ -10,6 +10,7 @@ import { RencontresComponent }      from './rencontres/rencontres.component';
 import {ClubsComponent} from './clubs/clubs.component';
 import {UtilisateursComponent} from './utilisateurs/utilisateurs.component';
 import {ChampionnatsComponent} from './championnats/championnats.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'classements', component: ClassementsComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'membres', component: MembresComponent },
   { path: 'rencontres', component: RencontresComponent },
   { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [AuthGuardService] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 

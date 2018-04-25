@@ -1,7 +1,5 @@
 
 - Pouvoir exporter des informations en Excel ou en PDF --> appel serveur + download
-- Pouvoir trier une liste et la filtrer --> angular material
-- Pouvoir paginer une liste --> angular material
 
 -Afficher un bouton pour pouvoir modifier un membre uniquement si personne habilitee
 
@@ -9,5 +7,4 @@
 
 - Verifier que le premier match a bien ete joue par les deux meilleurs joues alignes, et ainsi de suite pour les matchs suivants
 
-- Utiliser select au lieu d'autocomplete pour la liste des clubs
 

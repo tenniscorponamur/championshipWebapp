@@ -3,6 +3,9 @@
 
 <div style="margin-bottom:10px">
     <button class="btn btn-primary" (click)="selectionClubs()" >Sélection des clubs</button>
+    <span style="float:right">
+        <button class="btn btn-secondary" >Choix des capitaines</button>
+    </span>
 </div>
 
 
@@ -25,6 +28,12 @@
         <div class="card">
             <h6 class="card-header">
                 Division 1 (max 400 points) - 4 équipes inscrites 
+                <span style="float:right;">
+                1 poule
+                &nbsp;
+                <!--<button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>-->
+                <a><i class="fa fa-plus" style="cursor:pointer"></i></a>
+                </span>
             </h6>
             <div class="card-body">
                 <div class="row">
@@ -56,7 +65,13 @@
         <div class="card">
             <h6 class="card-header">
                 Division 1 (max 600 points)
-            </h6>
+                <span style="float:right;">
+                2 poules
+                &nbsp;
+                <button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-primary-outline"><i class="fa fa-plus"></i></button>
+                </span>
+            </h6> 
             <div class="card-body col-12">
                 <div class="row">
                     <div *ngFor="let club of clubs" class="col-xl-2 col-lg-4 col-md-6 col-sm-12" style="background-color:pink;border-radius:15px;padding:10px;">

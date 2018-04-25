@@ -17,6 +17,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 
 /* Component */
@@ -44,6 +45,7 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 import { ChampionnatsComponent } from './championnats/championnats.component';
 import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-equipes/championnat-equipes.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -70,7 +72,8 @@ import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-
     UserDialog,
     ChampionnatsComponent,
     ChampionnatEquipesComponent,
-    SelectionClubDialog
+    SelectionClubDialog,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,8 @@ import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-
     MatSliderModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   entryComponents: [
       LoginFormDialog,
