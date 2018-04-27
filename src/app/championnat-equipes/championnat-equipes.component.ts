@@ -69,6 +69,9 @@ export class ChampionnatEquipesComponent implements OnInit {
            console.log("selection des clubs termines")
       });
   }
+  
+  //TODO : ajouter une poule automatiquement s'il y a au moins une equipe
+  //TODO : supprimer la poule si aucune equipe dans une division
 }
 
 
