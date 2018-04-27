@@ -33,6 +33,10 @@ export class ChampionnatEquipesComponent implements OnInit {
       console.log("load file " + this.fichier);
   }  
   
+  refresh(){
+      console.log("refresh teams");
+  }
+  
   onChange(event) {
     var files:FileList = event.target.files;
     this.fichier = files.item(0);

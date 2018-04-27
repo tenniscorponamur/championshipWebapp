@@ -1,6 +1,6 @@
 <div style="background-color:white;">
     
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="tabChanged($event);">
         <mat-tab label="Championnats/Divisions">
             <div style="padding:10px;">
                 <app-championnat-divisions></app-championnat-divisions>
