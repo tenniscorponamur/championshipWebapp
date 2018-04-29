@@ -61,8 +61,8 @@
                             <tbody>
                                 <tr *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="text-left">
                                     <td>{{championnat.annee}}</td>
-                                    <td>{{championnat.type}}</td>
-                                    <td>{{championnat.categorie}}</td>
+                                    <td>{{getTypeChampionnat(championnat).libelle}}</td>
+                                    <td>{{getCatetorieChampionnat(championnat).libelle}}</td>
                                 </tr>
                             </tbody>
                         </table>

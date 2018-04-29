@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Championnat, TYPES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TypeChampionnat, TYPE_CHAMPIONNAT_ETE, CATEGORIES_CHAMPIONNAT, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES} from '../championnat';
+import {Championnat, TYPES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TypeChampionnat, TYPE_CHAMPIONNAT_ETE, CATEGORIES_CHAMPIONNAT, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, getCategorieChampionnat , getTypeChampionnat} from '../championnat';
 import {RxResponsiveService} from 'rx-responsive';
 import {MatDialog, Sort} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
@@ -29,7 +29,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
     filteredChampionnats:Championnat[];
     
     selectedChampionnat: Championnat;
-
+    
     constructor(
     public media: RxResponsiveService,
     public dialog: MatDialog,
@@ -46,6 +46,13 @@ export class ChampionnatDivisionsComponent implements OnInit {
       this.championnatService.getChampionnats().subscribe(championnats => {this.sortedChampionnats = championnats; this.sortData(this.actualSort);});
     }
     
+    getTypeChampionnat(championnat:Championnat):TypeChampionnat{
+        return getTypeChampionnat(championnat);
+    }
+    
+    getCatetorieChampionnat(championnat:Championnat):CategorieChampionnat{
+        return getCategorieChampionnat(championnat);
+    }
 
   sortData(sort: Sort) {
     this.actualSort=sort;
@@ -87,6 +94,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
         
         if (selectedCategories && selectedCategories.length > 0){
             this.filteredChampionnats = this.filteredChampionnats.filter(({categorie}) => {
+                
                 // Workaround car je ne parviens pas a faire en sorte que la methode includes retourne true
                 return selectedCategories.some(selectedCategorie => {
                     if (categorie){
