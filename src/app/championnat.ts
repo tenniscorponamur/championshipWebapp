@@ -1,6 +1,6 @@
 export class Championnat {
     id: number;
-    annee: string;
+    annee: number;
     type: string;
     categorie: string;
 }

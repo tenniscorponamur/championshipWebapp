@@ -32,6 +32,7 @@ import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembre
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
+import { ChampionnatService } from './championnat.service';
 import { ClubService } from './club.service';
 import { MembreService } from './membre.service';
 import { UserService } from './user.service';
@@ -118,6 +119,7 @@ import { ChampionnatDivisionDetailComponent } from './championnat-division-detai
   ],
   providers: [
     AuthenticationService,
+    ChampionnatService,
     ClubService,
     MembreService,
     UserService,

@@ -10,11 +10,11 @@
 
                 <div class="col-12">
                     <mat-form-field>
-                        <input matInput required type="number" placeholder="Année" [(ngModel)]="annee" >
+                        <input #anneeSearch matInput required type="number" placeholder="Année" [(ngModel)]="annee" (keyup)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
                     </mat-form-field>
                     
                     <mat-form-field>
-                      <mat-select #typeSelect placeholder="Type" [(ngModel)]="selectedType" [formControl]="typeCtrl" (selectionChange)="filtre(typeSelect.value)">
+                      <mat-select #typeSelect placeholder="Type" [(ngModel)]="selectedType" [formControl]="typeCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
                           <mat-option *ngFor="let type of types" [value]="type">
                               {{ type.libelle }}
                           </mat-option>
@@ -22,7 +22,7 @@
                     </mat-form-field>
                     
                     <mat-form-field>
-                        <mat-select #categorieSelect multiple placeholder="Catégories" [(ngModel)]="selectedCategories" [formControl]="categorieCtrl" (selectionChange)="filtre(typeSelect.value)" >
+                        <mat-select #categorieSelect multiple placeholder="Catégories" [(ngModel)]="selectedCategories" [formControl]="categorieCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)" >
                             <mat-option *ngFor="let categorie of categories" [value]="categorie">
                               {{ categorie.libelle }}
                           </mat-option>
@@ -32,14 +32,16 @@
                 </div>
 
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
-                    <div *ngFor="let championnat of sortedChampionnats" (click)="ouvrirChampionnat(championnat);" class="myBox text-left" style="cursor:pointer;">
+                    <div *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="myBox text-left" style="cursor:pointer;">
                         <div class="myBoxTitle">
                             <span class="text-uppercase">{{club.nom}}</span>
                         </div>
                         <div class="myBoxContent">
-                            {{club.numero}}
+                            {{championnat.annee}}
                             <br/>
-                            {{club.description}}
+                            {{championnat.type}}
+                            <br/>
+                            {{championnat.categorie}}
                         </div>
                     </div>
                 </div>
@@ -57,10 +59,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let championnat of sortedChampionnats" (click)="ouvrirChampionnat(championnat);" class="text-left">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="text-left">
+                                    <td>{{championnat.annee}}</td>
+                                    <td>{{championnat.type}}</td>
+                                    <td>{{championnat.categorie}}</td>
                                 </tr>
                             </tbody>
                         </table>
