@@ -1,0 +1,11 @@
+.menDivisionHeader{
+  background-color: steelblue;
+}
+
+.womenDivisionHeader{
+  background-color: pink;
+}
+
+.mixteDivisionHeader{
+    background:linear-gradient(90deg,pink, steelblue);
+}

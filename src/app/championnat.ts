@@ -3,6 +3,11 @@ export class Championnat {
     annee: number;
     type: string;
     categorie: string;
+
+//    get categorieChampionnat():CategorieChampionnat{
+//        return CATEGORIE_CHAMPIONNAT_MESSIEURS;
+//    }
+
 }
 
 export function getCategorieChampionnat(championnat: Championnat): CategorieChampionnat {

@@ -62,7 +62,7 @@
                                 <tr *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="text-left">
                                     <td>{{championnat.annee}}</td>
                                     <td>{{getTypeChampionnat(championnat).libelle}}</td>
-                                    <td>{{getCatetorieChampionnat(championnat).libelle}}</td>
+                                    <td>{{getCategorieChampionnat(championnat).libelle}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -77,7 +77,7 @@
     </div>
     
     <div #championnatDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
-        <app-championnat-division-detail  [championnat]="selectedChampionnat"></app-championnat-division-detail>
+        <app-championnat-division-detail *ngIf="selectedChampionnat" [championnat]="selectedChampionnat"></app-championnat-division-detail>
     </div>
 
 </div>

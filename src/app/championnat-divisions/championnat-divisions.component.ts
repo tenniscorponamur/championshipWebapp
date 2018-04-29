@@ -50,7 +50,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
         return getTypeChampionnat(championnat);
     }
     
-    getCatetorieChampionnat(championnat:Championnat):CategorieChampionnat{
+    getCategorieChampionnat(championnat:Championnat):CategorieChampionnat{
         return getCategorieChampionnat(championnat);
     }
 
@@ -106,7 +106,8 @@ export class ChampionnatDivisionsComponent implements OnInit {
 
     }
     
-    //TODO : filtre, sort, getChamp
-    //TODO : getChampByID pour selected
+    ouvrirChampionnat(championnat:Championnat):void{
+        this.selectedChampionnat = championnat;
+    }
 
 }

@@ -18,8 +18,10 @@
                         Description<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
                     </div>
                     <div class="myBoxContent">
-
-                        Ete 2018 Messieurs
+                        
+                        {{getTypeChampionnat(championnat).libelle}}
+                        
+                        {{championnat.annee}}
 
                         <!--                        <div col-12>
                         
@@ -56,8 +58,8 @@
 
             <div class="tennisCorpoBox col-12">
                 <div class="card">
-                    <h6 class="card-header" style="background-color: steelblue">
-                        Messieurs
+                    <h6 [ngClass]="divisionHeaderClass">
+                        {{getCategorieChampionnat(championnat).libelle}}
                     </h6>
                     <div class="card-body">
                         <div class="table-responsive" >
