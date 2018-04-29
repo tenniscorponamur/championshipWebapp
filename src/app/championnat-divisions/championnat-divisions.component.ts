@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Championnat} from '../championnat';
+import {Championnat, TYPES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TypeChampionnat, TYPE_CHAMPIONNAT_ETE, CATEGORIES_CHAMPIONNAT, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES} from '../championnat';
+import {RxResponsiveService} from 'rx-responsive';
+import {MatDialog} from '@angular/material';
 
 @Component({
     selector: 'app-championnat-divisions',
@@ -11,14 +13,26 @@ export class ChampionnatDivisionsComponent implements OnInit {
 
     typeCtrl: FormControl = new FormControl();
     categorieCtrl: FormControl = new FormControl();
-    type: string = "hiver";
-    categories: string[] = ["messieurs", "dames", "mixte"];
-    saison: number = new Date().getFullYear();
+    
+    types = TYPES_CHAMPIONNAT;
+    categories = CATEGORIES_CHAMPIONNAT;
+    
+    selectedType: TypeChampionnat;
+    selectedCategories: CategorieChampionnat[];
+    saison: number;
+    
+    
     selectedChampionnat: Championnat;
 
-    constructor() {
+    constructor(
+    public media: RxResponsiveService,
+    public dialog: MatDialog) {
         this.typeCtrl = new FormControl();
         this.categorieCtrl = new FormControl();
+        
+        this.saison = new Date().getFullYear();
+        this.selectedType = TYPE_CHAMPIONNAT_ETE;
+        this.selectedCategories = [CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES];
     }
 
     ngOnInit() {

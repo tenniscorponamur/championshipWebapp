@@ -7,8 +7,8 @@
         <div class="row">
 
             <div class="col-2">
-                <div style="text-align:right;">
-                    <i class="fa fa-trophy fa-5x" style="color:darkgoldenrod"></i>
+                <div style="text-align:right;padding-top:20px">
+                    <i class="fa fa-trophy fa-4x" style="color:darkgoldenrod"></i>
                 </div>
             </div>
 
@@ -18,9 +18,37 @@
                         Description<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
                     </div>
                     <div class="myBoxContent">
-                        2008
-                        Ete
-                        Messieurs
+
+                        Ete 2018 Messieurs
+
+                        <!--                        <div col-12>
+                        
+                                                    <mat-form-field>
+                                                        <input matInput required type="number" placeholder="Saison" value="2018" >
+                                                    </mat-form-field>
+                        
+                                                </div>
+                                                <div col-12>
+                                                    <mat-form-field>
+                                                        <mat-select required placeholder="Type" >
+                                                            <mat-option value="hiver">Hiver</mat-option>
+                                                            <mat-option value="ete">Eté</mat-option>
+                                                            <mat-option value="criterium">Criterium</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                        
+                                                </div>
+                                                <div col-12>
+                                                    <mat-form-field>
+                                                        <mat-select required multiple placeholder="Catégories">
+                                                            <mat-option value="messieurs">Messieurs</mat-option>
+                                                            <mat-option value="dames">Dames</mat-option>
+                                                            <mat-option value="mixte">Mixte</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                        
+                                                </div>-->
+
                     </div>
                 </div>
             </div>
@@ -37,6 +65,7 @@
                                 <thead class="bg-info" >
                                     <tr>
                                         <th scope="col" >N° Division</th>
+                                        <th scope="col" >Points min</th>
                                         <th scope="col" >Points max</th>
                                     </tr>
                                 </thead>
@@ -44,44 +73,50 @@
                                     <tr>
                                         <td>1</td>
                                         <td>
-                                <mat-slider 
-                                    color="primary" 
-                                    min="0" 
-                                    max="500"
-                                    step="5"
-                                    thumb-label="true"
-                                    tick-interval="10">
-                                </mat-slider>
-                                <input type="number" value="600" style="width:3em" >
-                                </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><input type="number" value="500" ></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><input type="number" value="400" ></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><input type="number" value="300" ></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><input type="number" value="200" ></td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td><input type="number" value="150" ></td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td><input type="number" value="100" ></td>
-                                </tr>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                        <td>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                        <td>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                        <td>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                        <td>
+                                            <input type="number" value="600" style="width:3em" >
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
+
+                        <div align="right" style="margin-top:10px;">
+                            <button class="btn btn-secondary btn-sm" (click)="nouvelleDivision();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouvelle division</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
