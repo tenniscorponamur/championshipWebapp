@@ -48,6 +48,7 @@ import { ChampionnatsComponent } from './championnats/championnats.component';
 import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-equipes/championnat-equipes.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChampionnatDivisionsComponent } from './championnat-divisions/championnat-divisions.component';
+import { ChampionnatDivisionDetailComponent } from './championnat-division-detail/championnat-division-detail.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { ChampionnatDivisionsComponent } from './championnat-divisions/championn
     ChampionnatEquipesComponent,
     SelectionClubDialog,
     DashboardComponent,
-    ChampionnatDivisionsComponent
+    ChampionnatDivisionsComponent,
+    ChampionnatDivisionDetailComponent
   ],
   imports: [
     BrowserModule,
