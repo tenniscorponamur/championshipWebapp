@@ -5,6 +5,9 @@ import {Club} from '../club';
 import {Championnat, TypeChampionnat, CategorieChampionnat, getTypeChampionnat, getCategorieChampionnat, TYPE_CHAMPIONNAT_HIVER, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
+import {Division} from '../division';
+import {DivisionService} from '../division.service';
+import {compare} from '../utility';
 
 @Component({
     selector: 'app-championnat-equipes',
@@ -16,17 +19,20 @@ export class ChampionnatEquipesComponent implements OnInit {
     championnatCtrl: FormControl = new FormControl();
 
     championnats: Championnat[];
-    selectedChampionnat:Championnat;
+
+    selectedChampionnat: Championnat;
+    divisions: Division[];
 
     constructor(
         public dialog: MatDialog,
-        private championnatService: ChampionnatService
+        private championnatService: ChampionnatService,
+        private divisionService: DivisionService
     ) {
         this.championnatCtrl = new FormControl();
     }
 
     ngOnInit() {
-        this.championnatService.getChampionnats().subscribe(championnats => this.championnats = championnats);
+        this.refresh(null);
     }
 
     getTypeChampionnat(championnat: Championnat): TypeChampionnat {
@@ -48,6 +54,17 @@ export class ChampionnatEquipesComponent implements OnInit {
         return "";
     }
 
+    getChampionshipHeader(championnat: Championnat) {
+        if (championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code) {
+            return "menChampionshipHeader";
+        } else if (championnat.categorie == CATEGORIE_CHAMPIONNAT_DAMES.code) {
+            return "womenChampionshipHeader";
+        } else if (championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code) {
+            return "mixteChampionshipHeader";
+        }
+        return "";
+    }
+
     getTypeClass(championnat: Championnat) {
         if (championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
             return "fa fa-snowflake-o winterTrophyType";
@@ -61,15 +78,33 @@ export class ChampionnatEquipesComponent implements OnInit {
 
     loadTeams() {
         console.log("load Teams");
-        console.log("selectedChampionnat : " + this.selectedChampionnat.id);
+        if (this.selectedChampionnat) {
+            this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(divisions => this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)}));
+        }
     }
 
-    refresh(championnat:Championnat) {
-        console.log("refresh teams");
-        
-        this.selectedChampionnat = this.championnats.filter(championnatInList=>championnatInList.id==championnat.id)[0];
-        
-        this.loadTeams();
+    refresh(championnat: Championnat) {
+        this.championnatService.getChampionnats().subscribe(championnats => {
+            this.championnats = championnats.sort(
+                (a, b) => {
+                    let comparaisonAnnee = compare(a.annee, b.annee, false);
+                    if (comparaisonAnnee != 0) {
+                        return comparaisonAnnee;
+                    } else {
+                        let comparaisonType = compare(a.type, b.type, true);
+                        if (comparaisonType != 0) {
+                            return comparaisonType;
+                        } else {
+                            return compare(a.categorie, b.categorie, true);
+                        }
+                    }
+                });
+
+            if (championnat) {
+                this.selectedChampionnat = this.championnats.filter(championnatInList => championnatInList.id == championnat.id)[0];
+                this.loadTeams();
+            }
+        });
     }
 
     clubs = [
@@ -81,24 +116,6 @@ export class ChampionnatEquipesComponent implements OnInit {
         {nom: "RAIL", equipe: 0, selected: false},
         {nom: "POLICE NAMUR", equipe: 0, selected: false},
     ]
-    fichier: File;
-
-    loadFile() {
-        console.log("load file " + this.fichier);
-    }
-
-    onChange(event) {
-        var files: FileList = event.target.files;
-        this.fichier = files.item(0);
-        var fileReader: FileReader = new FileReader();
-        //atob(this.fichier);
-        fileReader.onloadend = function (e) {
-            // you can perform an action with readed data here
-            console.log(fileReader.result);
-        }
-
-        fileReader.readAsBinaryString(this.fichier);
-    }
 
     displayTeam(data: any): boolean {
         return data.equipe > 0 || data.selected;
@@ -126,6 +143,28 @@ export class ChampionnatEquipesComponent implements OnInit {
 
     //TODO : ajouter une poule automatiquement s'il y a au moins une equipe
     //TODO : supprimer la poule si aucune equipe dans une division
+    
+    
+//    fichier: File;
+//
+//    loadFile() {
+//        console.log("load file " + this.fichier);
+//    }
+//
+//    onChange(event) {
+//        var files: FileList = event.target.files;
+//        this.fichier = files.item(0);
+//        var fileReader: FileReader = new FileReader();
+//        //atob(this.fichier);
+//        fileReader.onloadend = function (e) {
+//            // you can perform an action with readed data here
+//            console.log(fileReader.result);
+//        }
+//
+//        fileReader.readAsBinaryString(this.fichier);
+//    }
+    
+    
 }
 
 

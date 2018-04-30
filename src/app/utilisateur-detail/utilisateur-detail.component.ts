@@ -95,7 +95,8 @@ export class UserDialog {
         if (!this._utilisateur.id){
             // Ajout d'un nouveal utilisateur
             this.userService.ajoutUtilisateur(this._utilisateur).subscribe(
-                result => {
+                user => {
+                    this._utilisateur.id=user.id;
                     this.dialogRef.close(this._utilisateur);
              });
         }else{

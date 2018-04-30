@@ -2,110 +2,124 @@
 <button class="btn btn-primary" (click)="loadFile();">Charger fichier</button>-->
 
 <div style="margin-top:10px;margin-bottom:10px;">
-    
-<mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadTeams();" >
-    <mat-option *ngFor="let championnat of championnats" [value]="championnat">
-       
-        <span>
-            <i class="{{getTrophyClass(championnat)}}"></i>
-            <i class="{{getTypeClass(championnat)}}" ></i>
-        </span>
-        
-        <small>
-            
-        {{getTypeChampionnat(championnat).libelle}}
-        {{championnat.annee}}
-        {{getCategorieChampionnat(championnat).libelle}}
-        
-        </small>
-    </mat-option>
-</mat-select>
+
+    <div class="row">
+        <div class="col-6">
+
+            <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadTeams();" >
+                <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+
+                    <span>
+                        <i class="{{getTrophyClass(championnat)}}"></i>
+                        <i class="{{getTypeClass(championnat)}}" ></i>
+                    </span>
+
+                    <small>
+
+                        {{getTypeChampionnat(championnat).libelle}}
+                        {{championnat.annee}}
+                        {{getCategorieChampionnat(championnat).libelle}}
+
+                    </small>
+                </mat-option>
+            </mat-select>
+        </div>
+
+        <div class="col-6 text-right">
+
+            <button class="btn btn-primary btn-sm" (click)="selectionClubs()" >Sélection des clubs</button>
+
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedChampionnat" class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
+    <i class="fa fa-trophy"></i>
+    {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
+    <i class="fa fa-snowflake-o"></i>
+    - {{getCategorieChampionnat(selectedChampionnat).libelle}} - 15 équipes inscrites
 </div>
 
 
-<div style="margin-bottom:10px">
-    <button class="btn btn-primary" (click)="selectionClubs()" >Sélection des clubs</button>
-</div>
-
-<mat-accordion multi="true">
-  <mat-expansion-panel expanded >
-    <mat-expansion-panel-header style="background-color:steelblue">
-      <mat-panel-title>
-        Messieurs - 15 équipes inscrites
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
-        <div class="card">
-            <h6 class="card-header">
-                Division 1 (max 400 points) - 4 équipes inscrites 
-                <span style="float:right;">
+<div *ngFor="let division of divisions" class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
+    <div class="card">
+        <h6 class="card-header">
+            Division {{division.numero}} (max {{division.pointsMaximum}} points) - 4 équipes inscrites 
+            <span style="float:right;">
                 1 poule
                 &nbsp;
                 <!--<button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>-->
                 <a><i class="fa fa-plus" style="cursor:pointer"></i></a>
-                </span>
-            </h6>
-            <div class="card-body">
-                <div class="row">
-                    <div  *ngFor="let club of clubs">
-                        <div *ngIf="displayTeam(club)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
-                            <div style="margin-bottom:5px;">
-                                <strong>{{club.nom}}</strong><br/>(7 équipes)
+            </span>
+        </h6>
+        <div class="card-body">
+            <div class="row">
+                <div *ngFor="let club of clubs">
+                    <div *ngIf="displayTeam(club)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
+                        <div class="text-right" style="float:right;padding-top:15px;" >
+                            <span style="font-size:3em;">
+                                <strong>{{club.equipe}}</strong>
+                            </span>
+                        </div>
+                        <div>
+                            <strong>{{club.nom}}</strong><br/>(7 équipes)
+                        </div>
+                        <span *ngIf="club.selected" style="float:left;padding-top:5px;">
+                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(club);"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(club);"><i class="fa fa-plus"></i></button>
+                        </span>
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header style="background-color:pink">
+            <mat-panel-title>
+                Dames - 12 équipes inscrites
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
+            <div class="card">
+                <h6 class="card-header">
+                    Division 1 (max 600 points)
+                    <span style="float:right;">
+                        2 poules
+                        &nbsp;
+                        <button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-primary-outline"><i class="fa fa-plus"></i></button>
+                    </span>
+                </h6> 
+                <div class="card-body col-12">
+                    <div class="row">
+                        <div *ngFor="let club of clubs" class="col-xl-2 col-lg-4 col-md-6 col-sm-12" style="background-color:pink;border-radius:15px;padding:10px;">
+                            <div class="col-12">
+                                <strong>{{club}}</strong>
                             </div>
-                            <span *ngIf="club.selected" style="float:left;">
-                                <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(club);"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(club);"><i class="fa fa-plus"></i></button>
-                            </span>
-                            &nbsp;
-                            <span style="float:right;font-size:3em;"><strong>{{club.equipe}}</strong></span>
+                            <div class="col-12">
+                                (2 équipes)
+                                <span style="float:right;">
+                                    <button class="btn btn-danger btn-sm" style="border-radius: 15px;"><i class="fa fa-minus"></i></button>
+                                    <button class="btn btn-success btn-sm" style="border-radius: 15px;"><i class="fa fa-plus"></i></button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header style="background-color:pink">
-      <mat-panel-title>
-        Dames - 12 équipes inscrites
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
-        <div class="card">
-            <h6 class="card-header">
-                Division 1 (max 600 points)
-                <span style="float:right;">
-                2 poules
-                &nbsp;
-                <button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>
-                <button class="btn btn-primary-outline"><i class="fa fa-plus"></i></button>
-                </span>
-            </h6> 
-            <div class="card-body col-12">
-                <div class="row">
-                    <div *ngFor="let club of clubs" class="col-xl-2 col-lg-4 col-md-6 col-sm-12" style="background-color:pink;border-radius:15px;padding:10px;">
-                        <div class="col-12">
-                            <strong>{{club}}</strong>
-                        </div>
-                        <div class="col-12">
-                            (2 équipes)
-                            <span style="float:right;">
-                                <button class="btn btn-danger btn-sm" style="border-radius: 15px;"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-success btn-sm" style="border-radius: 15px;"><i class="fa fa-plus"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header style="background:linear-gradient(90deg,pink, steelblue);">
-      <mat-panel-title>
-        Mixte
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
-</mat-accordion>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header style="background:linear-gradient(90deg,pink, steelblue);">
+            <mat-panel-title>
+                Mixte
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+</mat-accordion>-->

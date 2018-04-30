@@ -198,7 +198,8 @@ export class InfosGeneralesMembreDialog {
         if (!this._membre.id){
             // Ajout d'un nouveal utilisateur
             this.membreService.ajoutMembre(this._membre).subscribe(
-                result => {
+                member => {
+                    this._membre.id=member.id;
                     this.dialogRef.close(this._membre);
              });
         }else{

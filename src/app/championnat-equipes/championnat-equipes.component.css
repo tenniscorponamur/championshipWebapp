@@ -10,6 +10,23 @@
     color:grey;
 }
 
+.championshipHeader{
+  padding:15px;
+  font-size:1.5em;
+}
+
+.menChampionshipHeader{
+  background-color:steelblue;
+}
+
+.womenChampionshipHeader{
+  background-color:pink;
+}
+
+.mixteChampionshipHeader{
+    background:linear-gradient(90deg,pink, steelblue);
+}
+
 .summerTrophyType{
     color:darkorange
 }

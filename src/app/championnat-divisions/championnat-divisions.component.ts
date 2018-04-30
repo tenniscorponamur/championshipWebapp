@@ -122,15 +122,16 @@ export class ChampionnatDivisionsComponent implements OnInit {
                 this.selectedChampionnat = result;
                 this.sortedChampionnats.push(this.selectedChampionnat);
                 this.sortData(this.actualSort);
+                //Appel au parent pour le refresh des autres enfants
+                this.selectChampionnat.emit(result);
             }
         });
     }
     
     ouvrirChampionnat(championnat:Championnat):void{
         this.selectedChampionnat = championnat;
+        //Appel au parent pour le refresh des autres enfants
         this.selectChampionnat.emit(championnat);
-        
-        //TODO : appel au parent pour l'utiliser lors du refresh des autres enfants
     }
 
 }

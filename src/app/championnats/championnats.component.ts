@@ -22,13 +22,13 @@ export class ChampionnatsComponent implements OnInit {
   }
     
   tabChanged(event:MatTabChangeEvent){
-      console.log("refresh childs : " + event.index);
-      this.championnatEquipesComponent.refresh(this.selectedChampionnat);
+      if (event.index==1){
+        this.championnatEquipesComponent.refresh(this.selectedChampionnat);
+      }
   }
 
   selectChampionnat(championnat : Championnat){
       this.selectedChampionnat = championnat;
-      
   }
   
 }

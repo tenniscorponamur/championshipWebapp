@@ -89,7 +89,8 @@ export class ClubDialog {
         if (!this._club.id){
             // Ajout d'un nouveal utilisateur
             this.clubService.ajoutClub(this._club).subscribe(
-                result => {
+                newClub => {
+                    this._club.id=newClub.id;
                     this.dialogRef.close(this._club);
              });
         }else{

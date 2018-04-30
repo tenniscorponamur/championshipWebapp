@@ -57,11 +57,11 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
 
             if (this._championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
-                this.trophyTypeClass = "fa fa-2x fa-snowflake-o winterTrophyType";
+                this.trophyTypeClass = "fa fa-2x fa-snowflake-o trophyType winterTrophyType";
             } else if (this._championnat.type == TYPE_CHAMPIONNAT_ETE.code) {
-                this.trophyTypeClass = "fa fa-2x fa-sun-o summerTrophyType";
+                this.trophyTypeClass = "fa fa-2x fa-sun-o trophyType summerTrophyType";
             } else if (this._championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code) {
-                this.trophyTypeClass = "fa fa-2x fa-star criteriumTrophyType";
+                this.trophyTypeClass = "fa fa-2x fa-star trophyType criteriumTrophyType";
             } else {
                 this.trophyTypeClass = "";
             }
@@ -242,8 +242,9 @@ export class ChampionnatDescriptionDialog {
             if (!this._championnat.id) {
                 // Ajout d'un nouveal utilisateur
                 this.championnatService.ajoutChampionnat(this._championnat).subscribe(
-                    result => {
-                        this.dialogRef.close(this._championnat);
+                    newChampionnat => {
+                        this._championnat.id = newChampionnat.id;
+                        this.dialogRef.close(newChampionnat);
                     },
                     error => {
                         this.showAlertDoublon = true;
@@ -253,8 +254,8 @@ export class ChampionnatDescriptionDialog {
             } else {
                 //Mise a jour de l'utilisateur
                 this.championnatService.updateChampionnat(this._championnat).subscribe(
-                    result => {
-                        this.dialogRef.close(this._championnat);
+                    championnatUpdated => {
+                        this.dialogRef.close(championnatUpdated);
                     },
                     error => {
                         this.showAlertDoublon = true;
