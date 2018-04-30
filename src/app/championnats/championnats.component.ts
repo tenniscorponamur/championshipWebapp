@@ -13,6 +13,8 @@ export class ChampionnatsComponent implements OnInit {
   @ViewChild(ChampionnatEquipesComponent)
   private championnatEquipesComponent: ChampionnatEquipesComponent;
   
+  private selectedChampionnat:Championnat;
+  
   constructor() { 
     }
 
@@ -21,11 +23,11 @@ export class ChampionnatsComponent implements OnInit {
     
   tabChanged(event:MatTabChangeEvent){
       console.log("refresh childs : " + event.index);
-      this.championnatEquipesComponent.refresh();
+      this.championnatEquipesComponent.refresh(this.selectedChampionnat);
   }
 
   selectChampionnat(championnat : Championnat){
-      console.log("championnat selectionne : " + championnat);
+      this.selectedChampionnat = championnat;
       
   }
   

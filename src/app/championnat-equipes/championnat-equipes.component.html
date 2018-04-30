@@ -1,18 +1,31 @@
 <!--<input type="file" (change)="onChange($event)" multiple>
 <button class="btn btn-primary" (click)="loadFile();">Charger fichier</button>-->
 
-<div style="margin-bottom:10px">
-    <button class="btn btn-primary" (click)="selectionClubs()" >Sélection des clubs</button>
+<div style="margin-top:10px;margin-bottom:10px;">
+    
+<mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadTeams();" >
+    <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+       
+        <span>
+            <i class="{{getTrophyClass(championnat)}}"></i>
+            <i class="{{getTypeClass(championnat)}}" ></i>
+        </span>
+        
+        <small>
+            
+        {{getTypeChampionnat(championnat).libelle}}
+        {{championnat.annee}}
+        {{getCategorieChampionnat(championnat).libelle}}
+        
+        </small>
+    </mat-option>
+</mat-select>
 </div>
 
 
-<!--<div class="row">
-    <div *ngFor="let club of clubs" class="col-1" >
-        <mat-slide-toggle labelPosition="before" color="primary">
-            {{club}}
-          </mat-slide-toggle>
-    </div>
-</div>-->
+<div style="margin-bottom:10px">
+    <button class="btn btn-primary" (click)="selectionClubs()" >Sélection des clubs</button>
+</div>
 
 <mat-accordion multi="true">
   <mat-expansion-panel expanded >

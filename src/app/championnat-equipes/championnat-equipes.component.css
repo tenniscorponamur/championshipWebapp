@@ -1,0 +1,23 @@
+.menChampionship{
+  color: steelblue;
+}
+
+.womenChampionship{
+  color: pink;
+}
+
+.mixteChampionship{
+    color:grey;
+}
+
+.summerTrophyType{
+    color:darkorange
+}
+
+.winterTrophyType{
+    color:skyblue;
+}
+
+.criteriumTrophyType{
+    color:#e3cf7a;
+}
