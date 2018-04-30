@@ -35,14 +35,10 @@
         <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
             <div *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="myBox text-left" style="cursor:pointer;">
                 <div class="myBoxTitle">
-                    <span class="text-uppercase">{{club.nom}}</span>
+                    {{getTypeChampionnat(championnat).libelle}}&nbsp;{{championnat.annee}}
                 </div>
                 <div class="myBoxContent">
-                    {{championnat.annee}}
-                    <br/>
-                    {{championnat.type}}
-                    <br/>
-                    {{championnat.categorie}}
+                    {{getCategorieChampionnat(championnat).libelle}}
                 </div>
             </div>
         </div>
@@ -67,8 +63,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-
+            </div> 
         </div>
         <div align="right" style="margin-top:10px;">
             <button class="btn btn-secondary" (click)="nouveauChampionnat();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau championnat</button>

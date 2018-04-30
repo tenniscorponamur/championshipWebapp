@@ -84,9 +84,11 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         });
     }
 
-    pointsMaxChanged() {
+    pointsMaxChanged(division:Division) {
         console.log("points max changed --> renumerotation et ordonnancement des divisions");
+        
         // Si points null --> 0 par defaut
+        // Si la modification des points n'entraine pas de tri different, eviter la progress bar 
         
         this.showProgress=true;
         setTimeout(() => {
@@ -95,6 +97,16 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         this.showProgress=false;
         }, 500);
 
+    }
+    
+    nouvelleDivision(){
+        let division = new Division();
+        division.numero = this.divisions.length+1;
+        division.pointsMinimum=0;
+        division.pointsMaximum=0;
+        this.divisionService.ajoutDivision(this._championnat.id, division).subscribe(
+            newDivision =>this.divisions.push(newDivision));
+        ;
     }
 }
 

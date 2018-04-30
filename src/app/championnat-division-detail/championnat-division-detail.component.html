@@ -85,7 +85,7 @@
                                     <tr *ngFor="let division of divisions" class="text-left">
                                         <td>{{division.numero}}</td>
                                         <td><input type="number" [(ngModel)]="division.pointsMinimum" style="width:5em" ></td>
-                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" style="width:5em" (keyup.enter)="pointsMaxChanged();" (blur)="pointsMaxChanged();"></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" style="width:5em" (keyup.enter)="pointsMaxChanged(division);" (blur)="pointsMaxChanged();"></td>
                                     </tr>
 
                                 </tbody>

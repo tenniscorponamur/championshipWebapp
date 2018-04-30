@@ -126,6 +126,8 @@ export class ChampionnatDivisionsComponent implements OnInit {
     
     ouvrirChampionnat(championnat:Championnat):void{
         this.selectedChampionnat = championnat;
+        
+        //TODO : appel au parent pour l'utiliser lors du refresh des autres enfants
     }
 
 }
