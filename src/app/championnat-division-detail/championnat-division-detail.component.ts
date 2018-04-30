@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, Inject} from '@angular/core';
-import {Championnat, TypeChampionnat, getTypeChampionnat, getCategorieChampionnat, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPES_CHAMPIONNAT, CATEGORIES_CHAMPIONNAT} from '../championnat';
+import {Championnat, TypeChampionnat, getTypeChampionnat, getCategorieChampionnat, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPES_CHAMPIONNAT, CATEGORIES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
 
@@ -19,6 +19,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
     private _championnat: Championnat;
     private divisionHeaderClass: string = "card-header";
+    private trophyTypeClass: string = "";
 
     @Input()
     set championnat(championnat: Championnat) {
@@ -29,11 +30,11 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
     get championnat(): Championnat {return this._championnat;}
 
     refreshDivisions() {
-        this.refreshHeaderStyle();
+        this.refreshStyles();
         console.log("refresh divisions");
     }
 
-    refreshHeaderStyle() {
+    refreshStyles() {
         if (this._championnat) {
             if (this._championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code) {
                 this.divisionHeaderClass = "card-header menDivisionHeader";
@@ -43,6 +44,17 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
                 this.divisionHeaderClass = "card-header mixteDivisionHeader";
             } else {
                 this.divisionHeaderClass = "card-header";
+            }
+            
+            
+            if (this._championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
+                this.trophyTypeClass = "fa fa-2x fa-snowflake-o winterTrophyType";
+            } else if (this._championnat.type == TYPE_CHAMPIONNAT_ETE.code) {
+                this.trophyTypeClass = "fa fa-2x fa-sun-o summerTrophyType";
+            } else if (this._championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code) {
+                this.trophyTypeClass = "fa fa-2x fa-star criteriumTrophyType";
+            } else {
+                this.trophyTypeClass = "";
             }
         }
     }

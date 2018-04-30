@@ -9,3 +9,26 @@
 .mixteDivisionHeader{
     background:linear-gradient(90deg,pink, steelblue);
 }
+
+.summerTrophyType{
+    position:absolute;
+    top:5px;
+    right:5px;
+    color:darkorange
+}
+
+.winterTrophyType{
+    position:absolute;
+    top:5px;
+    right:5px;
+    color:skyblue;
+    
+}
+
+.criteriumTrophyType{
+    position:absolute;
+    top:5px;
+    right:5px;
+    color:#e3cf7a;
+    
+}
