@@ -111,11 +111,11 @@ export class ChampionnatDivisionsComponent implements OnInit {
         let nouveauChampionnat: Championnat = new Championnat();
         nouveauChampionnat.annee=new Date().getFullYear();
 
-        let clubDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
+        let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
             data: { championnat: nouveauChampionnat }, panelClass: "championnatDescriptionDialog"
         });
 
-        clubDialogRef.afterClosed().subscribe(result => {
+        championnatDescriptionDialogRef.afterClosed().subscribe(result => {
             if (result){
                 this.selectedChampionnat = result;
                 this.sortedChampionnats.push(this.selectedChampionnat);

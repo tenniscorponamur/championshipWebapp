@@ -67,6 +67,15 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         return getCategorieChampionnat(championnat);
     }
 
+  ouvrirChampionnat() {
+    let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
+      data: { championnat: this.championnat }, panelClass: "championnatDescriptionDialog"
+    });
+
+    championnatDescriptionDialogRef.afterClosed().subscribe(result => {
+        this.refreshStyles();
+    });
+  }
 }
 
 @Component({
