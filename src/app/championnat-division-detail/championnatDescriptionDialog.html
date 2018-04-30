@@ -1,17 +1,36 @@
 <h1 mat-dialog-title>Description</h1>
 <div mat-dialog-content >
-    <div *ngIf="showAlert" class="col-12">
+    <div *ngIf="showAlertNotNullable" class="col-12">
       <div class="alert alert-danger" role="alert">
         Remplissez les champs
       </div>
     </div>
+    <div *ngIf="showAlertDoublon" class="col-12">
+      <div class="alert alert-danger" role="alert">
+        Ce championnat existe déjà
+      </div>
+    </div>
+    <div class="col-12">
+    <mat-form-field>
+      <input matInput required type="number" placeholder="Année" [(ngModel)]="_annee" />
+    </mat-form-field>
+    </div>
     <div class="col-12">
       <mat-radio-group required [(ngModel)]="_type">
-        <mat-radio-button color="primary" *ngFor="let genre of types" [value]="type.code" style="margin-right:10px">
+        <mat-radio-button color="primary" *ngFor="let type of types" [value]="type.code" style="margin-right:10px">
           {{type.libelle}}
         </mat-radio-button>
       </mat-radio-group>
     </div>
+    
+    <div class="col-12">
+      <mat-radio-group required [(ngModel)]="_categorie">
+        <mat-radio-button color="primary" *ngFor="let categorie of categories" [value]="categorie.code" style="margin-right:10px">
+          {{categorie.libelle}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    
     <div align="center">
         <button class="btn btn-danger" (click)="cancel();">Annuler</button>
         <button class="btn btn-success" (click)="save();">Sauver</button>

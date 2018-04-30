@@ -5,6 +5,7 @@ import {RxResponsiveService} from 'rx-responsive';
 import {MatDialog, Sort} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
 import {compare} from '../utility';
+import {ChampionnatDescriptionDialog} from '../championnat-division-detail/championnat-division-detail.component';
 
 @Component({
     selector: 'app-championnat-divisions',
@@ -38,7 +39,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
         this.categorieCtrl = new FormControl();
         
         this.annee = new Date().getFullYear();
-        this.selectedType = TYPE_CHAMPIONNAT_ETE;
+        //this.selectedType = TYPE_CHAMPIONNAT_ETE;
         this.selectedCategories = [CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES];
     }
 
@@ -104,6 +105,23 @@ export class ChampionnatDivisionsComponent implements OnInit {
                 })});
         }
 
+    }
+    
+    nouveauChampionnat(){
+        let nouveauChampionnat: Championnat = new Championnat();
+        nouveauChampionnat.annee=new Date().getFullYear();
+
+        let clubDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
+            data: { championnat: nouveauChampionnat }, panelClass: "championnatDescriptionDialog"
+        });
+
+        clubDialogRef.afterClosed().subscribe(result => {
+            if (result){
+                this.selectedChampionnat = result;
+                this.sortedChampionnats.push(this.selectedChampionnat);
+                this.sortData(this.actualSort);
+            }
+        });
     }
     
     ouvrirChampionnat(championnat:Championnat):void{

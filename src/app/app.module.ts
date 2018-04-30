@@ -49,7 +49,7 @@ import { ChampionnatsComponent } from './championnats/championnats.component';
 import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-equipes/championnat-equipes.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChampionnatDivisionsComponent } from './championnat-divisions/championnat-divisions.component';
-import { ChampionnatDivisionDetailComponent } from './championnat-division-detail/championnat-division-detail.component';
+import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from './championnat-division-detail/championnat-division-detail.component';
 
 
 @NgModule({
@@ -64,6 +64,7 @@ import { ChampionnatDivisionDetailComponent } from './championnat-division-detai
     HistoriqueClassementDialog,
     InfosGeneralesMembreDialog,
     ClubInfosDialog,
+    ChampionnatDescriptionDialog,
     RencontreDetailComponent,
     MatchDialog,
     ClassementDetailComponent,
@@ -115,7 +116,8 @@ import { ChampionnatDivisionDetailComponent } from './championnat-division-detai
       MatchDialog,
       ClubDialog,
       UserDialog,
-      SelectionClubDialog
+      SelectionClubDialog,
+      ChampionnatDescriptionDialog
   ],
   providers: [
     AuthenticationService,

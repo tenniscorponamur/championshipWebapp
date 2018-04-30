@@ -10,74 +10,75 @@
 
                 <div class="col-12">
                     <mat-form-field>
-                        <input #anneeSearch matInput required type="number" placeholder="Année" [(ngModel)]="annee" (keyup)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
+                        <input #anneeSearch matInput type="number" placeholder="Année" [(ngModel)]="annee" (keyup)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
                     </mat-form-field>
-                    
+
                     <mat-form-field>
-                      <mat-select #typeSelect placeholder="Type" [(ngModel)]="selectedType" [formControl]="typeCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
-                          <mat-option *ngFor="let type of types" [value]="type">
-                              {{ type.libelle }}
-                          </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    
-                    <mat-form-field>
-                        <mat-select #categorieSelect multiple placeholder="Catégories" [(ngModel)]="selectedCategories" [formControl]="categorieCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)" >
-                            <mat-option *ngFor="let categorie of categories" [value]="categorie">
-                              {{ categorie.libelle }}
-                          </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                        <mat-select #typeSelect placeholder="Type" [(ngModel)]="selectedType" [formControl]="typeCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
+                            <mat-option>-</mat-option>
+                            <mat-option *ngFor="let type of types" [value]="type">
+                                {{ type.libelle }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
+                <mat-form-field>
+                    <mat-select #categorieSelect multiple placeholder="Catégories" [(ngModel)]="selectedCategories" [formControl]="categorieCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)" >
+                        <mat-option *ngFor="let categorie of categories" [value]="categorie">
+                            {{ categorie.libelle }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+            <div *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="myBox text-left" style="cursor:pointer;">
+                <div class="myBoxTitle">
+                    <span class="text-uppercase">{{club.nom}}</span>
                 </div>
-
-                <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
-                    <div *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="myBox text-left" style="cursor:pointer;">
-                        <div class="myBoxTitle">
-                            <span class="text-uppercase">{{club.nom}}</span>
-                        </div>
-                        <div class="myBoxContent">
-                            {{championnat.annee}}
-                            <br/>
-                            {{championnat.type}}
-                            <br/>
-                            {{championnat.categorie}}
-                        </div>
-                    </div>
-                </div>
-
-                <div *ngIf="media.is.lg.or.xl | async">
-
-                    <div class="table-responsive" style="height:300px;">
-                        <table class="championnatTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
-                               <!--table-striped-->
-                               <thead class="bg-info" >
-                                <tr>
-                                    <th scope="col" mat-sort-header="annee">Année</th>
-                                    <th scope="col" mat-sort-header="type">Type</th>
-                                    <th scope="col" mat-sort-header="categorie">Catégorie</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="text-left">
-                                    <td>{{championnat.annee}}</td>
-                                    <td>{{getTypeChampionnat(championnat).libelle}}</td>
-                                    <td>{{getCategorieChampionnat(championnat).libelle}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <div align="right" style="margin-top:10px;">
-                    <button class="btn btn-secondary" (click)="nouveauChampionnat();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau championnat</button>
+                <div class="myBoxContent">
+                    {{championnat.annee}}
+                    <br/>
+                    {{championnat.type}}
+                    <br/>
+                    {{championnat.categorie}}
                 </div>
             </div>
         </div>
+
+        <div *ngIf="media.is.lg.or.xl | async">
+
+            <div class="table-responsive" style="height:300px;">
+                <table class="championnatTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+                       <!--table-striped-->
+                       <thead class="bg-info" >
+                        <tr>
+                            <th scope="col" mat-sort-header="annee">Année</th>
+                            <th scope="col" mat-sort-header="type">Type</th>
+                            <th scope="col" mat-sort-header="categorie">Catégorie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="text-left">
+                            <td>{{championnat.annee}}</td>
+                            <td>{{getTypeChampionnat(championnat).libelle}}</td>
+                            <td>{{getCategorieChampionnat(championnat).libelle}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div align="right" style="margin-top:10px;">
+            <button class="btn btn-secondary" (click)="nouveauChampionnat();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau championnat</button>
+        </div>
     </div>
-    
-    <div #championnatDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
-        <app-championnat-division-detail *ngIf="selectedChampionnat" [championnat]="selectedChampionnat"></app-championnat-division-detail>
-    </div>
+</div>
+</div>
+
+<div #championnatDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
+    <app-championnat-division-detail *ngIf="selectedChampionnat" [championnat]="selectedChampionnat"></app-championnat-division-detail>
+</div>
 
 </div>
