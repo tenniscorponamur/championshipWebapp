@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
+import {Championnat} from '../championnat';
 
 @Component({
   selector: 'app-championnat-equipes',
@@ -9,6 +10,8 @@ import {Club} from '../club';
   styleUrls: ['./championnat-equipes.component.css']
 })
 export class ChampionnatEquipesComponent implements OnInit {
+
+    championnats:Championnat[];
 
     clubs=[
     {nom:"UNAMUR",equipe:1,selected:false},

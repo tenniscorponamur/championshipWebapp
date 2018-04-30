@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Championnat, TYPES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TypeChampionnat, TYPE_CHAMPIONNAT_ETE, CATEGORIES_CHAMPIONNAT, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, getCategorieChampionnat , getTypeChampionnat} from '../championnat';
 import {RxResponsiveService} from 'rx-responsive';
@@ -16,6 +16,8 @@ export class ChampionnatDivisionsComponent implements OnInit {
 
     typeCtrl: FormControl = new FormControl();
     categorieCtrl: FormControl = new FormControl();
+    
+    @Output() selectChampionnat = new EventEmitter<Championnat>();
     
     types = TYPES_CHAMPIONNAT;
     categories = CATEGORIES_CHAMPIONNAT;
@@ -126,6 +128,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
     
     ouvrirChampionnat(championnat:Championnat):void{
         this.selectedChampionnat = championnat;
+        this.selectChampionnat.emit(championnat);
         
         //TODO : appel au parent pour l'utiliser lors du refresh des autres enfants
     }

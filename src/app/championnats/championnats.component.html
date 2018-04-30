@@ -3,7 +3,7 @@
     <mat-tab-group (selectedTabChange)="tabChanged($event);">
         <mat-tab label="Championnats/Divisions">
             <div style="padding:10px;">
-                <app-championnat-divisions></app-championnat-divisions>
+                <app-championnat-divisions (selectChampionnat)="selectChampionnat($event)"></app-championnat-divisions>
             </div>
         </mat-tab>
         <mat-tab label="Equipes">

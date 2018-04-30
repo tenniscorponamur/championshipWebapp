@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatTabChangeEvent} from '@angular/material';
 import {ChampionnatEquipesComponent} from '../championnat-equipes/championnat-equipes.component';
+import {Championnat} from '../championnat';
 
 @Component({
   selector: 'app-championnats',
@@ -23,4 +24,9 @@ export class ChampionnatsComponent implements OnInit {
       this.championnatEquipesComponent.refresh();
   }
 
+  selectChampionnat(championnat : Championnat){
+      console.log("championnat selectionne : " + championnat);
+      
+  }
+  
 }
