@@ -19,6 +19,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 /* Component */
@@ -50,6 +51,7 @@ import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChampionnatDivisionsComponent } from './championnat-divisions/championnat-divisions.component';
 import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from './championnat-division-detail/championnat-division-detail.component';
+import {DivisionService} from './division.service';
 
 
 @NgModule({
@@ -105,7 +107,8 @@ import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from
     MatSlideToggleModule,
     HttpClientModule,
     ChartsModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [
       LoginFormDialog,
@@ -123,6 +126,7 @@ import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from
     AuthenticationService,
     ChampionnatService,
     ClubService,
+    DivisionService,
     MembreService,
     UserService,
     AuthGuardService,

@@ -2,6 +2,9 @@ import {Component, OnInit, Input, Inject} from '@angular/core';
 import {Championnat, TypeChampionnat, getTypeChampionnat, getCategorieChampionnat, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPES_CHAMPIONNAT, CATEGORIES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
+import {Division} from '../division';
+import {DivisionService} from '../division.service';
+import {compare} from '../utility';
 
 @Component({
     selector: 'app-championnat-division-detail',
@@ -12,14 +15,18 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
     constructor(
         public dialog: MatDialog,
-        private championnatService: ChampionnatService) {}
+        private championnatService: ChampionnatService,
+        private divisionService: DivisionService) {}
 
     ngOnInit() {
     }
 
     private _championnat: Championnat;
+    private divisions: Division[];
+
     private divisionHeaderClass: string = "card-header";
     private trophyTypeClass: string = "";
+    private showProgress=false;
 
     @Input()
     set championnat(championnat: Championnat) {
@@ -31,7 +38,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
     refreshDivisions() {
         this.refreshStyles();
-        console.log("refresh divisions");
+        this.divisionService.getDivisions(this._championnat.id).subscribe(divisions => this.divisions = divisions);
     }
 
     refreshStyles() {
@@ -45,8 +52,8 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
             } else {
                 this.divisionHeaderClass = "card-header";
             }
-            
-            
+
+
             if (this._championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
                 this.trophyTypeClass = "fa fa-2x fa-snowflake-o winterTrophyType";
             } else if (this._championnat.type == TYPE_CHAMPIONNAT_ETE.code) {
@@ -67,15 +74,28 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         return getCategorieChampionnat(championnat);
     }
 
-  ouvrirChampionnat() {
-    let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
-      data: { championnat: this.championnat }, panelClass: "championnatDescriptionDialog"
-    });
+    ouvrirChampionnat() {
+        let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
+            data: {championnat: this.championnat}, panelClass: "championnatDescriptionDialog"
+        });
 
-    championnatDescriptionDialogRef.afterClosed().subscribe(result => {
-        this.refreshStyles();
-    });
-  }
+        championnatDescriptionDialogRef.afterClosed().subscribe(result => {
+            this.refreshStyles();
+        });
+    }
+
+    pointsMaxChanged() {
+        console.log("points max changed --> renumerotation et ordonnancement des divisions");
+        // Si points null --> 0 par defaut
+        
+        this.showProgress=true;
+        setTimeout(() => {
+            this.divisions = this.divisions.sort((a, b) => {return compare(a.pointsMaximum, b.pointsMaximum, false);});
+            this.divisions.forEach((division, index) => division.numero = index + 1);
+        this.showProgress=false;
+        }, 500);
+
+    }
 }
 
 @Component({

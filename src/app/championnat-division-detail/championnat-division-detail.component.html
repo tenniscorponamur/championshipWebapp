@@ -12,7 +12,7 @@
                         <i class="fa fa-trophy fa-4x" style="color:darkgoldenrod"></i>
                         <i [ngClass]="trophyTypeClass" ></i>
                     </span>
-                    
+
                 </div>
             </div>
 
@@ -23,7 +23,7 @@
                     </div>
                     <div class="myBoxContent">
                         {{getTypeChampionnat(championnat).libelle}}
-                        
+
                         {{championnat.annee}}
 
                         <!--                        <div col-12>
@@ -65,7 +65,13 @@
                         {{getCategorieChampionnat(championnat).libelle}}
                     </h6>
                     <div class="card-body">
-                        <div class="table-responsive" >
+
+                        <div *ngIf="showProgress" class="text-center">
+                            <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+                            Tri des divisions
+                        </div>
+
+                        <div class="table-responsive" *ngIf="!showProgress" >
                             <table class="table table-sm" >
                                 <thead class="bg-info" >
                                     <tr>
@@ -75,45 +81,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
+
+                                    <tr *ngFor="let division of divisions" class="text-left">
+                                        <td>{{division.numero}}</td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMinimum" style="width:5em" ></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" style="width:5em" (keyup.enter)="pointsMaxChanged();" (blur)="pointsMaxChanged();"></td>
                                     </tr>
 
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
-                                        <td>
-                                            <input type="number" value="600" style="width:3em" >
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
