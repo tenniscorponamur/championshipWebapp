@@ -32,3 +32,9 @@
     color:#e3cf7a;
     
 }
+
+.deleteDivisionButton{
+    background-color:lightgrey;
+    border-radius:10px;
+    cursor:pointer;
+}

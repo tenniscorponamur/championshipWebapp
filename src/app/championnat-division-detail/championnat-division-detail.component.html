@@ -26,34 +26,6 @@
 
                         {{championnat.annee}}
 
-                        <!--                        <div col-12>
-                        
-                                                    <mat-form-field>
-                                                        <input matInput required type="number" placeholder="Saison" value="2018" >
-                                                    </mat-form-field>
-                        
-                                                </div>
-                                                <div col-12>
-                                                    <mat-form-field>
-                                                        <mat-select required placeholder="Type" >
-                                                            <mat-option value="hiver">Hiver</mat-option>
-                                                            <mat-option value="ete">Eté</mat-option>
-                                                            <mat-option value="criterium">Criterium</mat-option>
-                                                        </mat-select>
-                                                    </mat-form-field>
-                        
-                                                </div>
-                                                <div col-12>
-                                                    <mat-form-field>
-                                                        <mat-select required multiple placeholder="Catégories">
-                                                            <mat-option value="messieurs">Messieurs</mat-option>
-                                                            <mat-option value="dames">Dames</mat-option>
-                                                            <mat-option value="mixte">Mixte</mat-option>
-                                                        </mat-select>
-                                                    </mat-form-field>
-                        
-                                                </div>-->
-
                     </div>
                 </div>
             </div>
@@ -78,14 +50,16 @@
                                         <th scope="col" >N° Division</th>
                                         <th scope="col" >Points min</th>
                                         <th scope="col" >Points max</th>
+                                        <th scope="col" ></th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <tr *ngFor="let division of divisions" class="text-left">
                                         <td>{{division.numero}}</td>
-                                        <td><input type="number" [(ngModel)]="division.pointsMinimum" style="width:5em" ></td>
-                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" style="width:5em" (keyup.enter)="pointsMaxChanged(division);" (blur)="pointsMaxChanged();"></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMinimum" style="width:5em" (keyup.enter)="pointsMinChanged(division);" (blur)="pointsMinChanged(division);" ></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" style="width:5em" (keyup.enter)="pointsMaxChanged(division);" (blur)="pointsMaxChanged(division);"></td>
+                                        <td><button (click)="supprimerDivision(division);" class="deleteDivisionButton"><i class="fa fa-trash" ></i></button></td>
                                     </tr>
 
                                 </tbody>
