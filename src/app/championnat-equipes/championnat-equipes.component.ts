@@ -8,6 +8,7 @@ import {ChampionnatService} from '../championnat.service';
 import {Division} from '../division';
 import {DivisionService} from '../division.service';
 import {compare} from '../utility';
+import {EquipeService} from '../equipe.service';
 
 @Component({
     selector: 'app-championnat-equipes',
@@ -26,7 +27,8 @@ export class ChampionnatEquipesComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
-        private divisionService: DivisionService
+        private divisionService: DivisionService,
+        private equipeService: EquipeService
     ) {
         this.championnatCtrl = new FormControl();
     }
@@ -75,7 +77,7 @@ export class ChampionnatEquipesComponent implements OnInit {
         }
         return "";
     }
-    
+
     getTypeIcon(championnat: Championnat) {
         if (championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
             return "fa fa-snowflake-o";
@@ -90,7 +92,14 @@ export class ChampionnatEquipesComponent implements OnInit {
     loadTeams() {
         console.log("load Teams");
         if (this.selectedChampionnat) {
-            this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(divisions => this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)}));
+            this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
+                divisions => {
+                    this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
+                    this.divisions.forEach(division => { 
+                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {console.log(division.numero);console.log(equipes);}); 
+                    });
+                }
+            );
         }
     }
 
@@ -153,29 +162,29 @@ export class ChampionnatEquipesComponent implements OnInit {
     }
 
     //TODO : ajouter une poule automatiquement s'il y a au moins une equipe
-    //TODO : supprimer la poule si aucune equipe dans une division
-    
-    
-//    fichier: File;
+    //TODO : supprimer la poule si aucune equipe dans une div    ision
+
+
+//    fichier    : F    ile;
 //
-//    loadFile() {
-//        console.log("load file " + this.fichier);
+//    loadF    ile() {
+//        console.log("load file " + this.fi    chier);
+    //        }
+//
+//    onChange(e    vent) {
+//        var files: FileList = event.target    .files;
+//        this.fichier = files.i    tem(0);
+//        var fileReader: FileReader = new FileRe    ader();
+//        //atob(this.fi    chier);
+//        fileReader.onloadend = functio    n (e) {
+//            // you can perform an action with readed da    ta here
+//            console.log(fileReader.r    esult);
+//                }
+//
+//        fileReader.readAsBinaryString(this.fi    chier);
 //    }
-//
-//    onChange(event) {
-//        var files: FileList = event.target.files;
-//        this.fichier = files.item(0);
-//        var fileReader: FileReader = new FileReader();
-//        //atob(this.fichier);
-//        fileReader.onloadend = function (e) {
-//            // you can perform an action with readed data here
-//            console.log(fileReader.result);
-//        }
-//
-//        fileReader.readAsBinaryString(this.fichier);
-//    }
-    
-    
+
+
 }
 
 
