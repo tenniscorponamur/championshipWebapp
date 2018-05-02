@@ -36,7 +36,7 @@
 <div *ngIf="selectedChampionnat" class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
     <i class="fa fa-trophy"></i>
     {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
-    <i class="fa fa-snowflake-o"></i>
+    <i class="{{getTypeIcon(selectedChampionnat)}}"></i> 
     - {{getCategorieChampionnat(selectedChampionnat).libelle}} - 15 équipes inscrites
 </div>
 

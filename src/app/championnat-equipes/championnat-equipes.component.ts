@@ -75,6 +75,17 @@ export class ChampionnatEquipesComponent implements OnInit {
         }
         return "";
     }
+    
+    getTypeIcon(championnat: Championnat) {
+        if (championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
+            return "fa fa-snowflake-o";
+        } else if (championnat.type == TYPE_CHAMPIONNAT_ETE.code) {
+            return "fa fa-sun-o";
+        } else if (championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code) {
+            return "fa fa-star";
+        }
+        return "";
+    }
 
     loadTeams() {
         console.log("load Teams");
