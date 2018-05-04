@@ -25,6 +25,7 @@ export class ChampionnatEquipesComponent implements OnInit {
 
     selectedChampionnat: Championnat;
     divisions: Division[];
+    equipes:Equipe[]=[];
 
     constructor(
         public dialog: MatDialog,
@@ -96,13 +97,16 @@ export class ChampionnatEquipesComponent implements OnInit {
     }
 
     loadTeams() {
-        console.log("load Teams");
+        this.equipes=[];
         if (this.selectedChampionnat) {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
                     this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
                     this.divisions.forEach(division => {
-                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {console.log(division.numero); console.log(equipes);});
+                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => 
+                        {
+                            equipes.forEach(equipe => this.equipes.push(equipe));
+                        });
                     });
                 }
             );
@@ -144,22 +148,38 @@ export class ChampionnatEquipesComponent implements OnInit {
     }
 
     displayTeam(augmentedClub: AugmentedClub, division:Division): boolean {
-        return augmentedClub.getNbEquipesInDivision(division) > 0 || augmentedClub.selected;
+        return this.getNbEquipesByClubAndDivision(augmentedClub.club,division) > 0 || augmentedClub.selected;
     }
 
     removeOneTeam(augmentedClub: AugmentedClub,division:Division) {
 //        if (augmentedClub.nbEquipes > 0) {
 //            augmentedClub.nbEquipes--;
 //        }
-        let indexOfTeam = augmentedClub.equipesInChampionship.findIndex(equipe => equipe.division==division);
-        augmentedClub.equipesInChampionship.splice(indexOfTeam,1);
+        let indexOfTeam = this.equipes.findIndex(equipe => equipe.division==division);
+        this.equipes.splice(indexOfTeam,1);
     }
 
-    addOneTeam(augmentedClub: AugmentedClub,division:Division) {
+    addOneTeam(club: Club,division:Division) {
         let equipe = new Equipe();
         equipe.division=division;
-        equipe.club = augmentedClub.club;
-        augmentedClub.equipesInChampionship.push(equipe);
+        equipe.club = club;
+        this.equipes.push(equipe);
+    }
+
+    getNbEquipesInChampionship(){
+        return this.equipes.length;
+    }
+
+    getNbEquipesByDivision(division:Division){
+        return this.equipes.filter(equipe => equipe.division.id == division.id).length;
+    }
+
+    getNbEquipesByClub(club:Club){
+        return this.equipes.filter(equipe => equipe.club.id == club.id).length;
+    }
+
+    getNbEquipesByClubAndDivision(club:Club,division:Division):number{
+        return this.equipes.filter(equipe => equipe.division.id == division.id).filter(equipe => equipe.club.id == club.id).length;
     }
 
     //TODO : ajouter une poule automatiquement s'il y a au moins une equipe
@@ -191,20 +211,12 @@ export class ChampionnatEquipesComponent implements OnInit {
 export class AugmentedClub{
     club:Club;
     selected:boolean;
-    equipesInChampionship:Equipe[]=[];
         
     constructor(club:Club,selected:boolean){
         this.club=club;
         this.selected=selected;
     }
     
-    getNbEquipesInChampionship(){
-        return this.equipesInChampionship.length;
-    }
-    
-    getNbEquipesInDivision(division:Division):number{
-        return this.equipesInChampionship.filter(equipe => equipe.division == division).length;
-    }
 }
 
 @Component({

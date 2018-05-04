@@ -37,14 +37,14 @@
     <i class="fa fa-trophy"></i>
     {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
     <i class="{{getTypeIcon(selectedChampionnat)}}"></i> 
-    - {{getCategorieChampionnat(selectedChampionnat).libelle}} - 15 équipes inscrites
+    - {{getCategorieChampionnat(selectedChampionnat).libelle}} - {{getNbEquipesInChampionship()}} équipes inscrites
 </div>
 
 
 <div *ngFor="let division of divisions" class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
     <div class="card">
         <h6 class="card-header">
-            Division {{division.numero}} (max {{division.pointsMaximum}} points) - 4 équipes inscrites 
+            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbEquipesByDivision(division)}} équipes inscrites 
             <span style="float:right;">
                 1 poule
                 &nbsp;
@@ -58,15 +58,15 @@
                     <div *ngIf="displayTeam(augmentedClub,division)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
                         <div class="text-right" style="float:right;padding-top:15px;" >
                             <span style="font-size:3em;">
-                                <strong>{{augmentedClub.getNbEquipesInDivision(division)}}</strong>
+                                <strong>{{getNbEquipesByClubAndDivision(augmentedClub.club,division)}}</strong>
                             </span>
                         </div>
                         <div>
-                            <strong>{{augmentedClub.club.nom}}</strong><br/>({{augmentedClub.getNbEquipesInChampionship()}} équipe(s))
+                            <strong>{{augmentedClub.club.nom}}</strong><br/>({{getNbEquipesByClub(augmentedClub.club)}} équipe(s))
                         </div>
                         <span *ngIf="augmentedClub.selected" style="float:left;padding-top:5px;">
-                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub,division);"><i class="fa fa-minus"></i></button>
-                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(augmentedClub,division);"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub.club,division);"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(augmentedClub.club,division);"><i class="fa fa-plus"></i></button>
                         </span>
                         &nbsp;
                     </div>
