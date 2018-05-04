@@ -54,19 +54,19 @@
         </h6>
         <div class="card-body">
             <div class="row">
-                <div *ngFor="let club of clubs">
-                    <div *ngIf="displayTeam(club)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
+                <div *ngFor="let augmentedClub of augmentedClubs">
+                    <div *ngIf="displayTeam(augmentedClub,division)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
                         <div class="text-right" style="float:right;padding-top:15px;" >
                             <span style="font-size:3em;">
-                                <strong>{{club.equipe}}</strong>
+                                <strong>{{augmentedClub.getNbEquipesInDivision(division)}}</strong>
                             </span>
                         </div>
                         <div>
-                            <strong>{{club.nom}}</strong><br/>(7 équipes)
+                            <strong>{{augmentedClub.club.nom}}</strong><br/>({{augmentedClub.getNbEquipesInChampionship()}} équipe(s))
                         </div>
-                        <span *ngIf="club.selected" style="float:left;padding-top:5px;">
-                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(club);"><i class="fa fa-minus"></i></button>
-                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(club);"><i class="fa fa-plus"></i></button>
+                        <span *ngIf="augmentedClub.selected" style="float:left;padding-top:5px;">
+                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub,division);"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(augmentedClub,division);"><i class="fa fa-plus"></i></button>
                         </span>
                         &nbsp;
                     </div>

@@ -9,6 +9,7 @@ import {Division} from '../division';
 import {DivisionService} from '../division.service';
 import {compare} from '../utility';
 import {EquipeService} from '../equipe.service';
+import {Equipe} from '../equipe';
 
 @Component({
     selector: 'app-championnat-equipes',
@@ -19,6 +20,7 @@ export class ChampionnatEquipesComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
 
+    augmentedClubs: AugmentedClub[]=[];
     championnats: Championnat[];
 
     selectedChampionnat: Championnat;
@@ -28,13 +30,17 @@ export class ChampionnatEquipesComponent implements OnInit {
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,
-        private equipeService: EquipeService
+        private equipeService: EquipeService,
+        private clubService: ClubService
     ) {
         this.championnatCtrl = new FormControl();
     }
 
     ngOnInit() {
         this.refresh(null);
+        this.clubService.getClubs().subscribe(clubs => {
+            clubs.forEach(club => this.augmentedClubs.push(new AugmentedClub(club,false)));
+        });
     }
 
     getTypeChampionnat(championnat: Championnat): TypeChampionnat {
@@ -95,8 +101,8 @@ export class ChampionnatEquipesComponent implements OnInit {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
                     this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
-                    this.divisions.forEach(division => { 
-                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {console.log(division.numero);console.log(equipes);}); 
+                    this.divisions.forEach(division => {
+                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {console.log(division.numero); console.log(equipes);});
                     });
                 }
             );
@@ -126,34 +132,10 @@ export class ChampionnatEquipesComponent implements OnInit {
             }
         });
     }
-
-    clubs = [
-        {nom: "UNAMUR", equipe: 1, selected: false},
-        {nom: "BNP FORTIS", equipe: 0, selected: true},
-        {nom: "TC WALLONIE", equipe: 2, selected: false},
-        {nom: "IATA", equipe: 0, selected: false},
-        {nom: "GAZELEC", equipe: 1, selected: false},
-        {nom: "RAIL", equipe: 0, selected: false},
-        {nom: "POLICE NAMUR", equipe: 0, selected: false},
-    ]
-
-    displayTeam(data: any): boolean {
-        return data.equipe > 0 || data.selected;
-    }
-
-    removeOneTeam(data: any) {
-        if (data.equipe > 0) {
-            data.equipe--;
-        }
-    }
-
-    addOneTeam(data: any) {
-        data.equipe++;
-    }
-
+    
     selectionClubs() {
         let clubDialogRef = this.dialog.open(SelectionClubDialog, {
-            data: {}, panelClass: "selectionClubDialog", disableClose: false
+            data: {augmentedClubs:this.augmentedClubs}, panelClass: "selectionClubDialog", disableClose: false
         });
 
         clubDialogRef.afterClosed().subscribe(result => {
@@ -161,32 +143,69 @@ export class ChampionnatEquipesComponent implements OnInit {
         });
     }
 
+    displayTeam(augmentedClub: AugmentedClub, division:Division): boolean {
+        return augmentedClub.getNbEquipesInDivision(division) > 0 || augmentedClub.selected;
+    }
+
+    removeOneTeam(augmentedClub: AugmentedClub,division:Division) {
+//        if (augmentedClub.nbEquipes > 0) {
+//            augmentedClub.nbEquipes--;
+//        }
+        let indexOfTeam = augmentedClub.equipesInChampionship.findIndex(equipe => equipe.division==division);
+        augmentedClub.equipesInChampionship.splice(indexOfTeam,1);
+    }
+
+    addOneTeam(augmentedClub: AugmentedClub,division:Division) {
+        let equipe = new Equipe();
+        equipe.division=division;
+        equipe.club = augmentedClub.club;
+        augmentedClub.equipesInChampionship.push(equipe);
+    }
+
     //TODO : ajouter une poule automatiquement s'il y a au moins une equipe
     //TODO : supprimer la poule si aucune equipe dans une div    ision
 
 
-//    fichier    : F    ile;
-//
-//    loadF    ile() {
-//        console.log("load file " + this.fi    chier);
+    //    fichier    : F    ile;
+    //
+    //    loadF    ile() {
+    //        console.log("load file " + this.fi    chier);
     //        }
-//
-//    onChange(e    vent) {
-//        var files: FileList = event.target    .files;
-//        this.fichier = files.i    tem(0);
-//        var fileReader: FileReader = new FileRe    ader();
-//        //atob(this.fi    chier);
-//        fileReader.onloadend = functio    n (e) {
-//            // you can perform an action with readed da    ta here
-//            console.log(fileReader.r    esult);
-//                }
-//
-//        fileReader.readAsBinaryString(this.fi    chier);
-//    }
+    //
+    //    onChange(e    vent) {
+    //        var files: FileList = event.target    .files;
+    //        this.fichier = files.i    tem(0);
+    //        var fileReader: FileReader = new FileRe    ader();
+    //        //atob(this.fi    chier);
+    //        fileReader.onloadend = functio    n (e) {
+    //            // you can perform an action with readed da    ta here
+    //            console.log(fileReader.r    esult);
+    //                }
+    //
+    //        fileReader.readAsBinaryString(this.fi    chier);
+    //    }
 
 
 }
 
+export class AugmentedClub{
+    club:Club;
+    selected:boolean;
+    equipesInChampionship:Equipe[]=[];
+        
+    constructor(club:Club,selected:boolean){
+        this.club=club;
+        this.selected=selected;
+    }
+    
+    getNbEquipesInChampionship(){
+        return this.equipesInChampionship.length;
+    }
+    
+    getNbEquipesInDivision(division:Division):number{
+        return this.equipesInChampionship.filter(equipe => equipe.division == division).length;
+    }
+}
 
 @Component({
     selector: 'selection-club-dialog',
@@ -194,14 +213,18 @@ export class ChampionnatEquipesComponent implements OnInit {
 })
 export class SelectionClubDialog {
 
-    private clubs: Club[];
+    private augmentedClubs: AugmentedClub[];
 
     constructor(
         public dialogRef: MatDialogRef<SelectionClubDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private clubService: ClubService) {
+        @Inject(MAT_DIALOG_DATA) public data: any) {
 
-        this.clubService.getClubs().subscribe(clubs => {this.clubs = clubs;});
+        this.augmentedClubs = data.augmentedClubs;
 
     }
+    
+    selectAll(selected:boolean){
+        this.augmentedClubs.forEach(augmentedClub => augmentedClub.selected=selected);
+    }
+    
 }
