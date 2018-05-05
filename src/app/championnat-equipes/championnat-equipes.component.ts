@@ -151,15 +151,16 @@ export class ChampionnatEquipesComponent implements OnInit {
     }
 
     removeOneTeam(club: Club, division: Division) {
-//        if (augmentedClub.n        bEquipes > 0) {
-//            augmentedCl        ub.nbEquipes--;
-//        }
-
+        
         //TODO : si plus aucune equipe dans division, supprimer la poule 
 
         let indexOfTeam = this.equipes.findIndex(equipe => equipe.division.id == division.id && equipe.club.id == club.id);
         if (indexOfTeam != -1) {
-            this.equipes.splice(indexOfTeam, 1);
+            let equipeToDelete:Equipe = this.equipes.find((equipe,index) => indexOfTeam==index);
+            this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => 
+            {
+                this.equipes.splice(indexOfTeam, 1);
+            });
         }
     }
 
@@ -170,7 +171,11 @@ export class ChampionnatEquipesComponent implements OnInit {
         let equipe = new Equipe();
         equipe.division = division;
         equipe.club = club;
-        this.equipes.push(equipe);
+        
+        this.equipeService.ajoutEquipe(division.id, equipe).subscribe(result => {
+            this.equipes.push(equipe);
+        })
+        
     }
 
     getNbEquipesInChampionship() {
