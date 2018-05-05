@@ -20,12 +20,12 @@ export class ChampionnatEquipesComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
 
-    augmentedClubs: AugmentedClub[]=[];
+    augmentedClubs: AugmentedClub[] = [];
     championnats: Championnat[];
 
     selectedChampionnat: Championnat;
     divisions: Division[];
-    equipes:Equipe[]=[];
+    equipes: Equipe[] = [];
 
     constructor(
         public dialog: MatDialog,
@@ -40,7 +40,7 @@ export class ChampionnatEquipesComponent implements OnInit {
     ngOnInit() {
         this.refresh(null);
         this.clubService.getClubs().subscribe(clubs => {
-            clubs.forEach(club => this.augmentedClubs.push(new AugmentedClub(club,false)));
+            clubs.forEach(club => this.augmentedClubs.push(new AugmentedClub(club, false)));
         });
     }
 
@@ -97,14 +97,13 @@ export class ChampionnatEquipesComponent implements OnInit {
     }
 
     loadTeams() {
-        this.equipes=[];
+        this.equipes = [];
         if (this.selectedChampionnat) {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
                     this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
                     this.divisions.forEach(division => {
-                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => 
-                        {
+                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {
                             equipes.forEach(equipe => this.equipes.push(equipe));
                         });
                     });
@@ -136,10 +135,10 @@ export class ChampionnatEquipesComponent implements OnInit {
             }
         });
     }
-    
+
     selectionClubs() {
         let clubDialogRef = this.dialog.open(SelectionClubDialog, {
-            data: {augmentedClubs:this.augmentedClubs}, panelClass: "selectionClubDialog", disableClose: false
+            data: {augmentedClubs: this.augmentedClubs}, panelClass: "selectionClubDialog", disableClose: false
         });
 
         clubDialogRef.afterClosed().subscribe(result => {
@@ -147,38 +146,46 @@ export class ChampionnatEquipesComponent implements OnInit {
         });
     }
 
-    displayTeam(augmentedClub: AugmentedClub, division:Division): boolean {
-        return this.getNbEquipesByClubAndDivision(augmentedClub.club,division) > 0 || augmentedClub.selected;
+    displayTeam(augmentedClub: AugmentedClub, division: Division): boolean {
+        return this.getNbEquipesByClubAndDivision(augmentedClub.club, division) > 0 || augmentedClub.selected;
     }
 
-    removeOneTeam(augmentedClub: AugmentedClub,division:Division) {
-//        if (augmentedClub.nbEquipes > 0) {
-//            augmentedClub.nbEquipes--;
+    removeOneTeam(club: Club, division: Division) {
+//        if (augmentedClub.n        bEquipes > 0) {
+//            augmentedCl        ub.nbEquipes--;
 //        }
-        let indexOfTeam = this.equipes.findIndex(equipe => equipe.division==division);
-        this.equipes.splice(indexOfTeam,1);
+
+        //TODO : si plus aucune equipe dans division, supprimer la poule 
+
+        let indexOfTeam = this.equipes.findIndex(equipe => equipe.division.id == division.id && equipe.club.id == club.id);
+        if (indexOfTeam != -1) {
+            this.equipes.splice(indexOfTeam, 1);
+        }
     }
 
-    addOneTeam(club: Club,division:Division) {
+    addOneTeam(club: Club, division: Division) {
+
+        // TODO : Si premiere equipe, creation de la poule s'il n'y en a pas encore pour cette division 
+
         let equipe = new Equipe();
-        equipe.division=division;
+        equipe.division = division;
         equipe.club = club;
         this.equipes.push(equipe);
     }
 
-    getNbEquipesInChampionship(){
+    getNbEquipesInChampionship() {
         return this.equipes.length;
     }
 
-    getNbEquipesByDivision(division:Division){
+    getNbEquipesByDivision(division: Division) {
         return this.equipes.filter(equipe => equipe.division.id == division.id).length;
     }
 
-    getNbEquipesByClub(club:Club){
+    getNbEquipesByClub(club: Club) {
         return this.equipes.filter(equipe => equipe.club.id == club.id).length;
     }
 
-    getNbEquipesByClubAndDivision(club:Club,division:Division):number{
+    getNbEquipesByClubAndDivision(club: Club, division: Division): number {
         return this.equipes.filter(equipe => equipe.division.id == division.id).filter(equipe => equipe.club.id == club.id).length;
     }
 
@@ -208,15 +215,15 @@ export class ChampionnatEquipesComponent implements OnInit {
 
 }
 
-export class AugmentedClub{
-    club:Club;
-    selected:boolean;
-        
-    constructor(club:Club,selected:boolean){
-        this.club=club;
-        this.selected=selected;
+export class AugmentedClub {
+    club: Club;
+    selected: boolean;
+
+    constructor(club: Club, selected: boolean) {
+        this.club = club;
+        this.selected = selected;
     }
-    
+
 }
 
 @Component({
@@ -234,9 +241,13 @@ export class SelectionClubDialog {
         this.augmentedClubs = data.augmentedClubs;
 
     }
-    
-    selectAll(selected:boolean){
-        this.augmentedClubs.forEach(augmentedClub => augmentedClub.selected=selected);
+
+    selectAll(selected: boolean) {
+        this.augmentedClubs.forEach(augmentedClub => augmentedClub.selected = selected);
     }
-    
+
+    fermerSelection() {
+        this.dialogRef.close();
+    }
+
 }

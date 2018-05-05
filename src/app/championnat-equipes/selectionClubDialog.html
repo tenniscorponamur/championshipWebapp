@@ -1,10 +1,12 @@
-<h1 mat-dialog-title>Sélection des clubs</h1>
-<button class="btn btn-sm btn-primary" (click)="selectAll(true);" >Tous</button>
-<button class="btn btn-sm btn-primary" (click)="selectAll(false);" >Aucun</button>
-<div mat-dialog-content >
-    <div *ngFor="let augmentedClub of augmentedClubs" >
+<h1 mat-dialog-title>Sélection des clubs<span style="float:right;"><button class="close" (click)="fermerSelection();">&times;</button></span></h1>
+<div class="text-center" style="margin-bottom:20px;">
+    <button class="btn btn-sm btn-success" (click)="selectAll(true);" >Tous</button>
+    <button class="btn btn-sm btn-danger" (click)="selectAll(false);" >Aucun</button>
+</div>
+<div mat-dialog-content > 
+    <span *ngFor="let augmentedClub of augmentedClubs" style="margin:10px;" >
         <mat-slide-toggle color="primary" [(ngModel)]="augmentedClub.selected">
-            {{augmentedClub.club.nom}}
+            <span>{{augmentedClub.club.nom}}</span>
           </mat-slide-toggle>
-    </div>
+    </span>
 </div>
