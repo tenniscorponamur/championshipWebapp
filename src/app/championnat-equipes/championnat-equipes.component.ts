@@ -10,6 +10,8 @@ import {DivisionService} from '../division.service';
 import {compare} from '../utility';
 import {EquipeService} from '../equipe.service';
 import {Equipe} from '../equipe';
+import {PouleService} from '../poule.service';
+import {Poule} from '../poule';
 
 @Component({
     selector: 'app-championnat-equipes',
@@ -26,12 +28,14 @@ export class ChampionnatEquipesComponent implements OnInit {
     selectedChampionnat: Championnat;
     divisions: Division[];
     equipes: Equipe[] = [];
+    poules: Poule[]=[];
 
     constructor(
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,
         private equipeService: EquipeService,
+        private pouleService: PouleService,
         private clubService: ClubService
     ) {
         this.championnatCtrl = new FormControl();
@@ -106,6 +110,9 @@ export class ChampionnatEquipesComponent implements OnInit {
                         this.equipeService.getEquipes(division.id, null).subscribe(equipes => {
                             equipes.forEach(equipe => this.equipes.push(equipe));
                         });
+                        this.pouleService.getPoules(division.id).subscribe(poules => {
+                            poules.forEach(poule => this.poules.push(poule));
+                        });
                     });
                 }
             );
@@ -140,10 +147,6 @@ export class ChampionnatEquipesComponent implements OnInit {
         let clubDialogRef = this.dialog.open(SelectionClubDialog, {
             data: {augmentedClubs: this.augmentedClubs}, panelClass: "selectionClubDialog", disableClose: false
         });
-
-        clubDialogRef.afterClosed().subscribe(result => {
-            console.log("selection des clubs termines")
-        });
     }
 
     displayTeam(augmentedClub: AugmentedClub, division: Division): boolean {
@@ -153,6 +156,7 @@ export class ChampionnatEquipesComponent implements OnInit {
     removeOneTeam(club: Club, division: Division) {
         
         //TODO : si plus aucune equipe dans division, supprimer la poule 
+        // Appels successifs
 
         let indexOfTeam = this.equipes.findIndex(equipe => equipe.division.id == division.id && equipe.club.id == club.id);
         if (indexOfTeam != -1) {
@@ -160,22 +164,40 @@ export class ChampionnatEquipesComponent implements OnInit {
             this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => 
             {
                 this.equipes.splice(indexOfTeam, 1);
+                // Renommage des equipes car le nom depend de la division a laquelle elle appartient
+                this.nommageEquipe(club);
             });
         }
+        
+        
     }
 
     addOneTeam(club: Club, division: Division) {
 
         // TODO : Si premiere equipe, creation de la poule s'il n'y en a pas encore pour cette division 
+        // Appels successifs
 
         let equipe = new Equipe();
         equipe.division = division;
         equipe.club = club;
         
-        this.equipeService.ajoutEquipe(division.id, equipe).subscribe(result => {
+        this.equipeService.ajoutEquipe(division.id, equipe).subscribe(newEquipe => {
+            equipe.id = newEquipe.id;
             this.equipes.push(equipe);
-        })
+            // Renommage des equipes car le nom depend de la division a laquelle elle appartient
+            this.nommageEquipe(club);
+        });
         
+    }
+    
+    nommageEquipe(club:Club){
+        //TODO : idealement positionner ce renommage cote server
+        let equipesClub = this.equipes.filter(equipe => equipe.club.id == club.id).sort((a, b) => {return compare(a.division.numero, b.division.numero, true);});
+        console.log(equipesClub);
+        equipesClub.forEach((equipe, index) => {
+            equipe.codeAlphabetique = club.nom + " " + String.fromCharCode(97 + index).toUpperCase();
+        });
+        this.equipeService.updateEquipeNames(equipesClub).subscribe();
     }
 
     getNbEquipesInChampionship() {

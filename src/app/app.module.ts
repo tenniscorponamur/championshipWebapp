@@ -53,6 +53,7 @@ import { ChampionnatDivisionsComponent } from './championnat-divisions/championn
 import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from './championnat-division-detail/championnat-division-detail.component';
 import {DivisionService} from './division.service';
 import {EquipeService} from './equipe.service';
+import {PouleService} from './poule.service';
 
 
 @NgModule({
@@ -129,6 +130,7 @@ import {EquipeService} from './equipe.service';
     ClubService,
     DivisionService,
     EquipeService,
+    PouleService,
     MembreService,
     UserService,
     AuthGuardService,

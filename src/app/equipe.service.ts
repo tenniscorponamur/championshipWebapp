@@ -13,7 +13,7 @@ export class EquipeService {
     constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
 
     getEquipes(divisionId: number,pouleId:number): Observable<Equipe[]> {
-        return this.http.get<Equipe[]>(environment.publicApiUrl + "/equipes?divisionId=" + divisionId);
+        return this.http.get<Equipe[]>(environment.publicApiUrl + "/equipes?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):""));
     }
 
     ajoutEquipe(divisionId: number, equipe: Equipe) {
@@ -26,6 +26,10 @@ export class EquipeService {
     
     deleteEquipe(equipe: Equipe) {
         return this.http.delete<Equipe>(environment.privateApiUrl + "/equipe?id=" + equipe.id, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
+    updateEquipeNames(equipes: Equipe[]) {
+        return this.http.put<Equipe>(environment.privateApiUrl + "/equipes/names", equipes, this.authenticationService.getPrivateApiHttpOptions());
     }
 
 }
