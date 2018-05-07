@@ -46,10 +46,16 @@
         <h6 class="card-header">
             Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbEquipesByDivision(division)}} équipes inscrites 
             <span style="float:right;">
-                1 poule
+                
+                {{getNbPoulesInDivision(division)}} poule(s)
+                
                 &nbsp;
                 <!--<button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>-->
-                <a><i class="fa fa-plus" style="cursor:pointer"></i></a>
+                <a (click)="removeOnePoule(division);"><i class="fa fa-minus" style="cursor:pointer"></i></a>
+                
+                &nbsp;
+                
+                <a (click)="addOnePoule(division);"><i class="fa fa-plus" style="cursor:pointer"></i></a>
             </span>
         </h6>
         <div class="card-body">

@@ -153,11 +153,34 @@ export class ChampionnatEquipesComponent implements OnInit {
         return this.getNbEquipesByClubAndDivision(augmentedClub.club, division) > 0 || augmentedClub.selected;
     }
 
-    removeOneTeam(club: Club, division: Division) {
+    addOneTeam(club: Club, division: Division) {
+        let equipe = new Equipe();
+        equipe.division = division;
+        equipe.club = club;
         
-        //TODO : si plus aucune equipe dans division, supprimer la poule 
-        // Appels successifs
+        this.equipeService.ajoutEquipe(division.id, equipe).subscribe(newEquipe => {
+            equipe.id = newEquipe.id;
+            this.equipes.push(equipe);
+            
+            // Renommage des equipes car le nom depend de la division a laquelle elle appartient
+            this.nommageEquipe(club);
+            
+            // On regarde s'il y a au moins une poule
+            // S'il n'y en a pas encore, on va en creer une
+            let nbPoulesInDivision = this.getNbPoulesInDivision(division);
+            
+            if (nbPoulesInDivision==0){
+                
+                // Creation d'une poule
+                this.addOnePoule(division);
+                
+            }
+            
+        });
+        
+    }
 
+    removeOneTeam(club: Club, division: Division) {
         let indexOfTeam = this.equipes.findIndex(equipe => equipe.division.id == division.id && equipe.club.id == club.id);
         if (indexOfTeam != -1) {
             let equipeToDelete:Equipe = this.equipes.find((equipe,index) => indexOfTeam==index);
@@ -166,27 +189,22 @@ export class ChampionnatEquipesComponent implements OnInit {
                 this.equipes.splice(indexOfTeam, 1);
                 // Renommage des equipes car le nom depend de la division a laquelle elle appartient
                 this.nommageEquipe(club);
+                
+                // On regarde s'il reste des equipes dans la division
+                // S'il n'y en a plus, on va supprimer les poules existantes
+                
+                let nbEquipesInDivision = this.getNbEquipesByDivision(division);
+                if (nbEquipesInDivision==0){
+                    
+                    this.getPoulesByDivision(division).forEach(pouleInDivision => {
+                        this.pouleService.deletePoule(pouleInDivision).subscribe(result => {
+                            let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleInDivision.id);
+                            this.poules.splice(indexOfPoule, 1);
+                        });
+                    });
+                }
             });
         }
-        
-        
-    }
-
-    addOneTeam(club: Club, division: Division) {
-
-        // TODO : Si premiere equipe, creation de la poule s'il n'y en a pas encore pour cette division 
-        // Appels successifs
-
-        let equipe = new Equipe();
-        equipe.division = division;
-        equipe.club = club;
-        
-        this.equipeService.ajoutEquipe(division.id, equipe).subscribe(newEquipe => {
-            equipe.id = newEquipe.id;
-            this.equipes.push(equipe);
-            // Renommage des equipes car le nom depend de la division a laquelle elle appartient
-            this.nommageEquipe(club);
-        });
         
     }
     
@@ -198,6 +216,28 @@ export class ChampionnatEquipesComponent implements OnInit {
             equipe.codeAlphabetique = club.nom + " " + String.fromCharCode(97 + index).toUpperCase();
         });
         this.equipeService.updateEquipeNames(equipesClub).subscribe();
+    }
+    
+    addOnePoule(division:Division){
+        let poule = new Poule();
+        poule.division = division;
+        poule.numero = this.getNbPoulesInDivision(division)+1;
+        this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => this.poules.push(newPoule));
+    }
+    
+    removeOnePoule(division:Division){
+        
+        // On ne peut jamais supprimer la derniere poule, cela se fait automatiquement en supprimant la derniere equipe
+        // inscrite dans la division
+        
+        let nbPoulesInDivision = this.getNbPoulesInDivision(division);
+        if (nbPoulesInDivision>1){
+            let pouleToDelete = this.getPoulesByDivision(division).sort((a,b) => compare(a.numero,b.numero,false))[0];
+            this.pouleService.deletePoule(pouleToDelete).subscribe(result => {
+                let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleToDelete.id);
+                this.poules.splice(indexOfPoule, 1);
+            });
+        }
     }
 
     getNbEquipesInChampionship() {
@@ -214,6 +254,14 @@ export class ChampionnatEquipesComponent implements OnInit {
 
     getNbEquipesByClubAndDivision(club: Club, division: Division): number {
         return this.equipes.filter(equipe => equipe.division.id == division.id).filter(equipe => equipe.club.id == club.id).length;
+    }
+    
+    getPoulesByDivision(division:Division){
+        return this.poules.filter(poule => poule.division.id == division.id);
+    }
+    
+    getNbPoulesInDivision(division:Division){
+        return this.getPoulesByDivision(division).length;
     }
 
     //TODO : ajouter une poule automatiquement s'il y a au moins une equipe
