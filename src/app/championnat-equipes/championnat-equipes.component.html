@@ -44,19 +44,18 @@
 <div *ngFor="let division of divisions" class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
     <div class="card">
         <h6 class="card-header">
-            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbEquipesByDivision(division)}} équipes inscrites 
-            <span style="float:right;">
+            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbPoulesInDivision(division)}} poule(s) - {{getNbEquipesByDivision(division)}} équipe(s) inscrite(s) 
+<!--            <span style="float:right;">
                 
-                {{getNbPoulesInDivision(division)}} poule(s)
                 
                 &nbsp;
-                <!--<button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>-->
+                <button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>
                 <a (click)="removeOnePoule(division);"><i class="fa fa-minus" style="cursor:pointer"></i></a>
                 
                 &nbsp;
                 
                 <a (click)="addOnePoule(division);"><i class="fa fa-plus" style="cursor:pointer"></i></a>
-            </span>
+            </span>-->
         </h6>
         <div class="card-body">
             <div class="row">
@@ -68,7 +67,7 @@
                             </span>
                         </div>
                         <div>
-                            <strong>{{augmentedClub.club.nom}}</strong><br/>({{getNbEquipesByClub(augmentedClub.club)}} équipe(s))
+                            <strong>{{augmentedClub.club.nom}}</strong><br/>{{getNbEquipesByClub(augmentedClub.club)}} équipe(s)
                         </div>
                         <span *ngIf="augmentedClub.selected" style="float:left;padding-top:5px;">
                             <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub.club,division);"><i class="fa fa-minus"></i></button>

@@ -158,6 +158,33 @@ export class ChampionnatEquipesComponent implements OnInit {
         equipe.division = division;
         equipe.club = club;
 
+        // On regarde s'il y a au moins une poule
+        // S'il n'y en a pas encore, on va en creer une
+        let nbPoulesInDivision = this.getNbPoulesInDivision(division);
+
+        if (nbPoulesInDivision == 0) {
+
+            // Creation d'une poule
+            let poule = new Poule();
+            poule.division = division;
+            poule.numero = this.getNbPoulesInDivision(division) + 1;
+            this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => {
+                this.poules.push(newPoule);
+                equipe.poule=newPoule;
+                this.ajoutEquipe(club,division,equipe);
+            });
+
+        }else{
+            // On recupere la premiere poule de la division
+            let poule = this.getPoulesByDivision(division).sort((a, b) => compare(a.numero, b.numero, true))[0];
+            equipe.poule=poule;
+            this.ajoutEquipe(club,division,equipe);
+        
+        }
+
+    }
+    
+    ajoutEquipe(club:Club,division:Division,equipe:Equipe){
         this.equipeService.ajoutEquipe(division.id, equipe).subscribe(newEquipe => {
             equipe.id = newEquipe.id;
             this.equipes.push(equipe);
@@ -165,19 +192,7 @@ export class ChampionnatEquipesComponent implements OnInit {
             // Renommage des equipes car le nom depend de la division a laquelle elle appartient
             this.nommageEquipe(club);
 
-            // On regarde s'il y a au moins une poule
-            // S'il n'y en a pas encore, on va en creer une
-            let nbPoulesInDivision = this.getNbPoulesInDivision(division);
-
-            if (nbPoulesInDivision == 0) {
-
-                // Creation d'une poule
-                this.addOnePoule(division);
-
-            }
-
         });
-
     }
 
     removeOneTeam(club: Club, division: Division) {
@@ -224,28 +239,28 @@ export class ChampionnatEquipesComponent implements OnInit {
         console.log(equipesClub);
         this.equipeService.updateEquipeNames(equipesClub).subscribe();
     }
-
-    addOnePoule(division: Division) {
-        let poule = new Poule();
-        poule.division = division;
-        poule.numero = this.getNbPoulesInDivision(division) + 1;
-        this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => this.poules.push(newPoule));
-    }
-
-    removeOnePoule(division: Division) {
-
-        // On ne peut jamais supprimer la derniere poule, cela se fait automatiquement en supprimant la derniere equipe
-        // inscrite dans la division
-
-        let nbPoulesInDivision = this.getNbPoulesInDivision(division);
-        if (nbPoulesInDivision > 1) {
-            let pouleToDelete = this.getPoulesByDivision(division).sort((a, b) => compare(a.numero, b.numero, false))[0];
-            this.pouleService.deletePoule(pouleToDelete).subscribe(result => {
-                let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleToDelete.id);
-                this.poules.splice(indexOfPoule, 1);
-            });
-        }
-    }
+//
+//    addOnePoule(division: Division) {
+//        let poule = new Poule();
+//        poule.division = division;
+//        poule.numero = this.getNbPoulesInDivision(division) + 1;
+//        this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => this.poules.push(newPoule));
+//    }
+//
+//    removeOnePoule(division: Division) {
+//
+//        // On ne peut jamais supprimer la derniere poule, cela se fait automatiquement en supprimant la derniere equipe
+//        // inscrite dans la division
+//
+//        let nbPoulesInDivision = this.getNbPoulesInDivision(division);
+//        if (nbPoulesInDivision > 1) {
+//            let pouleToDelete = this.getPoulesByDivision(division).sort((a, b) => compare(a.numero, b.numero, false))[0];
+//            this.pouleService.deletePoule(pouleToDelete).subscribe(result => {
+//                let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleToDelete.id);
+//                this.poules.splice(indexOfPoule, 1);
+//            });
+//        }
+//    }
 
     getNbEquipesInChampionship() {
         return this.equipes.length;
