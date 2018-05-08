@@ -28,7 +28,7 @@ export class ChampionnatEquipesComponent implements OnInit {
     selectedChampionnat: Championnat;
     divisions: Division[];
     equipes: Equipe[] = [];
-    poules: Poule[]=[];
+    poules: Poule[] = [];
 
     constructor(
         public dialog: MatDialog,
@@ -157,45 +157,51 @@ export class ChampionnatEquipesComponent implements OnInit {
         let equipe = new Equipe();
         equipe.division = division;
         equipe.club = club;
-        
+
         this.equipeService.ajoutEquipe(division.id, equipe).subscribe(newEquipe => {
             equipe.id = newEquipe.id;
             this.equipes.push(equipe);
-            
+
             // Renommage des equipes car le nom depend de la division a laquelle elle appartient
             this.nommageEquipe(club);
-            
+
             // On regarde s'il y a au moins une poule
             // S'il n'y en a pas encore, on va en creer une
             let nbPoulesInDivision = this.getNbPoulesInDivision(division);
-            
-            if (nbPoulesInDivision==0){
-                
+
+            if (nbPoulesInDivision == 0) {
+
                 // Creation d'une poule
                 this.addOnePoule(division);
-                
+
             }
-            
+
         });
-        
+
     }
 
     removeOneTeam(club: Club, division: Division) {
-        let indexOfTeam = this.equipes.findIndex(equipe => equipe.division.id == division.id && equipe.club.id == club.id);
-        if (indexOfTeam != -1) {
-            let equipeToDelete:Equipe = this.equipes.find((equipe,index) => indexOfTeam==index);
-            this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => 
-            {
+        // On trie les equipes par nom descendant pour trouver la derniere equipe dans cette division
+
+        let clubTeamsInDivision = this.getEquipesByClubAndDivision(club, division);
+
+        if (clubTeamsInDivision.length > 0) {
+
+            let sortedTeams = this.getEquipesByClubAndDivision(club, division).sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique, false));
+
+            let equipeToDelete = sortedTeams[0];
+            this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => {
+                let indexOfTeam = this.equipes.findIndex(equipe => equipe.id == equipeToDelete.id);
                 this.equipes.splice(indexOfTeam, 1);
                 // Renommage des equipes car le nom depend de la division a laquelle elle appartient
                 this.nommageEquipe(club);
-                
+
                 // On regarde s'il reste des equipes dans la division
                 // S'il n'y en a plus, on va supprimer les poules existantes
-                
+
                 let nbEquipesInDivision = this.getNbEquipesByDivision(division);
-                if (nbEquipesInDivision==0){
-                    
+                if (nbEquipesInDivision == 0) {
+
                     this.getPoulesByDivision(division).forEach(pouleInDivision => {
                         this.pouleService.deletePoule(pouleInDivision).subscribe(result => {
                             let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleInDivision.id);
@@ -205,34 +211,35 @@ export class ChampionnatEquipesComponent implements OnInit {
                 }
             });
         }
-        
+
     }
-    
-    nommageEquipe(club:Club){
+
+    nommageEquipe(club: Club) {
         //TODO : idealement positionner ce renommage cote server
         let equipesClub = this.equipes.filter(equipe => equipe.club.id == club.id).sort((a, b) => {return compare(a.division.numero, b.division.numero, true);});
         console.log(equipesClub);
         equipesClub.forEach((equipe, index) => {
             equipe.codeAlphabetique = club.nom + " " + String.fromCharCode(97 + index).toUpperCase();
         });
+        console.log(equipesClub);
         this.equipeService.updateEquipeNames(equipesClub).subscribe();
     }
-    
-    addOnePoule(division:Division){
+
+    addOnePoule(division: Division) {
         let poule = new Poule();
         poule.division = division;
-        poule.numero = this.getNbPoulesInDivision(division)+1;
+        poule.numero = this.getNbPoulesInDivision(division) + 1;
         this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => this.poules.push(newPoule));
     }
-    
-    removeOnePoule(division:Division){
-        
+
+    removeOnePoule(division: Division) {
+
         // On ne peut jamais supprimer la derniere poule, cela se fait automatiquement en supprimant la derniere equipe
         // inscrite dans la division
-        
+
         let nbPoulesInDivision = this.getNbPoulesInDivision(division);
-        if (nbPoulesInDivision>1){
-            let pouleToDelete = this.getPoulesByDivision(division).sort((a,b) => compare(a.numero,b.numero,false))[0];
+        if (nbPoulesInDivision > 1) {
+            let pouleToDelete = this.getPoulesByDivision(division).sort((a, b) => compare(a.numero, b.numero, false))[0];
             this.pouleService.deletePoule(pouleToDelete).subscribe(result => {
                 let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleToDelete.id);
                 this.poules.splice(indexOfPoule, 1);
@@ -252,15 +259,19 @@ export class ChampionnatEquipesComponent implements OnInit {
         return this.equipes.filter(equipe => equipe.club.id == club.id).length;
     }
 
-    getNbEquipesByClubAndDivision(club: Club, division: Division): number {
-        return this.equipes.filter(equipe => equipe.division.id == division.id).filter(equipe => equipe.club.id == club.id).length;
+    getEquipesByClubAndDivision(club: Club, division: Division) {
+        return this.equipes.filter(equipe => equipe.division.id == division.id).filter(equipe => equipe.club.id == club.id);
     }
-    
-    getPoulesByDivision(division:Division){
+
+    getNbEquipesByClubAndDivision(club: Club, division: Division): number {
+        return this.getEquipesByClubAndDivision(club, division).length;
+    }
+
+    getPoulesByDivision(division: Division) {
         return this.poules.filter(poule => poule.division.id == division.id);
     }
-    
-    getNbPoulesInDivision(division:Division){
+
+    getNbPoulesInDivision(division: Division) {
         return this.getPoulesByDivision(division).length;
     }
 
