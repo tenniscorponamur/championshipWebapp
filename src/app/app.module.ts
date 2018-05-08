@@ -54,6 +54,8 @@ import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from
 import {DivisionService} from './division.service';
 import {EquipeService} from './equipe.service';
 import {PouleService} from './poule.service';
+import { ChampionnatPoulesComponent } from './championnat-poules/championnat-poules.component';
+import {ChampionnatDetailComponent} from './championnats/championnat-detail.component';
 
 
 @NgModule({
@@ -84,7 +86,8 @@ import {PouleService} from './poule.service';
     SelectionClubDialog,
     DashboardComponent,
     ChampionnatDivisionsComponent,
-    ChampionnatDivisionDetailComponent
+    ChampionnatDivisionDetailComponent,
+    ChampionnatPoulesComponent
   ],
   imports: [
     BrowserModule,

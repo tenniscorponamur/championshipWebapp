@@ -12,13 +12,14 @@ import {EquipeService} from '../equipe.service';
 import {Equipe} from '../equipe';
 import {PouleService} from '../poule.service';
 import {Poule} from '../poule';
+import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 
 @Component({
     selector: 'app-championnat-equipes',
     templateUrl: './championnat-equipes.component.html',
     styleUrls: ['./championnat-equipes.component.css']
 })
-export class ChampionnatEquipesComponent implements OnInit {
+export class ChampionnatEquipesComponent extends ChampionnatDetailComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
 
@@ -38,6 +39,7 @@ export class ChampionnatEquipesComponent implements OnInit {
         private pouleService: PouleService,
         private clubService: ClubService
     ) {
+        super();
         this.championnatCtrl = new FormControl();
     }
 
@@ -46,58 +48,6 @@ export class ChampionnatEquipesComponent implements OnInit {
         this.clubService.getClubs().subscribe(clubs => {
             clubs.forEach(club => this.augmentedClubs.push(new AugmentedClub(club, false)));
         });
-    }
-
-    getTypeChampionnat(championnat: Championnat): TypeChampionnat {
-        return getTypeChampionnat(championnat);
-    }
-
-    getCategorieChampionnat(championnat: Championnat): CategorieChampionnat {
-        return getCategorieChampionnat(championnat);
-    }
-
-    getTrophyClass(championnat: Championnat) {
-        if (championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code) {
-            return "fa fa-trophy menChampionship";
-        } else if (championnat.categorie == CATEGORIE_CHAMPIONNAT_DAMES.code) {
-            return "fa fa-trophy womenChampionship";
-        } else if (championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code) {
-            return "fa fa-trophy mixteChampionship";
-        }
-        return "";
-    }
-
-    getChampionshipHeader(championnat: Championnat) {
-        if (championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code) {
-            return "menChampionshipHeader";
-        } else if (championnat.categorie == CATEGORIE_CHAMPIONNAT_DAMES.code) {
-            return "womenChampionshipHeader";
-        } else if (championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code) {
-            return "mixteChampionshipHeader";
-        }
-        return "";
-    }
-
-    getTypeClass(championnat: Championnat) {
-        if (championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
-            return "fa fa-snowflake-o winterTrophyType";
-        } else if (championnat.type == TYPE_CHAMPIONNAT_ETE.code) {
-            return "fa fa-sun-o summerTrophyType";
-        } else if (championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code) {
-            return "fa fa-star criteriumTrophyType";
-        }
-        return "";
-    }
-
-    getTypeIcon(championnat: Championnat) {
-        if (championnat.type == TYPE_CHAMPIONNAT_HIVER.code) {
-            return "fa fa-snowflake-o";
-        } else if (championnat.type == TYPE_CHAMPIONNAT_ETE.code) {
-            return "fa fa-sun-o";
-        } else if (championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code) {
-            return "fa fa-star";
-        }
-        return "";
     }
 
     loadTeams() {
