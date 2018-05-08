@@ -38,33 +38,66 @@
 <div *ngFor="let division of divisions" class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
     <div class="card">
         <h6 class="card-header">
-            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbEquipesByDivision(division)}} équipe(s) inscrite(s) 
+            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbPoulesInDivision(division)}} poule(s) - {{getNbEquipesByDivision(division)}} équipe(s) inscrite(s) 
         </h6>
         <div class="card-body">
             <div class="row">
-                
-                
-                
-<!--                <div *ngFor="let augmentedClub of augmentedClubs">
-                    <div *ngIf="displayTeam(augmentedClub,division)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
-                        <div class="text-right" style="float:right;padding-top:15px;" >
-                            <span style="font-size:3em;">
-                                <strong>{{getNbEquipesByClubAndDivision(augmentedClub.club,division)}}</strong>
-                            </span>
+
+                <div *ngFor="let poule of getPoulesByDivision(division)" class="col-12" >
+
+                    <div class="row">
+                        <div class="pouleBox col-12">
+                            <strong>Division {{division.numero}} - Poule {{poule.numero}}</strong>
                         </div>
-                        <div>
-                            <strong>{{augmentedClub.club.nom}}</strong><br/>{{getNbEquipesByClub(augmentedClub.club)}} équipe(s)
-                        </div>
-                        <span *ngIf="augmentedClub.selected" style="float:left;padding-top:5px;">
-                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub.club,division);"><i class="fa fa-minus"></i></button>
-                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(augmentedClub.club,division);"><i class="fa fa-plus"></i></button>
-                        </span>
-                        &nbsp;
                     </div>
+                    
+                    <div class="row">
+                        <div *ngFor="let equipe of getEquipesByPoule(poule)">
+
+                            <div class="teamBox" (click)="editTeam(equipe);">
+                                <div style="float:right">
+                                    <i class="fa fa-pencil fa-2"></i>
+                                </div>
+                                <div>
+                                    <strong>{{equipe.codeAlphabetique}}</strong><br/>
+                                    <small>Capitaine : Michaël Petit</small><br/>
+                                    <small>Terrain : Tabora</small>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    
                 </div>
+                
+                <div class="col-12 text-right">
+                    <button class="btn btn-sm btn-success">
+                        <i class="fa fa-plus"></i>&nbsp;Ajouter une poule
+                    </button>
+                </div>
+
+
+                <!--                <div *ngFor="let augmentedClub of augmentedClubs">
+                                    <div *ngIf="displayTeam(augmentedClub,division)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
+                                        <div class="text-right" style="float:right;padding-top:15px;" >
+                                            <span style="font-size:3em;">
+                                                <strong>{{getNbEquipesByClubAndDivision(augmentedClub.club,division)}}</strong>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <strong>{{augmentedClub.club.nom}}</strong><br/>{{getNbEquipesByClub(augmentedClub.club)}} équipe(s)
+                                        </div>
+                                        <span *ngIf="augmentedClub.selected" style="float:left;padding-top:5px;">
+                                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub.club,division);"><i class="fa fa-minus"></i></button>
+                                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(augmentedClub.club,division);"><i class="fa fa-plus"></i></button>
+                                        </span>
+                                        &nbsp;
+                                    </div>
+                                </div>
                 -->
-                
-                
+
+
             </div>
         </div>
     </div>

@@ -38,3 +38,31 @@
 .criteriumTrophyType{
     color:#e3cf7a;
 }
+
+.pouleBox{
+    border-color:lightblue;
+    border-style:solid;
+    border-radius:15px;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:20px;
+    padding-right:20px;
+    margin-bottom: 10px;
+}
+
+.teamBox {
+    width:200px;
+    background-color:lightblue;
+    border-radius:15px;
+    padding-top:10px;
+    padding-bottom:20px;
+    padding-left:20px;
+    padding-right:20px;
+    margin:5px;
+}
+
+.teamBox:hover {
+  background-color:steelblue;
+  cursor:pointer;
+  color:white;
+}

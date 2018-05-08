@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
@@ -22,6 +22,8 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
 export class ChampionnatEquipesComponent extends ChampionnatDetailComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
+    
+    @Output() selectChampionnat = new EventEmitter<Championnat>();
 
     augmentedClubs: AugmentedClub[] = [];
     championnats: Championnat[];
@@ -51,7 +53,11 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
     }
 
     loadTeams() {
+        
+        this.selectChampionnat.emit(this.selectedChampionnat);
+        
         this.equipes = [];
+        this.poules=[];
         if (this.selectedChampionnat) {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {

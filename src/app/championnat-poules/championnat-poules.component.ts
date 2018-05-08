@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Championnat} from '../championnat';
 import {compare} from '../utility';
@@ -21,6 +21,9 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
 export class ChampionnatPoulesComponent extends ChampionnatDetailComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
+    
+    @Output() selectChampionnat = new EventEmitter<Championnat>();
+    
     championnats: Championnat[];
     
     
@@ -47,7 +50,11 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
   }
   
     loadTeams() {
+        
+        this.selectChampionnat.emit(this.selectedChampionnat);
+        
         this.equipes = [];
+        this.poules=[];
         if (this.selectedChampionnat) {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
@@ -94,7 +101,27 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
     
     getNbEquipesByDivision(division: Division) {
-        return this.equipes.filter(equipe => equipe.division.id == division.id).length;
+        return this.getEquipesByDivision(division).length;
+    }
+    
+    getEquipesByDivision(division: Division) {
+        return this.equipes.filter(equipe => equipe.division.id == division.id);
+    }
+    
+    getEquipesByPoule(poule: Poule) {
+        return this.equipes.filter(equipe => equipe.poule.id == poule.id);
+    }
+    
+    getPoulesByDivision(division:Division) {
+        return this.poules.filter(poule => poule.division.id == division.id);
+    }
+    
+    getNbPoulesInDivision(division: Division) {
+        return this.getPoulesByDivision(division).length;
+    }
+
+    editTeam(equipe:Equipe){
+        console.log("edit team");
     }
 
 }

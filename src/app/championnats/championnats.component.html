@@ -8,12 +8,12 @@
         </mat-tab>
         <mat-tab label="Equipes">
             <div style="padding:10px;">
-                <app-championnat-equipes></app-championnat-equipes>
+                <app-championnat-equipes (selectChampionnat)="selectChampionnat($event)"></app-championnat-equipes>
             </div>
         </mat-tab>
         <mat-tab label="Capitaines/Terrains">
             <div style="padding:10px;">
-                <app-championnat-poules></app-championnat-poules>
+                <app-championnat-poules (selectChampionnat)="selectChampionnat($event)"></app-championnat-poules>
             </div>
         </mat-tab>
     </mat-tab-group>
