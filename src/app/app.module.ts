@@ -56,6 +56,7 @@ import {EquipeService} from './equipe.service';
 import {PouleService} from './poule.service';
 import { ChampionnatPoulesComponent } from './championnat-poules/championnat-poules.component';
 import {ChampionnatDetailComponent} from './championnats/championnat-detail.component';
+import { ChampionnatRencontresComponent } from './championnat-rencontres/championnat-rencontres.component';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import {ChampionnatDetailComponent} from './championnats/championnat-detail.comp
     DashboardComponent,
     ChampionnatDivisionsComponent,
     ChampionnatDivisionDetailComponent,
-    ChampionnatPoulesComponent
+    ChampionnatPoulesComponent,
+    ChampionnatRencontresComponent
   ],
   imports: [
     BrowserModule,

@@ -56,12 +56,19 @@
 
                             <div class="teamBox" (click)="editTeam(equipe);">
                                 <div style="float:right">
-                                    <i class="fa fa-pencil fa-2"></i>
+                                    
                                 </div>
                                 <div>
                                     <strong>{{equipe.codeAlphabetique}}</strong><br/>
-                                    <small>Capitaine : Michaël Petit</small><br/>
-                                    <small>Terrain : Tabora</small>
+                                    <div class="teamBoxEditable">
+                                        <small>Capitaine : M. Petit&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
+                                    </div>
+                                    <div class="teamBoxEditable">
+                                        <small>Terrain : Tabora&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
+                                    </div>
+                                    <div class="text-center">   
+                                        <button class="btn btn-sm btn-primary">Changer poule</button>
+                                    </div>
                                 </div>
 
                             </div>

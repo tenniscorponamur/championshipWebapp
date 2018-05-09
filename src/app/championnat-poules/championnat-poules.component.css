@@ -1,9 +1,9 @@
 .menChampionship{
-  color: steelblue;
+    color: steelblue;
 }
 
 .womenChampionship{
-  color: pink;
+    color: pink;
 }
 
 .mixteChampionship{
@@ -11,16 +11,16 @@
 }
 
 .championshipHeader{
-  padding:15px;
-  font-size:1.5em;
+    padding:15px;
+    font-size:1.5em;
 }
 
 .menChampionshipHeader{
-  background-color:steelblue;
+    background-color:steelblue;
 }
 
 .womenChampionshipHeader{
-  background-color:pink;
+    background-color:pink;
 }
 
 .mixteChampionshipHeader{
@@ -51,7 +51,7 @@
 }
 
 .teamBox {
-    width:200px;
+    width:250px;
     background-color:lightblue;
     border-radius:15px;
     padding-top:10px;
@@ -61,8 +61,15 @@
     margin:5px;
 }
 
-.teamBox:hover {
-  background-color:steelblue;
-  cursor:pointer;
-  color:white;
+.teamBoxEditable {
+    border-radius:5px;
+    padding:5px;
+}
+
+.teamBoxEditable:hover {
+    border-radius:5px;
+    padding:5px;
+    background-color:steelblue;
+    cursor:pointer;
+    color:white;
 }

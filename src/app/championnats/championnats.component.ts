@@ -3,6 +3,7 @@ import {MatTabChangeEvent} from '@angular/material';
 import {ChampionnatEquipesComponent} from '../championnat-equipes/championnat-equipes.component';
 import {ChampionnatPoulesComponent} from '../championnat-poules/championnat-poules.component';
 import {Championnat} from '../championnat';
+import {ChampionnatRencontresComponent} from '../championnat-rencontres/championnat-rencontres.component';
 
 @Component({
   selector: 'app-championnats',
@@ -17,6 +18,9 @@ export class ChampionnatsComponent implements OnInit {
   @ViewChild(ChampionnatPoulesComponent)
   private championnatPoulesComponent: ChampionnatPoulesComponent;
   
+  @ViewChild(ChampionnatRencontresComponent)
+  private championnatRencontresComponent: ChampionnatRencontresComponent;
+  
   private selectedChampionnat:Championnat; 
   
   constructor() { 
@@ -30,6 +34,8 @@ export class ChampionnatsComponent implements OnInit {
         this.championnatEquipesComponent.refresh(this.selectedChampionnat);
       }else if (event.index==2){
         this.championnatPoulesComponent.refresh(this.selectedChampionnat);
+      }else if (event.index==3){
+          this.championnatRencontresComponent.refresh(this.selectedChampionnat);
       }
   }
 

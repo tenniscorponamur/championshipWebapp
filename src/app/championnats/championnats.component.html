@@ -11,9 +11,14 @@
                 <app-championnat-equipes (selectChampionnat)="selectChampionnat($event)"></app-championnat-equipes>
             </div>
         </mat-tab>
-        <mat-tab label="Capitaines/Terrains">
+        <mat-tab label="Poules">
             <div style="padding:10px;">
                 <app-championnat-poules (selectChampionnat)="selectChampionnat($event)"></app-championnat-poules>
+            </div>
+        </mat-tab>
+        <mat-tab label="Rencontres">
+            <div style="padding:10px;">
+                <app-championnat-rencontres (selectChampionnat)="selectChampionnat($event)"></app-championnat-rencontres>
             </div>
         </mat-tab>
     </mat-tab-group>
