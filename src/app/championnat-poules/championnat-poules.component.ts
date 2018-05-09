@@ -1,9 +1,9 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Championnat} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {DivisionService} from '../division.service';
 import {EquipeService} from '../equipe.service';
 import {PouleService} from '../poule.service';
@@ -96,6 +96,20 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         });
     }
     
+    addOnePoule(division: Division) {
+        let poule = new Poule();
+        poule.division = division;
+        poule.numero = this.getNbPoulesInDivision(division) + 1;
+        this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => this.poules.push(newPoule));
+    }
+    
+    removePoule(pouleToDelete: Poule) {
+        this.pouleService.deletePoule(pouleToDelete).subscribe(result => {
+            let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleToDelete.id);
+            this.poules.splice(indexOfPoule, 1);
+        });
+    }
+    
     getNbEquipesInChampionship() {
         return this.equipes.length;
     }
@@ -112,6 +126,10 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         return this.equipes.filter(equipe => equipe.poule.id == poule.id);
     }
     
+    getNbEquipesByPoule(poule: Poule) {
+        return this.getEquipesByPoule(poule).length;
+    }
+    
     getPoulesByDivision(division:Division) {
         return this.poules.filter(poule => poule.division.id == division.id);
     }
@@ -123,5 +141,47 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     editTeam(equipe:Equipe){
         console.log("edit team");
     }
+    
+    changePoule(equipe:Equipe){
+        
+        let changePouleDialogRef = this.dialog.open(ChangePouleDialog, {
+            data: {equipe: equipe, poulesPossibles: this.getPoulesByDivision(equipe.division)}, panelClass: "changePouleDialog"
+        });
+        
+    }
 
 }
+
+
+@Component({
+    selector: 'change-poule-dialog',
+    templateUrl: './changePouleDialog.html',
+})
+export class ChangePouleDialog {
+
+    private equipe: Equipe;
+    private poulesPossibles:Poule[];
+
+    constructor(
+        private equipeService:EquipeService,
+        public dialogRef: MatDialogRef<ChangePouleDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+
+        this.equipe = data.equipe;
+        this.poulesPossibles=data.poulesPossibles;
+
+    }
+
+    changePoule(poule:Poule) {
+        this.equipeService.updatePouleEquipe(this.equipe,poule).subscribe(result => {
+            this.equipe.poule=poule;
+            this.dialogRef.close();
+        });
+    }
+    
+    fermerSelection() {
+        this.dialogRef.close();
+    }
+
+}
+

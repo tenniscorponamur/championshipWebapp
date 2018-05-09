@@ -6,6 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Equipe} from './equipe';
+import {Poule} from './poule';
 
 @Injectable()
 export class EquipeService {
@@ -30,6 +31,10 @@ export class EquipeService {
     
     updateEquipeNames(equipes: Equipe[]) {
         return this.http.put<Equipe>(environment.privateApiUrl + "/equipes/names", equipes, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
+    updatePouleEquipe(equipe:Equipe,poule:Poule){
+        return this.http.put<Equipe>(environment.privateApiUrl + "/equipe/poule?equipeId="+equipe.id, poule, this.authenticationService.getPrivateApiHttpOptions());
     }
 
 }

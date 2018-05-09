@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Changement de poule<span style="float:right;margin-left:20px;"><button class="close" (click)="fermerSelection();">&times;</button></span></h1>
+<div *ngFor="let poule of poulesPossibles" class="text-center">
+    <button *ngIf="equipe.poule.id!=poule.id" class="btn btn-primary" style="margin:10px;" (click)="changePoule(poule)">
+        Poule {{poule.numero}} 
+    </button>
+</div>
