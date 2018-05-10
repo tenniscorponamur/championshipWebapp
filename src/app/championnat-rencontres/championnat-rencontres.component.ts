@@ -46,7 +46,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
 
   ngOnInit() {
-        this.refresh(null);
+        this.refresh(null,false);
   }
   
     loadCalendar() {
@@ -72,7 +72,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 //        }
     }
   
-    refresh(championnat: Championnat) {
+    refresh(championnat: Championnat,flush:boolean) {
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
                 (a, b) => {
@@ -93,7 +93,9 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                 this.selectedChampionnat = this.championnats.filter(championnatInList => championnatInList.id == championnat.id)[0];
                 this.loadCalendar();
             }else{
-                this.selectedChampionnat = null;
+                if (flush){
+                    this.selectedChampionnat = null;
+                }
             }
         });
     }

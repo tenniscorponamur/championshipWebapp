@@ -46,7 +46,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
 
 
   ngOnInit() {
-        this.refresh(null);
+        this.refresh(null,false);
   }
   
     loadTeams() {
@@ -72,7 +72,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         }
     }
   
-    refresh(championnat: Championnat) {
+    refresh(championnat: Championnat, flush:boolean) {
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
                 (a, b) => {
@@ -93,7 +93,9 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
                 this.selectedChampionnat = this.championnats.filter(championnatInList => championnatInList.id == championnat.id)[0];
                 this.loadTeams();
             }else{
-                this.selectedChampionnat = null;
+                if (flush){
+                    this.selectedChampionnat = null;
+                }
             }
         });
     }

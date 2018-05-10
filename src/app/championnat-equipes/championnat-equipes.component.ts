@@ -46,7 +46,7 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
     }
 
     ngOnInit() {
-        this.refresh(null);
+        this.refresh(null,false);
         this.clubService.getClubs().subscribe(clubs => {
             clubs.forEach(club => this.augmentedClubs.push(new AugmentedClub(club, false)));
         });
@@ -75,7 +75,7 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
         }
     }
 
-    refresh(championnat: Championnat) {
+    refresh(championnat: Championnat,flush:boolean) {
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
                 (a, b) => {
@@ -96,7 +96,9 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
                 this.selectedChampionnat = this.championnats.filter(championnatInList => championnatInList.id == championnat.id)[0];
                 this.loadTeams();
             }else{
-                this.selectedChampionnat = null;
+                if (flush){
+                    this.selectedChampionnat = null;
+                }
             }
         });
     }
