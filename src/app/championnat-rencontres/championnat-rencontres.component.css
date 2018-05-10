@@ -1,0 +1,40 @@
+.menChampionship{
+    color: steelblue;
+}
+
+.womenChampionship{
+    color: pink;
+}
+
+.mixteChampionship{
+    color:grey;
+}
+
+.championshipHeader{
+    padding:15px;
+    font-size:1.5em;
+}
+
+.menChampionshipHeader{
+    background-color:steelblue;
+}
+
+.womenChampionshipHeader{
+    background-color:pink;
+}
+
+.mixteChampionshipHeader{
+    background:linear-gradient(90deg,pink, steelblue);
+}
+
+.summerTrophyType{
+    color:darkorange
+}
+
+.winterTrophyType{
+    color:skyblue;
+}
+
+.criteriumTrophyType{
+    color:#e3cf7a;
+}

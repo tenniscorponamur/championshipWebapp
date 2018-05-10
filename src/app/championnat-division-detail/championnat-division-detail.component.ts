@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Inject} from '@angular/core';
+import {Component, OnInit, Input, Inject, Output, EventEmitter} from '@angular/core';
 import {Championnat, TypeChampionnat, getTypeChampionnat, getCategorieChampionnat, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPES_CHAMPIONNAT, CATEGORIES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
@@ -13,6 +13,8 @@ import {compare} from '../utility';
 })
 export class ChampionnatDivisionDetailComponent implements OnInit {
 
+    @Output() deleteChampionnat = new EventEmitter<Championnat>();
+    
     constructor(
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
@@ -170,6 +172,9 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         });
     }
 
+    supprimerChampionnat(){
+        this.deleteChampionnat.emit(this._championnat);
+    }
 }
 
 @Component({

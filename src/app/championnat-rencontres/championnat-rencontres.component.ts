@@ -18,7 +18,7 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
   templateUrl: './championnat-rencontres.component.html',
   styleUrls: ['./championnat-rencontres.component.css']
 })
-export class ChampionnatRencontresComponent  extends ChampionnatDetailComponent implements OnInit {
+export class ChampionnatRencontresComponent extends ChampionnatDetailComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
     
@@ -49,27 +49,27 @@ export class ChampionnatRencontresComponent  extends ChampionnatDetailComponent 
         this.refresh(null);
   }
   
-    loadTeams() {
+    loadCalendar() {
         
         this.selectChampionnat.emit(this.selectedChampionnat);
-        
-        this.equipes = [];
-        this.poules=[];
-        if (this.selectedChampionnat) {
-            this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
-                divisions => {
-                    this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
-                    this.divisions.forEach(division => {
-                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {
-                            equipes.forEach(equipe => this.equipes.push(equipe));
-                        });
-                        this.pouleService.getPoules(division.id).subscribe(poules => {
-                            poules.forEach(poule => this.poules.push(poule));
-                        });
-                    });
-                }
-            );
-        }
+//        
+//        this.equipes = [];
+//        this.poules=[];
+//        if (this.selectedChampionnat) {
+//            this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
+//                divisions => {
+//                    this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
+//                    this.divisions.forEach(division => {
+//                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {
+//                            equipes.forEach(equipe => this.equipes.push(equipe));
+//                        });
+//                        this.pouleService.getPoules(division.id).subscribe(poules => {
+//                            poules.forEach(poule => this.poules.push(poule));
+//                        });
+//                    });
+//                }
+//            );
+//        }
     }
   
     refresh(championnat: Championnat) {
@@ -91,7 +91,9 @@ export class ChampionnatRencontresComponent  extends ChampionnatDetailComponent 
 
             if (championnat) {
                 this.selectedChampionnat = this.championnats.filter(championnatInList => championnatInList.id == championnat.id)[0];
-                this.loadTeams();
+                this.loadCalendar();
+            }else{
+                this.selectedChampionnat = null;
             }
         });
     }
@@ -118,10 +120,6 @@ export class ChampionnatRencontresComponent  extends ChampionnatDetailComponent 
     
     getNbPoulesInDivision(division: Division) {
         return this.getPoulesByDivision(division).length;
-    }
-
-    editTeam(equipe:Equipe){
-        console.log("edit team");
     }
 
 }

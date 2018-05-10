@@ -92,6 +92,8 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
             if (championnat) {
                 this.selectedChampionnat = this.championnats.filter(championnatInList => championnatInList.id == championnat.id)[0];
                 this.loadTeams();
+            }else{
+                this.selectedChampionnat = null;
             }
         });
     }

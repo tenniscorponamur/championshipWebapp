@@ -122,16 +122,36 @@ export class ChampionnatDivisionsComponent implements OnInit {
                 this.selectedChampionnat = result;
                 this.sortedChampionnats.push(this.selectedChampionnat);
                 this.sortData(this.actualSort);
-                //Appel au parent pour le refresh des autres enfants
-                this.selectChampionnat.emit(result);
+                this.signalSelection();
             }
         });
     }
     
     ouvrirChampionnat(championnat:Championnat):void{
         this.selectedChampionnat = championnat;
+        this.signalSelection();
+    }
+    
+    deleteChampionnat(championnatToDelete : Championnat){
+        this.championnatService.deleteChampionnat(championnatToDelete).subscribe(result => {
+            this.selectedChampionnat = null;
+            
+            let indexInFiltered = this.filteredChampionnats.findIndex(championnat => championnat.id == championnatToDelete.id);
+            if (indexInFiltered!=-1){
+                this.filteredChampionnats.splice(indexInFiltered,1);
+            }
+            let indexInSorted = this.sortedChampionnats.findIndex(championnat => championnat.id == championnatToDelete.id);
+            if (indexInSorted!=-1){
+                this.sortedChampionnats.splice(indexInSorted,1);
+            }
+        
+            this.signalSelection();
+        });
+    }
+    
+    signalSelection(){
         //Appel au parent pour le refresh des autres enfants
-        this.selectChampionnat.emit(championnat);
+        this.selectChampionnat.emit(this.selectedChampionnat);
     }
 
 }

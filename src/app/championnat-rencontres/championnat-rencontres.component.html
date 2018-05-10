@@ -1,3 +1,34 @@
-<p>
-  championnat-rencontres works!
-</p>
+
+<div style="margin-top:10px;margin-bottom:10px;">
+
+    <div class="row">
+        <div class="col-12">
+
+            <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadCalendar();" >
+                <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+
+                    <span>
+                        <i class="{{getTrophyClass(championnat)}}"></i>
+                        <i class="{{getTypeClass(championnat)}}" ></i>
+                    </span>
+
+                    <small>
+
+                        {{getTypeChampionnat(championnat).libelle}}
+                        {{championnat.annee}}
+                        {{getCategorieChampionnat(championnat).libelle}}
+
+                    </small>
+                </mat-option>
+            </mat-select>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="selectedChampionnat" class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
+    <i class="fa fa-trophy"></i>
+    {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
+    <i class="{{getTypeIcon(selectedChampionnat)}}"></i> 
+    - {{getCategorieChampionnat(selectedChampionnat).libelle}} - {{getNbEquipesInChampionship()}} équipes inscrites
+</div>
