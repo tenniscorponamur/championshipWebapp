@@ -5,10 +5,11 @@ const app = express();
 const port = process.env.PORT || 4200;
 // Gzip
 app.use(compression());
-// Serve static files from the dist directory
-app.use(express.static(__dirname + '/../dist'));
+//// Serve static files from the dist directory
+//app.use(express.static(__dirname + '/../dist'));
 // Start the app by listening on the default Heroku port
 app.listen(port);
+console.log('Dirname : ' + __dirname);
 // Return index.html for all GET requests for PathLocationStrategy
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
