@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; // <-- Http Client lives here
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatInputModule,MAT_DATE_LOCALE,MatNativeDateModule } from '@angular/material'; // <-- Dialog lives here
@@ -141,6 +142,7 @@ import { ChampionnatRencontresComponent } from './championnat-rencontres/champio
     MembreService,
     UserService,
     AuthGuardService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService,multi: true},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:true}},
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
