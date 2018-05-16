@@ -8,7 +8,7 @@ import { } from 'node';
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 const backend = {
-  url : process.env.BACKEND_URL || 'http://localhost:9100'
+  url : 'http://localhost:9100'
 }
 
 export const environment = {

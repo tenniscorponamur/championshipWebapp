@@ -3,7 +3,7 @@
 import { } from 'node';
 
 const backend = {
-  url : process.env.BACKEND_URL || 'http://localhost:9100'
+  url : 'https://tenniscorpobackend.herokuapp.com'
 }
 
 export const environment = {
