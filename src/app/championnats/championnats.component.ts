@@ -25,7 +25,7 @@ export class ChampionnatsComponent implements OnInit {
     private championnatRencontresComponent: ChampionnatRencontresComponent;
 
     private selectedChampionnat: Championnat;
-    private selectedIndex: number;
+    selectedIndex: number;
 
     constructor() {
     }

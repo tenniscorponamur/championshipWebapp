@@ -11,15 +11,15 @@ import {UserService} from '../user.service';
 export class UtilisateurDetailComponent implements OnInit {
 
   @Input()
-  private utilisateur:User
-  
+  utilisateur:User
+
   constructor(
     public dialog: MatDialog
     ) { }
 
   ngOnInit() {
   }
-  
+
   ouvrirUtilisateurDetail() {
     let userDialogRef = this.dialog.open(UserDialog, {
       data: { utilisateur: this.utilisateur }, panelClass: "userDialog"
@@ -64,34 +64,34 @@ export class UserDialog {
   save(): void {
 
     this.showAlert=false;
-      
+
        // Verification du prenom
       if (this._prenom && this._prenom.trim().length > 0){
         //this.showAlert=false;
       }else{
         this.showAlert=true;
       }
-      
-    // Verification du nom 
+
+    // Verification du nom
       if (this._nom && this._nom.trim().length > 0){
         //this.showAlert=false;
       }else{
         this.showAlert=true;
       }
-      
+
       // Verification du nom d'utilisateur
       if (this._username){
           //this.showAlert=false;
       }else{
           this.showAlert=true;
       }
-      
+
       if (!this.showAlert){
-          
+
         this._utilisateur.prenom=this._prenom;
         this._utilisateur.nom=this._nom;
         this._utilisateur.username=this._username;
-        
+
         if (!this._utilisateur.id){
             // Ajout d'un nouveal utilisateur
             this.userService.ajoutUtilisateur(this._utilisateur).subscribe(

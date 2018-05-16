@@ -14,7 +14,7 @@ import {compare} from '../utility';
 export class ChampionnatDivisionDetailComponent implements OnInit {
 
     @Output() deleteChampionnat = new EventEmitter<Championnat>();
-    
+
     constructor(
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
@@ -26,9 +26,9 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
     private _championnat: Championnat;
     private divisions: Division[];
 
-    private divisionHeaderClass: string = "card-header";
-    private trophyTypeClass: string = "";
-    private showProgress = false;
+    divisionHeaderClass: string = "card-header";
+    trophyTypeClass: string = "";
+    showProgress = false;
 
     @Input()
     set championnat(championnat: Championnat) {
@@ -116,7 +116,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         if (this.divisions.length > 1) {
             let divisionIndex = this.divisions.indexOf(division);
             if (divisionIndex == 0) {
-                // Look forward 
+                // Look forward
                 let nextDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex + 1)[0];
                 if (division.pointsMaximum < nextDivision.pointsMaximum) {
                     needSort = true;

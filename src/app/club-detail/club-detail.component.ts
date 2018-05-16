@@ -11,15 +11,15 @@ import {ClubService} from '../club.service';
 export class ClubDetailComponent implements OnInit {
 
   @Input()
-  private club: Club; 
-  
+  club: Club;
+
   constructor(
     public dialog: MatDialog
     ) { }
 
   ngOnInit() {
   }
-  
+
   ouvrirClub() {
     let clubDialogRef = this.dialog.open(ClubDialog, {
       data: { club: this.club }, panelClass: "infosGeneralesMembreDialog"

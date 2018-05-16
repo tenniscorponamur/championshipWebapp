@@ -22,7 +22,7 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
 export class ChampionnatEquipesComponent extends ChampionnatDetailComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
-    
+
     @Output() selectChampionnat = new EventEmitter<Championnat>();
 
     augmentedClubs: AugmentedClub[] = [];
@@ -53,9 +53,9 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
     }
 
     loadTeams() {
-        
+
         this.selectChampionnat.emit(this.selectedChampionnat);
-        
+
         this.equipes = [];
         this.poules=[];
         if (this.selectedChampionnat) {
@@ -139,11 +139,11 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
             let poule = this.getPoulesByDivision(division).sort((a, b) => compare(a.numero, b.numero, true))[0];
             equipe.poule=poule;
             this.ajoutEquipe(club,division,equipe);
-        
+
         }
 
     }
-    
+
     ajoutEquipe(club:Club,division:Division,equipe:Equipe){
         this.equipeService.ajoutEquipe(division.id, equipe).subscribe(newEquipe => {
             equipe.id = newEquipe.id;
@@ -291,7 +291,7 @@ export class AugmentedClub {
 })
 export class SelectionClubDialog {
 
-    private augmentedClubs: AugmentedClub[];
+    augmentedClubs: AugmentedClub[];
 
     constructor(
         public dialogRef: MatDialogRef<SelectionClubDialog>,

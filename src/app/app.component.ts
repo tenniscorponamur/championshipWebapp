@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    
+
   title = 'Tennis Corpo Namur';
 
   constructor(
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
        }
 
     get user(): User {return this.authenticationService.getConnectedUser(); }
-  
+
   ngOnInit() {
     this.userService.getCurrentUser().subscribe(
       user => {
@@ -51,16 +51,16 @@ export class AppComponent implements OnInit {
       }
     });
   }
-  
+
   ouvrirCompteUtilisateur(): void {
     let compteUtilisateurDialogRef = this.dialog.open(CompteUtilisateurDialog, {
       data: { }, panelClass: "compteUtilisateurDialog", disableClose:false
     });
-    
+
     compteUtilisateurDialogRef.afterClosed().subscribe(result => {
       if (result){
-        this.authenticationService.disconnect(); 
-        this.router.navigate(['/home']); 
+        this.authenticationService.disconnect();
+        this.router.navigate(['/home']);
       }else{
         //console.log('La fenetre de login a ete fermee sans deconnexion');
       }
@@ -75,9 +75,9 @@ export class AppComponent implements OnInit {
 })
 export class LoginFormDialog {
 
-  private _login:string;
-  private _password:string;
-  private _rememberMe:boolean=true;
+  _login:string;
+  _password:string;
+  _rememberMe:boolean=true;
   showAlert:boolean=false;
 
   constructor(
@@ -120,7 +120,7 @@ export class CompteUtilisateurDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     get user(): User {return this.authenticationService.getConnectedUser(); }
-    
+
     changePassword(): void {
         //TODO : permettre de changer le mot de passe
     }

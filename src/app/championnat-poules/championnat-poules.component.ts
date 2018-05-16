@@ -21,17 +21,17 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
 export class ChampionnatPoulesComponent extends ChampionnatDetailComponent implements OnInit {
 
     championnatCtrl: FormControl = new FormControl();
-    
+
     @Output() selectChampionnat = new EventEmitter<Championnat>();
-    
+
     championnats: Championnat[];
-    
-    
+
+
     selectedChampionnat: Championnat;
     divisions: Division[];
     poules: Poule[] = [];
     equipes: Equipe[] = [];
-    
+
     constructor(
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
@@ -48,11 +48,11 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
   ngOnInit() {
         this.refresh(null,false);
   }
-  
+
     loadTeams() {
-        
+
         this.selectChampionnat.emit(this.selectedChampionnat);
-        
+
         this.equipes = [];
         this.poules=[];
         if (this.selectedChampionnat) {
@@ -71,7 +71,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
             );
         }
     }
-  
+
     refresh(championnat: Championnat, flush:boolean) {
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
@@ -99,45 +99,45 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
             }
         });
     }
-    
+
     addOnePoule(division: Division) {
         let poule = new Poule();
         poule.division = division;
         poule.numero = this.getNbPoulesInDivision(division) + 1;
         this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => this.poules.push(newPoule));
     }
-    
+
     removePoule(pouleToDelete: Poule) {
         this.pouleService.deletePoule(pouleToDelete).subscribe(result => {
             let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleToDelete.id);
             this.poules.splice(indexOfPoule, 1);
         });
     }
-    
+
     getNbEquipesInChampionship() {
         return this.equipes.length;
     }
-    
+
     getNbEquipesByDivision(division: Division) {
         return this.getEquipesByDivision(division).length;
     }
-    
+
     getEquipesByDivision(division: Division) {
         return this.equipes.filter(equipe => equipe.division.id == division.id);
     }
-    
+
     getEquipesByPoule(poule: Poule) {
         return this.equipes.filter(equipe => equipe.poule.id == poule.id);
     }
-    
+
     getNbEquipesByPoule(poule: Poule) {
         return this.getEquipesByPoule(poule).length;
     }
-    
+
     getPoulesByDivision(division:Division) {
         return this.poules.filter(poule => poule.division.id == division.id);
     }
-    
+
     getNbPoulesInDivision(division: Division) {
         return this.getPoulesByDivision(division).length;
     }
@@ -145,13 +145,13 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     editTeam(equipe:Equipe){
         console.log("edit team");
     }
-    
+
     changePoule(equipe:Equipe){
-        
+
         let changePouleDialogRef = this.dialog.open(ChangePouleDialog, {
             data: {equipe: equipe, poulesPossibles: this.getPoulesByDivision(equipe.division)}, panelClass: "changePouleDialog"
         });
-        
+
     }
 
 }
@@ -164,7 +164,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
 export class ChangePouleDialog {
 
     private equipe: Equipe;
-    private poulesPossibles:Poule[];
+    poulesPossibles:Poule[];
 
     constructor(
         private equipeService:EquipeService,
@@ -182,7 +182,7 @@ export class ChangePouleDialog {
             this.dialogRef.close();
         });
     }
-    
+
     fermerSelection() {
         this.dialogRef.close();
     }
