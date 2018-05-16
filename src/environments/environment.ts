@@ -7,7 +7,7 @@ import { } from 'node';
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-const backend {
+const backend = {
   url : process.env.BACKEND_URL || 'http://localhost:9100'
 }
 

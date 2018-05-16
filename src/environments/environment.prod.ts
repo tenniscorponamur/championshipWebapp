@@ -2,7 +2,7 @@
 
 import { } from 'node';
 
-const backend {
+const backend = {
   url : process.env.BACKEND_URL || 'http://localhost:9100'
 }
 
