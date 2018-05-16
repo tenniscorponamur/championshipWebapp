@@ -30,5 +30,36 @@
     <i class="fa fa-trophy"></i>
     {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
     <i class="{{getTypeIcon(selectedChampionnat)}}"></i> 
-    - {{getCategorieChampionnat(selectedChampionnat).libelle}} - {{getNbEquipesInChampionship()}} équipes inscrites
+    - {{getCategorieChampionnat(selectedChampionnat).libelle}}
+</div>
+
+<div *ngIf="rencontres.length==0" style="margin-top:5px;margin-bottom:5px;">
+    <button class="btn btn-success" (click)="creerCalendrier();" >Créer calendrier</button>
+</div>
+
+<div *ngIf="rencontres.length>0" style="margin-top:5px;margin-bottom:5px;" class="text-right">
+    <button class="btn btn-danger" (click)="supprimerCalendrier();" >Supprimer calendrier</button>
+</div>
+
+<div *ngFor="let division of divisions" >
+    <div *ngFor="let poule of getPoulesByDivision(division)" class="col-12" >
+        <div class="pouleBox col-12">
+            <strong>Division {{division.numero}} - Poule {{poule.numero}}</strong>
+        </div>
+        
+        <div *ngFor="let rencontre of rencontres" class="text-center" >
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <a style="cursor:pointer"><i class="fa fa-calendar-o"></i>&nbsp;24/04/2018</a>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    {{rencontre.equipeVisites.codeAlphabetique}} - 
+                    {{rencontre.equipeVisiteurs.codeAlphabetique}} 
+                </div>
+                <div class="col-lg-4 col-md-12" >
+                    <a style="cursor:pointer"><i class="fa fa-windows fa-rotate-90"></i>&nbsp;TC TABORA</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

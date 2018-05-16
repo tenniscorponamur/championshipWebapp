@@ -12,6 +12,7 @@ import {Equipe} from '../equipe';
 import {Poule} from '../poule';
 import {Division} from '../division';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
+import {Rencontre} from '../rencontre';
 
 @Component({
   selector: 'app-championnat-rencontres',
@@ -30,7 +31,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     selectedChampionnat: Championnat;
     divisions: Division[];
     poules: Poule[] = [];
-    equipes: Equipe[] = [];
+    rencontres: Rencontre[] = [];
     
     constructor(
         public dialog: MatDialog,
@@ -52,24 +53,27 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     loadCalendar() {
         
         this.selectChampionnat.emit(this.selectedChampionnat);
-//        
-//        this.equipes = [];
-//        this.poules=[];
-//        if (this.selectedChampionnat) {
-//            this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
-//                divisions => {
-//                    this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
-//                    this.divisions.forEach(division => {
-//                        this.equipeService.getEquipes(division.id, null).subscribe(equipes => {
-//                            equipes.forEach(equipe => this.equipes.push(equipe));
-//                        });
-//                        this.pouleService.getPoules(division.id).subscribe(poules => {
-//                            poules.forEach(poule => this.poules.push(poule));
-//                        });
-//                    });
-//                }
-//            );
-//        }
+        
+        this.poules=[];
+        this.rencontres=[];
+        
+        if (this.selectedChampionnat) {
+            this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
+                divisions => {
+                    this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
+                    this.divisions.forEach(division => {
+                        this.pouleService.getPoules(division.id).subscribe(poules => {
+                            poules.forEach(poule => {
+                                this.poules.push(poule);
+                                
+                                //TODO : recuperation des rencontres pour chaque poule
+                                
+                            });
+                        });
+                    });
+                }
+            );
+        }
     }
   
     refresh(championnat: Championnat,flush:boolean) {
@@ -100,22 +104,6 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         });
     }
     
-    getNbEquipesInChampionship() {
-        return this.equipes.length;
-    }
-    
-    getNbEquipesByDivision(division: Division) {
-        return this.getEquipesByDivision(division).length;
-    }
-    
-    getEquipesByDivision(division: Division) {
-        return this.equipes.filter(equipe => equipe.division.id == division.id);
-    }
-    
-    getEquipesByPoule(poule: Poule) {
-        return this.equipes.filter(equipe => equipe.poule.id == poule.id);
-    }
-    
     getPoulesByDivision(division:Division) {
         return this.poules.filter(poule => poule.division.id == division.id);
     }
@@ -123,5 +111,22 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     getNbPoulesInDivision(division: Division) {
         return this.getPoulesByDivision(division).length;
     }
-
+    
+    creerCalendrier(){
+        this.equipeService.getEquipes(this.divisions[0].id, this.poules[0].id).subscribe(equipes => {
+            let rencontre = new Rencontre();
+            rencontre.equipeVisites=equipes[0];
+            rencontre.equipeVisiteurs=equipes[1];
+            rencontre.division=this.divisions[0];
+            rencontre.poule=this.poules[0];
+            this.rencontres.push(rencontre);
+            this.rencontres.push(rencontre);
+            this.rencontres.push(rencontre);
+        });
+    }
+    
+    supprimerCalendrier(){
+        this.rencontres=[];
+    }
+    
 }

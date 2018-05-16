@@ -8,7 +8,7 @@ import { Rencontre } from '../rencontre';
 })
 export class RencontresComponent implements OnInit {
 
-  rencontres:Rencontre[]=[{'id':1,'date':'02/02/2018','clubA':'Test A','clubB':'Test B'}];
+  rencontres:Rencontre[]=[];
   selectedRencontre:Rencontre;
 
   constructor() { }

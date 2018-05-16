@@ -1,6 +1,13 @@
+import {Division} from "./division";
+import {Poule} from "./poule";
+import {Equipe} from "./equipe";
+
 export class Rencontre {
   id: number;
-  date: string;
-  clubA: string;
-  clubB: string;
+  dateRencontre: Date;
+  division:Division;
+  poule:Poule;
+  equipeVisites: Equipe;
+  equipeVisiteurs: Equipe;
+  
 }
