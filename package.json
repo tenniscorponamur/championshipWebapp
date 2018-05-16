@@ -5,12 +5,12 @@
   "scripts": {
     "ng": "ng",
     "start": "http-server",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "preinstall": "npm install -g http-server",
-    "postinstall": "ng build --env=production && mv dist/* ."
+    "postinstall": "ng build --prod --env=production && mv dist/* ."
   },
   "private": true,
   "dependencies": {
