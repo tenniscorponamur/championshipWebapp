@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartType:string = 'line';
   public pieChartType:string = 'pie';
+  public lineChartOptions = {};
  
   // Pie
   public pieChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail Sales'];

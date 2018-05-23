@@ -4,6 +4,7 @@ export class Poule {
     id: number;
     numero: number;
     division: Division; 
+    allerRetour: boolean=false;
      
 }
 

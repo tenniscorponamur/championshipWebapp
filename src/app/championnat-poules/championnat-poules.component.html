@@ -51,6 +51,12 @@
                             <span *ngIf="getNbEquipesByPoule(poule)==0" style="float:right">
                                 <a (click)="removePoule(poule);" class="deletePouleButton"><i class="fa fa-trash" ></i></a>
                             </span>
+                            <span style="float:right">
+                                <a style="cursor:pointer" (click)="changeTypeCalendrierPoule(poule)">
+                                    <span *ngIf="!poule.allerRetour">Aller simple</span>
+                                    <span *ngIf="poule.allerRetour">Aller/Retour</span>
+                                </a>
+                            </span>
                         </div>
                     </div>
                     

@@ -113,6 +113,11 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
             this.poules.splice(indexOfPoule, 1);
         });
     }
+    
+    changeTypeCalendrierPoule(poule: Poule){
+        poule.allerRetour=!poule.allerRetour;
+        console.log("change le type de calendrier pour la poule");
+    }
 
     getNbEquipesInChampionship() {
         return this.equipes.length;
