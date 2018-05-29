@@ -133,7 +133,11 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
     
     supprimerCalendrier(){
-        this.rencontres=[];
+        if (this.selectedChampionnat) { 
+            this.rencontreService.supprimerCalendrier(this.selectedChampionnat.id).subscribe(result => {
+                this.rencontres=[];
+            })
+        }
     }
     
 }

@@ -17,7 +17,12 @@ export class RencontreService {
     }
 
     creerCalendrier(championnatId: number){
-        return this.http.post<Rencontre[]>(environment.privateApiUrl + "/rencontres/createCalendrier?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.post<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
     }
+    
+    supprimerCalendrier(championnatId: number){
+        return this.http.delete<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
     
 }
