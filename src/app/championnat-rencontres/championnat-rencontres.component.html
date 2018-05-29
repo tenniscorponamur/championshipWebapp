@@ -47,13 +47,13 @@
             <strong>Division {{division.numero}} - Poule {{poule.numero}}</strong>
         </div>
         
-        <div *ngFor="let rencontre of rencontres" class="text-center" >
+        <div *ngFor="let rencontre of getRencontresByPoule(poule)" class="text-center" >
             <div class="row">
                 <div class="col-lg-4 col-md-12">
                     <a style="cursor:pointer"><i class="fa fa-calendar-o"></i>&nbsp;24/04/2018</a>
                 </div>
                 <div class="col-lg-4 col-md-12">
-                    {{rencontre.equipeVisites.codeAlphabetique}} - <i class="fa fa-refresh"></i>
+                    {{rencontre.equipeVisites.codeAlphabetique}} <a style="cursor:pointer"><i class="fa fa-exchange"></i></a>
                     {{rencontre.equipeVisiteurs.codeAlphabetique}} 
                 </div>
                 <div class="col-lg-4 col-md-12" >

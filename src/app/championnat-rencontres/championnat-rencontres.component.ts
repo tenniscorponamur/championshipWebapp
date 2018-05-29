@@ -13,6 +13,7 @@ import {Poule} from '../poule';
 import {Division} from '../division';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {Rencontre} from '../rencontre';
+import {RencontreService} from '../rencontre.service';
 
 @Component({
   selector: 'app-championnat-rencontres',
@@ -39,6 +40,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         private divisionService: DivisionService,
         private equipeService: EquipeService,
         private pouleService: PouleService,
+        private rencontreService:RencontreService,
         private clubService: ClubService
     ) {
         super();
@@ -62,11 +64,14 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                 divisions => {
                     this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
                     this.divisions.forEach(division => {
+                        
+                        this.rencontreService.getRencontres(division.id, null).subscribe(rencontres => {
+                            rencontres.forEach(rencontre => this.rencontres.push(rencontre));
+                        });
+                                
                         this.pouleService.getPoules(division.id).subscribe(poules => {
                             poules.forEach(poule => {
                                 this.poules.push(poule);
-                                
-                                //TODO : recuperation des rencontres pour chaque poule
                                 
                             });
                         });
@@ -105,24 +110,26 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
     
     getPoulesByDivision(division:Division) {
-        return this.poules.filter(poule => poule.division.id == division.id);
+        return this.poules.filter(poule => poule.division.id == division.id).sort((a, b) => compare(a.numero,b.numero,true));
     }
     
     getNbPoulesInDivision(division: Division) {
         return this.getPoulesByDivision(division).length;
     }
     
+    getRencontresByPoule(poule: Poule) {
+        //TODO : ordonner par journee
+        return this.rencontres.filter(rencontre => rencontre.poule.id == poule.id);
+    }
+    
     creerCalendrier(){
-        this.equipeService.getEquipes(this.divisions[0].id, this.poules[0].id).subscribe(equipes => {
-            let rencontre = new Rencontre();
-            rencontre.equipeVisites=equipes[0];
-            rencontre.equipeVisiteurs=equipes[1];
-            rencontre.division=this.divisions[0];
-            rencontre.poule=this.poules[0];
-            this.rencontres.push(rencontre);
-            this.rencontres.push(rencontre);
-            this.rencontres.push(rencontre);
-        });
+        
+        if (this.selectedChampionnat) { 
+            this.rencontreService.creerCalendrier(this.selectedChampionnat.id).subscribe(rencontres => {
+                this.rencontres = rencontres;
+            })
+        }
+        
     }
     
     supprimerCalendrier(){

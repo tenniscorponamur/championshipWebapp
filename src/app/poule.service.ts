@@ -24,6 +24,10 @@ export class PouleService {
         return this.http.put<Poule>(environment.privateApiUrl + "/poule?divisionId=" + divisionId, poule, this.authenticationService.getPrivateApiHttpOptions());
     }
     
+    updatePouleAllerRetour(pouleId: number, allerRetour:boolean) {
+        return this.http.put<Poule>(environment.privateApiUrl + "/poule/allerRetour?pouleId=" + pouleId + "&allerRetour=" + allerRetour, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
     deletePoule(poule: Poule) {
         return this.http.delete<Poule>(environment.privateApiUrl + "/poule?id=" + poule.id, this.authenticationService.getPrivateApiHttpOptions());
     }

@@ -4,7 +4,8 @@ import {Equipe} from "./equipe";
 
 export class Rencontre {
   id: number;
-  dateRencontre: Date;
+  numeroJournee:number;
+  dateHeureRencontre: Date;
   division:Division;
   poule:Poule;
   equipeVisites: Equipe;

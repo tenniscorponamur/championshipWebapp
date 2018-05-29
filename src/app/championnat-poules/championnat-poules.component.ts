@@ -115,8 +115,9 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
     
     changeTypeCalendrierPoule(poule: Poule){
-        poule.allerRetour=!poule.allerRetour;
-        console.log("change le type de calendrier pour la poule");
+        this.pouleService.updatePouleAllerRetour(poule.id, !poule.allerRetour).subscribe(result => {
+            poule.allerRetour=!poule.allerRetour;
+        });
     }
 
     getNbEquipesInChampionship() {
@@ -140,7 +141,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
 
     getPoulesByDivision(division:Division) {
-        return this.poules.filter(poule => poule.division.id == division.id);
+        return this.poules.filter(poule => poule.division.id == division.id).sort((a, b) => compare(a.numero,b.numero,true));
     }
 
     getNbPoulesInDivision(division: Division) {

@@ -58,6 +58,7 @@ import {PouleService} from './poule.service';
 import { ChampionnatPoulesComponent, ChangePouleDialog } from './championnat-poules/championnat-poules.component';
 import {ChampionnatDetailComponent} from './championnats/championnat-detail.component';
 import { ChampionnatRencontresComponent } from './championnat-rencontres/championnat-rencontres.component';
+import {RencontreService} from './rencontre.service';
 
 
 @NgModule({
@@ -140,6 +141,7 @@ import { ChampionnatRencontresComponent } from './championnat-rencontres/champio
     EquipeService,
     PouleService,
     MembreService,
+    RencontreService,
     UserService,
     AuthGuardService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
