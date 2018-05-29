@@ -1,6 +1,7 @@
 import {Division} from "./division";
 import {Poule} from "./poule";
 import {Equipe} from "./equipe";
+import {Terrain} from "./terrain";
 
 export class Rencontre {
   id: number;
@@ -10,5 +11,6 @@ export class Rencontre {
   poule:Poule;
   equipeVisites: Equipe;
   equipeVisiteurs: Equipe;
+  terrain:Terrain;
   
 }
