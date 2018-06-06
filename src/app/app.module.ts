@@ -21,6 +21,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { Angular5TimePickerModule } from 'angular5-time-picker';
 
 
 /* Component */
@@ -118,7 +119,8 @@ import {RencontreService} from './rencontre.service';
     HttpClientModule,
     ChartsModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    Angular5TimePickerModule 
   ],
   entryComponents: [
       LoginFormDialog,

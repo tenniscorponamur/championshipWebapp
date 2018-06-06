@@ -22,6 +22,9 @@ import {RencontreService} from '../rencontre.service';
 })
 export class ChampionnatRencontresComponent extends ChampionnatDetailComponent implements OnInit {
 
+  // Configuration of the time picker (format 12H with a default date and time)
+   config = { hour: 18, minute: 0, meriden: 'PM', format: 24 };
+  
     championnatCtrl: FormControl = new FormControl();
     
     @Output() selectChampionnat = new EventEmitter<Championnat>();
@@ -117,6 +120,22 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         return this.getPoulesByDivision(division).length;
     }
     
+    getJourneesByPoule(poule:Poule){
+        let rencontresPoule = this.getRencontresByPoule(poule);
+        let journees:Journee[] = [];
+        rencontresPoule.forEach(rencontre => {
+            let journee = journees.find(journee => journee.numero==rencontre.numeroJournee);
+            if (!journee){
+                journee = new Journee();
+                journee.numero = rencontre.numeroJournee;
+                journees.push(journee);
+            }
+            journee.rencontres.push(rencontre);
+            
+        });
+        return journees;
+    }
+    
     getRencontresByPoule(poule: Poule) {
         //TODO : ordonner par journee
         return this.rencontres.filter(rencontre => rencontre.poule.id == poule.id);
@@ -141,3 +160,9 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
     
 }
+
+export class Journee {
+    numero: number;
+    rencontres: Rencontre[]=[];
+}
+
