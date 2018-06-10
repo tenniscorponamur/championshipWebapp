@@ -31,11 +31,9 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     
     championnats: Championnat[];
     
-    
     selectedChampionnat: Championnat;
-    divisions: Division[];
-    poules: Poule[] = [];
-    rencontres: Rencontre[] = [];
+    divisions: DivisionExtended[];
+    nbRencontres:number;
     
     constructor(
         public dialog: MatDialog,
@@ -59,26 +57,30 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         
         this.selectChampionnat.emit(this.selectedChampionnat);
         
-        this.poules=[];
-        this.rencontres=[];
+        this.divisions=[];
+        this.nbRencontres=0;
         
         if (this.selectedChampionnat) {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
-                    this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
-                    this.divisions.forEach(division => {
-                        
-                        this.rencontreService.getRencontres(division.id, null).subscribe(rencontres => {
-                            rencontres.forEach(rencontre => this.rencontres.push(rencontre));
-                        });
-                                
+                    divisions.forEach(division => {
+                        let divisionExtended = new DivisionExtended();
+                        divisionExtended.division = division;
+                        this.divisions.push(divisionExtended);
+
                         this.pouleService.getPoules(division.id).subscribe(poules => {
                             poules.forEach(poule => {
-                                this.poules.push(poule);
-                                
+                                let pouleExtended = new PouleExtended();
+                                pouleExtended.poule = poule;
+                                divisionExtended.poules.push(pouleExtended);
+                                this.rencontreService.getRencontres(division.id, poule.id).subscribe(rencontresPoule => {
+                                  this.ordonnerRencontresParPoule(rencontresPoule,pouleExtended);
+                                });
                             });
+                            divisionExtended.poules.sort((a, b) => {return compare(a.poule.numero, b.poule.numero, true)});
                         });
-                    });
+                      });
+                      this.divisions = this.divisions.sort((a, b) => {return compare(a.division.numero, b.division.numero, true)});
                 }
             );
         }
@@ -112,40 +114,16 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         });
     }
     
-    getPoulesByDivision(division:Division) {
-        return this.poules.filter(poule => poule.division.id == division.id).sort((a, b) => compare(a.numero,b.numero,true));
-    }
-    
-    getNbPoulesInDivision(division: Division) {
-        return this.getPoulesByDivision(division).length;
-    }
-    
-    getJourneesByPoule(poule:Poule){
-        let rencontresPoule = this.getRencontresByPoule(poule);
-        let journees:Journee[] = [];
-        rencontresPoule.forEach(rencontre => {
-            let journee = journees.find(journee => journee.numero==rencontre.numeroJournee);
-            if (!journee){
-                journee = new Journee();
-                journee.numero = rencontre.numeroJournee;
-                journees.push(journee);
-            }
-            journee.rencontres.push(rencontre);
-            
-        });
-        return journees;
-    }
-    
-    getRencontresByPoule(poule: Poule) {
-        //TODO : ordonner par journee
-        return this.rencontres.filter(rencontre => rencontre.poule.id == poule.id);
-    }
-    
     creerCalendrier(){
         
         if (this.selectedChampionnat) { 
             this.rencontreService.creerCalendrier(this.selectedChampionnat.id).subscribe(rencontres => {
-                this.rencontres = rencontres;
+                this.divisions.forEach(divisionExtended => {
+                  divisionExtended.poules.forEach( pouleExtended => {
+                    let rencontresPoule = rencontres.filter(rencontre => rencontre.poule.id == pouleExtended.poule.id);
+                    this.ordonnerRencontresParPoule(rencontresPoule, pouleExtended);
+                  });
+                });
             })
         }
         
@@ -154,15 +132,87 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     supprimerCalendrier(){
         if (this.selectedChampionnat) { 
             this.rencontreService.supprimerCalendrier(this.selectedChampionnat.id).subscribe(result => {
-                this.rencontres=[];
+                this.divisions.forEach(divisionExtended => {
+                  divisionExtended.poules.forEach( pouleExtended => {
+                    pouleExtended.journees=[];
+                  });
+                });
+                this.nbRencontres=0;
             })
         }
     }
     
+    
+    ordonnerRencontresParPoule(rencontresPoule:Rencontre[], pouleExtended:PouleExtended){
+      rencontresPoule.forEach(rencontre => {
+          let journee = pouleExtended.journees.find(journee => journee.numero==rencontre.numeroJournee);
+          if (!journee){
+              journee = new Journee();
+              journee.numero = rencontre.numeroJournee;
+              pouleExtended.journees.push(journee);
+          }
+          journee.rencontres.push(new RencontreExtended(rencontre));
+          this.nbRencontres++;
+      });
+      pouleExtended.journees = pouleExtended.journees.sort((a, b) => {return compare(a.numero, b.numero, true)});
+      
+      pouleExtended.journees.forEach(journee => journee.rencontres.sort((a, b) => {return compare(a.rencontre.id, b.rencontre.id, true)}));
+    }
+    
+//    changeDateRencontre(rencontre:Rencontre){
+//
+//    }
+    
+    changeDate(rencontre:RencontreExtended){
+        
+        if (rencontre.date && rencontre.heure && rencontre.minute){
+            
+            rencontre.rencontre.dateHeureRencontre = rencontre.date;
+            rencontre.rencontre.dateHeureRencontre.setHours(rencontre.heure);
+            rencontre.rencontre.dateHeureRencontre.setMinutes(rencontre.minute);
+
+            this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
+            result => {
+             },
+            error => {
+                console.log("erreur save date rencontre");
+                rencontre.date=null;
+                rencontre.heure=null;
+                rencontre.minute=null;
+             });
+        }
+        
+    }
 }
 
-export class Journee {
+class Journee {
     numero: number;
-    rencontres: Rencontre[]=[];
+    rencontres: RencontreExtended[]=[];
+}
+
+class DivisionExtended {
+    division: Division;
+    poules:PouleExtended[]=[];
+}
+
+class PouleExtended {
+    poule:Poule;
+    journees:Journee[]=[];
+}
+
+class RencontreExtended {
+    rencontre:Rencontre;
+    date:Date;
+    heure:number;
+    minute:number;
+    
+    constructor(rencontre:Rencontre){
+        this.rencontre=rencontre;
+          if (rencontre.dateHeureRencontre){
+              this.date=new Date(rencontre.dateHeureRencontre);
+              this.heure=this.date.getHours();
+              this.minute = this.date.getMinutes();
+          }
+    }
 }
 
