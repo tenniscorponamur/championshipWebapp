@@ -14,6 +14,8 @@ import {Division} from '../division';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {Rencontre} from '../rencontre';
 import {RencontreService} from '../rencontre.service';
+import {Terrain} from '../terrain';
+import {TerrainService} from '../terrain.service';
 
 @Component({
   selector: 'app-championnat-rencontres',
@@ -35,6 +37,8 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     divisions: DivisionExtended[];
     nbRencontres:number;
     
+    terrains:Terrain[];
+  
     constructor(
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
@@ -42,7 +46,8 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         private equipeService: EquipeService,
         private pouleService: PouleService,
         private rencontreService:RencontreService,
-        private clubService: ClubService
+        private clubService: ClubService,
+        private terrainService: TerrainService
     ) {
         super();
         this.championnatCtrl = new FormControl();
@@ -50,6 +55,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
 
   ngOnInit() {
+        this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
         this.refresh(null,false);
   }
   
@@ -176,6 +182,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
              },
             error => {
                 console.log("erreur save date rencontre");
+                rencontre.rencontre.dateHeureRencontre=null;
                 rencontre.date=null;
                 rencontre.heure=null;
                 rencontre.minute=null;
@@ -183,6 +190,59 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         }
         
     }
+    
+    changeTerrain(rencontre:RencontreExtended){
+        if (rencontre.terrainId){
+            this.terrainService.getTerrain(rencontre.terrainId).subscribe(terrain => {
+                rencontre.rencontre.terrain=terrain;
+                this.updateTerrainRencontre(rencontre);
+            });
+        }else{
+            rencontre.rencontre.terrain=null;
+            this.updateTerrainRencontre(rencontre);
+        }
+        
+    }
+    
+  updateTerrainRencontre(rencontre:RencontreExtended){
+    //Mise a jour du terrain de la rencontre
+    this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
+    result => {
+     },
+    error => {
+        console.log("erreur save terrain rencontre");
+        rencontre.terrainId=null;
+        rencontre.rencontre.terrain=null;
+     }); 
+  }
+  
+  switchTeams(rencontre:RencontreExtended){
+      
+    this.inverserEquipes(rencontre);
+
+    this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
+    result => {
+     },
+    error => { 
+      this.inverserEquipes(rencontre);
+     }); 
+  }
+  
+  inverserEquipes(rencontre:RencontreExtended){
+      
+    let oldEquipeVisites = rencontre.rencontre.equipeVisites;
+    rencontre.rencontre.equipeVisites = rencontre.rencontre.equipeVisiteurs;
+    rencontre.rencontre.equipeVisiteurs = oldEquipeVisites;
+    
+    if (rencontre.rencontre.equipeVisites.terrain){
+        rencontre.rencontre.terrain = rencontre.rencontre.equipeVisites.terrain;
+        rencontre.terrainId = rencontre.rencontre.equipeVisites.terrain.id;
+    }else{
+        rencontre.rencontre.terrain = null;
+        rencontre.terrainId = null;
+    }
+  }
+  
 }
 
 class Journee {
@@ -205,6 +265,7 @@ class RencontreExtended {
     date:Date;
     heure:number;
     minute:number;
+    terrainId:number;
     
     constructor(rencontre:Rencontre){
         this.rencontre=rencontre;
@@ -213,6 +274,9 @@ class RencontreExtended {
               this.heure=this.date.getHours();
               this.minute = this.date.getMinutes();
           }
+        if (rencontre.terrain){
+            this.terrainId=rencontre.terrain.id;
+        }
     }
 }
 

@@ -86,12 +86,17 @@
                       </select>
                     </div>
                     <div class="col-lg-4 col-md-12">
-                        {{rencontre.rencontre.equipeVisites.codeAlphabetique}} <a style="cursor:pointer"><i class="fa fa-exchange"></i></a>
+                        {{rencontre.rencontre.equipeVisites.codeAlphabetique}} <a style="cursor:pointer" (click)="switchTeams(rencontre);"><i class="fa fa-exchange"></i></a>
                         {{rencontre.rencontre.equipeVisiteurs.codeAlphabetique}}
                     </div>
                     <div class="col-lg-4 col-md-12" >
                         <a style="cursor:pointer"><i class="fa fa-windows fa-rotate-90" style="color:coral"></i>&nbsp;
-                          <span *ngIf="rencontre.rencontre.terrain">{{rencontre.rencontre.terrain.nom}}</span>
+                            
+                          <select [(ngModel)]="rencontre.terrainId" (change)="changeTerrain(rencontre)" >
+                                <option></option>
+                                <option *ngFor="let terrain of terrains" value="{{terrain.id}}">{{terrain.nom}}</option>
+                          </select>
+                            
                         </a>
                     </div>
                 </div>
