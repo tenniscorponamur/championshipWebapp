@@ -49,3 +49,27 @@
     padding-right:20px;
     margin-bottom: 10px;
 }
+
+.journeeBox{
+    border:1px solid #ccc;
+    border-radius:10px;
+    margin:15px;
+    padding:5px;
+}
+
+.journeeBox .journeeTitle{
+    position:relative;
+    top:-15px;
+    left:30px;
+    background-color:white;
+}
+
+.teamsBox{
+    margin:15px;
+    padding:5px;
+}
+
+.terrainBox{
+    margin:15px;
+    padding:5px;
+}
