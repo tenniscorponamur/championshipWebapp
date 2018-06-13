@@ -29,7 +29,7 @@
 <div *ngIf="selectedChampionnat" class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
     <i class="fa fa-trophy"></i>
     {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
-    <i class="{{getTypeIcon(selectedChampionnat)}}"></i> 
+    <i class="{{getTypeIcon(selectedChampionnat)}}"></i>
     - {{getCategorieChampionnat(selectedChampionnat).libelle}} - {{getNbEquipesInChampionship()}} équipes inscrites
 </div>
 
@@ -38,7 +38,7 @@
 <div *ngFor="let division of divisions" class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
     <div class="card">
         <h6 class="card-header">
-            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbPoulesInDivision(division)}} poule(s) - {{getNbEquipesByDivision(division)}} équipe(s) inscrite(s) 
+            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbPoulesInDivision(division)}} poule(s) - {{getNbEquipesByDivision(division)}} équipe(s) inscrite(s)
         </h6>
         <div class="card-body">
             <div class="row">
@@ -59,13 +59,13 @@
                             </span>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div *ngFor="let equipe of getEquipesByPoule(poule)">
 
                             <div class="teamBox" >
                                 <div style="float:right">
-                                    
+
                                 </div>
                                 <div>
                                     <strong>{{equipe.codeAlphabetique}}</strong><br/>
@@ -73,9 +73,9 @@
                                         <small>Capitaine : M. Petit&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
                                     <div class="teamBoxEditable">
-                                        <small>Terrain : Tabora&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
+                                      <small>Terrain : <span *ngIf="equipe.terrain">{{equipe.terrain.nom}}</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
-                                    <div *ngIf="getNbPoulesInDivision(division)>1" class="text-center" style="margin-top:5px">   
+                                    <div *ngIf="getNbPoulesInDivision(division)>1" class="text-center" style="margin-top:5px">
                                         <button class="btn btn-sm btn-primary" (click)="changePoule(equipe);">Changer poule</button>
                                     </div>
                                 </div>
@@ -84,9 +84,9 @@
 
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
                 <div class="col-12 text-right">
                     <button class="btn btn-sm btn-success" (click)="addOnePoule(division);">
                         <i class="fa fa-plus"></i>&nbsp;Ajouter une poule

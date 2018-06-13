@@ -46,7 +46,7 @@ import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencon
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
-import { ClubDetailComponent, ClubDialog } from './club-detail/club-detail.component';
+import { ClubDetailComponent, ClubDialog, ClubTerrainDialog } from './club-detail/club-detail.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 import { ChampionnatsComponent } from './championnats/championnats.component';
@@ -99,7 +99,8 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
     ChampionnatRencontresComponent,
     TerrainsComponent,
     TerrainDetailComponent,
-    TerrainDialog
+    TerrainDialog,
+    ClubTerrainDialog
   ],
   imports: [
     BrowserModule,
@@ -137,6 +138,7 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
       MatchDialog,
       ClubDialog,
       TerrainDialog,
+      ClubTerrainDialog,
       UserDialog,
       SelectionClubDialog,
       ChampionnatDescriptionDialog,

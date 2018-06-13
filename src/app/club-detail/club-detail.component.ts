@@ -1,7 +1,11 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import {Club} from '../club';
+import {Terrain} from '../terrain';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {ClubService} from '../club.service';
+import {TerrainService} from '../terrain.service';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-club-detail',
@@ -28,6 +32,14 @@ export class ClubDetailComponent implements OnInit {
     clubDialogRef.afterClosed().subscribe(result => {
     });
   }
+
+    ouvrirTerrainClub() {
+        let clubTerrainDialogRef = this.dialog.open(ClubTerrainDialog, {
+          data: { club: this.club}, panelClass: "clubTerrainDialog"
+        });
+
+        clubTerrainDialogRef.afterClosed().subscribe();
+    }
 
 }
 
@@ -106,3 +118,57 @@ export class ClubDialog {
   }
 }
 
+@Component({
+  selector: 'club-terrain-dialog',
+  templateUrl: './clubTerrainDialog.html',
+})
+export class ClubTerrainDialog {
+
+  terrainCtrl: FormControl=new FormControl();
+  terrains:Observable<Terrain[]>;
+
+    _terrainId:number;
+    private _club:Club;
+
+  constructor(
+    public dialogRef: MatDialogRef<ClubTerrainDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private clubService: ClubService,
+    private terrainService:TerrainService
+    ) {
+
+      this.terrainCtrl = new FormControl();
+      this.terrains = this.terrainService.getTerrains();
+
+        this._club = data.club;
+        if (this._club.terrain){
+          this._terrainId = this._club.terrain.id;
+        }
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+      if (this._club.id){
+          if (this._terrainId){
+            this.terrainService.getTerrain(this._terrainId).subscribe(terrain => {
+                this._club.terrain=terrain;
+                this.updateTerrainClubAndCloseDialog();
+            });
+          }else{
+              this._club.terrain=null;
+              this.updateTerrainClubAndCloseDialog();
+          }
+      }
+  }
+
+  updateTerrainClubAndCloseDialog(){
+    //Mise a jour du terrain du club
+    this.clubService.updateClub(this._club).subscribe(
+        result => {
+            this.dialogRef.close(this._club);
+     });
+  }
+}

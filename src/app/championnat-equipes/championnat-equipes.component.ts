@@ -117,6 +117,9 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
         let equipe = new Equipe();
         equipe.division = division;
         equipe.club = club;
+        if (club.terrain){
+          equipe.terrain=club.terrain;
+        }
 
         // On regarde s'il y a au moins une poule
         // S'il n'y en a pas encore, on va en creer une

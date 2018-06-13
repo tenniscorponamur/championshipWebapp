@@ -25,7 +25,25 @@
           </div>
         </div>
       </div>
+
     </div>
+
+      <div class="row">
+
+        <div class="col-12">
+          <div class="myBox myBoxEditable">
+            <div class="myBoxTitle" (click)="ouvrirTerrainClub();">
+              Terrain à domicile<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+            </div>
+            <div class="myBoxContent">
+              <span *ngIf="club.terrain">{{club.terrain.nom}}</span>
+              <span *ngIf="!club.terrain"><em>Aucun terrain</em></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 </div>
 
 </div>
