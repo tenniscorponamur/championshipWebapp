@@ -57,7 +57,7 @@ import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from
 import {DivisionService} from './division.service';
 import {EquipeService} from './equipe.service';
 import {PouleService} from './poule.service';
-import { ChampionnatPoulesComponent, ChangePouleDialog } from './championnat-poules/championnat-poules.component';
+import { ChampionnatPoulesComponent, ChangePouleDialog, EquipeTerrainDialog } from './championnat-poules/championnat-poules.component';
 import {ChampionnatDetailComponent} from './championnats/championnat-detail.component';
 import { ChampionnatRencontresComponent } from './championnat-rencontres/championnat-rencontres.component';
 import {RencontreService} from './rencontre.service';
@@ -79,6 +79,7 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
     ClubInfosDialog,
     ChampionnatDescriptionDialog,
     ChangePouleDialog,
+    EquipeTerrainDialog,
     RencontreDetailComponent,
     MatchDialog,
     ClassementDetailComponent,
@@ -142,7 +143,8 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
       UserDialog,
       SelectionClubDialog,
       ChampionnatDescriptionDialog,
-      ChangePouleDialog
+      ChangePouleDialog,
+      EquipeTerrainDialog
   ],
   providers: [
     AuthenticationService,

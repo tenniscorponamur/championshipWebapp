@@ -72,7 +72,7 @@
                                     <div class="teamBoxEditable">
                                         <small>Capitaine : M. Petit&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
-                                    <div class="teamBoxEditable">
+                                    <div class="teamBoxEditable" (click)="ouvrirTerrainEquipe(equipe);" >
                                       <small>Terrain : <span *ngIf="equipe.terrain">{{equipe.terrain.nom}}</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
                                     <div *ngIf="getNbPoulesInDivision(division)>1" class="text-center" style="margin-top:5px">
