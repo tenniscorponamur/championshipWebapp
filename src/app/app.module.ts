@@ -39,6 +39,7 @@ import { ChampionnatService } from './championnat.service';
 import { ClubService } from './club.service';
 import { MembreService } from './membre.service';
 import { UserService } from './user.service';
+import { TerrainService } from './terrain.service';
 import { AuthGuardService } from './auth-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
 import { RencontreDetailComponent, MatchDialog } from './rencontre-detail/rencontre-detail.component';
@@ -60,6 +61,8 @@ import { ChampionnatPoulesComponent, ChangePouleDialog } from './championnat-pou
 import {ChampionnatDetailComponent} from './championnats/championnat-detail.component';
 import { ChampionnatRencontresComponent } from './championnat-rencontres/championnat-rencontres.component';
 import {RencontreService} from './rencontre.service';
+import { TerrainsComponent } from './terrains/terrains.component';
+import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-detail.component';
 
 
 @NgModule({
@@ -93,7 +96,10 @@ import {RencontreService} from './rencontre.service';
     ChampionnatDivisionsComponent,
     ChampionnatDivisionDetailComponent,
     ChampionnatPoulesComponent,
-    ChampionnatRencontresComponent
+    ChampionnatRencontresComponent,
+    TerrainsComponent,
+    TerrainDetailComponent,
+    TerrainDialog
   ],
   imports: [
     BrowserModule,
@@ -120,7 +126,7 @@ import {RencontreService} from './rencontre.service';
     ChartsModule,
     MatTabsModule,
     MatProgressSpinnerModule,
-    Angular5TimePickerModule 
+    Angular5TimePickerModule
   ],
   entryComponents: [
       LoginFormDialog,
@@ -130,6 +136,7 @@ import {RencontreService} from './rencontre.service';
       ClubInfosDialog,
       MatchDialog,
       ClubDialog,
+      TerrainDialog,
       UserDialog,
       SelectionClubDialog,
       ChampionnatDescriptionDialog,
@@ -144,6 +151,7 @@ import {RencontreService} from './rencontre.service';
     PouleService,
     MembreService,
     RencontreService,
+    TerrainService,
     UserService,
     AuthGuardService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},

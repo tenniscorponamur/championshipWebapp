@@ -1,0 +1,30 @@
+<div class="card tennisCorpoBox">
+  <h4 class="card-header">
+    Terrain
+  </h4>
+  <div class="card-body">
+
+    <div class="row">
+
+      <div class="col-2">
+        <div style="text-align:right;">
+          <i class="fa fa-windows fa-4x fa-rotate-90" style="color:greenyellow"></i>
+        </div>
+      </div>
+
+      <div class="col-10">
+        <div class="myBox myBoxEditable">
+          <div class="myBoxTitle" (click)="ouvrirClub();">
+            Informations du terrain<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
+            <span><strong>{{terrain.nom|uppercase}}</strong>&nbsp;</span><br/>
+            {{terrain.description}}<br/>
+            <a href="https://maps.google.com/?q={{terrain.adresse}}" target="_blank">{{terrain.adresse}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

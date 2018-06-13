@@ -1,0 +1,50 @@
+<div class="row">
+  <div #terrainList class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div class="card text-center">
+      <h4 class="card-header">
+        Terrains
+      </h4>
+      <div class="card-body text-center">
+
+        <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+          <div *ngFor="let terrain of sortedTerrains" (click)="ouvrirTerrain(terrain);" class="myBox text-left" style="cursor:pointer;">
+            <div class="myBoxTitle">
+              <span class="text-uppercase">{{terrain.nom}}</span>
+            </div>
+            <div class="myBoxContent">
+              {{terrain.description}}
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="media.is.lg.or.xl | async">
+
+          <div class="table-responsive" style="height:300px;">
+            <table class="terrainTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+              <!--table-striped-->
+              <thead class="bg-info" >
+              <tr>
+                <th scope="col" mat-sort-header="nom">Nom</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let terrain of sortedTerrains" (click)="ouvrirTerrain(terrain);" class="text-left">
+                <td class="text-uppercase">{{terrain.nom}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div align="right" style="margin-top:10px;">
+          <button class="btn btn-secondary" (click)="nouveauTerrain();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau terrain</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #terrainDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
+    <app-terrain-detail *ngIf="selectedTerrain" [terrain]="selectedTerrain" [master]="componentName" (childResult)="childResult($event)" ></app-terrain-detail>
+  </div>
+
+</div>

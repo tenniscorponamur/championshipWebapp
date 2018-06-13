@@ -9,6 +9,7 @@ import { MembresComponent }      from './membres/membres.component';
 import { RencontresComponent }      from './rencontres/rencontres.component';
 import {ClubsComponent} from './clubs/clubs.component';
 import {UtilisateursComponent} from './utilisateurs/utilisateurs.component';
+import { TerrainsComponent } from './terrains/terrains.component';
 import {ChampionnatsComponent} from './championnats/championnats.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'championnats', component: ChampionnatsComponent, canActivate: [AuthGuardService] },
   { path: 'membres', component: MembresComponent },
   { path: 'rencontres', component: RencontresComponent },
+  { path: 'terrains', component: TerrainsComponent },
   { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [AuthGuardService] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
