@@ -4,14 +4,20 @@ import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
 import {DivisionService} from '../division.service';
 import {PouleService} from '../poule.service';
+import {EquipeService} from '../equipe.service';
 import {RencontreService} from '../rencontre.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {Championnat} from '../championnat';
 import {Division} from '../division';
 import {Club} from '../club';
-import {compare} from '../utility';
+import {Equipe} from '../equipe';
+import {Poule} from '../poule';
+import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import { RxResponsiveService } from 'rx-responsive';
+
+const TENNIS_CORPO_CHAMPIONSHIP_KEY = "tennisCorpoChampionship";
+const TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY = "tennisCorpoChampionshipDivision";
 
 @Component({
   selector: 'app-rencontres',
@@ -22,13 +28,22 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
   championnatCtrl: FormControl = new FormControl();
   divisionCtrl: FormControl = new FormControl();
+  pouleCtrl: FormControl = new FormControl();
+  teamCtrl: FormControl = new FormControl();
 
   selectedChampionnat: Championnat;
   championnats: Championnat[];
-  divisions: Division[];
+  divisions: Division[]=[];
   selectedDivision: Division;
 
-  filtreSelectedClubs:Club[]=[];
+  equipes:Equipe[]=[];
+  filtreSelectedTeams:Equipe[]=[];
+
+  poules:Poule[]=[];
+  selectedPoule:Poule;
+
+  typeRencontres:string[] = ["Résultats connus","A venir", "Toutes"];
+  selectedTypeRencontre:string="A venir";
 
   sortedRencontres:Rencontre[]=[];
   filteredRencontres:Rencontre[];
@@ -39,14 +54,13 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,
         private pouleService: PouleService,
+        private equipeService: EquipeService,
         private rencontreService: RencontreService
         ) {
       super();
   }
 
   ngOnInit() {
-
-      //TODO : localStorage pour conserver championnatEnCours -- cfr onglet championnat
 
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
@@ -63,15 +77,19 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                         }
                     }
                 });
+
+              let championnatInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_KEY);
+              if (championnatInLocalStorage) {
+                this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
+                this.loadDivisions();
+              }
+
         });
   }
 
     loadDivisions() {
 
-    // TODO : charger divisions et poules dans une selectBox
-    // TODO : si championnat et division/poule selectionnee --> chargement des rencontres (+ tri possible par date et par club)
-    // TODO : filtre par club (sur donnees chargees) --> cfr filtre membres
-
+        localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_KEY, JSON.stringify(this.selectedChampionnat));
 
         this.sortedRencontres = [];
         this.divisions = [];
@@ -80,6 +98,13 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
                     this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
+
+                  let divisionInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY);
+                  if (divisionInLocalStorage) {
+                    this.selectedDivision = this.divisions.find(division => division.id == JSON.parse(divisionInLocalStorage).id);
+                    this.loadRencontres();
+                  }
+
                 }
             );
         }
@@ -87,12 +112,18 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
 
     loadRencontres() {
-      // TODO : Charger dropDown poule et clubs
+
+        localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY, JSON.stringify(this.selectedDivision));
+
+      // TODO : Charger dropDown poule et equipes
       // TODO : charger rencontres
 
       //TODO : tri par defaut par date
 
       //TODO : afficher matchs termines / matchs à venir
+
+      this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => this.poules = poules);
+      this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => this.equipes = equipes);
 
       this.sortedRencontres = [];
 
@@ -127,10 +158,14 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
           }
         });
     }
-    this.filtre(this.filtreSelectedClubs);
+    this.filtre();
   }
 
-   filtre(selectedClubs:Club[]): void {
+   filtre(): void {
+
+    console.log(this.selectedPoule);
+    console.log(this.filtreSelectedTeams);
+    console.log(this.selectedTypeRencontre);
 
         this.filteredRencontres = this.sortedRencontres;
 
@@ -155,6 +190,11 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
     ouvrirRencontre(rencontre:Rencontre):void{
       this.selectedRencontre=rencontre;
+    }
+
+    formatDate(date:Date):string{
+        let dateToFormat=new Date(date);
+        return addLeadingZero(dateToFormat.getDate()) + "/" + addLeadingZero(dateToFormat.getMonth()+1) + "/" + dateToFormat.getFullYear() + " " + addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
     }
 
 }
