@@ -14,7 +14,7 @@ import {compare} from '../utility';
 export class ClubsComponent implements OnInit {
 
   actualSort:Sort;
-  sortedClubs:Club[];
+  sortedClubs:Club[]=[];
   selectedClub:Club;
 
   constructor(public media: RxResponsiveService,

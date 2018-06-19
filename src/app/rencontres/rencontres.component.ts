@@ -19,6 +19,10 @@ import { RxResponsiveService } from 'rx-responsive';
 const TENNIS_CORPO_CHAMPIONSHIP_KEY = "tennisCorpoChampionship";
 const TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY = "tennisCorpoChampionshipDivision";
 
+const RENCONTRES_JOUEES="Jouées"
+const RENCONTRES_A_VENIR="A venir"
+const ALL_RENCONTRES="Toutes"
+
 @Component({
   selector: 'app-rencontres',
   templateUrl: './rencontres.component.html',
@@ -37,13 +41,13 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   selectedDivision: Division;
 
   equipes:Equipe[]=[];
-  filtreSelectedTeams:Equipe[]=[];
+  selectedTeams:Equipe[]=[];
 
   poules:Poule[]=[];
-  selectedPoule:Poule;
+  selectedPouleIds:number[]=[];
 
-  typeRencontres:string[] = ["Résultats connus","A venir", "Toutes"];
-  selectedTypeRencontre:string="A venir";
+  typeRencontres:string[] = [RENCONTRES_JOUEES,RENCONTRES_A_VENIR, ALL_RENCONTRES];
+  selectedTypeRencontre:string=RENCONTRES_A_VENIR;
 
   sortedRencontres:Rencontre[]=[];
   filteredRencontres:Rencontre[];
@@ -113,27 +117,25 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
     loadRencontres() {
 
-        localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY, JSON.stringify(this.selectedDivision));
+      localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY, JSON.stringify(this.selectedDivision));
 
-      // TODO : Charger dropDown poule et equipes
-      // TODO : charger rencontres
-
-      //TODO : tri par defaut par date
-
-      //TODO : afficher matchs termines / matchs à venir
-
-      this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => this.poules = poules);
-      this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => this.equipes = equipes);
-
+      this.selectedTeams = [];
+      this.selectedPouleIds = [];
+      
+      this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => {
+          this.poules = poules.sort((a, b) => compare(a.numero,b.numero,true));
+      });
+      this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => {
+          this.equipes = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true));
+      });
+      
       this.sortedRencontres = [];
 
       if (this.selectedDivision) {
         this.rencontreService.getRencontres(this.selectedDivision.id, null).subscribe(rencontresDivision => {
-            this.sortedRencontres = rencontresDivision;
+            this.sortedRencontres = rencontresDivision.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
             this.sortData(this.actualSort);
         });
-
-        // this.clubs = this.clubService.getClubs();
 
       }
 
@@ -154,6 +156,9 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
           let isAsc = sort.direction == 'asc';
           switch (sort.active) {
             case 'dateHeureRencontre': return compare(a.dateHeureRencontre, b.dateHeureRencontre, isAsc);
+//              case 'poule': return  compare(this.formatPoule(a), this.formatPoule(b), isAsc);
+              case 'equipeVisites': return compare(a.equipeVisites.codeAlphabetique, b.equipeVisites.codeAlphabetique, isAsc);
+              case 'equipeVisiteurs': return compare(a.equipeVisiteurs.codeAlphabetique, b.equipeVisiteurs.codeAlphabetique, isAsc);
             default: return 0;
           }
         });
@@ -163,38 +168,77 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
    filtre(): void {
 
-    console.log(this.selectedPoule);
-    console.log(this.filtreSelectedTeams);
-    console.log(this.selectedTypeRencontre);
-
+      //TODO : afficher matchs termines / matchs à venir
+       
         this.filteredRencontres = this.sortedRencontres;
 
-//        if (nomPrenom && nomPrenom.trim().length > 0){
-//
-//            this.filteredMembers = this.filteredMembers.filter(membre =>
-//                membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
-//             || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase()))
-//
-//        }
-//        if (selectedClubs && selectedClubs.length > 0){
-//            this.filteredRencontres = this.filteredRencontres.filter(({club}) => {
-//                return selectedClubs.some(selectedClub => {
-//                    if (club){
-//                        return selectedClub.id==club.id
-//                    }
-//                    return false;
-//                })});
-//        }
+       if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
+           this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+               return rencontre.pointsVisites == null && rencontre.pointsVisiteurs ==null;
+                }); 
+       } else if (this.selectedTypeRencontre == RENCONTRES_JOUEES){
+           this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+               return rencontre.pointsVisites != null && rencontre.pointsVisiteurs !=null;
+                }); 
+       }
+        
+       if (this.selectedPouleIds  && this.selectedPouleIds.length > 0){
+            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+                return this.selectedPouleIds.some(selectedPouleId => {
+                    if (selectedPouleId==0){
+                        return rencontre.poule==null;
+                    }else{
+                        return rencontre.poule.id == selectedPouleId;
+                    }
+                })});
+        }
+        
+       if (this.selectedTeams && this.selectedTeams.length > 0){
+            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+                return this.selectedTeams.some(selectedTeam => {
+                    return rencontre.equipeVisites.id==selectedTeam.id || rencontre.equipeVisiteurs.id==selectedTeam.id 
+                })});
+        }
 
     }
 
     ouvrirRencontre(rencontre:Rencontre):void{
       this.selectedRencontre=rencontre;
     }
+    
+    getVisitesClass(rencontre:Rencontre){
+        if (rencontre.pointsVisites && rencontre.pointsVisiteurs){
+            if (rencontre.pointsVisites > rencontre.pointsVisiteurs){
+                return "victorieux";
+            }
+        }
+        return "";
+    }
+    
+    getVisiteursClass(rencontre:Rencontre){
+        if (rencontre.pointsVisites && rencontre.pointsVisiteurs){
+            if (rencontre.pointsVisites < rencontre.pointsVisiteurs){
+                return "victorieux";
+            }
+        }
+        return "";
+    }
+    
+//    formatPoule(rencontre:Rencontre):string{
+//        if (rencontre.poule){
+//            return "Poule " + rencontre.poule.numero.toString();
+//        }else{
+//            return "Interséries";
+//        }
+//    }
 
     formatDate(date:Date):string{
-        let dateToFormat=new Date(date);
-        return addLeadingZero(dateToFormat.getDate()) + "/" + addLeadingZero(dateToFormat.getMonth()+1) + "/" + dateToFormat.getFullYear() + " " + addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
+        if (date){
+            let dateToFormat=new Date(date);
+            return addLeadingZero(dateToFormat.getDate()) + "/" + addLeadingZero(dateToFormat.getMonth()+1) + "/" + dateToFormat.getFullYear() + " " + addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
+        }else{
+            return "";
+        }
     }
 
 }

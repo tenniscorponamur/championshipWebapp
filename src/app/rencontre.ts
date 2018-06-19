@@ -12,5 +12,6 @@ export class Rencontre {
   equipeVisites: Equipe;
   equipeVisiteurs: Equipe;
   terrain:Terrain;
-  
+  pointsVisites:number;
+  pointsVisiteurs:number;
 }

@@ -1,5 +1,6 @@
 export function compare(a, b, isAsc):number {
-    //TODO : voir comment comparer avec null
+    if (a==null) return (isAsc ? 1 : -1);
+    if (b==null) return (isAsc ? -1 : 1);
     if (a==b){
         return 0;
     }

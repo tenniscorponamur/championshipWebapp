@@ -1,3 +1,7 @@
 .rencontreTable:hover td{
   cursor:pointer;
 }
+
+.victorieux{
+    font-weight:bold;
+}

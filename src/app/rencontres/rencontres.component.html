@@ -47,20 +47,21 @@
               <div class="row">
 
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                <mat-form-field *ngIf="poules.length>0">
-                  <mat-select #pouleSelect placeholder="Poule" [(ngModel)]="selectedPoule" [formControl]="pouleCtrl" (selectionChange)="filtre()">
-                    <mat-option *ngFor="let poule of poules" [value]="poule">
+                <mat-form-field *ngIf="poules.length>1">
+                  <mat-select #pouleSelect placeholder="Contexte" [(ngModel)]="selectedPouleIds" [formControl]="pouleCtrl" multiple (selectionChange)="filtre()">
+                    <mat-option *ngFor="let poule of poules" [value]="poule.id">
                       <small>
                         Poule&nbsp;{{ poule.numero }}
                       </small>
                     </mat-option>
+                      <mat-option value="0" ><small>Interséries</small></mat-option>
                   </mat-select>
                 </mat-form-field>
                 </div>
 
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                   <mat-form-field *ngIf="equipes.length>0">
-                    <mat-select #teamSelect placeholder="Equipes" [(ngModel)]="filtreSelectedTeams" [formControl]="teamCtrl" multiple (selectionChange)="filtre()">
+                    <mat-select #teamSelect placeholder="Equipes" [(ngModel)]="selectedTeams" [formControl]="teamCtrl" multiple (selectionChange)="filtre()">
                       <mat-option *ngFor="let equipe of equipes" [value]="equipe">
                         <small>{{ equipe.codeAlphabetique }}</small>
                       </mat-option>
@@ -97,19 +98,19 @@
                     <thead class="bg-info" >
                     <tr>
                       <th scope="col" mat-sort-header="dateHeureRencontre">Date/heure</th>
-                      <th scope="col" >Poule</th>
-                      <th scope="col" >Visités</th>
-                      <th scope="col" >Visiteurs</th>
+                      <!--<th scope="col" mat-sort-header="poule">Ctx</th>-->
+                      <th scope="col" mat-sort-header="equipeVisites" >Visités</th>
+                      <th scope="col" mat-sort-header="equipeVisiteurs" >Visiteurs</th>
                       <th scope="col" >Résultat</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
                       <td class="text-uppercase">{{formatDate(rencontre.dateHeureRencontre)}}</td>
-                      <td>{{rencontre.poule.numero}}</td>
-                      <td>{{rencontre.equipeVisites.codeAlphabetique}}</td>
-                      <td>{{rencontre.equipeVisiteurs.codeAlphabetique}}</td>
-                      <td>8 - 4</td>
+                      <!--<td>{{formatPoule(rencontre)}}</td>-->
+                      <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
+                      <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
+                      <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
                     </tr>
                     </tbody>
                   </table>
