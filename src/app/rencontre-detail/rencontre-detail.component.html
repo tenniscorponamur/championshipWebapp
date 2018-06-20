@@ -13,9 +13,9 @@
       </div>
 
       <div class="col-10">
-        <div class="myBox myBoxEditable">
+        <div class="myBox">
           <div class="myBoxTitle" >
-            Détails de la rencontre<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+            Détails de la rencontre
           </div>
           <div class="myBoxContent">
             {{getTypeChampionnat(rencontre.division.championnat).libelle}}
@@ -24,13 +24,25 @@
             - Division {{rencontre.division.numero}}<span *ngIf="rencontre.poule"> - Poule {{rencontre.poule.numero}}</span>
             <br/>
             <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong><br/>
-            <span *ngIf="rencontre.dateHeureRencontre">{{formatDate(rencontre.dateHeureRencontre)}}</span><br />
-            Terrain : <span *ngIf="rencontre.terrain"><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span><br />
             <span style="color:red"><em>Rencontre non-validée</em></span>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="row">
+    <div class="col-12">
+      <div class="myBox myBoxEditable">
+        <div class="myBoxTitle" >
+          Date et lieu de la rencontre<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+        </div>
+        <div class="myBoxContent">
+          <span *ngIf="rencontre.dateHeureRencontre">{{formatDate(rencontre.dateHeureRencontre)}}</span><br />
+          Terrain : <span *ngIf="rencontre.terrain"><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span><br />
+        </div>
+      </div>
+    </div>
+  </div>
 
     <div class="row">
 
