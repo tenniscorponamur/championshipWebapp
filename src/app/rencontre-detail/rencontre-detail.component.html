@@ -13,15 +13,19 @@
       </div>
 
       <div class="col-10">
-        <div class="myBox">
+        <div class="myBox myBoxEditable">
           <div class="myBoxTitle" >
-            Détails
+            Détails de la rencontre<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
-            <strong>28/11/2017</strong><br />
-            <strong>UNAMUR A - IATA B</strong><br />
-            Championnat Hiver 2017
-            Division 4 Poule 1<br/>
+            {{getTypeChampionnat(rencontre.division.championnat).libelle}}
+            {{rencontre.division.championnat.annee}}
+            {{getCategorieChampionnat(rencontre.division.championnat).libelle}}
+            - Division {{rencontre.division.numero}}<span *ngIf="rencontre.poule"> - Poule {{rencontre.poule.numero}}</span>
+            <br/>
+            <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong><br/>
+            <span *ngIf="rencontre.dateHeureRencontre">{{formatDate(rencontre.dateHeureRencontre)}}</span><br />
+            Terrain : <span *ngIf="rencontre.terrain"><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span><br />
             <span style="color:red"><em>Rencontre non-validée</em></span>
           </div>
         </div>

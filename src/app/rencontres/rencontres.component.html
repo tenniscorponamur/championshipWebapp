@@ -122,6 +122,6 @@
         </div>
     </div>
     <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
-        <app-rencontre-detail></app-rencontre-detail>
+        <app-rencontre-detail *ngIf="selectedRencontre" [rencontre]="selectedRencontre"></app-rencontre-detail>
     </div>
 </div>
