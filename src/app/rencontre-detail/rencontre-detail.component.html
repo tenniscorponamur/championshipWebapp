@@ -15,17 +15,15 @@
       <div class="col-10">
         <div class="myBox">
           <div class="myBoxTitle" >
-            Détails de la rencontre
-          </div>
-          <div class="myBoxContent">
             {{getTypeChampionnat(rencontre.division.championnat).libelle}}
             {{rencontre.division.championnat.annee}}
             {{getCategorieChampionnat(rencontre.division.championnat).libelle}}
             - Division {{rencontre.division.numero}}<span *ngIf="rencontre.poule"> - Poule {{rencontre.poule.numero}}</span>
-            <br/>
-            <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong><br/>
-            <span style="color:red"><em>Rencontre non-validée</em></span>
           </div>
+          <div class="myBoxContent text-center">
+              <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong><br/>
+              <span style="color:red"><em>Rencontre non-validée</em></span>
+            </div>
         </div>
       </div>
     </div>
