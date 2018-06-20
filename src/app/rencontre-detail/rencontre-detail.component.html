@@ -21,8 +21,32 @@
             - Division {{rencontre.division.numero}}<span *ngIf="rencontre.poule"> - Poule {{rencontre.poule.numero}}</span>
           </div>
           <div class="myBoxContent text-center">
-              <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong><br/>
-              <span style="color:red"><em>Rencontre non-validée</em></span>
+              <div class="row">
+                  <div class="col-lg-4 col-md-12" style="margin:auto;">
+                    <strong>
+                      <span style="font-size:1.2em;">{{rencontre.equipeVisites.codeAlphabetique}}</span>
+                    </strong>
+                  </div>
+                  <div class="col-lg-4 col-md-12" style="margin:auto;">
+                  <strong>
+                      <span style="font-size:2em;">
+                          <span *ngIf="rencontre.pointsVisites">{{rencontre.pointsVisites}}</span>
+                          &nbsp;
+                          -
+                          &nbsp;
+                          <span *ngIf="rencontre.pointsVisiteurs">{{rencontre.pointsVisiteurs}}</span>
+                      </span>
+                  </strong>
+                  </div>
+                  <div class="col-lg-4 col-md-12" style="margin:auto;">
+                  <strong>
+                    <span style="font-size:1.2em;">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>
+                  </strong>
+                  </div>
+              </div>
+              <div>
+                <span style="color:red"><em>Rencontre non-validée</em></span>
+              </div>
             </div>
         </div>
       </div>
