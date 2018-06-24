@@ -83,10 +83,13 @@
               <div *ngIf="media.is.md.or.sm.or.xs | async" class="text-left" style="height:300px;overflow-y:auto;">
                 <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="myBox text-left" style="cursor:pointer;">
                   <div class="myBoxTitle">
-                    <i class="fa fa-windows fa-rotate-90"></i>&nbsp;Date/heure rencontre + equipes
+                    <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}
                   </div>
                   <div class="myBoxContent">
-                    Infos sur la rencontre
+                    <span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span>
+                    &nbsp;-&nbsp;
+                     <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
+                     <span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span>&nbsp;-&nbsp;<span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span>
                   </div>
                 </div>
               </div>

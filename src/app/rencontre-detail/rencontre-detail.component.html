@@ -81,9 +81,27 @@
           <tr *ngFor="let match of matchs">
               <td><strong>{{getMatchIdent(match)}}</strong></td>
               <td>
-                  <a style="cursor:pointer">Calay F.</a><span *ngIf="isDouble(match)">&nbsp;/&nbsp;<a style="cursor:pointer">Beauthier C.</a></span>
+                  <a style="cursor:pointer">
+                      <span *ngIf="match.joueurVisites1"></span>
+                      <span *ngIf="!match.joueurVisites1"><em>Joueur à préciser</em></span>
+                  </a>
+                  <span *ngIf="isDouble(match)">&nbsp;/&nbsp;
+                      <a style="cursor:pointer">
+                        <span *ngIf="match.joueurVisites2"></span>
+                        <span *ngIf="!match.joueurVisites2"><em>Joueur à préciser</em></span>
+                      </a>
+                  </span>
                   <br />
-                  <a style="cursor:pointer">Jacques L.</a><span *ngIf="isDouble(match)">&nbsp;/&nbsp;<a style="cursor:pointer">Tonneau C.</a></span>
+                  <a style="cursor:pointer">
+                        <span *ngIf="match.joueurVisiteurs1"></span>
+                        <span *ngIf="!match.joueurVisiteurs1"><em>Joueur à préciser</em></span>
+                  </a>
+                  <span *ngIf="isDouble(match)">&nbsp;/&nbsp;
+                      <a style="cursor:pointer">
+                        <span *ngIf="match.joueurVisiteurs2"></span>
+                        <span *ngIf="!match.joueurVisiteurs2"><em>Joueur à préciser</em></span>
+                      </a>
+                  </span>
               </td>
               <td><strong>5</strong>&nbsp;&nbsp;2<br />1&nbsp;&nbsp;<strong>4</strong></td>
           </tr>
