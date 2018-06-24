@@ -27,9 +27,6 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
   }
 
   ngOnInit() {
-      //TODO : initialiser la liste des matchs (6 pour une rencontre classique)
-      //TODO : sur base du numero d'ordre, recuperer ceux enregistres et preparer les autres pour l'enregistrement
-      this.matchs=this.createNewMatchs();
       
   }
 
@@ -38,7 +35,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
   @Input()
   set rencontre(rencontre: Rencontre) {
     this._rencontre = rencontre;
-    console.log("rencontre selected");
+    //TODO : initialiser la liste des matchs (6 pour une rencontre classique)
+    //TODO : sur base du numero d'ordre, recuperer ceux enregistres et preparer les autres pour l'enregistrement
+    this.matchs=this.createNewMatchs();
   }
 
   get rencontre(): Rencontre { return this._rencontre; }
