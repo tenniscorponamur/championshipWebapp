@@ -78,42 +78,18 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td><strong>S#1</strong></td>
-            <td>N. Dupont<br />M. Humot</td>
-            <td><strong>5</strong>&nbsp;&nbsp;2<br />1&nbsp;&nbsp;<strong>4</strong></td>
-          </tr>
-          <tr>
-            <td><strong>S#2</strong></td>
-            <td><em>Non-renseignés</em></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><strong>S#3</strong></td>
-            <td><em>Non-renseignés</em></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><strong>S#4</strong></td>
-            <td><em>Non-renseignés</em></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><strong>D#1</strong></td>
-            <td>N. Dupont / S. Tumus<br />M. Humot / D. Morat</td>
-            <td>3&nbsp;&nbsp;<strong>4</strong><br /><strong>5</strong>&nbsp;&nbsp;4</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><strong>D#2</strong></td>
-            <td><em>Non-renseignés</em></td>
-            <td></td>
+          <tr *ngFor="let match of matchs">
+              <td><strong>{{getMatchIdent(match)}}</strong></td>
+              <td>
+                  <a style="cursor:pointer">Calay F.</a><span *ngIf="isDouble(match)">&nbsp;/&nbsp;<a style="cursor:pointer">Beauthier C.</a></span>
+                  <br />
+                  <a style="cursor:pointer">Jacques L.</a><span *ngIf="isDouble(match)">&nbsp;/&nbsp;<a style="cursor:pointer">Tonneau C.</a></span>
+              </td>
+              <td><strong>5</strong>&nbsp;&nbsp;2<br />1&nbsp;&nbsp;<strong>4</strong></td>
           </tr>
           </tbody>
         </table>
       </div>
-
-      <button class="btn btn-sm btn-primary" (click)="ouvrirMatch()">Ouvrir match</button>
 
     </div>
 

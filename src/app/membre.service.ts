@@ -13,9 +13,8 @@ export class MembreService {
 
   constructor(private http: HttpClient) { }
 
-  getMembres(): Observable<Membre[]> {
-    return this.http.get<Membre[]>(environment.publicApiUrl + "/membres");
-    //return of(MEMBRES);
+  getMembres(clubId:number): Observable<Membre[]> {
+    return this.http.get<Membre[]>(environment.publicApiUrl + "/membres" + (clubId!=null?("?clubId="+clubId):""));
   }
 
   searchMembres(nomPrenom:string): Observable<Membre[]> {

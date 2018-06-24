@@ -63,6 +63,9 @@ import { ChampionnatRencontresComponent } from './championnat-rencontres/champio
 import {RencontreService} from './rencontre.service';
 import { TerrainsComponent } from './terrains/terrains.component';
 import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-detail.component';
+import {MatchService} from './match.service';
+import {SetService} from './set.service';
+import { MembreSelectionComponent } from './membre-selection/membre-selection.component';
 
 
 @NgModule({
@@ -101,7 +104,8 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
     TerrainsComponent,
     TerrainDetailComponent,
     TerrainDialog,
-    ClubTerrainDialog
+    ClubTerrainDialog,
+    MembreSelectionComponent
   ],
   imports: [
     BrowserModule,
@@ -155,6 +159,8 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
     PouleService,
     MembreService,
     RencontreService,
+    MatchService,
+    SetService,
     TerrainService,
     UserService,
     AuthGuardService,

@@ -64,7 +64,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
     }
 
   ngOnInit() {
-      this.membreService.getMembres().subscribe(membres => {this.sortedMembers = membres; this.sortData(this.actualSort);});
+      this.membreService.getMembres(null).subscribe(membres => {this.sortedMembers = membres; this.sortData(this.actualSort);});
   }
 
   sortData(sort: Sort) {
