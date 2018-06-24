@@ -8,6 +8,9 @@ import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
 import {MembreService} from '../membre.service';
 import {Membre} from '../membre';
 import {FormControl} from '@angular/forms';
+import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
+import {Club} from '../club';
+import {Equipe} from '../equipe';
 
 
 @Component({
@@ -72,13 +75,36 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         return match.type==MATCH_DOUBLE;
     }
 
-  addMatch(): void {
-    let matchDialogRef = this.dialog.open(MatchDialog, {
-        data: {rencontre: this.rencontre}, panelClass: "membreSelectionDialog", disableClose:false
+  selectionnerJoueur(match:Match,indexEquipe:number, indexJoueurEquipe:number): void {
+      
+      let club;
+      if (indexEquipe==1){
+          club = this.rencontre.equipeVisites.club;
+      }else{
+          club = this.rencontre.equipeVisiteurs.club;
+      }
+      
+    let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+        data: {club: club}, panelClass: "membreSelectionDialog", disableClose:false
     });
 
-    matchDialogRef.afterClosed().subscribe(result => {
-      console.log('Le match a ete ferme');
+    membreSelectionRef.afterClosed().subscribe(membre => {
+        if (membre){
+            if (indexEquipe==1){
+               if (indexJoueurEquipe==1){
+                    match.joueurVisites1 = membre;
+               }else{
+                   match.joueurVisites2 = membre;
+               }
+            }else{
+                if (indexJoueurEquipe==1){
+                    match.joueurVisiteurs1 = membre;
+               }else{
+                   match.joueurVisiteurs2 = membre;
+               }
+            }
+            
+        }
     });
   }
 
@@ -90,71 +116,5 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             return "";
         }
     }
-
-}
-
-@Component({
-  selector: 'match-dialog',
-  templateUrl: './matchDialog.html',
-  styleUrls: ['./matchDialog.css']
-})
-export class MatchDialog implements OnInit {
-
-    private rencontre:Rencontre;
-    listeJoueursVisites:Membre[]=[];
-    listeJoueursVisiteurs:Membre[]=[];
-    
-    joueur1VisitesCtrl: FormControl = new FormControl();
-    joueur1VisiteursCtrl: FormControl = new FormControl();
-    joueur2VisitesCtrl: FormControl = new FormControl();
-    joueur2VisiteursCtrl: FormControl = new FormControl();
-    
-    joueurVisites1Id:number;
-    joueurVisiteurs1Id:number;
-    joueurVisites2Id:number;
-    joueurVisiteurs2Id:number;
-    
-    typeMatchs: string[] = [MATCH_SIMPLE, MATCH_DOUBLE];
-    selectedTypeMatch:string=MATCH_SIMPLE;
-
-  constructor(private matchService:MatchService,
-    private membreService:MembreService,
-    public dialogRef: MatDialogRef<MatchDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { 
-        this.rencontre = data.rencontre;
-        
-        //TODO : initialiser les joueurs avec l'identifiant
-    }
-    
-    ngOnInit(): void {
-        this.membreService.getMembres(this.rencontre.equipeVisites.club.id).subscribe(membres => this.listeJoueursVisites = membres);
-        this.membreService.getMembres(this.rencontre.equipeVisiteurs.club.id).subscribe(membres => this.listeJoueursVisiteurs = membres);
-    }
-    
-    isDouble(){
-        return this.selectedTypeMatch==MATCH_DOUBLE;
-    }
-    
-  cancel(): void {
-    this.dialogRef.close();
-  }
-
-  save(): void {
-      
-      let match = new Match();
-      match.rencontre = this.rencontre;
-      match.ordre = 1;
-      
-      //find sur liste membre
-//      
-//      match.joueurVisites1 = this.joueurVisites1;
-//      match.joueurVisiteurs1 = this.joueurVisiteurs1;
-//      match.joueurVisites2 = this.joueurVisites2;
-//      match.joueurVisiteurs2 = this.joueurVisiteurs2;
-
-      this.matchService.ajoutMatch(match).subscribe();
-            
-    this.dialogRef.close();
-  }
 
 }

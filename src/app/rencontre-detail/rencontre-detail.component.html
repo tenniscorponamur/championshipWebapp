@@ -81,24 +81,24 @@
           <tr *ngFor="let match of matchs">
               <td><strong>{{getMatchIdent(match)}}</strong></td>
               <td>
-                  <a style="cursor:pointer">
-                      <span *ngIf="match.joueurVisites1"></span>
+                  <a style="cursor:pointer" (click)="selectionnerJoueur(match,1,1)">
+                      <span *ngIf="match.joueurVisites1" >{{match.joueurVisites1.nom}} {{match.joueurVisites1.prenom}}</span>
                       <span *ngIf="!match.joueurVisites1"><em>Joueur à préciser</em></span>
                   </a>
                   <span *ngIf="isDouble(match)">&nbsp;/&nbsp;
-                      <a style="cursor:pointer">
-                        <span *ngIf="match.joueurVisites2"></span>
+                      <a style="cursor:pointer" (click)="selectionnerJoueur(match,1,2)">
+                        <span *ngIf="match.joueurVisites2">{{match.joueurVisites2.nom}} {{match.joueurVisites2.prenom}}</span>
                         <span *ngIf="!match.joueurVisites2"><em>Joueur à préciser</em></span>
                       </a>
                   </span>
                   <br />
-                  <a style="cursor:pointer">
-                        <span *ngIf="match.joueurVisiteurs1"></span>
+                  <a style="cursor:pointer" (click)="selectionnerJoueur(match,2,1)">
+                        <span *ngIf="match.joueurVisiteurs1">{{match.joueurVisiteurs1.nom}} {{match.joueurVisiteurs1.prenom}}</span>
                         <span *ngIf="!match.joueurVisiteurs1"><em>Joueur à préciser</em></span>
                   </a>
                   <span *ngIf="isDouble(match)">&nbsp;/&nbsp;
-                      <a style="cursor:pointer">
-                        <span *ngIf="match.joueurVisiteurs2"></span>
+                      <a style="cursor:pointer" (click)="selectionnerJoueur(match,2,2)">
+                        <span *ngIf="match.joueurVisiteurs2">{{match.joueurVisiteurs2.nom}} {{match.joueurVisiteurs2.prenom}}</span>
                         <span *ngIf="!match.joueurVisiteurs2"><em>Joueur à préciser</em></span>
                       </a>
                   </span>

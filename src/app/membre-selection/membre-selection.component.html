@@ -1,3 +1,5 @@
-<p>
-  membre-selection works!
-</p>
+<h1 mat-dialog-title>Sélection</h1>
+<input type="text" placeHolder="Filtrer"/>
+<div *ngFor="let membre of membres">
+    {{membre.nom}}  {{membre.prenom}} <a style="cursor:pointer" (click)="select(membre);"><i class="fa fa-hand-o-left"></i></a>
+</div>
