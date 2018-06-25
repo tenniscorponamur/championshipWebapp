@@ -60,9 +60,31 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       return (match.type == MATCH_SIMPLE?"S":"D") + "#" + match.ordre;
   }
 
-    isDouble(match:Match){
-        return match.type==MATCH_DOUBLE;
-    }
+  isDouble(match:Match){
+      return match.type==MATCH_DOUBLE;
+  }
+
+  isVisitesGagnant(match:Match):boolean{
+    return false;
+  }
+
+  isVisiteursGagnant(match:Match):boolean{
+    return false;
+  }
+
+  getVisitesClass(match:Match){
+      if (this.isVisitesGagnant(match)){
+          return "victorieux";
+      }
+      return "";
+  }
+
+  getVisiteursClass(match:Match){
+      if (this.isVisiteursGagnant(match)){
+          return "victorieux";
+      }
+      return "";
+  }
 
   selectionnerJoueur(match:Match,indexEquipe:number, indexJoueurEquipe:number): void {
 

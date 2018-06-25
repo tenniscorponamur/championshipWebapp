@@ -1,0 +1,21 @@
+.victorieux{
+    font-weight:bold;
+}
+
+.joueur{
+  margin:3px;
+}
+
+.joueur:hover{
+  background-color:lightblue;
+  border-radius:3px;
+}
+
+.resultats{
+  margin:3px;
+}
+
+.resultats:hover{
+  background-color:lightblue;
+  border-radius:3px;
+}
