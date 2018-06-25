@@ -21,12 +21,16 @@ export class MembreSelectionComponent implements OnInit {
       }
 
   ngOnInit() {
-      // TODO : filtrer sur la liste des membres du club --> actif / genre / capitaine /... 
+      // TODO : filtrer sur la liste des membres du club --> actif / genre / capitaine /...
       this.membreService.getMembres(this.club.id).subscribe(membres => this.membres = membres);
   }
 
     select(membre:Membre){
         this.dialogRef.close(membre);
+    }
+
+    fermerSelection(){
+       this.dialogRef.close();
     }
 
 }

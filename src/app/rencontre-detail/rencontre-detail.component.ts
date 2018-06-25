@@ -21,13 +21,13 @@ import {Equipe} from '../equipe';
 export class RencontreDetailComponent extends ChampionnatDetailComponent implements OnInit {
 
     matchs:Match[]=[];
-    
-  constructor(public dialog: MatDialog) {
+
+  constructor(public dialog: MatDialog,
+  private matchService:MatchService) {
     super();
   }
 
   ngOnInit() {
-      
   }
 
   private _rencontre: Rencontre;
@@ -35,54 +35,44 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
   @Input()
   set rencontre(rencontre: Rencontre) {
     this._rencontre = rencontre;
-    //TODO : initialiser la liste des matchs (6 pour une rencontre classique)
-    //TODO : sur base du numero d'ordre, recuperer ceux enregistres et preparer les autres pour l'enregistrement
-    this.matchs=this.createNewMatchs();
+    this.getMatchs();
   }
 
   get rencontre(): Rencontre { return this._rencontre; }
 
-  createNewMatchs():Match[]{
-      let newMatchs:Match[] = [];
-      
-      // 4 matchs simples
-      
-      for (var i=0;i<4;i++){
-          let match = new Match();
-          match.type=MATCH_SIMPLE;
-          match.ordre = i+1;
-          newMatchs.push(match);
-      }
-      
-      // 2 matchs doubles
-      
-      for (var i=0;i<2;i++){
-          let match = new Match();
-          match.type=MATCH_DOUBLE;
-          match.ordre = i+1;
-          newMatchs.push(match);
-      }
-      
-      return newMatchs;
+  getMatchs() {
+    // Recuperation des matchs de la rencontre ou creation a la volee s'ils n'existent pas
+      this.matchService.getMatchs(this.rencontre.id).subscribe(matchs => this.matchs = matchs.sort((a,b) => {
+        if (a.type == b.type) {
+          return compare(a.ordre,b.ordre,true);
+        }else{
+          if (a.type==MATCH_SIMPLE){
+            return -1;
+          }else{
+           return 1;
+          }
+        }
+      })
+      );
   }
-  
+
   getMatchIdent(match:Match):string{
       return (match.type == MATCH_SIMPLE?"S":"D") + "#" + match.ordre;
   }
-  
+
     isDouble(match:Match){
         return match.type==MATCH_DOUBLE;
     }
 
   selectionnerJoueur(match:Match,indexEquipe:number, indexJoueurEquipe:number): void {
-      
+
       let club;
       if (indexEquipe==1){
           club = this.rencontre.equipeVisites.club;
       }else{
           club = this.rencontre.equipeVisiteurs.club;
       }
-      
+
     let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
         data: {club: club}, panelClass: "membreSelectionDialog", disableClose:false
     });
@@ -102,9 +92,15 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
                    match.joueurVisiteurs2 = membre;
                }
             }
-            
+
+            this.sauverMatch(match);
+
         }
     });
+  }
+
+  sauverMatch(match:Match){
+    this.matchService.updateMatch(match).subscribe();
   }
 
     formatDate(date:Date):string{

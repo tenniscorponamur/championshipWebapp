@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Sélection</h1>
+<h1 mat-dialog-title>Sélection<span style="float:right;"><button class="close" (click)="fermerSelection();">&times;</button></span></h1>
 <input type="text" placeHolder="Filtrer"/>
 <div *ngFor="let membre of membres">
     {{membre.nom}}  {{membre.prenom}} <a style="cursor:pointer" (click)="select(membre);"><i class="fa fa-hand-o-left"></i></a>

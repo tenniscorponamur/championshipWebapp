@@ -11,19 +11,19 @@ import {Match} from './match';
 export class MatchService {
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
-  
+
     getMatchs(rencontreId: number): Observable<Match[]> {
         return this.http.get<Match[]>(environment.publicApiUrl + "/matchs?rencontreId=" + rencontreId);
     }
 
-    ajoutMatch(match: Match) {
-        return this.http.post<Match>(environment.privateApiUrl + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
-    }
+//    ajoutMatch(match: Match) {
+//        return this.http.post<Match>(environment.privateApiUrl + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
+//    }
 
     updateMatch(match: Match) {
         return this.http.put<Match>(environment.privateApiUrl + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     deleteMatch(match: Match) {
         return this.http.delete<Match>(environment.privateApiUrl + "/match?id=" + match.id, this.authenticationService.getPrivateApiHttpOptions());
     }
