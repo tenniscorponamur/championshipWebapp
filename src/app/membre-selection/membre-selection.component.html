@@ -1,5 +1,7 @@
 <h1 mat-dialog-title>Sélection<span style="float:right;"><button class="close" (click)="fermerSelection();">&times;</button></span></h1>
-<input type="text" placeHolder="Filtrer"/>
-<div *ngFor="let membre of membres">
+<mat-form-field>
+  <input matInput placeholder="Filter" [(ngModel)]="filtreNomPrenom" (keyup)="filtre()">
+</mat-form-field>
+<div *ngFor="let membre of filteredMembres">
     {{membre.nom}}  {{membre.prenom}} <a style="cursor:pointer" (click)="select(membre);"><i class="fa fa-hand-o-left"></i></a>
 </div>

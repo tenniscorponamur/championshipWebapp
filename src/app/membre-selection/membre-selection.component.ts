@@ -12,7 +12,9 @@ import {Club} from '../club';
 export class MembreSelectionComponent implements OnInit {
 
     private club:Club;
-    membres:Membre[];
+    membres:Membre[]=[];
+    filteredMembres:Membre[]=[];
+    filtreNomPrenom:string;
 
   constructor(public dialogRef: MatDialogRef<MembreSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -21,8 +23,25 @@ export class MembreSelectionComponent implements OnInit {
       }
 
   ngOnInit() {
+      this.membreService.getMembres(this.club.id).subscribe(membres => {this.membres = membres; this.filtre();});
+  }
+
+  filtre(){
       // TODO : filtrer sur la liste des membres du club --> actif / genre / capitaine /...
-      this.membreService.getMembres(this.club.id).subscribe(membres => this.membres = membres);
+
+      this.filteredMembres = this.membres;
+
+      // On ne va consirer que les membres actifs
+
+      this.filteredMembres = this.filteredMembres.filter(membre => membre.actif);
+
+      if (this.filtreNomPrenom && this.filtreNomPrenom.trim().length > 0){
+        this.filteredMembres = this.filteredMembres.filter(membre => {
+                return membre.nom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
+             || membre.prenom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
+        });
+
+      }
   }
 
     select(membre:Membre){
