@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Rencontre } from '../rencontre';
 import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
@@ -29,6 +29,8 @@ const ALL_RENCONTRES="Toutes"
   styleUrls: ['./rencontres.component.css']
 })
 export class RencontresComponent extends ChampionnatDetailComponent implements OnInit {
+
+  @ViewChild("rencontreDetail") rencontreDetailComponent: ElementRef;
 
   championnatCtrl: FormControl = new FormControl();
   divisionCtrl: FormControl = new FormControl();
@@ -121,14 +123,14 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
       this.selectedTeams = [];
       this.selectedPouleIds = [];
-      
+
       this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => {
           this.poules = poules.sort((a, b) => compare(a.numero,b.numero,true));
       });
       this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => {
           this.equipes = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true));
       });
-      
+
       this.sortedRencontres = [];
 
       if (this.selectedDivision) {
@@ -169,19 +171,19 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
    filtre(): void {
 
       //TODO : afficher matchs termines / matchs à venir
-       
+
         this.filteredRencontres = this.sortedRencontres;
 
        if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                return rencontre.pointsVisites == null && rencontre.pointsVisiteurs ==null;
-                }); 
+                });
        } else if (this.selectedTypeRencontre == RENCONTRES_JOUEES){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                return rencontre.pointsVisites != null && rencontre.pointsVisiteurs !=null;
-                }); 
+                });
        }
-        
+
        if (this.selectedPouleIds  && this.selectedPouleIds.length > 0){
             this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                 return this.selectedPouleIds.some(selectedPouleId => {
@@ -192,11 +194,11 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                     }
                 })});
         }
-        
+
        if (this.selectedTeams && this.selectedTeams.length > 0){
             this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                 return this.selectedTeams.some(selectedTeam => {
-                    return rencontre.equipeVisites.id==selectedTeam.id || rencontre.equipeVisiteurs.id==selectedTeam.id 
+                    return rencontre.equipeVisites.id==selectedTeam.id || rencontre.equipeVisiteurs.id==selectedTeam.id
                 })});
         }
 
@@ -205,7 +207,12 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
     ouvrirRencontre(rencontre:Rencontre):void{
       this.selectedRencontre=rencontre;
     }
-    
+
+    ouvrirRencontreOnMobile(rencontre:Rencontre):void{
+      this.selectedRencontre=rencontre;
+      this.rencontreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    }
+
     getVisitesClass(rencontre:Rencontre){
         if (rencontre.pointsVisites && rencontre.pointsVisiteurs){
             if (rencontre.pointsVisites > rencontre.pointsVisiteurs){
@@ -214,7 +221,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         }
         return "";
     }
-    
+
     getVisiteursClass(rencontre:Rencontre){
         if (rencontre.pointsVisites && rencontre.pointsVisiteurs){
             if (rencontre.pointsVisites < rencontre.pointsVisiteurs){
@@ -223,7 +230,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         }
         return "";
     }
-    
+
 //    formatPoule(rencontre:Rencontre):string{
 //        if (rencontre.poule){
 //            return "Poule " + rencontre.poule.numero.toString();

@@ -12,19 +12,19 @@ export class SetService {
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
 
-    getMatchs(matchId: number): Observable<Set[]> {
+    getSets(matchId: number): Observable<Set[]> {
         return this.http.get<Set[]>(environment.publicApiUrl + "/sets?matchId=" + matchId);
     }
 
-    ajoutMatch(set: Set) {
+    ajoutSet(set: Set) {
         return this.http.post<Set>(environment.privateApiUrl + "/set", set, this.authenticationService.getPrivateApiHttpOptions());
     }
 
-    updateMatch(set: Set) {
+    updateSet(set: Set) {
         return this.http.put<Set>(environment.privateApiUrl + "/set", set, this.authenticationService.getPrivateApiHttpOptions());
     }
-    
-    deleteMatch(set: Set) {
+
+    deleteSet(set: Set) {
         return this.http.delete<Set>(environment.privateApiUrl + "/set?id=" + set.id, this.authenticationService.getPrivateApiHttpOptions());
     }
 }

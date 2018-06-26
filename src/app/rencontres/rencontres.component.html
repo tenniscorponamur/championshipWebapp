@@ -81,7 +81,7 @@
               </div>
 
               <div *ngIf="media.is.md.or.sm.or.xs | async" class="text-left" style="height:300px;overflow-y:auto;">
-                <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="myBox text-left" style="cursor:pointer;">
+                <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                   <div class="myBoxTitle">
                     <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}
                   </div>
@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div #rencontreDetail class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <app-rencontre-detail *ngIf="selectedRencontre" [rencontre]="selectedRencontre"></app-rencontre-detail>
     </div>
 </div>

@@ -1,0 +1,141 @@
+<h1 mat-dialog-title>Résultats {{matchExtended.match.type}} {{matchExtended.match.ordre}}<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content>
+  <div *ngIf="showAlert" >
+    <div class="alert alert-danger" role="alert">
+      <small>Sets invalides</small>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-sm" style="text-align:center">
+          <thead class="bg-info">
+          <tr>
+            <th scope="col">Adversaires</th>
+            <th scope="col">Set 1</th>
+            <th scope="col">Set 2</th>
+            <th scope="col">Set 3</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <small>Joueur A / Joueur A2</small>
+            </td>
+            <td>
+              <!--DROWDOWN - SELECT-->
+              <select [(ngModel)]="set1JeuxVisites">
+                <option></option>
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </select>
+              <span *ngIf="set1JeuxVisites && set1JeuxVisiteurs && set1JeuxVisites==set1JeuxVisiteurs">
+                  <i class="fa fa-angellist" aria-hidden="true"></i>
+                  <input type="checkbox" [(ngModel)]="set1GagnantVisites">
+              </span>
+            </td>
+            <td>
+              <!--DROWDOWN - SELECT-->
+              <select [(ngModel)]="set2JeuxVisites">
+                <option></option>
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </select>
+              <span *ngIf="set2JeuxVisites && set2JeuxVisiteurs && set2JeuxVisites==set2JeuxVisiteurs">
+                  <i class="fa fa-angellist" aria-hidden="true"></i>
+                  <input type="checkbox" [(ngModel)]="set2GagnantVisites">
+              </span>
+            </td>
+            <td>
+              <!--DROWDOWN - SELECT-->
+              <select [(ngModel)]="set3JeuxVisites">
+                <option></option>
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </select>
+              <span *ngIf="set3JeuxVisites && set3JeuxVisiteurs && set3JeuxVisites==set3JeuxVisiteurs">
+                  <i class="fa fa-angellist" aria-hidden="true"></i>
+                  <input type="checkbox" [(ngModel)]="set3GagnantVisites">
+              </span>
+            </td>
+          </tr>
+          <td>
+            <small>Joueur B / Joueur B2</small>
+          </td>
+          <td>
+            <!--DROWDOWN - SELECT-->
+            <select [(ngModel)]="set1JeuxVisiteurs">
+              <option></option>
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </select>
+            <span *ngIf="set1JeuxVisites && set1JeuxVisiteurs && set1JeuxVisites==set1JeuxVisiteurs">
+                  <i class="fa fa-angellist" aria-hidden="true"></i>
+                  <input type="checkbox" [(ngModel)]="set1GagnantVisiteurs">
+              </span>
+          </td>
+          <td>
+            <!--DROWDOWN - SELECT-->
+            <select [(ngModel)]="set2JeuxVisiteurs">
+              <option></option>
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </select>
+            <span *ngIf="set2JeuxVisites && set2JeuxVisiteurs && set2JeuxVisites==set2JeuxVisiteurs">
+                  <i class="fa fa-angellist" aria-hidden="true"></i>
+                  <input type="checkbox" [(ngModel)]="set2GagnantVisiteurs">
+              </span>
+          </td>
+          <td>
+            <!--DROWDOWN - SELECT-->
+            <select [(ngModel)]="set3JeuxVisiteurs">
+              <option></option>
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </select>
+            <span *ngIf="set3JeuxVisites && set3JeuxVisiteurs && set3JeuxVisites==set3JeuxVisiteurs">
+                  <i class="fa fa-angellist" aria-hidden="true"></i>
+                  <input type="checkbox" [(ngModel)]="set3GagnantVisiteurs">
+              </span>
+          </td>
+          <tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div align="center">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    <button class="btn btn-success" (click)="save();">Sauver</button>
+  </div>
+</div>
