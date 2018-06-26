@@ -12,6 +12,8 @@ export class Match {
   joueurVisites2:Membre;
   joueurVisiteurs1:Membre;
   joueurVisiteurs2:Membre;
+  pointsVisites:number;
+  pointsVisiteurs:number;
   rencontre:Rencontre;
 }
 
