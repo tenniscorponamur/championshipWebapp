@@ -191,29 +191,58 @@ class MatchExtended {
 export class ResultatsDialog {
 
   matchExtended:MatchExtended;
+
   set1JeuxVisites:number;
   set1JeuxVisiteurs:number;
-  set1GagnantVisites:boolean;
-  set1GagnantVisiteurs:boolean;
+  set1GagnantVisites:boolean=false;
+  set1GagnantVisiteurs:boolean=false;
 
   set2JeuxVisites:number;
   set2JeuxVisiteurs:number;
-  set2GagnantVisites:boolean;
-  set2GagnantVisiteurs:boolean;
+  set2GagnantVisites:boolean=false;
+  set2GagnantVisiteurs:boolean=false;
 
   set3JeuxVisites:number;
   set3JeuxVisiteurs:number;
-  set3GagnantVisites:boolean;
-  set3GagnantVisiteurs:boolean;
+  set3GagnantVisites:boolean=false;
+  set3GagnantVisiteurs:boolean=false;
 
-    showAlert:boolean=false;
+  showAlert:boolean=false;
 
   constructor(
     private setService:SetService,
     public dialogRef: MatDialogRef<ResultatsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+
       this.matchExtended = data.matchExtended;
 
+      let set1 = this.matchExtended.sets.find(set => set.ordre==1);
+      if (set1){
+        this.set1JeuxVisites=set1.jeuxVisites;
+        this.set1JeuxVisiteurs=set1.jeuxVisiteurs;
+        if (set1.jeuxVisites == set1.jeuxVisiteurs){
+          this.set1GagnantVisites=set1.visitesGagnant==true;
+          this.set1GagnantVisiteurs=set1.visitesGagnant==false;
+        }
+      }
+      let set2 = this.matchExtended.sets.find(set => set.ordre==2);
+      if (set2){
+        this.set2JeuxVisites=set2.jeuxVisites;
+        this.set2JeuxVisiteurs=set2.jeuxVisiteurs;
+        if (set2.jeuxVisites == set2.jeuxVisiteurs){
+          this.set2GagnantVisites=set2.visitesGagnant==true;
+          this.set2GagnantVisiteurs=set2.visitesGagnant==false;
+        }
+      }
+      let set3 = this.matchExtended.sets.find(set => set.ordre==3);
+      if (set3){
+        this.set3JeuxVisites=set3.jeuxVisites;
+        this.set3JeuxVisiteurs=set3.jeuxVisiteurs;
+        if (set3.jeuxVisites == set3.jeuxVisiteurs){
+          this.set3GagnantVisites=set3.visitesGagnant==true;
+          this.set3GagnantVisiteurs=set3.visitesGagnant==false;
+        }
+      }
 
     }
 
@@ -223,22 +252,162 @@ export class ResultatsDialog {
 
     save(): void {
 
-        this.showAlert=false;
+      this.showAlert=false;
+      let premierSet:boolean=false;
+      let deuxiemeSet:boolean=false;
+      let troisiemeSet:boolean=false;
 
-      //TODO : verifier la validite de l'encodage pour chaque set
+      // Verifier la validite de l'encodage pour chaque set
 
-      //this.setService.deleteSet();
+      // Premier set
 
-        // TODO : supprimer les sets et les recreer pour enregistrer le resultat du match
-        // et tenir compte de la reinitialisation possible d'un set (non-joue)
+      if (this.set1JeuxVisites){
+        if (!this.set1JeuxVisiteurs){
+          this.showAlert=true;
+        }else{
+          // Jeux precises pour le premier set
+          premierSet = true;
+          if (this.set1JeuxVisites==this.set1JeuxVisiteurs){
+            if (this.set1GagnantVisites){
+              if (this.set1GagnantVisiteurs){
+                this.showAlert=true;
+              }
+            }else{
+              if (!this.set1GagnantVisiteurs){
+                this.showAlert=true;
+              }
+            }
+          }
+        }
+      }else{
+        if (this.set1JeuxVisiteurs){
+            this.showAlert=true;
+        }
+      }
 
+      // Second set
 
-        //TODO : style pour gagnant du match
-        //TODO : style pour gagnant du set
-        //TODO : calcul des points du match
-        //TODO : calcul des points de la rencontre
+      if (this.set2JeuxVisites){
+        if (!this.set2JeuxVisiteurs){
+          this.showAlert=true;
+        }else{
+          // Jeux precises pour le deuxieme set
+          deuxiemeSet = true;
+          if (this.set2JeuxVisites==this.set2JeuxVisiteurs){
+            if (this.set2GagnantVisites){
+              if (this.set2GagnantVisiteurs){
+                this.showAlert=true;
+              }
+            }else{
+              if (!this.set2GagnantVisiteurs){
+                this.showAlert=true;
+              }
+            }
+          }
+        }
+      }else{
+        if (this.set2JeuxVisiteurs){
+            this.showAlert=true;
+        }
+      }
 
-      //this.dialogRef.close(this.matchExtended);
+      // Troisieme set
+
+      if (this.set3JeuxVisites){
+        if (!this.set3JeuxVisiteurs){
+          this.showAlert=true;
+        }else{
+          // Jeux precises pour le troisieme set
+          troisiemeSet = true;
+          if (this.set3JeuxVisites==this.set3JeuxVisiteurs){
+            if (this.set3GagnantVisites){
+              if (this.set3GagnantVisiteurs){
+                this.showAlert=true;
+              }
+            }else{
+              if (!this.set3GagnantVisiteurs){
+                this.showAlert=true;
+              }
+            }
+          }
+        }
+      }else{
+        if (this.set3JeuxVisiteurs){
+            this.showAlert=true;
+        }
+      }
+
+      if (!premierSet){
+          if (deuxiemeSet || troisiemeSet){
+            this.showAlert=true;
+          }
+      }
+
+      if (!deuxiemeSet){
+        if (troisiemeSet){
+          this.showAlert=true;
+        }
+      }
+
+      if (!this.showAlert){
+
+        this.matchExtended.sets=[];
+
+        //TODO this.setService.deleteSet();
+
+        if (premierSet){
+          let set = new Set();
+          set.ordre=1;
+          set.jeuxVisites = this.set1JeuxVisites;
+          set.jeuxVisiteurs = this.set1JeuxVisiteurs;
+          if (this.set1JeuxVisites==this.set1JeuxVisiteurs){
+            set.visitesGagnant=this.set1GagnantVisites;
+          }
+
+          //TODO this.setService.addSet();
+
+          this.matchExtended.sets.push(set);
+        }
+
+        if (deuxiemeSet){
+          let set = new Set();
+          set.ordre=2;
+          set.jeuxVisites = this.set2JeuxVisites;
+          set.jeuxVisiteurs = this.set2JeuxVisiteurs;
+          if (this.set2JeuxVisites==this.set2JeuxVisiteurs){
+            set.visitesGagnant=this.set2GagnantVisites;
+          }
+
+          //TODO this.setService.addSet();
+
+          this.matchExtended.sets.push(set);
+        }
+
+        if (troisiemeSet){
+          let set = new Set();
+          set.ordre=3;
+          set.jeuxVisites = this.set3JeuxVisites;
+          set.jeuxVisiteurs = this.set3JeuxVisiteurs;
+          if (this.set3JeuxVisites==this.set3JeuxVisiteurs){
+            set.visitesGagnant=this.set3GagnantVisites;
+          }
+
+          //TODO this.setService.addSet();
+
+          this.matchExtended.sets.push(set);
+        }
+
+          // TODO : supprimer les sets et les recreer pour enregistrer le resultat du match
+          // et tenir compte de la reinitialisation possible d'un set (non-joue)
+
+          //TODO : style pour gagnant du match
+          //TODO : style pour gagnant du set
+          //TODO : calcul des points du match
+          //TODO : calcul des points de la rencontre
+
+        this.dialogRef.close(this.matchExtended);
+
+      }
     }
 
 }

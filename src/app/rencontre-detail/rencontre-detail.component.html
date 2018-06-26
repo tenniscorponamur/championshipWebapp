@@ -108,9 +108,8 @@
               <td>
 
                 <div class="resultats row" *ngIf="matchExtended.sets.length>0" style="cursor:pointer;" (click)="ouvrirResultats(matchExtended);">
-                  TEST
                   <div class="set" *ngFor="let set of matchExtended.sets">
-                    set.jeuxVisites<br />set.jeuxVisiteurs
+                    {{set.jeuxVisites}}<br />{{set.jeuxVisiteurs}}
                   </div>
                 </div>
 
