@@ -4,6 +4,7 @@ import {Rencontre} from '../rencontre';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {compare, addLeadingZero} from '../utility';
 import {MatchService} from '../match.service';
+import {RencontreService} from '../rencontre.service';
 import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
 import {MembreService} from '../membre.service';
 import {SetService} from '../set.service';
@@ -25,6 +26,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     matchs: MatchExtended[] = [];
 
     constructor(public dialog: MatDialog,
+        private rencontreService:RencontreService,
         private matchService: MatchService,
         private setService: SetService) {
         super();
@@ -173,10 +175,6 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         this.matchService.updateMatch(match).subscribe();
     }
 
-    sauverRencontre() {
-        //TODO : sauver les points de la rencontre sur base des resultats des matchs
-    }
-
     formatDate(date: Date): string {
         if (date) {
             let dateToFormat = new Date(date);
@@ -194,20 +192,33 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
         resultatsDialogRef.afterClosed().subscribe(matchExtended => {
             if (matchExtended) {
-                this.calculMatchRencontre();
-                this.sauverRencontre();
+                this.refreshRencontre();
             }
         });
 
     }
 
+    refreshRencontre() {
+        this.calculMatchRencontre();
+        // sauver les points de la rencontre sur base des resultats des matchs
+        this.rencontreService.updateRencontre(this.rencontre).subscribe();
+    }
+
     calculMatchRencontre(){
-        this.rencontre.pointsVisites = 0;
-        this.rencontre.pointsVisiteurs = 0;
+        this.rencontre.pointsVisites = null;
+        this.rencontre.pointsVisiteurs = null;
 
         this.matchs.forEach(matchExtended => {
-            this.rencontre.pointsVisites = this.rencontre.pointsVisites + matchExtended.match.pointsVisites;
-            this.rencontre.pointsVisiteurs = this.rencontre.pointsVisiteurs + matchExtended.match.pointsVisiteurs;
+            if (matchExtended.match.pointsVisites!=null && matchExtended.match.pointsVisiteurs!=null){
+              if (this.rencontre.pointsVisites==null){
+                this.rencontre.pointsVisites=0;
+              }
+              if (this.rencontre.pointsVisiteurs==null){
+                this.rencontre.pointsVisiteurs=0;
+              }
+              this.rencontre.pointsVisites = this.rencontre.pointsVisites + matchExtended.match.pointsVisites;
+              this.rencontre.pointsVisiteurs = this.rencontre.pointsVisiteurs + matchExtended.match.pointsVisiteurs;
+            }
         });
     }
 
@@ -247,7 +258,7 @@ export class ResultatsDialog {
     showAlert: boolean = false;
 
     constructor(
-        private setService: SetService,
+        private matchService: MatchService,
         public dialogRef: MatDialogRef<ResultatsDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -389,83 +400,60 @@ export class ResultatsDialog {
 
         if (!this.showAlert) {
 
-            this.matchExtended.sets = [];
-
-            //TODO this.setService.deleteSet();
+            let newSets:Set[] =[];
 
             if (premierSet) {
                 let set = new Set();
+                set.match=this.matchExtended.match;
                 set.ordre = 1;
                 set.jeuxVisites = this.set1JeuxVisites;
                 set.jeuxVisiteurs = this.set1JeuxVisiteurs;
                 if (this.set1JeuxVisites == this.set1JeuxVisiteurs) {
                     set.visitesGagnant = this.set1GagnantVisites;
                 }
-
-                //TODO this.setService.addSet();
-
-                this.matchExtended.sets.push(set);
+                newSets.push(set);
             }
 
             if (deuxiemeSet) {
                 let set = new Set();
+                set.match=this.matchExtended.match;
                 set.ordre = 2;
                 set.jeuxVisites = this.set2JeuxVisites;
                 set.jeuxVisiteurs = this.set2JeuxVisiteurs;
                 if (this.set2JeuxVisites == this.set2JeuxVisiteurs) {
                     set.visitesGagnant = this.set2GagnantVisites;
                 }
-
-                //TODO this.setService.addSet();
-
-                this.matchExtended.sets.push(set);
+                newSets.push(set);
             }
 
             if (troisiemeSet) {
                 let set = new Set();
+                set.match=this.matchExtended.match;
                 set.ordre = 3;
                 set.jeuxVisites = this.set3JeuxVisites;
                 set.jeuxVisiteurs = this.set3JeuxVisiteurs;
                 if (this.set3JeuxVisites == this.set3JeuxVisiteurs) {
                     set.visitesGagnant = this.set3GagnantVisites;
                 }
-
-                //TODO this.setService.addSet();
-
-                this.matchExtended.sets.push(set);
+                newSets.push(set);
             }
 
-            this.calculMatchPoints();
+            this.matchService.updateMatchAndSets(this.matchExtended.match, newSets).subscribe(match => {
 
-            // TODO : save Match
+                this.matchExtended.sets = newSets;
 
-            this.dialogRef.close(this.matchExtended);
+                this.matchExtended.match.pointsVisites = match.pointsVisites;
+                this.matchExtended.match.pointsVisiteurs = match.pointsVisiteurs;
+
+                this.dialogRef.close(this.matchExtended);
+
+            });
 
         }
     }
 
     isDouble() {
         return this.matchExtended.match.type == MATCH_DOUBLE;
-    }
-
-    calculMatchPoints(){
-
-        this.matchExtended.match.pointsVisites = 0;
-        this.matchExtended.match.pointsVisiteurs = 0;
-
-        this.matchExtended.sets.forEach(set => {
-            if (set.jeuxVisites > set.jeuxVisiteurs) {
-                this.matchExtended.match.pointsVisites++;
-            } else if (set.jeuxVisites < set.jeuxVisiteurs) {
-                this.matchExtended.match.pointsVisiteurs++;
-            } else {
-                if (set.visitesGagnant==true) {
-                    this.matchExtended.match.pointsVisites++;
-                } else if (set.visitesGagnant==false) {
-                    this.matchExtended.match.pointsVisiteurs++;
-                }
-            }
-        });
     }
 
 }

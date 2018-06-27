@@ -16,15 +16,4 @@ export class SetService {
         return this.http.get<Set[]>(environment.publicApiUrl + "/sets?matchId=" + matchId);
     }
 
-    ajoutSet(set: Set) {
-        return this.http.post<Set>(environment.privateApiUrl + "/set", set, this.authenticationService.getPrivateApiHttpOptions());
-    }
-
-    updateSet(set: Set) {
-        return this.http.put<Set>(environment.privateApiUrl + "/set", set, this.authenticationService.getPrivateApiHttpOptions());
-    }
-
-    deleteSet(set: Set) {
-        return this.http.delete<Set>(environment.privateApiUrl + "/set?id=" + set.id, this.authenticationService.getPrivateApiHttpOptions());
-    }
 }

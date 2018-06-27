@@ -6,6 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Match} from './match';
+import {Set} from './set';
 
 @Injectable()
 export class MatchService {
@@ -22,6 +23,10 @@ export class MatchService {
 
     updateMatch(match: Match) {
         return this.http.put<Match>(environment.privateApiUrl + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    updateMatchAndSets(match: Match, sets:Set[]):Observable<Match> {
+        return this.http.put<Match>(environment.privateApiUrl + "/match/sets?matchId="+match.id, sets, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     deleteMatch(match: Match) {
