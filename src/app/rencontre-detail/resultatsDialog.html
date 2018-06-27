@@ -14,19 +14,19 @@
                             <th scope="col">Adversaires</th>
                             <th scope="col">Set 1</th>
                             <th scope="col">Set 2</th>
-                            <th scope="col">Set 3</th>
+                            <!--<th scope="col">Set 3</th>-->
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td> 
+                            <td>
                                 <small>
                                     <span *ngIf="matchExtended.match.joueurVisites1" >{{matchExtended.match.joueurVisites1.nom}} {{matchExtended.match.joueurVisites1.prenom}}</span>
                                     <span *ngIf="!matchExtended.match.joueurVisites1"><em>Joueur à préciser</em></span>
                                     <span *ngIf="isDouble()">
                                         &nbsp;/&nbsp;
                                         <span *ngIf="matchExtended.match.joueurVisites2">{{matchExtended.match.joueurVisites2.nom}} {{matchExtended.match.joueurVisites2.prenom}}</span>
-                                        <span *ngIf="!matchExtended.match.joueurVisites2"><em>Joueur à préciser</em></span>    
+                                        <span *ngIf="!matchExtended.match.joueurVisites2"><em>Joueur à préciser</em></span>
                                     </span>
                                 </small>
                             </td>
@@ -64,23 +64,23 @@
                                     <input type="checkbox" [(ngModel)]="set2GagnantVisites">
                                 </span>
                             </td>
-                            <td>
-                                <!--DROWDOWN - SELECT-->
-                                <select [(ngModel)]="set3JeuxVisites">
-                                    <option></option>
-                                    <option>0</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                </select>
-                                <span *ngIf="set3JeuxVisites && set3JeuxVisiteurs && set3JeuxVisites==set3JeuxVisiteurs">
-                                    <i class="fa fa-angellist" aria-hidden="true"></i>
-                                    <input type="checkbox" [(ngModel)]="set3GagnantVisites">
-                                </span>
-                            </td>
+                            <!--<td>-->
+                                <!--&lt;!&ndash;DROWDOWN - SELECT&ndash;&gt;-->
+                                <!--<select [(ngModel)]="set3JeuxVisites">-->
+                                    <!--<option></option>-->
+                                    <!--<option>0</option>-->
+                                    <!--<option>1</option>-->
+                                    <!--<option>2</option>-->
+                                    <!--<option>3</option>-->
+                                    <!--<option>4</option>-->
+                                    <!--<option>5</option>-->
+                                    <!--<option>6</option>-->
+                                <!--</select>-->
+                                <!--<span *ngIf="set3JeuxVisites && set3JeuxVisiteurs && set3JeuxVisites==set3JeuxVisiteurs">-->
+                                    <!--<i class="fa fa-angellist" aria-hidden="true"></i>-->
+                                    <!--<input type="checkbox" [(ngModel)]="set3GagnantVisites">-->
+                                <!--</span>-->
+                            <!--</td>-->
                         </tr>
                     <td>
                         <small>
@@ -89,7 +89,7 @@
                             <span *ngIf="isDouble()">
                                 &nbsp;/&nbsp;
                                 <span *ngIf="matchExtended.match.joueurVisiteurs2">{{matchExtended.match.joueurVisiteurs2.nom}} {{matchExtended.match.joueurVisiteurs2.prenom}}</span>
-                                <span *ngIf="!matchExtended.match.joueurVisiteurs2"><em>Joueur à préciser</em></span>    
+                                <span *ngIf="!matchExtended.match.joueurVisiteurs2"><em>Joueur à préciser</em></span>
                             </span>
                         </small>
                     </td>
@@ -127,23 +127,23 @@
                             <input type="checkbox" [(ngModel)]="set2GagnantVisiteurs">
                         </span>
                     </td>
-                    <td>
-                        <!--DROWDOWN - SELECT-->
-                        <select [(ngModel)]="set3JeuxVisiteurs">
-                            <option></option>
-                            <option>0</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                        </select>
-                        <span *ngIf="set3JeuxVisites && set3JeuxVisiteurs && set3JeuxVisites==set3JeuxVisiteurs">
-                            <i class="fa fa-angellist" aria-hidden="true"></i>
-                            <input type="checkbox" [(ngModel)]="set3GagnantVisiteurs">
-                        </span>
-                    </td>
+                    <!--<td>-->
+                        <!--&lt;!&ndash;DROWDOWN - SELECT&ndash;&gt;-->
+                        <!--<select [(ngModel)]="set3JeuxVisiteurs">-->
+                            <!--<option></option>-->
+                            <!--<option>0</option>-->
+                            <!--<option>1</option>-->
+                            <!--<option>2</option>-->
+                            <!--<option>3</option>-->
+                            <!--<option>4</option>-->
+                            <!--<option>5</option>-->
+                            <!--<option>6</option>-->
+                        <!--</select>-->
+                        <!--<span *ngIf="set3JeuxVisites && set3JeuxVisiteurs && set3JeuxVisites==set3JeuxVisiteurs">-->
+                            <!--<i class="fa fa-angellist" aria-hidden="true"></i>-->
+                            <!--<input type="checkbox" [(ngModel)]="set3GagnantVisiteurs">-->
+                        <!--</span>-->
+                    <!--</td>-->
                     <tr>
                         </tbody>
                 </table>

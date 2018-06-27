@@ -74,7 +74,7 @@
           <tr>
             <th scope="col">Match</th>
             <th scope="col">Adversaires</th>
-            <th scope="col" class="text-center">Résultat</th>
+            <th scope="col">Résultat</th>
           </tr>
           </thead>
           <tbody>
@@ -108,15 +108,15 @@
               <td>
 
                 <div class="resultats row" *ngIf="matchExtended.sets.length>0" style="cursor:pointer;" (click)="ouvrirResultats(matchExtended);">
-                  <div class="set" *ngFor="let set of matchExtended.sets">
-                       <span class="{{getVisitesSetClass(set)}}">{{set.jeuxVisites}}</span>
-                        <br />
-                        <span class="{{getVisiteursSetClass(set)}}">{{set.jeuxVisiteurs}}</span>
-                  </div>
+                    <div class="set" *ngFor="let set of matchExtended.sets">
+                         <span class="{{getVisitesSetClass(set)}}">{{set.jeuxVisites}}</span>
+                          <br />
+                          <span class="{{getVisiteursSetClass(set)}}">{{set.jeuxVisiteurs}}</span>
+                    </div>
                 </div>
 
                 <div class="resultats row" *ngIf="matchExtended.sets.length==0" style="cursor:pointer;" (click)="ouvrirResultats(matchExtended);">
-                  <span style="margin:auto;"><i class="fa fa-braille fa-2x"></i></span>
+                  <div style="margin-left:5px;margin-right:5px;"><i class="fa fa-braille fa-2x"></i></div>
                 </div>
 
                   <!--<strong>5</strong>-->

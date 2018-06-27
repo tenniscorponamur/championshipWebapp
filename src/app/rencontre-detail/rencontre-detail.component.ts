@@ -107,7 +107,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         }
         return "";
     }
-    
+
     getVisitesSetClass(set:Set) {
         if (set.jeuxVisites > set.jeuxVisiteurs) {
             return "victorieux";
@@ -116,7 +116,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         } else {
             if (set.visitesGagnant==true) {
                 return "victorieux"
-            } 
+            }
         }
         return "";
     }
@@ -129,7 +129,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         } else {
             if (set.visitesGagnant==false) {
                 return "victorieux"
-            } 
+            }
         }
         return "";
     }
@@ -200,11 +200,11 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
 
     }
-    
+
     calculMatchRencontre(){
         this.rencontre.pointsVisites = 0;
         this.rencontre.pointsVisiteurs = 0;
-        
+
         this.matchs.forEach(matchExtended => {
             this.rencontre.pointsVisites = this.rencontre.pointsVisites + matchExtended.match.pointsVisites;
             this.rencontre.pointsVisiteurs = this.rencontre.pointsVisiteurs + matchExtended.match.pointsVisiteurs;
@@ -271,6 +271,7 @@ export class ResultatsDialog {
                 this.set2GagnantVisiteurs = set2.visitesGagnant == false;
             }
         }
+
         let set3 = this.matchExtended.sets.find(set => set.ordre == 3);
         if (set3) {
             this.set3JeuxVisites = set3.jeuxVisites;
@@ -400,7 +401,7 @@ export class ResultatsDialog {
                 if (this.set1JeuxVisites == this.set1JeuxVisiteurs) {
                     set.visitesGagnant = this.set1GagnantVisites;
                 }
-                
+
                 //TODO this.setService.addSet();
 
                 this.matchExtended.sets.push(set);
@@ -435,32 +436,23 @@ export class ResultatsDialog {
             }
 
             this.calculMatchPoints();
-            
-            // TODO : save Match
-            
-            // TODO : supprimer les sets et les recreer pour enregistrer le resultat du match
-            // et tenir compte de la reinitialisation possible d'un set (non-joue)
 
-            //TODO : style pour gagnant du match
-            //TODO : style pour gagnant du set
-            
-            //TODO : calcul des points du match
-            //TODO : calcul des points de la rencontre
+            // TODO : save Match
 
             this.dialogRef.close(this.matchExtended);
 
         }
     }
-     
+
     isDouble() {
         return this.matchExtended.match.type == MATCH_DOUBLE;
     }
-    
+
     calculMatchPoints(){
-        
+
         this.matchExtended.match.pointsVisites = 0;
         this.matchExtended.match.pointsVisiteurs = 0;
-        
+
         this.matchExtended.sets.forEach(set => {
             if (set.jeuxVisites > set.jeuxVisiteurs) {
                 this.matchExtended.match.pointsVisites++;
