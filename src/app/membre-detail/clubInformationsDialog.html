@@ -12,6 +12,9 @@
             </mat-form-field>
         </form>
     </div>
+    <div class="col-12">
+        <mat-checkbox color="primary" [(ngModel)]="_capitaine" >Capitaine d'équipe</mat-checkbox>
+    </div>
     <div align="center">
         <button class="btn btn-danger" (click)="cancel();">Annuler</button>
         <button class="btn btn-success" (click)="save();">Sauver</button>

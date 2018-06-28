@@ -226,6 +226,7 @@ export class ClubInfosDialog {
   clubs:Observable<Club[]>;
   
     _clubId:number;
+    _capitaine:boolean=false;
     private _membre:Membre;
 
   constructor(
@@ -239,6 +240,7 @@ export class ClubInfosDialog {
       this.clubs = this.clubService.getClubs();
       
         this._membre = data.membre;
+        this._capitaine = this._membre.capitaine;
         if (this._membre.club){
           this._clubId = this._membre.club.id;
         }
@@ -250,6 +252,7 @@ export class ClubInfosDialog {
 
   save(): void {
       if (this._membre.id){
+          this._membre.capitaine = this._capitaine;
           if (this._clubId){
             this.clubService.getClub(this._clubId).subscribe(club => {
                 this._membre.club=club;

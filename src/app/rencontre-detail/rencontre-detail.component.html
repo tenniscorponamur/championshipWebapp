@@ -7,7 +7,7 @@
     <div class="row">
 
       <div class="col-2">
-        <div style="text-align:right;margin-top:25px;">
+        <div style="text-align:right;margin-top:50px;">
           <i class="fa fa-windows fa-4x fa-rotate-90" style="color:greenyellow"></i>
         </div>
       </div>
@@ -45,7 +45,8 @@
                   </div>
               </div>
               <div>
-                <span style="color:red"><em>Rencontre non-validée</em></span>
+                  <span *ngIf="!rencontre.valide" style="font-weight:bold;color:red"><em>Rencontre non-validée</em><br/><button class="btn btn-sm btn-success" (click)="valider();" ><i class="fa fa-check"></i></button></span>
+                  <span *ngIf="rencontre.valide" style="font-weight:bold;color:darkgreen"><em>Rencontre validée</em><br/><button class="btn btn-sm btn-danger" (click)="devalider();" ><i class="fa fa-times"></i></button></span>
               </div>
             </div>
         </div>

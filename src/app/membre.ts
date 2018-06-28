@@ -8,4 +8,5 @@ export class Membre {
   actif: boolean;
   genre: string;
   club:Club;
+  capitaine: boolean;
 }

@@ -14,4 +14,5 @@ export class Rencontre {
   terrain:Terrain;
   pointsVisites:number;
   pointsVisiteurs:number;
+  valide:boolean;
 }

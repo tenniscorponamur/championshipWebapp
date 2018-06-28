@@ -135,6 +135,16 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         }
         return "";
     }
+    
+    valider(){
+        this.rencontre.valide=true;
+        this.rencontreService.updateRencontre(this.rencontre).subscribe(rencontre => this.rencontre.valide=true,error=> this.rencontre.valide=false);
+    }
+    
+    devalider(){
+        this.rencontre.valide=false;
+        this.rencontreService.updateRencontre(this.rencontre).subscribe(rencontre => this.rencontre.valide=false,error=> this.rencontre.valide=true);
+    }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
 

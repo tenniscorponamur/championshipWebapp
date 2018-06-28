@@ -35,6 +35,7 @@
           <div class="myBoxContent">
               <span *ngIf="membre.club">{{membre.club.nom}}</span>
               <span *ngIf="!membre.club"><em>Aucun club</em></span>
+              <span *ngIf="membre.capitaine" ><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
           </div>
         </div>
       </div>
