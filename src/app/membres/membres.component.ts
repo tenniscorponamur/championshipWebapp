@@ -15,6 +15,7 @@ import { RxResponsiveService } from 'rx-responsive';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
 import {compare} from '../utility';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-membres',
@@ -67,6 +68,12 @@ export class MembresComponent implements OnInit, AfterViewInit {
       this.membreService.getMembres(null).subscribe(membres => {this.sortedMembers = membres; this.sortData(this.actualSort);});
   }
 
+  testRapport(){
+    this.membreService.getRapportMembres().subscribe(result => {
+      saveAs(result, "test.pdf");
+    },error => {console.log(error);});
+  }
+
   sortData(sort: Sort) {
     this.actualSort=sort;
     const data = this.sortedMembers.slice();
@@ -90,15 +97,15 @@ export class MembresComponent implements OnInit, AfterViewInit {
   }
 
     filtre(nomPrenom: string,selectedClubs:Club[]): void {
-        
+
         this.filteredMembers = this.sortedMembers;
-            
+
         if (nomPrenom && nomPrenom.trim().length > 0){
-            
+
             this.filteredMembers = this.filteredMembers.filter(membre =>
                 membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
              || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase()))
-             
+
         }
         if (selectedClubs && selectedClubs.length > 0){
             this.filteredMembers = this.filteredMembers.filter(({club}) => {
@@ -127,8 +134,8 @@ export class MembresComponent implements OnInit, AfterViewInit {
                 this.sortData(this.actualSort);
             }
         });
-        
-        
+
+
     }
 
     ouvrirMembre(membre:Membre):void{
@@ -142,7 +149,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
       //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
     }
 
-  
+
   childResult(childResult : string){
       console.log("resultat : " + childResult);
     //this.membreListComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });

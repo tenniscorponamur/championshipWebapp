@@ -17,6 +17,10 @@ export class MembreService {
     return this.http.get<Membre[]>(environment.publicApiUrl + "/membres" + (clubId!=null?("?clubId="+clubId):""));
   }
 
+  getRapportMembres() {
+    return this.http.get("http://localhost:9100/api/testRapport",{responseType: 'blob'});
+  }
+
   searchMembres(nomPrenom:string): Observable<Membre[]> {
       return of(MEMBRES.filter(membre =>
             membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
@@ -36,13 +40,13 @@ export class MembreService {
   ajoutMembre(membre:Membre){
     return this.http.post<Membre>(environment.publicApiUrl + "/membre",membre);
   }
-  
+
   updateMembreInfosGenerales(membre:Membre){
       return this.http.put<Membre>(environment.publicApiUrl + "/membre/infosGenerales",membre);
   }
-  
+
   updateClubInfos(membre:Membre){
-      return this.http.put<Membre>(environment.publicApiUrl + "/membre/clubInfos",membre); 
+      return this.http.put<Membre>(environment.publicApiUrl + "/membre/clubInfos",membre);
   }
 
 }
