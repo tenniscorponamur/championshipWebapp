@@ -45,8 +45,8 @@
                   </div>
               </div>
               <div>
-                  <span *ngIf="!rencontre.valide" style="font-weight:bold;color:red"><em>Rencontre non-validée</em><br/><button class="btn btn-sm btn-success" (click)="valider();" ><i class="fa fa-check"></i></button></span>
-                  <span *ngIf="rencontre.valide" style="font-weight:bold;color:darkgreen"><em>Rencontre validée</em><br/><button class="btn btn-sm btn-danger" (click)="devalider();" ><i class="fa fa-times"></i></button></span>
+                  <span *ngIf="!rencontre.valide" style="font-weight:bold;color:red"><em>Rencontre non-validée</em><span *ngIf="isValidable"><br/><button class="btn btn-sm btn-success" (click)="setValidite(true);" >Valider&nbsp;<i class="fa fa-check"></i></button></span></span>
+                  <span *ngIf="rencontre.valide" style="font-weight:bold;color:darkgreen"><em>Rencontre validée</em><br/><button class="btn btn-sm btn-danger" (click)="setValidite(false);" >Dévalider&nbsp;<i class="fa fa-times"></i></button></span>
               </div>
             </div>
         </div>

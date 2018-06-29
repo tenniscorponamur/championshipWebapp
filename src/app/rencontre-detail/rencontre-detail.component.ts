@@ -38,10 +38,12 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     private _rencontre: Rencontre;
+    isValidable:boolean=false;
 
     @Input()
     set rencontre(rencontre: Rencontre) {
         this._rencontre = rencontre;
+        this.refreshValidable();
         this.getMatchs();
     }
 
@@ -138,14 +140,13 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         return "";
     }
 
-    valider(){
-        this.rencontre.valide=true;
-        this.rencontreService.updateRencontre(this.rencontre).subscribe(rencontre => this.rencontre.valide=true,error=> this.rencontre.valide=false);
+    refreshValidable() {
+      this.rencontreService.isValidable(this.rencontre).subscribe(result => this.isValidable = result);
     }
 
-    devalider(){
-        this.rencontre.valide=false;
-        this.rencontreService.updateRencontre(this.rencontre).subscribe(rencontre => this.rencontre.valide=false,error=> this.rencontre.valide=true);
+    setValidite(validite:boolean){
+          this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => this.rencontre.valide=validity,error=> console.log(error));
+
     }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
@@ -219,7 +220,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     refreshRencontre() {
         this.calculMatchRencontre();
         // sauver les points de la rencontre sur base des resultats des matchs
-        this.rencontreService.updateRencontre(this.rencontre).subscribe();
+        this.rencontreService.updateRencontre(this.rencontre).subscribe( result => this.refreshValidable());
     }
 
     calculMatchRencontre(){
