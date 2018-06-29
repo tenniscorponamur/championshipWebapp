@@ -1,15 +1,53 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Championnat, TENNIS_CORPO_CHAMPIONSHIP_KEY} from '../championnat';
+import {compare} from '../utility';
+import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
+import {ChampionnatService} from '../championnat.service';
 
 @Component({
   selector: 'app-classements',
   templateUrl: './classements.component.html',
   styleUrls: ['./classements.component.css']
 })
-export class ClassementsComponent implements OnInit {
+export class ClassementsComponent extends ChampionnatDetailComponent implements OnInit {
 
-  constructor() { }
+  championnatCtrl: FormControl = new FormControl();
+
+  championnats: Championnat[];
+
+  selectedChampionnat: Championnat;
+
+  constructor(private championnatService:ChampionnatService) {
+    super();
+  }
 
   ngOnInit() {
-  }
+        this.championnatService.getChampionnats().subscribe(championnats => {
+            this.championnats = championnats.sort(
+                (a, b) => {
+                    let comparaisonAnnee = compare(a.annee, b.annee, false);
+                    if (comparaisonAnnee != 0) {
+                        return comparaisonAnnee;
+                    } else {
+                        let comparaisonType = compare(a.type, b.type, true);
+                        if (comparaisonType != 0) {
+                            return comparaisonType;
+                        } else {
+                            return compare(a.categorie, b.categorie, true);
+                        }
+                    }
+                });
+
+              let championnatInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_KEY);
+              if (championnatInLocalStorage) {
+                this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
+                this.loadClassements();
+              }
+        });
+    }
+
+    loadClassements() {
+    }
 
 }

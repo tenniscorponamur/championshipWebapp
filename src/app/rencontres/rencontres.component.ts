@@ -7,17 +7,14 @@ import {PouleService} from '../poule.service';
 import {EquipeService} from '../equipe.service';
 import {RencontreService} from '../rencontre.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
-import {Championnat} from '../championnat';
-import {Division} from '../division';
+import {Championnat, TENNIS_CORPO_CHAMPIONSHIP_KEY} from '../championnat';
+import {Division, TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY} from '../division';
 import {Club} from '../club';
 import {Equipe} from '../equipe';
 import {Poule} from '../poule';
 import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import { RxResponsiveService } from 'rx-responsive';
-
-const TENNIS_CORPO_CHAMPIONSHIP_KEY = "tennisCorpoChampionship";
-const TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY = "tennisCorpoChampionshipDivision";
 
 const RENCONTRES_VALIDES="Valides"
 const RENCONTRES_A_ENCODER="A encoder"

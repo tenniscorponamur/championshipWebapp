@@ -71,6 +71,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   testRapport(){
     this.membreService.getRapportMembres().subscribe(result => {
       saveAs(result, "test.pdf");
+      //var fileURL = URL.createObjectURL(result);window.open(fileURL);
     },error => {console.log(error);});
   }
 

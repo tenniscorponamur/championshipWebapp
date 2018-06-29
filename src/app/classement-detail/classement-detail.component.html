@@ -1,7 +1,7 @@
 <div class="card tennisCorpoBox">
-  <h4 class="card-header">
-    Classement
-  </h4>
+  <!--<h4 class="card-header">-->
+    <!--Classement-->
+  <!--</h4>-->
   <div class="card-body">
 
     <div class="row">
@@ -15,11 +15,10 @@
       <div class="col-10">
         <div class="myBox">
           <div class="myBoxTitle" >
-            Détails
+            Classement
           </div>
           <div class="myBoxContent">
-            Championnat Hiver 2017<br />
-            Division 4 Poule 1
+            Division 4 -- ngif Poule 1--
           </div>
         </div>
       </div>
@@ -33,6 +32,7 @@
             <tr>
               <th scope="col">Position</th>
               <th scope="col">Equipe</th>
+              <th scope="col">Joués</th>
               <th scope="col">Points</th>
               <th scope="col">Sets G/P</th>
               <th scope="col">Jeux G/P</th>
@@ -41,7 +41,8 @@
             <tbody>
             <tr>
               <td><strong>#1</strong></td>
-              <td><strong>UNAMUR B</strong></td>
+              <td><a style="cursor:pointer" (click)="showRencontres(null);"><u><strong>UNAMUR B</strong></u></a></td>
+              <td><strong>3</strong></td>
               <td><strong>5</strong></td>
               <td><strong>24/12</strong></td>
               <td><strong>46/25</strong></td>
@@ -50,12 +51,14 @@
               <td>#2</td>
               <td>IATA A</td>
               <td>3</td>
+              <td>3</td>
               <td>15/25</td>
               <td>25/35</td>
             </tr>
             <tr>
               <td>#3</td>
               <td>GAZELEC</td>
+              <td>2</td>
               <td>1</td>
               <td>7/33</td>
               <td>5/65</td>

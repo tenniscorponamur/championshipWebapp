@@ -2,10 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTabChangeEvent} from '@angular/material';
 import {ChampionnatEquipesComponent} from '../championnat-equipes/championnat-equipes.component';
 import {ChampionnatPoulesComponent} from '../championnat-poules/championnat-poules.component';
-import {Championnat} from '../championnat';
+import {Championnat, TENNIS_CORPO_CHAMPIONSHIP_KEY} from '../championnat';
 import {ChampionnatRencontresComponent} from '../championnat-rencontres/championnat-rencontres.component';
 
-const TENNIS_CORPO_CHAMPIONSHIP_KEY = "tennisCorpoChampionship";
 const TENNIS_CORPO_CHAMPIONSHIP_INDEX_KEY = "tennisCorpoChampionshipIndex";
 
 @Component({
