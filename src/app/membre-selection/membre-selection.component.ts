@@ -12,6 +12,7 @@ import {Club} from '../club';
 export class MembreSelectionComponent implements OnInit {
 
     private club:Club;
+    private capitaine: Boolean;
     membres:Membre[]=[];
     filteredMembres:Membre[]=[];
     filtreNomPrenom:string;
@@ -20,6 +21,7 @@ export class MembreSelectionComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private membreService:MembreService) {
         this.club = data.club;
+        this.capitaine = data.capitaine;
       }
 
   ngOnInit() {
@@ -27,7 +29,6 @@ export class MembreSelectionComponent implements OnInit {
   }
 
   filtre(){
-      // TODO : filtrer sur la liste des membres du club --> actif / genre / capitaine /...
 
       this.filteredMembres = this.membres;
 
@@ -35,12 +36,17 @@ export class MembreSelectionComponent implements OnInit {
 
       this.filteredMembres = this.filteredMembres.filter(membre => membre.actif);
 
+      // Si le parametre capitaine est passe, on va filtrer selon sa valeur
+
+      if (this.capitaine!=null){
+        this.filteredMembres = this.filteredMembres.filter(membre => membre.capitaine==this.capitaine);
+      }
+
       if (this.filtreNomPrenom && this.filtreNomPrenom.trim().length > 0){
         this.filteredMembres = this.filteredMembres.filter(membre => {
                 return membre.nom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
              || membre.prenom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
         });
-
       }
   }
 

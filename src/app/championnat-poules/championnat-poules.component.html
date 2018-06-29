@@ -69,8 +69,8 @@
                                 </div>
                                 <div>
                                     <strong>{{equipe.codeAlphabetique}}</strong><br/>
-                                    <div class="teamBoxEditable">
-                                        <small>Capitaine : M. Petit&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
+                                    <div class="teamBoxEditable" (click)="ouvrirCapitaineEquipe(equipe);">
+                                        <small>Capitaine : <span *ngIf="equipe.capitaine">{{equipe.capitaine.nom}} {{equipe.capitaine.prenom.substring(0,1)}}.</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
                                     <div class="teamBoxEditable" (click)="ouvrirTerrainEquipe(equipe);" >
                                       <small>Terrain : <span *ngIf="equipe.terrain">{{equipe.terrain.nom}}</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>

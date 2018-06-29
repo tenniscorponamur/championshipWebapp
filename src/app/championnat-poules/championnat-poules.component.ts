@@ -12,6 +12,7 @@ import {Equipe} from '../equipe';
 import {Poule} from '../poule';
 import {Division} from '../division';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
+import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Observable} from 'rxjs/Observable';
 import {Terrain} from '../terrain';
 import {TerrainService} from '../terrain.service';
@@ -116,7 +117,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
             this.poules.splice(indexOfPoule, 1);
         });
     }
-    
+
     changeTypeCalendrierPoule(poule: Poule){
         this.pouleService.updatePouleAllerRetour(poule.id, !poule.allerRetour).subscribe(result => {
             poule.allerRetour=!poule.allerRetour;
@@ -162,7 +163,22 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         });
 
     }
-    
+
+    ouvrirCapitaineEquipe(equipe:Equipe){
+
+        let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+            data: {club: equipe.club, capitaine: true}, panelClass: "membreSelectionDialog", disableClose: false
+        });
+
+        membreSelectionRef.afterClosed().subscribe(membre => {
+            if (membre) {
+                equipe.capitaine=membre;
+                this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
+            }
+        });
+
+    }
+
     ouvrirTerrainEquipe(equipe:Equipe) {
         let equipeTerrainDialogRef = this.dialog.open(EquipeTerrainDialog, {
           data: { equipe: equipe}, panelClass: "equipeTerrainDialog"
@@ -211,7 +227,7 @@ export class ChangePouleDialog {
   selector: 'equipe-terrain-dialog',
   templateUrl: './equipeTerrainDialog.html',
 })
-export class EquipeTerrainDialog { 
+export class EquipeTerrainDialog {
 
   terrainCtrl: FormControl=new FormControl();
   terrains:Observable<Terrain[]>;
