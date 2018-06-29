@@ -159,6 +159,19 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
           let isAsc = sort.direction == 'asc';
           switch (sort.active) {
             case 'dateHeureRencontre': return compare(a.dateHeureRencontre, b.dateHeureRencontre, isAsc);
+            case 'terrain':
+                {
+                  if (a.terrain && !b.terrain){
+                    return (isAsc ? -1 : 1);
+                  }
+                  if (!a.terrain && b.terrain){
+                    return (isAsc ? 1 : -1);
+                  }
+                  if (a.terrain && b.terrain) {
+                    return compare(a.terrain.nom, b.terrain.nom, isAsc);
+                  }
+                  return 0;
+                }
 //              case 'poule': return  compare(this.formatPoule(a), this.formatPoule(b), isAsc);
               case 'equipeVisites': return compare(a.equipeVisites.codeAlphabetique, b.equipeVisites.codeAlphabetique, isAsc);
               case 'equipeVisiteurs': return compare(a.equipeVisiteurs.codeAlphabetique, b.equipeVisiteurs.codeAlphabetique, isAsc);

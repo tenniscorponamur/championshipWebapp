@@ -83,7 +83,7 @@
               <div *ngIf="media.is.md.or.sm.or.xs | async" class="text-left" style="height:300px;overflow-y:auto;">
                 <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                   <div class="myBoxTitle">
-                    <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}
+                    <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
                   </div>
                   <div class="myBoxContent">
                     <span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span>
@@ -101,6 +101,7 @@
                     <thead class="bg-info" >
                     <tr>
                       <th scope="col" mat-sort-header="dateHeureRencontre">Date/heure</th>
+                      <th scope="col" mat-sort-header="terrain">Terrain</th>
                       <!--<th scope="col" mat-sort-header="poule">Ctx</th>-->
                       <th scope="col" mat-sort-header="equipeVisites" >Visités</th>
                       <th scope="col" mat-sort-header="equipeVisiteurs" >Visiteurs</th>
@@ -111,6 +112,7 @@
                     <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
                       <td class="text-uppercase">{{formatDate(rencontre.dateHeureRencontre)}}</td>
                       <!--<td>{{formatPoule(rencontre)}}</td>-->
+                      <td><span *ngIf="rencontre.terrain">{{rencontre.terrain.nom}}</span></td>
                       <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
                       <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
                       <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
