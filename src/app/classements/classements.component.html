@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-12">
 
-      <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadCalendar();" >
+      <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadClassements();" >
         <mat-option *ngFor="let championnat of championnats" [value]="championnat">
 
                     <span>
