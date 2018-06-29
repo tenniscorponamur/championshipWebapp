@@ -19,7 +19,8 @@ import { RxResponsiveService } from 'rx-responsive';
 const TENNIS_CORPO_CHAMPIONSHIP_KEY = "tennisCorpoChampionship";
 const TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY = "tennisCorpoChampionshipDivision";
 
-const RENCONTRES_JOUEES="Jouées"
+const RENCONTRES_VALIDES="Valides"
+const RENCONTRES_A_ENCODER="A encoder"
 const RENCONTRES_A_VENIR="A venir"
 const ALL_RENCONTRES="Toutes"
 
@@ -48,8 +49,8 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   poules:Poule[]=[];
   selectedPouleIds:number[]=[];
 
-  typeRencontres:string[] = [RENCONTRES_JOUEES,RENCONTRES_A_VENIR, ALL_RENCONTRES];
-  selectedTypeRencontre:string=RENCONTRES_A_VENIR;
+  typeRencontres:string[] = [RENCONTRES_VALIDES,RENCONTRES_A_ENCODER,RENCONTRES_A_VENIR, ALL_RENCONTRES];
+  selectedTypeRencontre:string=RENCONTRES_A_ENCODER;
 
   sortedRencontres:Rencontre[]=[];
   filteredRencontres:Rencontre[];
@@ -170,17 +171,19 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
    filtre(): void {
 
-      //TODO : afficher matchs termines / matchs à venir
-
         this.filteredRencontres = this.sortedRencontres;
 
-       if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
+       if (this.selectedTypeRencontre == RENCONTRES_A_ENCODER){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-               return rencontre.pointsVisites == null && rencontre.pointsVisiteurs ==null;
+             return !rencontre.valide && rencontre.dateHeureRencontre!=null && rencontre.dateHeureRencontre < new Date();
+              });
+       } else if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
+           this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+             return !rencontre.valide && (rencontre.dateHeureRencontre==null || rencontre.dateHeureRencontre >= new Date());
                 });
-       } else if (this.selectedTypeRencontre == RENCONTRES_JOUEES){
+       } else if (this.selectedTypeRencontre == RENCONTRES_VALIDES){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-               return rencontre.pointsVisites != null && rencontre.pointsVisiteurs !=null;
+               return rencontre.valide;
                 });
        }
 

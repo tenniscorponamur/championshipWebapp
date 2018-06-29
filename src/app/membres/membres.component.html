@@ -70,7 +70,6 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-outline-primary" style="margin-bottom:10px;">Vider filtre</button>
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let membre of filteredMembers" (click)="ouvrirMembre(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
@@ -91,9 +90,9 @@
                                   <th scope="col" mat-sort-header="nom">Nom</th>
                                   <th scope="col" mat-sort-header="prenom">Prénom</th>
                                   <!--<th scope="col" mat-sort-header="dateNaissance">Date de naissance</th>-->
-                                  <th scope="col">Club</th>
-                                  <th scope="col">Classement AFT</th>
-                                  <th scope="col">Points Corpo</th>
+                                  <th scope="col" class="text-left">Club</th>
+                                  <th scope="col" class="text-left">Classement AFT</th>
+                                  <th scope="col" class="text-left">Points Corpo</th>
                               </tr>
                           </thead>
                           <tbody>
