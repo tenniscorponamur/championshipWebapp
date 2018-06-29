@@ -42,7 +42,7 @@ import { UserService } from './user.service';
 import { TerrainService } from './terrain.service';
 import { AuthGuardService } from './auth-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
-import { RencontreDetailComponent, ResultatsDialog} from './rencontre-detail/rencontre-detail.component';
+import { RencontreDetailComponent, ResultatsDialog, DateTerrainDialog} from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
@@ -85,6 +85,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     EquipeTerrainDialog,
     RencontreDetailComponent,
     ResultatsDialog,
+    DateTerrainDialog,
     ClassementDetailComponent,
     ClassementsComponent,
     ClubsComponent,
@@ -149,7 +150,8 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
       ChangePouleDialog,
       EquipeTerrainDialog,
       MembreSelectionComponent,
-      ResultatsDialog
+      ResultatsDialog,
+      DateTerrainDialog
   ],
   providers: [
     AuthenticationService,

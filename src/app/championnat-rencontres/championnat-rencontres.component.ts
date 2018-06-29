@@ -26,19 +26,19 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
   // Configuration of the time picker (format 12H with a default date and time)
    config = { hour: 18, minute: 0, meriden: 'PM', format: 24 };
-  
+
     championnatCtrl: FormControl = new FormControl();
-    
+
     @Output() selectChampionnat = new EventEmitter<Championnat>();
-    
+
     championnats: Championnat[];
-    
+
     selectedChampionnat: Championnat;
     divisions: DivisionExtended[];
     nbRencontres:number;
-    
+
     terrains:Terrain[];
-  
+
     constructor(
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
@@ -58,14 +58,14 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
         this.refresh(null,false);
   }
-  
+
     loadCalendar() {
-        
+
         this.selectChampionnat.emit(this.selectedChampionnat);
-        
+
         this.divisions=[];
         this.nbRencontres=0;
-        
+
         if (this.selectedChampionnat) {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
@@ -91,7 +91,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
             );
         }
     }
-  
+
     refresh(championnat: Championnat,flush:boolean) {
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
@@ -119,10 +119,10 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
             }
         });
     }
-    
+
     creerCalendrier(){
-        
-        if (this.selectedChampionnat) { 
+
+        if (this.selectedChampionnat) {
             this.rencontreService.creerCalendrier(this.selectedChampionnat.id).subscribe(rencontres => {
                 this.divisions.forEach(divisionExtended => {
                   divisionExtended.poules.forEach( pouleExtended => {
@@ -132,11 +132,11 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                 });
             })
         }
-        
+
     }
-    
+
     supprimerCalendrier(){
-        if (this.selectedChampionnat) { 
+        if (this.selectedChampionnat) {
             this.rencontreService.supprimerCalendrier(this.selectedChampionnat.id).subscribe(result => {
                 this.divisions.forEach(divisionExtended => {
                   divisionExtended.poules.forEach( pouleExtended => {
@@ -147,8 +147,8 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
             })
         }
     }
-    
-    
+
+
     ordonnerRencontresParPoule(rencontresPoule:Rencontre[], pouleExtended:PouleExtended){
       rencontresPoule.forEach(rencontre => {
           let journee = pouleExtended.journees.find(journee => journee.numero==rencontre.numeroJournee);
@@ -161,18 +161,14 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
           this.nbRencontres++;
       });
       pouleExtended.journees = pouleExtended.journees.sort((a, b) => {return compare(a.numero, b.numero, true)});
-      
+
       pouleExtended.journees.forEach(journee => journee.rencontres.sort((a, b) => {return compare(a.rencontre.id, b.rencontre.id, true)}));
     }
-    
-//    changeDateRencontre(rencontre:Rencontre){
-//
-//    }
-    
+
     changeDate(rencontre:RencontreExtended){
-        
+
         if (rencontre.date && rencontre.heure && rencontre.minute){
-            
+
             rencontre.rencontre.dateHeureRencontre = rencontre.date;
             rencontre.rencontre.dateHeureRencontre.setHours(rencontre.heure);
             rencontre.rencontre.dateHeureRencontre.setMinutes(rencontre.minute);
@@ -188,9 +184,9 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                 rencontre.minute=null;
              });
         }
-        
+
     }
-    
+
     changeTerrain(rencontre:RencontreExtended){
         if (rencontre.terrainId){
             this.terrainService.getTerrain(rencontre.terrainId).subscribe(terrain => {
@@ -201,9 +197,9 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
             rencontre.rencontre.terrain=null;
             this.updateTerrainRencontre(rencontre);
         }
-        
+
     }
-    
+
   updateTerrainRencontre(rencontre:RencontreExtended){
     //Mise a jour du terrain de la rencontre
     this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
@@ -213,27 +209,27 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         console.log("erreur save terrain rencontre");
         rencontre.terrainId=null;
         rencontre.rencontre.terrain=null;
-     }); 
+     });
   }
-  
+
   switchTeams(rencontre:RencontreExtended){
-      
+
     this.inverserEquipes(rencontre);
 
     this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
     result => {
      },
-    error => { 
+    error => {
       this.inverserEquipes(rencontre);
-     }); 
+     });
   }
-  
+
   inverserEquipes(rencontre:RencontreExtended){
-      
+
     let oldEquipeVisites = rencontre.rencontre.equipeVisites;
     rencontre.rencontre.equipeVisites = rencontre.rencontre.equipeVisiteurs;
     rencontre.rencontre.equipeVisiteurs = oldEquipeVisites;
-    
+
     if (rencontre.rencontre.equipeVisites.terrain){
         rencontre.rencontre.terrain = rencontre.rencontre.equipeVisites.terrain;
         rencontre.terrainId = rencontre.rencontre.equipeVisites.terrain.id;
@@ -242,7 +238,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         rencontre.terrainId = null;
     }
   }
-  
+
 }
 
 class Journee {
@@ -266,7 +262,7 @@ class RencontreExtended {
     heure:number;
     minute:number;
     terrainId:number;
-    
+
     constructor(rencontre:Rencontre){
         this.rencontre=rencontre;
           if (rencontre.dateHeureRencontre){

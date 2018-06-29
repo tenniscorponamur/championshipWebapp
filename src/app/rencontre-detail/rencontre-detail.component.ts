@@ -8,11 +8,13 @@ import {RencontreService} from '../rencontre.service';
 import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
 import {MembreService} from '../membre.service';
 import {SetService} from '../set.service';
+import {TerrainService} from '../terrain.service';
 import {Membre} from '../membre';
 import {FormControl} from '@angular/forms';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Club} from '../club';
 import {Set} from '../set';
+import {Terrain} from '../terrain';
 import {Equipe} from '../equipe';
 
 
@@ -135,12 +137,12 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         }
         return "";
     }
-    
+
     valider(){
         this.rencontre.valide=true;
         this.rencontreService.updateRencontre(this.rencontre).subscribe(rencontre => this.rencontre.valide=true,error=> this.rencontre.valide=false);
     }
-    
+
     devalider(){
         this.rencontre.valide=false;
         this.rencontreService.updateRencontre(this.rencontre).subscribe(rencontre => this.rencontre.valide=false,error=> this.rencontre.valide=true);
@@ -194,6 +196,12 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         }
     }
 
+    ouvrirDateTerrain(){
+        let dateTerrainDialogRef = this.dialog.open(DateTerrainDialog, {
+            data: {rencontre: this.rencontre}, panelClass: "dateTerrainDialog"
+        });
+    }
+
     ouvrirResultats(matchExtended: MatchExtended) {
 
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
@@ -239,6 +247,74 @@ class MatchExtended {
     match: Match;
     sets: Set[] = [];
 
+}
+
+@Component({
+    selector: 'date-terrain-dialog',
+    templateUrl: './dateTerrainDialog.html'
+})
+export class DateTerrainDialog implements OnInit {
+
+    terrainCtrl: FormControl = new FormControl();
+
+    rencontre:Rencontre;
+    date:Date;
+    heure:number;
+    minute:number;
+    terrainId:number;
+
+    terrains:Terrain[]=[];
+
+    constructor(
+        private rencontreService: RencontreService,
+        private terrainService: TerrainService,
+        public dialogRef: MatDialogRef<DateTerrainDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+          this.rencontre=data.rencontre;
+          if (this.rencontre.dateHeureRencontre){
+              this.date=new Date(this.rencontre.dateHeureRencontre);
+              this.heure=this.date.getHours();
+              this.minute = this.date.getMinutes();
+          }
+          if (this.rencontre.terrain){
+              this.terrainId=this.rencontre.terrain.id;
+          }
+        }
+
+  ngOnInit() {
+    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
+    }
+
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
+    save(): void {
+
+        if (this.terrainId){
+            let selectedTerrain = this.terrains.find(terrain => terrain.id == this.terrainId);
+            this.rencontre.terrain = selectedTerrain;
+        }else{
+            this.rencontre.terrain=null;
+        }
+
+        if (this.date && this.heure && this.minute){
+            this.rencontre.dateHeureRencontre = this.date;
+            this.rencontre.dateHeureRencontre.setHours(this.heure);
+            this.rencontre.dateHeureRencontre.setMinutes(this.minute);
+        }else{
+            this.rencontre.dateHeureRencontre=null;
+        }
+
+        this.rencontreService.updateRencontre(this.rencontre).subscribe(
+        result => {
+          this.dialogRef.close();
+         },
+        error => {
+            console.log("erreur save rencontre : " + error);
+         });
+
+    }
 }
 
 @Component({
