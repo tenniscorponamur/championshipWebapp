@@ -1,3 +1,13 @@
-<h1 mat-dialog-title>Rencontres disputées<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<h1 mat-dialog-title>Rencontres {{equipe.codeAlphabetique}}&nbsp;&nbsp;<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content>
+  <div *ngFor="let rencontre of rencontres">
+    Contre
+    <span *ngIf="rencontre.equipeVisites.id!=equipe.id">
+      {{rencontre.equipeVisites.codeAlphabetique}}
+    </span>
+    <span *ngIf="rencontre.equipeVisiteurs.id!=equipe.id">
+      {{rencontre.equipeVisiteurs.codeAlphabetique}}
+    </span> : {{getResultat(rencontre)}}
+    {{rencontre.pointsVisites}} - {{rencontre.pointsVisiteurs}}
+  </div>
 </div>

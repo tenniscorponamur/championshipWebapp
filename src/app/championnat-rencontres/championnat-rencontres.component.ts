@@ -79,7 +79,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                                 let pouleExtended = new PouleExtended();
                                 pouleExtended.poule = poule;
                                 divisionExtended.poules.push(pouleExtended);
-                                this.rencontreService.getRencontres(division.id, poule.id).subscribe(rencontresPoule => {
+                                this.rencontreService.getRencontres(division.id, poule.id,null).subscribe(rencontresPoule => {
                                   this.ordonnerRencontresParPoule(rencontresPoule,pouleExtended);
                                 });
                             });

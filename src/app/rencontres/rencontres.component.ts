@@ -16,7 +16,7 @@ import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import { RxResponsiveService } from 'rx-responsive';
 
-const RENCONTRES_VALIDES="Valides"
+const RENCONTRES_VALIDES="Validées"
 const RENCONTRES_A_ENCODER="A encoder"
 const RENCONTRES_A_VENIR="A venir"
 const ALL_RENCONTRES="Toutes"
@@ -132,7 +132,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
       this.sortedRencontres = [];
 
       if (this.selectedDivision) {
-        this.rencontreService.getRencontres(this.selectedDivision.id, null).subscribe(rencontresDivision => {
+        this.rencontreService.getRencontres(this.selectedDivision.id, null,null).subscribe(rencontresDivision => {
             this.sortedRencontres = rencontresDivision.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
             this.sortData(this.actualSort);
         });

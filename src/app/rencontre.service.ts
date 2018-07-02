@@ -12,8 +12,8 @@ export class RencontreService {
 
     constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
 
-    getRencontres(divisionId: number,pouleId:number): Observable<Rencontre[]> {
-        return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):""));
+    getRencontres(divisionId: number,pouleId:number,equipeId:number): Observable<Rencontre[]> {
+        return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):"")+(equipeId!=null?("&equipeId="+equipeId):""));
     }
 
     isValidable(rencontre:Rencontre) {
