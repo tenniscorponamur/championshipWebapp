@@ -35,14 +35,8 @@
 </div>
 
 <div class="row">
-  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-4">
-    <app-classement-detail></app-classement-detail>
-  </div>
-  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-4">
-    <app-classement-detail></app-classement-detail>
-  </div>
-  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-4">
-    <app-classement-detail></app-classement-detail>
+  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-4" *ngFor="let classement of classements">
+    <app-classement-detail [classement]="classement"></app-classement-detail>
   </div>
 </div>
 </div>

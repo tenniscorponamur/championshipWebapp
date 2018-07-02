@@ -18,7 +18,7 @@
             Classement
           </div>
           <div class="myBoxContent">
-            Division 4 -- ngif Poule 1--
+            Division {{classement.poule.division.numero}} - Poule {{classement.poule.numero}}
           </div>
         </div>
       </div>
@@ -27,10 +27,10 @@
     <div class="row" align="center">
       <div class="col-12">
         <div class="table-responsive">
-          <table class="table table-striped table-sm" style="text-align:center">
+          <table class="table table-striped table-sm" >
             <thead class="bg-info">
             <tr>
-              <th scope="col">Position</th>
+              <!--<th scope="col"></th>-->
               <th scope="col">Equipe</th>
               <th scope="col">Joués</th>
               <th scope="col">Points</th>
@@ -39,29 +39,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td><strong>#1</strong></td>
-              <td><a style="cursor:pointer" (click)="showRencontres(null);"><u><strong>UNAMUR B</strong></u></a></td>
-              <td><strong>3</strong></td>
-              <td><strong>5</strong></td>
-              <td><strong>24/12</strong></td>
-              <td><strong>46/25</strong></td>
-            </tr>
-            <tr>
-              <td>#2</td>
-              <td>IATA A</td>
-              <td>3</td>
-              <td>3</td>
-              <td>15/25</td>
-              <td>25/35</td>
-            </tr>
-            <tr>
-              <td>#3</td>
-              <td>GAZELEC</td>
-              <td>2</td>
-              <td>1</td>
-              <td>7/33</td>
-              <td>5/65</td>
+            <tr *ngFor="let classementEquipe of classement.classementEquipes; let i = index;" class="{{getClassForEquipe(i)}}">
+              <!--<td>#{{i+1}}</td>-->
+              <td><a style="cursor:pointer" (click)="showRencontres(null);"><u>{{classementEquipe.equipe.codeAlphabetique}}</u></a></td>
+              <td>{{classementEquipe.matchsJoues}}</td>
+              <td>{{classementEquipe.points}}</td>
+              <td>{{classementEquipe.setsGagnes}}/{{classementEquipe.setsPerdus}}</td>
+              <td>{{classementEquipe.jeuxGagnes}}/{{classementEquipe.jeuxPerdus}}</td>
             </tr>
             </tbody>
           </table>

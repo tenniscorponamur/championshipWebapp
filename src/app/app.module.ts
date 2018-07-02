@@ -65,6 +65,7 @@ import { TerrainsComponent } from './terrains/terrains.component';
 import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-detail.component';
 import {MatchService} from './match.service';
 import {SetService} from './set.service';
+import {ClassementService} from './classement.service';
 import { MembreSelectionComponent } from './membre-selection/membre-selection.component';
 
 
@@ -166,6 +167,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     RencontreService,
     MatchService,
     SetService,
+    ClassementService,
     TerrainService,
     UserService,
     AuthGuardService,

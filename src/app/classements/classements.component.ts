@@ -4,6 +4,8 @@ import {Championnat, TENNIS_CORPO_CHAMPIONSHIP_KEY} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {ChampionnatService} from '../championnat.service';
+import {ClassementService} from '../classement.service';
+import {Classement} from '../classement';
 
 @Component({
   selector: 'app-classements',
@@ -18,7 +20,10 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
 
   selectedChampionnat: Championnat;
 
-  constructor(private championnatService:ChampionnatService) {
+  classements:Classement[]=[];
+
+  constructor(private championnatService:ChampionnatService,
+  private classementService:ClassementService ) {
     super();
   }
 
@@ -48,6 +53,9 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
     }
 
     loadClassements() {
+      if (this.selectedChampionnat!=null){
+        this.classementService.getClassements(this.selectedChampionnat.id).subscribe(classements => this.classements = classements);
+      }
     }
 
 }
