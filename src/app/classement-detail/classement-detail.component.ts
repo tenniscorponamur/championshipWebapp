@@ -39,6 +39,7 @@ export class ClassementDetailComponent implements OnInit {
 @Component({
   selector: 'rencontres-dialog',
   templateUrl: './rencontresDialog.html',
+  styles: [' .victoire{color:darkgreen;}.defaite{color:red;}']
 })
 export class RencontresDialog implements OnInit {
 
@@ -56,8 +57,18 @@ export class RencontresDialog implements OnInit {
     this.rencontreService.getRencontres(this.equipe.poule.division.id,this.equipe.poule.id,this.equipe.id).subscribe(rencontres => this.rencontres = rencontres.filter(rencontre => rencontre.valide));
   }
 
-  getStyleResultat():string{
-    //TODO : style du resultat (vert,rouge)
+  getResultatClass(rencontre:Rencontre):string{
+    if (rencontre.valide){
+      if (rencontre.pointsVisites!=null && rencontre.pointsVisiteurs!=null){
+          if (rencontre.pointsVisites > rencontre.pointsVisiteurs){
+              return this.isVisites(rencontre)?"victoire":"defaite";
+          }else if (rencontre.pointsVisites < rencontre.pointsVisiteurs){
+              return this.isVisites(rencontre)?"defaite":"victoire";
+          }else{
+            return "font-weight:bold;"
+          }
+      }
+    }
     return "";
   }
 
@@ -77,7 +88,6 @@ export class RencontresDialog implements OnInit {
   }
 
   isVisites(rencontre:Rencontre){
-    console.log(rencontre.equipeVisites.id==this.equipe.id);
     return rencontre.equipeVisites.id==this.equipe.id;
   }
 
