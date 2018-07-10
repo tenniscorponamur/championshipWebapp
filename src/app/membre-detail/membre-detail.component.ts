@@ -127,6 +127,14 @@ export class HistoriqueClassementDialog {
     this.dialogRef.close();
   }
 
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
 }
 
 @Component({
