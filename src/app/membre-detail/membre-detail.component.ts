@@ -114,7 +114,16 @@ export class HistoriqueClassementDialog {
     public dialogRef: MatDialogRef<HistoriqueClassementDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  onNoClick(): void {
+  // lineChart
+  public lineChartData:Array<any> = [
+    {data: [5, 10, 15, 10, 10], label: 'AFT'},
+    {data: [10, 15, 20, 25, 20], label: 'Corpo'}
+  ];
+  public lineChartLabels:Array<any> = ['2014','2015','2016', '2017', '2018'];
+  public lineChartType:string = 'line';
+  public lineChartOptions:any = {responsive: true};
+
+  fermer(): void {
     this.dialogRef.close();
   }
 
@@ -166,15 +175,15 @@ export class InfosGeneralesMembreDialog {
       }else{
           this.showAlert=true;
       }
-      
+
        // Verification du prenom
       if (this._prenom && this._prenom.trim().length > 0){
         //this.showAlert=false;
       }else{
         this.showAlert=true;
       }
-      
-    // Verification du nom 
+
+    // Verification du nom
       if (this._nom && this._nom.trim().length > 0){
         //this.showAlert=false;
       }else{
@@ -187,14 +196,14 @@ export class InfosGeneralesMembreDialog {
 //      }else{
 //          this.showAlert=true;
 //      }
-      
+
       if (!this.showAlert){
-          
+
         this._membre.prenom=this._prenom;
         this._membre.nom=this._nom;
         this._membre.genre=this._genre;
           this._membre.dateNaissance = this._dateNaissance;
-        
+
         if (!this._membre.id){
             // Ajout d'un nouveal utilisateur
             this.membreService.ajoutMembre(this._membre).subscribe(
@@ -209,7 +218,7 @@ export class InfosGeneralesMembreDialog {
                     this.dialogRef.close(this._membre);
              });
         }
-        
+
       }
 
   }
@@ -224,7 +233,7 @@ export class ClubInfosDialog {
 
   clubCtrl: FormControl=new FormControl();
   clubs:Observable<Club[]>;
-  
+
     _clubId:number;
     _capitaine:boolean=false;
     private _membre:Membre;
@@ -235,10 +244,10 @@ export class ClubInfosDialog {
     private membreService: MembreService,
     private clubService:ClubService
     ) {
-    
+
       this.clubCtrl = new FormControl();
       this.clubs = this.clubService.getClubs();
-      
+
         this._membre = data.membre;
         this._capitaine = this._membre.capitaine;
         if (this._membre.club){
@@ -264,7 +273,7 @@ export class ClubInfosDialog {
           }
       }
   }
-  
+
   updateClubInfosAndCloseDialog(){
     //Mise a jour du club du membre
     this.membreService.updateClubInfos(this._membre).subscribe(
