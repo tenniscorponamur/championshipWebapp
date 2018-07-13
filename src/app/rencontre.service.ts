@@ -17,7 +17,7 @@ export class RencontreService {
     }
 
     isValidable(rencontre:Rencontre) {
-        return this.http.get<boolean>(environment.publicApiUrl + "/rencontre/isValidable?rencontreId=" + rencontre.id);
+        return this.http.get<boolean>(environment.publicApiUrl + "/rencontre/" + rencontre.id + "/isValidable");
     }
 
     updateRencontre(rencontre: Rencontre) {
@@ -25,7 +25,7 @@ export class RencontreService {
     }
 
     updateValiditeRencontre(rencontre:Rencontre, validite:boolean){
-        return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/validite?rencontreId=" + rencontre.id, validite, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/validite", validite, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     creerCalendrier(championnatId: number){

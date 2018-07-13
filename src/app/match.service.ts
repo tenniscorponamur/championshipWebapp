@@ -14,12 +14,8 @@ export class MatchService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
 
     getMatchs(rencontreId: number): Observable<Match[]> {
-        return this.http.get<Match[]>(environment.publicApiUrl + "/matchs?rencontreId=" + rencontreId);
+        return this.http.get<Match[]>(environment.publicApiUrl + "/rencontre/" + rencontreId + "/matchs");
     }
-
-//    ajoutMatch(match: Match) {
-//        return this.http.post<Match>(environment.privateApiUrl + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
-//    }
 
     updateMatch(match: Match) {
         return this.http.put<Match>(environment.privateApiUrl + "/match", match, this.authenticationService.getPrivateApiHttpOptions());

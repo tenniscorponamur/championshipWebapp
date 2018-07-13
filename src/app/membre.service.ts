@@ -42,11 +42,11 @@ export class MembreService {
   }
 
   updateMembreInfosGenerales(membre:Membre){
-      return this.http.put<Membre>(environment.publicApiUrl + "/membre/infosGenerales",membre);
+      return this.http.put<Membre>(environment.publicApiUrl + "/membre/" + membre.id + "/infosGenerales",membre);
   }
 
   updateClubInfos(membre:Membre){
-      return this.http.put<Membre>(environment.publicApiUrl + "/membre/clubInfos",membre);
+      return this.http.put<Membre>(environment.publicApiUrl + "/membre/" + membre.id + "/clubInfos",membre);
   }
 
 }
