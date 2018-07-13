@@ -211,6 +211,9 @@ export class InfosGeneralesMembreDialog {
         this._membre.nom=this._nom;
         this._membre.genre=this._genre;
           this._membre.dateNaissance = this._dateNaissance;
+          if (this._membre.dateNaissance){
+            this._membre.dateNaissance.setHours(12);
+          }
 
         if (!this._membre.id){
             // Ajout d'un nouveal utilisateur
