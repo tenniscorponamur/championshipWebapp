@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<nav class="tennisCorpoNavbar navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="height:25px;" >
+<nav class="tennisCorpoConnectionBar tennisCorpoNavbar navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
     <div class="ml-auto">
         <a *ngIf="!user" (click)="ouvrirLoginForm();" style="color:white;cursor:pointer"> <!-- data-toggle="modal" data-target="#connexionModal"-->
           Connexion
@@ -11,7 +11,7 @@
     </div>
 </nav>
 
-<nav class="tennisCorpoNavbar navbar navbar-expand-lg navbar-light bg-light fixed-top" style="top:25px;" >
+<nav class="tennisCorpoMenuBar tennisCorpoNavbar navbar navbar-expand-lg navbar-light bg-light fixed-top" >
     <a class="navbar-brand" routerLink="/home"><i class="fa fa-home"></i>&nbsp;{{title}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

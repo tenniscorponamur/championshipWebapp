@@ -3,6 +3,15 @@
     z-index:999;
 }
 
+.tennisCorpoConnectionBar{
+  height:25px;
+}
+
+.tennisCorpoMenuBar{
+    top:25px;
+    box-shadow: 0 0 15px 0 rgba(0,0,0,0.66);
+}
+
 .bottomLink{
   padding-bottom:10px;
 }
