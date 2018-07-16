@@ -216,7 +216,7 @@ export class InfosGeneralesMembreDialog {
           this._membre.dateNaissance = null;
         }
         if (this._membre.dateNaissance!=null){
-          this._membre.dateNaissance.setHours(0);
+          this._membre.dateNaissance.setHours(12);
         }
 
         if (!this._membre.id){
