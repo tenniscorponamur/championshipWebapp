@@ -76,18 +76,21 @@
 
     <div class="row">
 
-      <!--                <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon1">Nom</span>
-                          </div>
-                          <input class="form-control" type="text" [(ngModel)]="membre.nom" />
-                      </div>
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon1">Prénom</span>
-                          </div>
-                          <input class="form-control" type="text" [(ngModel)]="membre.prenom" disabled />
-                      </div>-->
+      <div class="col-12">
+        <div class="myBox myBoxEditable">
+          <div class="myBoxTitle" (click)="ouvrirClassement();">
+            Classement<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
+            AFT : C30-5 - 5 points
+            Corpo : 10 points
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
       <div class="col-12" align="center">
         <button class="btn btn-sm btn-primary" (click)="ouvrirHistoriqueClassement()">Historique classement</button>
       </div>

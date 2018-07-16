@@ -74,6 +74,14 @@ export class MembreDetailComponent implements OnInit {
         clubInfosDialogRef.afterClosed().subscribe();
     }
 
+    ouvrirClassement(){
+        let classementDialogRef = this.dialog.open(ClassementDialog, {
+          data: { membre: this.membre }, panelClass: "classementDialog", disableClose:true
+        });
+
+        classementDialogRef.afterClosed().subscribe();
+    }
+
   ouvrirHistoriqueClassement(): void {
     let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {
       data: { membre: this.membre }, panelClass: "historiqueClassementDialog", disableClose:false
@@ -295,5 +303,31 @@ export class ClubInfosDialog {
         result => {
             this.dialogRef.close(this._membre);
      });
+  }
+}
+
+
+@Component({
+  selector: 'classement-dialog',
+  templateUrl: './classementDialog.html',
+})
+export class ClassementDialog {
+
+    private _membre:Membre;
+
+  constructor(
+    public dialogRef: MatDialogRef<ClassementDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membreService: MembreService
+    ) {
+        this._membre = data.membre;
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+    this.dialogRef.close();
   }
 }

@@ -33,7 +33,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent } from './membres/membres.component';
 import { RencontresComponent } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
-import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreDialog, ClubInfosDialog } from './membre-detail/membre-detail.component';
+import { MembreDetailComponent, HistoriqueClassementDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
@@ -68,6 +68,7 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
 import {MatchService} from './match.service';
 import {SetService} from './set.service';
 import {ClassementService} from './classement.service';
+import {ClassementMembreService} from './classement-membre.service';
 import { MembreSelectionComponent } from './membre-selection/membre-selection.component';
 
 
@@ -83,6 +84,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     HistoriqueClassementDialog,
     InfosGeneralesMembreDialog,
     ClubInfosDialog,
+    ClassementDialog,
     ChampionnatDescriptionDialog,
     ChangePouleDialog,
     EquipeTerrainDialog,
@@ -145,6 +147,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
       HistoriqueClassementDialog,
       InfosGeneralesMembreDialog,
       ClubInfosDialog,
+      ClassementDialog,
       ClubDialog,
       TerrainDialog,
       ClubTerrainDialog,
