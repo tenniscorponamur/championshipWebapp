@@ -137,7 +137,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
 
     getEquipesByPoule(poule: Poule) {
-        return this.equipes.filter(equipe => equipe.poule.id == poule.id);
+        return this.equipes.filter(equipe => equipe.poule.id == poule.id).sort((a,b) => compare(a.codeAlphabetique, b.codeAlphabetique, true));
     }
 
     getNbEquipesByPoule(poule: Poule) {
@@ -230,7 +230,7 @@ export class ChangePouleDialog {
 export class EquipeTerrainDialog {
 
   terrainCtrl: FormControl=new FormControl();
-  terrains:Observable<Terrain[]>;
+  terrains:Terrain[];
 
     _terrainId:number;
     private _equipe:Equipe;
@@ -243,7 +243,7 @@ export class EquipeTerrainDialog {
     ) {
 
       this.terrainCtrl = new FormControl();
-      this.terrains = this.terrainService.getTerrains();
+      this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.sort((a,b) => compare(a.nom,b.nom,true)));
 
         this._equipe = data.equipe;
         if (this._equipe.terrain){

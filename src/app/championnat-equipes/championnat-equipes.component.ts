@@ -49,6 +49,7 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
         this.refresh(null,false);
         this.clubService.getClubs().subscribe(clubs => {
             clubs.forEach(club => this.augmentedClubs.push(new AugmentedClub(club, false)));
+            this.augmentedClubs.sort((a,b) => compare(a.club.nom,b.club.nom,true));
         });
     }
 

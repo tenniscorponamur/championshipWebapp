@@ -5,7 +5,7 @@
       <mat-form-field>
         <mat-select placeholder="Terrain" [(ngModel)]="_terrainId" [formControl]="terrainCtrl" >
           <mat-option>Aucun terrain</mat-option>
-          <mat-option *ngFor="let terrain of terrains | async" [value]="terrain.id">
+          <mat-option *ngFor="let terrain of terrains" [value]="terrain.id">
             <small>{{ terrain.nom }}</small>
           </mat-option>
         </mat-select>
