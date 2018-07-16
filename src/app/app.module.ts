@@ -3,7 +3,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; // <-- Http Client lives here
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatInputModule,MAT_DATE_LOCALE,MatNativeDateModule } from '@angular/material'; // <-- Dialog lives here
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatInputModule, MatNativeDateModule } from '@angular/material'; // <-- Dialog lives here
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // <-- dialog needs
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatRadioModule} from '@angular/material/radio';
@@ -22,6 +22,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { Angular5TimePickerModule } from 'angular5-time-picker';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 
 /* Component */
@@ -175,6 +177,8 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService,multi: true},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:false}},
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
     ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

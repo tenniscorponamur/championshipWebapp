@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Championnat} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDatepickerInputEvent} from '@angular/material';
 import {DivisionService} from '../division.service';
 import {EquipeService} from '../equipe.service';
 import {PouleService} from '../poule.service';
@@ -166,10 +166,8 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
 
     changeDate(rencontre:RencontreExtended){
-
-        if (rencontre.date && rencontre.heure && rencontre.minute){
-
-            rencontre.rencontre.dateHeureRencontre = rencontre.date;
+        if (rencontre.date!=null && rencontre.heure!=null && rencontre.minute!=null){
+            rencontre.rencontre.dateHeureRencontre = new Date(rencontre.date);
             rencontre.rencontre.dateHeureRencontre.setHours(rencontre.heure);
             rencontre.rencontre.dateHeureRencontre.setMinutes(rencontre.minute);
 
@@ -183,6 +181,9 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                 rencontre.heure=null;
                 rencontre.minute=null;
              });
+        }else{
+          rencontre.rencontre.dateHeureRencontre = null;
+          this.rencontreService.updateRencontre(rencontre.rencontre).subscribe();
         }
 
     }
