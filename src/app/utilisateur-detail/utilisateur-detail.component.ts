@@ -22,7 +22,7 @@ export class UtilisateurDetailComponent implements OnInit {
 
   ouvrirUtilisateurDetail() {
     let userDialogRef = this.dialog.open(UserDialog, {
-      data: { utilisateur: this.utilisateur }, panelClass: "userDialog"
+      data: { utilisateur: this.utilisateur }, panelClass: "userDialog", disableClose:true
     });
 
     userDialogRef.afterClosed().subscribe(result => {

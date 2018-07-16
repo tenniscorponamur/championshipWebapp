@@ -31,7 +31,7 @@ export class UtilisateursComponent implements OnInit {
   ngOnInit() {
       this.userService.getUsers().subscribe(utilisateurs => {this.sortedUsers = utilisateurs; this.sortData(this.actualSort);});
   }
-  
+
   sortData(sort: Sort) {
     this.actualSort=sort;
     const data = this.sortedUsers.slice();
@@ -53,12 +53,12 @@ export class UtilisateursComponent implements OnInit {
 
     }
   }
-  
+
     nouvelUtilisateur(){
         let nouvelUtilisateur: User = new User();
 
         let userDialogRef = this.dialog.open(UserDialog, {
-            data: { utilisateur: nouvelUtilisateur }, panelClass: "userDialog"
+            data: { utilisateur: nouvelUtilisateur }, panelClass: "userDialog", disableClose:true
         });
 
         userDialogRef.afterClosed().subscribe(result => {
@@ -69,7 +69,7 @@ export class UtilisateursComponent implements OnInit {
             }
         });
     }
-  
+
   ouvrirUtilisateur(utilisateur:User):void{
     this.selectedUser=utilisateur;
   }

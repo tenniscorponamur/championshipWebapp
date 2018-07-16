@@ -22,7 +22,7 @@ export class TerrainDetailComponent implements OnInit {
 
   ouvrirClub() {
     let terrainDialogRef = this.dialog.open(TerrainDialog, {
-      data: { terrain: this.terrain }, panelClass: "terrainDialog"
+      data: { terrain: this.terrain }, panelClass: "terrainDialog", disableClose:true
     });
 
     terrainDialogRef.afterClosed().subscribe(result => {

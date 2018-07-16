@@ -159,7 +159,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     changePoule(equipe:Equipe){
 
         let changePouleDialogRef = this.dialog.open(ChangePouleDialog, {
-            data: {equipe: equipe, poulesPossibles: this.getPoulesByDivision(equipe.division)}, panelClass: "changePouleDialog"
+            data: {equipe: equipe, poulesPossibles: this.getPoulesByDivision(equipe.division)}, panelClass: "changePouleDialog", disableClose:true
         });
 
     }
@@ -181,7 +181,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
 
     ouvrirTerrainEquipe(equipe:Equipe) {
         let equipeTerrainDialogRef = this.dialog.open(EquipeTerrainDialog, {
-          data: { equipe: equipe}, panelClass: "equipeTerrainDialog"
+          data: { equipe: equipe}, panelClass: "equipeTerrainDialog", disableClose:true
         });
 
         equipeTerrainDialogRef.afterClosed().subscribe();

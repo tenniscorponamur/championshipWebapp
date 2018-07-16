@@ -125,7 +125,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
         let nouveauMembre: Membre = new Membre();
 
         let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
-            data: {membre: nouveauMembre }, panelClass: "infosGeneralesMembreDialog"
+            data: {membre: nouveauMembre }, panelClass: "infosGeneralesMembreDialog", disableClose:true
         });
 
         membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {

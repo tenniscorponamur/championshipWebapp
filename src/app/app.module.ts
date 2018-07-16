@@ -173,7 +173,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     AuthGuardService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService,multi: true},
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:true}},
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:false}},
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
     ],
   bootstrap: [AppComponent],

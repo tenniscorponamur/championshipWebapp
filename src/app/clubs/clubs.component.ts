@@ -52,7 +52,7 @@ export class ClubsComponent implements OnInit {
         let nouveauClub: Club = new Club();
 
         let clubDialogRef = this.dialog.open(ClubDialog, {
-            data: { club: nouveauClub }, panelClass: "clubDialog"
+            data: { club: nouveauClub }, panelClass: "clubDialog", disableClose:true
         });
 
         clubDialogRef.afterClosed().subscribe(result => {

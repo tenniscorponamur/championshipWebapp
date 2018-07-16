@@ -58,7 +58,7 @@ export class MembreDetailComponent implements OnInit {
 
   ouvrirInfosGenerales() {
     let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
-      data: { membre: this.membre }, panelClass: "infosGeneralesMembreDialog"
+      data: { membre: this.membre }, panelClass: "infosGeneralesMembreDialog", disableClose:true
     });
 
     membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
@@ -68,7 +68,7 @@ export class MembreDetailComponent implements OnInit {
 
     ouvrirClub() {
         let clubInfosDialogRef = this.dialog.open(ClubInfosDialog, {
-          data: { membre: this.membre }, panelClass: "clubInfosDialog"
+          data: { membre: this.membre }, panelClass: "clubInfosDialog", disableClose:true
         });
 
         clubInfosDialogRef.afterClosed().subscribe();

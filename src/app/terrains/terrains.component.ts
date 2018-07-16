@@ -50,7 +50,7 @@ export class TerrainsComponent implements OnInit {
         let nouveauTerrain: Terrain = new Terrain();
 
         let terrainDialogRef = this.dialog.open(TerrainDialog, {
-            data: { terrain: nouveauTerrain }, panelClass: "terrainDialog"
+            data: { terrain: nouveauTerrain }, panelClass: "terrainDialog", disableClose:true
         });
 
         terrainDialogRef.afterClosed().subscribe(result => {

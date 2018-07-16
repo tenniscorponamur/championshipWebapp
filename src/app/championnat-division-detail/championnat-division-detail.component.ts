@@ -80,7 +80,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
     ouvrirChampionnat() {
         let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
-            data: {championnat: this.championnat}, panelClass: "championnatDescriptionDialog"
+            data: {championnat: this.championnat}, panelClass: "championnatDescriptionDialog", disableClose:true
         });
 
         championnatDescriptionDialogRef.afterClosed().subscribe(result => {

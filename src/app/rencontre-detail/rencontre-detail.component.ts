@@ -199,14 +199,14 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
     ouvrirDateTerrain(){
         let dateTerrainDialogRef = this.dialog.open(DateTerrainDialog, {
-            data: {rencontre: this.rencontre}, panelClass: "dateTerrainDialog"
+            data: {rencontre: this.rencontre}, panelClass: "dateTerrainDialog", disableClose:true
         });
     }
 
     ouvrirResultats(matchExtended: MatchExtended) {
 
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
-            data: {matchExtended: matchExtended}, panelClass: "resultatsDialog"
+            data: {matchExtended: matchExtended}, panelClass: "resultatsDialog", disableClose:true
         });
 
         resultatsDialogRef.afterClosed().subscribe(matchExtended => {

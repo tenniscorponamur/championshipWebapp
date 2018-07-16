@@ -16,30 +16,30 @@ export class ChampionnatDivisionsComponent implements OnInit {
 
     typeCtrl: FormControl = new FormControl();
     categorieCtrl: FormControl = new FormControl();
-    
+
     @Output() selectChampionnat = new EventEmitter<Championnat>();
-    
+
     types = TYPES_CHAMPIONNAT;
     categories = CATEGORIES_CHAMPIONNAT;
-    
+
     selectedType: TypeChampionnat;
     selectedCategories: CategorieChampionnat[];
     annee: number;
-    
+
     actualSort:Sort;
-    
+
     sortedChampionnats:Championnat[];
     filteredChampionnats:Championnat[];
-    
+
     selectedChampionnat: Championnat;
-    
+
     constructor(
     public media: RxResponsiveService,
     public dialog: MatDialog,
     private championnatService:ChampionnatService) {
         this.typeCtrl = new FormControl();
         this.categorieCtrl = new FormControl();
-        
+
         this.annee = new Date().getFullYear();
         //this.selectedType = TYPE_CHAMPIONNAT_ETE;
         this.selectedCategories = [CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES];
@@ -48,11 +48,11 @@ export class ChampionnatDivisionsComponent implements OnInit {
     ngOnInit() {
       this.championnatService.getChampionnats().subscribe(championnats => {this.sortedChampionnats = championnats; this.sortData(this.actualSort);});
     }
-    
+
     getTypeChampionnat(championnat:Championnat):TypeChampionnat{
         return getTypeChampionnat(championnat);
     }
-    
+
     getCategorieChampionnat(championnat:Championnat):CategorieChampionnat{
         return getCategorieChampionnat(championnat);
     }
@@ -78,26 +78,26 @@ export class ChampionnatDivisionsComponent implements OnInit {
     }
     this.filtre(this.annee,this.selectedType,this.selectedCategories);
   }
-  
+
     filtre(annee: number,selectedType:TypeChampionnat,selectedCategories:CategorieChampionnat[]): void {
-        
+
         this.filteredChampionnats = this.sortedChampionnats;
-            
+
         if (annee){
-            
+
             this.filteredChampionnats = this.filteredChampionnats.filter(championnat =>
                 championnat.annee == annee)
-             
+
         }
-        
+
         if (selectedType){
             this.filteredChampionnats = this.filteredChampionnats.filter(({type}) => {
                 return selectedType.code==type});
         }
-        
+
         if (selectedCategories && selectedCategories.length > 0){
             this.filteredChampionnats = this.filteredChampionnats.filter(({categorie}) => {
-                
+
                 // Workaround car je ne parviens pas a faire en sorte que la methode includes retourne true
                 return selectedCategories.some(selectedCategorie => {
                     if (categorie){
@@ -108,13 +108,13 @@ export class ChampionnatDivisionsComponent implements OnInit {
         }
 
     }
-    
+
     nouveauChampionnat(){
         let nouveauChampionnat: Championnat = new Championnat();
         nouveauChampionnat.annee=new Date().getFullYear();
 
         let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
-            data: { championnat: nouveauChampionnat }, panelClass: "championnatDescriptionDialog"
+            data: { championnat: nouveauChampionnat }, panelClass: "championnatDescriptionDialog", disableClose:true
         });
 
         championnatDescriptionDialogRef.afterClosed().subscribe(result => {
@@ -126,16 +126,16 @@ export class ChampionnatDivisionsComponent implements OnInit {
             }
         });
     }
-    
+
     ouvrirChampionnat(championnat:Championnat):void{
         this.selectedChampionnat = championnat;
         this.signalSelection();
     }
-    
+
     deleteChampionnat(championnatToDelete : Championnat){
         this.championnatService.deleteChampionnat(championnatToDelete).subscribe(result => {
             this.selectedChampionnat = null;
-            
+
             let indexInFiltered = this.filteredChampionnats.findIndex(championnat => championnat.id == championnatToDelete.id);
             if (indexInFiltered!=-1){
                 this.filteredChampionnats.splice(indexInFiltered,1);
@@ -144,11 +144,11 @@ export class ChampionnatDivisionsComponent implements OnInit {
             if (indexInSorted!=-1){
                 this.sortedChampionnats.splice(indexInSorted,1);
             }
-        
+
             this.signalSelection();
         });
     }
-    
+
     signalSelection(){
         //Appel au parent pour le refresh des autres enfants
         this.selectChampionnat.emit(this.selectedChampionnat);

@@ -35,7 +35,7 @@ export class ClubDetailComponent implements OnInit {
 
     ouvrirTerrainClub() {
         let clubTerrainDialogRef = this.dialog.open(ClubTerrainDialog, {
-          data: { club: this.club}, panelClass: "clubTerrainDialog"
+          data: { club: this.club}, panelClass: "clubTerrainDialog", disableClose:true
         });
 
         clubTerrainDialogRef.afterClosed().subscribe();
