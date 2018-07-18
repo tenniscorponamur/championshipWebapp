@@ -119,6 +119,15 @@ export class MembreDetailComponent implements OnInit {
 //     this.goBack();
   }
 
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
+
 }
 
 
