@@ -24,6 +24,16 @@ export class MembreDetailComponent implements OnInit {
 
   userImageClass:string = "fa fa-user fa-5x undefinedMember";
 
+  // lineChart
+  public lineChartData:Array<any> = [
+    {data: [5, 10, 15, 10, 10], label: 'AFT'},
+    {data: [10, 15, 20, 25, 20], label: 'Corpo'}
+  ];
+  public lineChartLabels:Array<any> = ['2014','2015','2016', '2017', '2018'];
+  public lineChartType:string = 'line';
+  public lineChartOptions:any = {responsive: true};
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,

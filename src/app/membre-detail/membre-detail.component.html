@@ -82,20 +82,28 @@
             Classement<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
-            AFT : C30-5 - 5 points
-            Corpo : 10 points
+            Numéro AFT : 6065450&nbsp;Club AFT : Géronsart<br/>
+            AFT : C30-5 - 5 points&nbsp;Corpo : 10 points
+            <canvas baseChart
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [chartType]="lineChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <!--<div class="row">-->
 
-      <div class="col-12" align="center">
-        <button class="btn btn-sm btn-primary" (click)="ouvrirHistoriqueClassement()">Historique classement</button>
-      </div>
+      <!--<div class="col-12" align="center">-->
+        <!--<button class="btn btn-sm btn-primary" (click)="ouvrirHistoriqueClassement()">Historique classement</button>-->
+      <!--</div>-->
 
-  </div>
+  <!--</div>-->
 
   <!--    <div align="center">
           <button class="btn btn-danger" (click)="goBack()">Annuler</button>
