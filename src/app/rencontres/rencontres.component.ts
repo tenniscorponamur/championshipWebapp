@@ -227,7 +227,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
     }
 
     getVisitesClass(rencontre:Rencontre){
-        if (rencontre.pointsVisites && rencontre.pointsVisiteurs){
+        if (rencontre.pointsVisites!=null && rencontre.pointsVisiteurs!=null){
             if (rencontre.pointsVisites > rencontre.pointsVisiteurs){
                 return "victorieux";
             }
@@ -236,7 +236,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
     }
 
     getVisiteursClass(rencontre:Rencontre){
-        if (rencontre.pointsVisites && rencontre.pointsVisiteurs){
+        if (rencontre.pointsVisites!=null && rencontre.pointsVisiteurs!=null){
             if (rencontre.pointsVisites < rencontre.pointsVisiteurs){
                 return "victorieux";
             }
