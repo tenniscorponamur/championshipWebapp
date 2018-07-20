@@ -299,8 +299,8 @@ export class DateTerrainDialog implements OnInit {
             this.rencontre.terrain=null;
         }
 
-        if (this.date && this.heure && this.minute){
-            this.rencontre.dateHeureRencontre = this.date;
+        if (this.date!=null && this.heure!=null && this.minute!=null){
+            this.rencontre.dateHeureRencontre = new Date(this.date);
             this.rencontre.dateHeureRencontre.setHours(this.heure);
             this.rencontre.dateHeureRencontre.setMinutes(this.minute);
         }else{
