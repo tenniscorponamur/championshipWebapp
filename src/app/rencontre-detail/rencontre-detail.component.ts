@@ -397,8 +397,8 @@ export class ResultatsDialog {
 
         // Premier set
 
-        if (this.set1JeuxVisites) {
-            if (!this.set1JeuxVisiteurs) {
+        if (this.set1JeuxVisites!=null) {
+            if (this.set1JeuxVisiteurs==null) {
                 this.showAlert = true;
             } else {
                 // Jeux precises pour le premier set
@@ -423,8 +423,8 @@ export class ResultatsDialog {
 
         // Second set
 
-        if (this.set2JeuxVisites) {
-            if (!this.set2JeuxVisiteurs) {
+        if (this.set2JeuxVisites!=null) {
+            if (this.set2JeuxVisiteurs==null) {
                 this.showAlert = true;
             } else {
                 // Jeux precises pour le deuxieme set
@@ -449,8 +449,8 @@ export class ResultatsDialog {
 
         // Troisieme set
 
-        if (this.set3JeuxVisites) {
-            if (!this.set3JeuxVisiteurs) {
+        if (this.set3JeuxVisites!=null) {
+            if (this.set3JeuxVisiteurs==null) {
                 this.showAlert = true;
             } else {
                 // Jeux precises pour le troisieme set
