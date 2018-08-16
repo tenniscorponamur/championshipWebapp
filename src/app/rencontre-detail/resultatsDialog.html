@@ -42,7 +42,7 @@
                                     <option>5</option>
                                     <option>6</option>
                                 </select>
-                                <span *ngIf="set1JeuxVisites && set1JeuxVisiteurs && set1JeuxVisites==set1JeuxVisiteurs">
+                                <span *ngIf="set1JeuxVisites!=null && set1JeuxVisiteurs!=null && (''+set1JeuxVisites)!='' && (''+set1JeuxVisiteurs)!='' && set1JeuxVisites==set1JeuxVisiteurs">
                                     <i class="fa fa-angellist" aria-hidden="true"></i>
                                     <input type="checkbox" [(ngModel)]="set1GagnantVisites">
                                 </span>
@@ -59,7 +59,7 @@
                                     <option>5</option>
                                     <option>6</option>
                                 </select>
-                                <span *ngIf="set2JeuxVisites && set2JeuxVisiteurs && set2JeuxVisites==set2JeuxVisiteurs">
+                                <span *ngIf="set2JeuxVisites!=null && set2JeuxVisiteurs!=null && (''+set2JeuxVisites)!='' && (''+set2JeuxVisiteurs)!='' && set2JeuxVisites==set2JeuxVisiteurs">
                                     <i class="fa fa-angellist" aria-hidden="true"></i>
                                     <input type="checkbox" [(ngModel)]="set2GagnantVisites">
                                 </span>
@@ -105,7 +105,7 @@
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <span *ngIf="set1JeuxVisites && set1JeuxVisiteurs && set1JeuxVisites==set1JeuxVisiteurs">
+                        <span *ngIf="set1JeuxVisites!=null && set1JeuxVisiteurs!=null && (''+set1JeuxVisites)!='' && (''+set1JeuxVisiteurs)!='' && set1JeuxVisites==set1JeuxVisiteurs">
                             <i class="fa fa-angellist" aria-hidden="true"></i>
                             <input type="checkbox" [(ngModel)]="set1GagnantVisiteurs">
                         </span>
@@ -122,7 +122,7 @@
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <span *ngIf="set2JeuxVisites && set2JeuxVisiteurs && set2JeuxVisites==set2JeuxVisiteurs">
+                        <span *ngIf="set2JeuxVisites!=null && set2JeuxVisiteurs!=null && (''+set2JeuxVisites)!='' && (''+set2JeuxVisiteurs)!='' && set2JeuxVisites==set2JeuxVisiteurs">
                             <i class="fa fa-angellist" aria-hidden="true"></i>
                             <input type="checkbox" [(ngModel)]="set2GagnantVisiteurs">
                         </span>

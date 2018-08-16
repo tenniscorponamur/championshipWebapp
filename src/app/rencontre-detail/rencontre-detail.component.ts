@@ -38,6 +38,8 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     private _rencontre: Rencontre;
+    jeuxVisites:number;
+    jeuxVisiteurs:number;
     isValidable:boolean=false;
 
     @Input()
@@ -52,6 +54,8 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     getMatchs() {
 
         this.matchs = [];
+        this.jeuxVisites=0;
+        this.jeuxVisiteurs=0;
 
         // Recuperation des matchs de la rencontre ou creation a la volee s'ils n'existent pas
 
@@ -64,7 +68,15 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
                     this.matchs.push(matchExtended);
 
-                    this.setService.getSets(match.id).subscribe(sets => matchExtended.sets = sets.sort((a, b) => compare(a.ordre, b.ordre, true)));
+                    this.setService.getSets(match.id).subscribe(sets => {
+                        matchExtended.sets = sets.sort((a, b) => compare(a.ordre, b.ordre, true));
+
+                        matchExtended.sets.forEach(set => {
+                          this.jeuxVisites = this.jeuxVisites + set.jeuxVisites;
+                          this.jeuxVisiteurs = this.jeuxVisiteurs + set.jeuxVisiteurs;
+                        });
+
+                      });
 
                 });
 
@@ -227,6 +239,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         this.rencontre.pointsVisites = null;
         this.rencontre.pointsVisiteurs = null;
 
+        this.jeuxVisites=0;
+        this.jeuxVisiteurs=0;
+
         this.matchs.forEach(matchExtended => {
             if (matchExtended.match.pointsVisites!=null && matchExtended.match.pointsVisiteurs!=null){
               if (this.rencontre.pointsVisites==null){
@@ -237,6 +252,12 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
               }
               this.rencontre.pointsVisites = this.rencontre.pointsVisites + matchExtended.match.pointsVisites;
               this.rencontre.pointsVisiteurs = this.rencontre.pointsVisiteurs + matchExtended.match.pointsVisiteurs;
+
+              matchExtended.sets.forEach(set => {
+                this.jeuxVisites = +this.jeuxVisites + +set.jeuxVisites;
+                this.jeuxVisiteurs = +this.jeuxVisiteurs + +set.jeuxVisiteurs;
+              });
+
             }
         });
     }
@@ -416,7 +437,7 @@ export class ResultatsDialog {
                 }
             }
         } else {
-            if (this.set1JeuxVisiteurs) {
+            if (this.set1JeuxVisiteurs!=null) {
                 this.showAlert = true;
             }
         }
@@ -427,22 +448,24 @@ export class ResultatsDialog {
             if (this.set2JeuxVisiteurs==null) {
                 this.showAlert = true;
             } else {
-                // Jeux precises pour le deuxieme set
-                deuxiemeSet = true;
-                if (this.set2JeuxVisites == this.set2JeuxVisiteurs) {
-                    if (this.set2GagnantVisites) {
-                        if (this.set2GagnantVisiteurs) {
-                            this.showAlert = true;
-                        }
-                    } else {
-                        if (!this.set2GagnantVisiteurs) {
-                            this.showAlert = true;
-                        }
-                    }
+                if (('' + this.set2JeuxVisites) != '' && ('' + this.set2JeuxVisiteurs) != '') {
+                  // Jeux precises pour le deuxieme set
+                  deuxiemeSet = true;
+                  if (this.set2JeuxVisites == this.set2JeuxVisiteurs) {
+                      if (this.set2GagnantVisites) {
+                          if (this.set2GagnantVisiteurs) {
+                              this.showAlert = true;
+                          }
+                      } else {
+                          if (!this.set2GagnantVisiteurs) {
+                              this.showAlert = true;
+                          }
+                      }
+                  }
                 }
             }
         } else {
-            if (this.set2JeuxVisiteurs) {
+            if (this.set2JeuxVisiteurs!=null) {
                 this.showAlert = true;
             }
         }
@@ -468,7 +491,7 @@ export class ResultatsDialog {
                 }
             }
         } else {
-            if (this.set3JeuxVisiteurs) {
+            if (this.set3JeuxVisiteurs!=null) {
                 this.showAlert = true;
             }
         }
