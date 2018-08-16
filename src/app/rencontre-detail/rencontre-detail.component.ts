@@ -422,18 +422,20 @@ export class ResultatsDialog {
             if (this.set1JeuxVisiteurs==null) {
                 this.showAlert = true;
             } else {
-                // Jeux precises pour le premier set
-                premierSet = true;
-                if (this.set1JeuxVisites == this.set1JeuxVisiteurs) {
-                    if (this.set1GagnantVisites) {
-                        if (this.set1GagnantVisiteurs) {
-                            this.showAlert = true;
-                        }
-                    } else {
-                        if (!this.set1GagnantVisiteurs) {
-                            this.showAlert = true;
-                        }
-                    }
+                if (('' + this.set1JeuxVisites) != '' && ('' + this.set1JeuxVisiteurs) != '') {
+                  // Jeux precises pour le premier set
+                  premierSet = true;
+                  if (this.set1JeuxVisites == this.set1JeuxVisiteurs) {
+                      if (this.set1GagnantVisites) {
+                          if (this.set1GagnantVisiteurs) {
+                              this.showAlert = true;
+                          }
+                      } else {
+                          if (!this.set1GagnantVisiteurs) {
+                              this.showAlert = true;
+                          }
+                      }
+                  }
                 }
             }
         } else {
@@ -476,18 +478,20 @@ export class ResultatsDialog {
             if (this.set3JeuxVisiteurs==null) {
                 this.showAlert = true;
             } else {
-                // Jeux precises pour le troisieme set
-                troisiemeSet = true;
-                if (this.set3JeuxVisites == this.set3JeuxVisiteurs) {
-                    if (this.set3GagnantVisites) {
-                        if (this.set3GagnantVisiteurs) {
-                            this.showAlert = true;
-                        }
-                    } else {
-                        if (!this.set3GagnantVisiteurs) {
-                            this.showAlert = true;
-                        }
-                    }
+                if (('' + this.set3JeuxVisites) != '' && ('' + this.set3JeuxVisiteurs) != '') {
+                  // Jeux precises pour le troisieme set
+                  troisiemeSet = true;
+                  if (this.set3JeuxVisites == this.set3JeuxVisiteurs) {
+                      if (this.set3GagnantVisites) {
+                          if (this.set3GagnantVisiteurs) {
+                              this.showAlert = true;
+                          }
+                      } else {
+                          if (!this.set3GagnantVisiteurs) {
+                              this.showAlert = true;
+                          }
+                      }
+                  }
                 }
             }
         } else {
