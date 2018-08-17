@@ -11,6 +11,7 @@ import {MembreService} from '../membre.service';
 import {ClassementMembreService} from '../classement-membre.service';
 import {Club} from '../club';
 import {ClassementCorpo} from '../classementCorpo';
+import {ClassementAFT} from '../classementAFT';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {ClubService} from '../club.service';
@@ -336,8 +337,11 @@ export class ClubInfosDialog {
 export class ClassementDialog implements OnInit {
 
     private _membre:Membre;
+    _numAft:string="6065450";
     classementsCorpo:ClassementCorpo[]=[];
     echellesCorpo:any[]=[];
+    classementsAFT:ClassementAFT[]=[];
+    echellesAFT:any[]=[];
 
   constructor(
     public dialogRef: MatDialogRef<ClassementDialog>,
@@ -351,6 +355,11 @@ export class ClassementDialog implements OnInit {
         this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
             this.echellesCorpo = echelles;
             this.classementMembreService.getClassementsCorpoByMembre(this._membre.id).subscribe(classementsCorpo => this.classementsCorpo = classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
+          });
+
+        this.classementMembreService.getEchellesAFT().subscribe(echelles => {
+            this.echellesAFT = echelles;
+            this.classementMembreService.getClassementsAFTByMembre(this._membre.id).subscribe(classementsAFT => this.classementsAFT = classementsAFT.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
           });
 
   }
@@ -378,15 +387,56 @@ export class ClassementDialog implements OnInit {
       this.classementsCorpo = this.classementsCorpo.sort((a,b) => compare(new Date(a.dateClassement), new Date(b.dateClassement), false));
   }
 
+  addClassementAFT(){
+    let classementAFT = new ClassementAFT();
+    classementAFT.dateClassement = new Date();
+    classementAFT.dateClassement.setHours(12);
+
+    // Recuperer le dernier classement en date, sinon mettre NC-5
+    if (this.classementsAFT.length>0){
+      classementAFT.codeClassement = this.classementsAFT[0].codeClassement;
+    }else{
+      if (this.echellesAFT!=null && this.echellesAFT.length>0){
+        classementAFT.codeClassement = this.echellesAFT[0].code;
+      }
+    }
+
+    this.classementsAFT.push(classementAFT);
+
+    this.sortClassementsAFT();
+  }
+
+  sortClassementsAFT(){
+      this.classementsAFT = this.classementsAFT.sort((a,b) => compare(new Date(a.dateClassement), new Date(b.dateClassement), false));
+  }
+
+  getOfficialAFT(){
+    this.classementMembreService.getOfficialAFT(this._numAft).subscribe(result => {
+      if (result && result.length>0){
+        console.log(result[0].ClasmtSimple);
+      }
+    });
+  }
+
   cancel(): void {
     this.dialogRef.close();
   }
 
   save(): void {
 
+    //TODO : sauver les infos AFT (numero, club (toutes lettres ?), date d'affiliation)
+
     this.classementsCorpo.forEach(classementCorpo => {
       classementCorpo.dateClassement = new Date(classementCorpo.dateClassement);
       classementCorpo.dateClassement.setHours(12);
+    });
+
+    this.classementsAFT.forEach(classementAFT => {
+      classementAFT.dateClassement = new Date(classementAFT.dateClassement);
+      classementAFT.dateClassement.setHours(12);
+
+      //TODO : recuperer le code sur base des points ou inversement pour le specifier dans le classement a enregistrer
+
     });
 
     this.classementMembreService.updateClassementsCorpo(this._membre.id,this.classementsCorpo).subscribe(classementCorpoActuel => {

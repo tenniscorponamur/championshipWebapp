@@ -1,6 +1,10 @@
 <h1 mat-dialog-title>Classements<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content >
-  Numéro AFT : 16546987
+
+  <mat-form-field>
+    <input matInput required placeholder="Numéro AFT" [(ngModel)]="_numAft">
+  </mat-form-field>
+
   <br/>
   Club AFT : Géronsart
   <br/>
@@ -41,7 +45,7 @@
       </table>
     </div>
 
-  Classements AFT&nbsp;<button class="btn btn-success btn-sm" style="border-radius:15px;"><i class="fa fa-plus"></i></button>
+  Classements AFT&nbsp;<button class="btn btn-success btn-sm" style="border-radius:15px;" (click)="addClassementAFT()"><i class="fa fa-plus"></i></button>
   <div class="table-responsive" style="height:120px;">
     <table class="table table-sm table-hover" >
       <!--table-striped-->
@@ -49,23 +53,32 @@
       <tr>
         <th scope="col" >Date</th>
         <th scope="col" >Classement</th>
-        <th scope="col" >Points</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>20/05/2017</td>
-        <td>C30.5</td>
-        <td>5</td>
-      </tr>
-      <tr>
-        <td>20/05/2017</td>
-        <td>C30.5</td>
-        <td>5</td>
+      <tr *ngFor="let classementAFT of classementsAFT">
+        <td>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Date" [(ngModel)]="classementAFT.dateClassement" (dateChange)="sortClassementsAFT();">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #picker></mat-datepicker>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field>
+            <mat-select placeholder="Classement" [(ngModel)]="classementAFT.codeClassement" >
+              <mat-option *ngFor="let echelleAFT of echellesAFT" [value]="echelleAFT.code">
+                <small>{{ echelleAFT.code }} - {{ echelleAFT.points }} points</small>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
+
+  <button (click)="getOfficialAFT()">TEST</button>
 
 
   <div align="center">

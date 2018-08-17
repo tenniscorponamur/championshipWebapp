@@ -1,5 +1,6 @@
 import {Club} from "./club";
 import {ClassementCorpo} from "./classementCorpo";
+import {ClassementAFT} from "./classementAFT";
 
 export class Membre {
   id: number;
@@ -11,4 +12,5 @@ export class Membre {
   club:Club;
   capitaine: boolean;
   classementCorpoActuel:ClassementCorpo;
+  classementAFTActuel:ClassementAFT;
 }

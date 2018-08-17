@@ -15,6 +15,14 @@ export class ClassementMembreService {
     return this.http.get<any[]>(environment.publicApiUrl + "/echellesCorpo");
   }
 
+  getEchellesAFT():Observable<any[]>{
+    return this.http.get<any[]>(environment.publicApiUrl + "/echellesAFT");
+  }
+
+  getOfficialAFT(numAft:string){
+     return this.http.get<any>(environment.privateApiUrl + "/officialAFT/" + numAft, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
   getClassementsAFTByMembre(membreId:number): Observable<ClassementAFT[]> {
     return this.http.get<ClassementAFT[]>(environment.publicApiUrl + "/membre/" + membreId + "/classementsAFT");
   }
@@ -25,5 +33,10 @@ export class ClassementMembreService {
 
   updateClassementsCorpo(membreId: number, classementsCorpo: ClassementCorpo[]) {
         return this.http.put<ClassementCorpo>(environment.privateApiUrl + "/membre/" + membreId + "/classementsCorpo", classementsCorpo, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+
+  updateClassementsAFT(membreId: number, classementsAFT: ClassementAFT[]) {
+        return this.http.put<ClassementAFT>(environment.privateApiUrl + "/membre/" + membreId + "/classementsAFT", classementsAFT, this.authenticationService.getPrivateApiHttpOptions());
     }
 }
