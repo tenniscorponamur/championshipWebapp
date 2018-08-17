@@ -4,38 +4,42 @@
   <br/>
   Club AFT : Géronsart
   <br/>
-  Classements Corpo&nbsp;<button class="btn btn-success btn-sm" style="border-radius:15px;" (click)="addClassementCorpo()"><i class="fa fa-plus"></i></button>
-  <div class="table-responsive" style="height:120px;">
-    <table class="table table-sm table-hover" >
-      <!--table-striped-->
-      <thead class="bg-info" >
-      <tr>
-        <th scope="col" >Date</th>
-        <th scope="col" >Points</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let classementCorpo of classementsCorpo">
-        <td>
-          <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Date" [(ngModel)]="classementCorpo.dateClassement">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker touchUi="true" #picker></mat-datepicker>
-          </mat-form-field>
-        </td>
-        <td>
-          <mat-form-field>
-            <mat-select placeholder="Points" [(ngModel)]="classementCorpo.points" >
-              <mat-option *ngFor="let echelleCorpo of echellesCorpo" [value]="echelleCorpo.points">
-                <small>{{ echelleCorpo.points }}</small>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+
+    Classements Corpo&nbsp;
+
+    <button class="btn btn-success btn-sm" style="border-radius:15px;" (click)="addClassementCorpo()"><i class="fa fa-plus"></i></button>
+
+    <div class="table-responsive" style="height:120px;" >
+      <table class="table table-sm table-hover" >
+        <!--table-striped-->
+        <thead class="bg-info" >
+        <tr>
+          <th scope="col" >Date</th>
+          <th scope="col" >Points</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let classementCorpo of classementsCorpo">
+          <td>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Date" [(ngModel)]="classementCorpo.dateClassement" (dateChange)="sortClassementsCorpo();">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker touchUi="true" #picker></mat-datepicker>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-select placeholder="Points" [(ngModel)]="classementCorpo.points" >
+                <mat-option *ngFor="let echelleCorpo of echellesCorpo" [value]="echelleCorpo.points">
+                  <small>{{ echelleCorpo.points }}</small>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
   Classements AFT&nbsp;<button class="btn btn-success btn-sm" style="border-radius:15px;"><i class="fa fa-plus"></i></button>
   <div class="table-responsive" style="height:120px;">

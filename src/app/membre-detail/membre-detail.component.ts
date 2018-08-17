@@ -359,9 +359,23 @@ export class ClassementDialog implements OnInit {
     let classementCorpo = new ClassementCorpo();
     classementCorpo.dateClassement = new Date();
     classementCorpo.dateClassement.setHours(12);
-    //TODO : recuperer le dernier classement en date, sinon mettre 5
+
+    // Recuperer le dernier classement en date, sinon mettre 5
+    if (this.classementsCorpo.length>0){
+      classementCorpo.points = this.classementsCorpo[0].points;
+    }else{
+      if (this.echellesCorpo!=null && this.echellesCorpo.length>0){
+        classementCorpo.points = this.echellesCorpo[0].points;
+      }
+    }
+
     this.classementsCorpo.push(classementCorpo);
-    this.classementsCorpo = this.classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false));
+
+    this.sortClassementsCorpo();
+  }
+
+  sortClassementsCorpo(){
+      this.classementsCorpo = this.classementsCorpo.sort((a,b) => compare(new Date(a.dateClassement), new Date(b.dateClassement), false));
   }
 
   cancel(): void {
