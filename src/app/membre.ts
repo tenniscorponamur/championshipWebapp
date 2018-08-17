@@ -1,4 +1,5 @@
 import {Club} from "./club";
+import {ClassementCorpo} from "./classementCorpo";
 
 export class Membre {
   id: number;
@@ -9,4 +10,5 @@ export class Membre {
   genre: string;
   club:Club;
   capitaine: boolean;
+  classementCorpoActuel:ClassementCorpo;
 }

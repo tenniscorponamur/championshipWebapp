@@ -140,14 +140,12 @@ export class MembresComponent implements OnInit, AfterViewInit {
     }
 
     ouvrirMembre(membre:Membre):void{
-      let scrollPosition = "end";
-      if (!this.selectedMember){
-        scrollPosition = "start";
-      }
-      //TODO : getMembreById --> pour recuperer l'ensemble des informations du membre --> voir en fonction du role de l'utilisateur ??
       this.selectedMember=membre;
-      //TODO : scroll only if mobile
-      //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
+    }
+
+    ouvrirMembreOnMobile(membre:Membre):void{
+      this.selectedMember=membre;
+      this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     }
 
 

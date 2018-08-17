@@ -173,6 +173,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     MatchService,
     SetService,
     ClassementService,
+    ClassementMembreService,
     TerrainService,
     UserService,
     AuthGuardService,

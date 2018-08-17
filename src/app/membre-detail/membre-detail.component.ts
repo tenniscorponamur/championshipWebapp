@@ -4,10 +4,13 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import { Membre } from '../membre';
 
+import {compare} from '../utility';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {MembreService} from '../membre.service';
+import {ClassementMembreService} from '../classement-membre.service';
 import {Club} from '../club';
+import {ClassementCorpo} from '../classementCorpo';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {ClubService} from '../club.service';
@@ -330,23 +333,53 @@ export class ClubInfosDialog {
   selector: 'classement-dialog',
   templateUrl: './classementDialog.html',
 })
-export class ClassementDialog {
+export class ClassementDialog implements OnInit {
 
     private _membre:Membre;
+    classementsCorpo:ClassementCorpo[]=[];
+    echellesCorpo:any[]=[];
 
   constructor(
     public dialogRef: MatDialogRef<ClassementDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private membreService: MembreService
+    private classementMembreService: ClassementMembreService
     ) {
         this._membre = data.membre;
     }
+
+  ngOnInit() {
+        this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
+            this.echellesCorpo = echelles;
+            this.classementMembreService.getClassementsCorpoByMembre(this._membre.id).subscribe(classementsCorpo => this.classementsCorpo = classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
+          });
+
+  }
+
+  addClassementCorpo(){
+    let classementCorpo = new ClassementCorpo();
+    classementCorpo.dateClassement = new Date();
+    classementCorpo.dateClassement.setHours(12);
+    //TODO : recuperer le dernier classement en date, sinon mettre 5
+    this.classementsCorpo.push(classementCorpo);
+    this.classementsCorpo = this.classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false));
+  }
 
   cancel(): void {
     this.dialogRef.close();
   }
 
   save(): void {
-    this.dialogRef.close();
+
+    this.classementsCorpo.forEach(classementCorpo => {
+      classementCorpo.dateClassement = new Date(classementCorpo.dateClassement);
+      classementCorpo.dateClassement.setHours(12);
+    });
+
+    this.classementMembreService.updateClassementsCorpo(this._membre.id,this.classementsCorpo).subscribe(classementCorpoActuel => {
+      this._membre.classementCorpoActuel = classementCorpoActuel;
+      this.dialogRef.close();
+      }
+    );
+
   }
 }
