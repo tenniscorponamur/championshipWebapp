@@ -3,6 +3,7 @@ import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {Membre} from '../membre';
 import {MembreService} from '../membre.service';
 import {Club} from '../club';
+import {compare} from '../utility';
 
 @Component({
   selector: 'app-membre-selection',
@@ -48,6 +49,9 @@ export class MembreSelectionComponent implements OnInit {
              || membre.prenom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
         });
       }
+
+      this.filteredMembres = this.filteredMembres.sort((a,b) => compare(a.nom,b.nom,true));
+
   }
 
     select(membre:Membre){
