@@ -79,7 +79,7 @@
       <div class="col-12">
         <div class="myBox myBoxEditable">
           <div class="myBoxTitle" (click)="ouvrirClassement();">
-            Classement<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+            Infos AFT & Classement<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
             Numéro AFT : 6065450&nbsp;Club AFT : Géronsart<br/>
@@ -89,7 +89,10 @@
             &nbsp;
 
             <span *ngIf="membre.classementCorpoActuel"><strong>Corpo :</strong> {{membre.classementCorpoActuel.points}} points</span>
-            <canvas baseChart
+
+
+            <canvas *ngIf="showGraph"
+                    baseChart
                     [datasets]="lineChartData"
                     [labels]="lineChartLabels"
                     [options]="lineChartOptions"

@@ -28,12 +28,10 @@ export class MembreDetailComponent implements OnInit {
 
   userImageClass:string = "fa fa-user fa-5x undefinedMember";
 
+  showGraph=false;
   // lineChart
-  public lineChartData:Array<any> = [
-    {data: [5, 10, 15, 10, 10], label: 'AFT'},
-    {data: [10, 15, 20, 25, 20], label: 'Corpo'}
-  ];
-  public lineChartLabels:Array<any> = ['2014','2015','2016', '2017', '2018'];
+  public lineChartData:Array<any> = [];
+  public lineChartLabels:Array<any> = [];
   public lineChartType:string = 'line';
   public lineChartOptions:any = {responsive: true};
 
@@ -42,6 +40,7 @@ export class MembreDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private membreService: MembreService,
+    private classementMembreService: ClassementMembreService,
     private location: Location,
     public dialog: MatDialog
     ) { }
@@ -56,6 +55,7 @@ export class MembreDetailComponent implements OnInit {
   set membre(membre: Membre) {
     this._membre = membre;
     this.refreshUserImage();
+    this.refreshClassement();
   }
 
   get membre(): Membre { return this._membre; }
@@ -68,6 +68,88 @@ export class MembreDetailComponent implements OnInit {
           this.userImageClass = "fa fa-user fa-5x femaleMember";
       }
     }
+  }
+
+  refreshClassement(){
+
+    this.showGraph=false;
+    this.lineChartData = [];
+    this.lineChartLabels=[];
+
+    this.classementMembreService.getClassementsCorpoByMembre(this._membre.id).subscribe(classementsCorpo => {
+      this.classementMembreService.getClassementsAFTByMembre(this._membre.id).subscribe(classementsAFT => {
+
+        if ((classementsCorpo!=null && classementsCorpo.length>1) || (classementsAFT!=null && classementsAFT.length>1)){
+
+          let setOfYears = new Set();
+
+          let mapCorpo = new Map();
+          if (classementsCorpo!=null){
+            classementsCorpo.forEach(classementCorpo => {
+              let year = new Date(classementCorpo.dateClassement).getFullYear();
+              setOfYears.add(year);
+              mapCorpo[year]=classementCorpo.points;
+            });
+          }
+
+          let mapAFT = new Map();
+          if (classementsAFT!=null){
+            classementsAFT.forEach(classementAFT => {
+              let year = new Date(classementAFT.dateClassement).getFullYear();
+              setOfYears.add(year);
+              mapAFT[year]=classementAFT.points;
+            });
+          }
+
+          if (setOfYears.size>1){
+
+            setOfYears.forEach(year => this.lineChartLabels.push(year));
+            this.lineChartLabels.sort((a,b) => compare(a,b,true));
+
+            // Ligne Corpo
+
+            let dataCorpo = [];
+            let dataAFT = [];
+
+            this.lineChartLabels.forEach(year => {
+
+              // Si pas defini mais connu precedemment, on prend la valeur precedente
+              if (mapCorpo[year]==undefined){
+                if (dataCorpo.length>0){
+                  dataCorpo.push(dataCorpo[dataCorpo.length-1]);
+                }else{
+                  dataCorpo.push(null);
+                }
+              }else{
+                dataCorpo.push(mapCorpo[year]);
+              }
+
+              // Si pas defini mais connu precedemment, on prend la valeur precedente
+              if (mapAFT[year]==undefined){
+                if (dataAFT.length>0){
+                  dataAFT.push(dataAFT[dataAFT.length-1]);
+                }else{
+                  dataAFT.push(null);
+                }
+              }else{
+                dataAFT.push(mapAFT[year]);
+              }
+
+            });
+
+            this.lineChartData.push({data : dataCorpo, label : 'Corpo'});
+            this.lineChartData.push({data : dataAFT, label : 'AFT'});
+
+            this.showGraph=true;
+
+          }
+
+        }
+
+      });
+     });
+
+
   }
 
   ouvrirInfosGenerales() {
@@ -93,7 +175,9 @@ export class MembreDetailComponent implements OnInit {
           data: { membre: this.membre }, panelClass: "classementDialog", disableClose:true
         });
 
-        classementDialogRef.afterClosed().subscribe();
+        classementDialogRef.afterClosed().subscribe(result => {
+            this.refreshClassement();
+        });
     }
 
   ouvrirHistoriqueClassement(): void {
@@ -431,6 +515,8 @@ export class ClassementDialog implements OnInit {
       classementCorpo.dateClassement.setHours(12);
     });
 
+    console.log(this.classementsAFT);
+
     this.classementsAFT.forEach(classementAFT => {
       classementAFT.dateClassement = new Date(classementAFT.dateClassement);
       classementAFT.dateClassement.setHours(12);
@@ -441,11 +527,13 @@ export class ClassementDialog implements OnInit {
       }
     });
 
+    console.log(this.classementsAFT);
+
     this.classementMembreService.updateClassementsCorpo(this._membre.id,this.classementsCorpo).subscribe(classementCorpoActuel => {
       this._membre.classementCorpoActuel = classementCorpoActuel;
       this.classementMembreService.updateClassementsAFT(this._membre.id,this.classementsAFT).subscribe(classementAFTActuel => {
             this._membre.classementAFTActuel = classementAFTActuel;
-            this.dialogRef.close();
+            this.dialogRef.close(true);
             }
           );
       }
