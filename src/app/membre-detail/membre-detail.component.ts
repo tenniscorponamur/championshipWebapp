@@ -435,13 +435,19 @@ export class ClassementDialog implements OnInit {
       classementAFT.dateClassement = new Date(classementAFT.dateClassement);
       classementAFT.dateClassement.setHours(12);
 
-      //TODO : recuperer le code sur base des points ou inversement pour le specifier dans le classement a enregistrer
-
+      let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==classementAFT.codeClassement);
+      if (echelleWithSameCode!=null){
+        classementAFT.points=echelleWithSameCode.points;
+      }
     });
 
     this.classementMembreService.updateClassementsCorpo(this._membre.id,this.classementsCorpo).subscribe(classementCorpoActuel => {
       this._membre.classementCorpoActuel = classementCorpoActuel;
-      this.dialogRef.close();
+      this.classementMembreService.updateClassementsAFT(this._membre.id,this.classementsAFT).subscribe(classementAFTActuel => {
+            this._membre.classementAFTActuel = classementAFTActuel;
+            this.dialogRef.close();
+            }
+          );
       }
     );
 

@@ -83,8 +83,12 @@
           </div>
           <div class="myBoxContent">
             Numéro AFT : 6065450&nbsp;Club AFT : Géronsart<br/>
-            AFT : C30-5 - 5 points&nbsp;
-            <span *ngIf="membre.classementCorpoActuel">Corpo : {{membre.classementCorpoActuel.points}} points</span>
+
+            <span *ngIf="membre.classementAFTActuel"><strong>AFT :</strong> {{membre.classementAFTActuel.codeClassement}} - {{membre.classementAFTActuel.points}} points</span>
+
+            &nbsp;
+
+            <span *ngIf="membre.classementCorpoActuel"><strong>Corpo :</strong> {{membre.classementCorpoActuel.points}} points</span>
             <canvas baseChart
                     [datasets]="lineChartData"
                     [labels]="lineChartLabels"

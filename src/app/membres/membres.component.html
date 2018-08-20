@@ -76,7 +76,7 @@
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
                     <div class="myBoxContent">
-                      <small>C30-4 / <span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}}</span><span style="float:right;"><span *ngIf="membre.club"><em>{{membre.club.nom}}</em></span></span></small>
+                      <small>AFT : <span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span> / Corpo : <span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}} points</span><span style="float:right;"><span *ngIf="membre.club"><em>{{membre.club.nom}}</em></span></span></small>
                     </div>
                   </div>
                 </div>
@@ -101,7 +101,7 @@
                                   <td>{{membre.prenom}}</td>
                                   <!--<td>{{membre.dateNaissance| date:'dd/MM/yyyy'}}</td>-->
                                   <td><span *ngIf="membre.club">{{membre.club.nom}}</span></td>
-                                  <td>C30-2</td>
+                                  <td><span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span></td>
                                   <td><span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}}</span></td>
                               </tr>
                           </tbody>
