@@ -1,0 +1,12 @@
+.classementDiv{
+    background-color:#f5f5f5;
+    border:1px solid lightgrey;
+    padding-top:5px;
+    margin-bottom:10px;
+    border-radius:3px;
+}
+
+.classementDiv .table-responsive{
+    background-color:white;
+    margin-top:10px;
+}

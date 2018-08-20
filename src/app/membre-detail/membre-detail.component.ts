@@ -417,6 +417,7 @@ export class ClubInfosDialog {
 @Component({
   selector: 'classement-dialog',
   templateUrl: './classementDialog.html',
+  styleUrls: ['./classementDialog.css']
 })
 export class ClassementDialog implements OnInit {
 
@@ -489,15 +490,33 @@ export class ClassementDialog implements OnInit {
 
     this.sortClassementsAFT();
   }
-
+  
   sortClassementsAFT(){
       this.classementsAFT = this.classementsAFT.sort((a,b) => compare(new Date(a.dateClassement), new Date(b.dateClassement), false));
   }
 
-  getOfficialAFT(){
+  addOfficialAFT(){
     this.classementMembreService.getOfficialAFT(this._numAft).subscribe(result => {
       if (result && result.length>0){
-        console.log(result[0].ClasmtSimple);
+          
+        if (result[0].ClasmtSimple){
+            
+            let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==result[0].ClasmtSimple);
+            
+            if (echelleWithSameCode){
+                let classementAFT = new ClassementAFT();
+                classementAFT.dateClassement = new Date();
+                classementAFT.dateClassement.setHours(12);
+
+                classementAFT.codeClassement=echelleWithSameCode.code;
+
+                this.classementsAFT.push(classementAFT);
+
+                this.sortClassementsAFT();
+            }
+            
+        }
+          
       }
     });
   }
@@ -515,8 +534,6 @@ export class ClassementDialog implements OnInit {
       classementCorpo.dateClassement.setHours(12);
     });
 
-    console.log(this.classementsAFT);
-
     this.classementsAFT.forEach(classementAFT => {
       classementAFT.dateClassement = new Date(classementAFT.dateClassement);
       classementAFT.dateClassement.setHours(12);
@@ -526,8 +543,6 @@ export class ClassementDialog implements OnInit {
         classementAFT.points=echelleWithSameCode.points;
       }
     });
-
-    console.log(this.classementsAFT);
 
     this.classementMembreService.updateClassementsCorpo(this._membre.id,this.classementsCorpo).subscribe(classementCorpoActuel => {
       this._membre.classementCorpoActuel = classementCorpoActuel;

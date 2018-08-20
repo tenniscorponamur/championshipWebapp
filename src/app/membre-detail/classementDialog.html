@@ -1,27 +1,25 @@
 <h1 mat-dialog-title>Classements<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content >
 
-  <mat-form-field>
-    <input matInput required placeholder="Numéro AFT" [(ngModel)]="_numAft">
-  </mat-form-field>
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <mat-form-field>
+              <input matInput required placeholder="Numéro AFT" [(ngModel)]="_numAft">
+            </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            Club AFT : Géronsart
+        </div>
+    </div>
 
-  <br/>
-  Club AFT : Géronsart
-  <br/>
+    <div class="classementDiv">
+        <span style="padding-left:5px;"><strong>Classements Corpo</strong>&nbsp;
+           <a style="cursor:pointer;" (click)="addClassementCorpo()"><i class="fa fa-plus"></i></a>
+           </span>
 
-    Classements Corpo&nbsp;
-
-    <button class="btn btn-success btn-sm" style="border-radius:15px;" (click)="addClassementCorpo()"><i class="fa fa-plus"></i></button>
-
-    <div class="table-responsive" style="height:120px;" >
+    <div class="table-responsive" style="height:80px;" >
       <table class="table table-sm table-hover" >
         <!--table-striped-->
-        <thead class="bg-info" >
-        <tr>
-          <th scope="col" >Date</th>
-          <th scope="col" >Points</th>
-        </tr>
-        </thead>
         <tbody>
         <tr *ngFor="let classementCorpo of classementsCorpo">
           <td>
@@ -44,17 +42,21 @@
         </tbody>
       </table>
     </div>
+    </div>
 
-  Classements AFT&nbsp;<button class="btn btn-success btn-sm" style="border-radius:15px;" (click)="addClassementAFT()"><i class="fa fa-plus"></i></button>
-  <div class="table-responsive" style="height:120px;">
+    <div class="classementDiv">
+        <span style="padding-left:5px;"><strong>Classements AFT</strong>&nbsp;
+           <a style="cursor:pointer;" (click)="addClassementAFT()"><i class="fa fa-plus"></i></a>
+           </span>
+        
+  <span style="float:right;"> 
+      <a (click)="addOfficialAFT()" style="cursor:pointer;"><img src="/assets/images/logo.png" height="30px"/></a>
+  </span>
+    
+    
+  <div class="table-responsive" style="height:80px;">
     <table class="table table-sm table-hover" >
       <!--table-striped-->
-      <thead class="bg-info" >
-      <tr>
-        <th scope="col" >Date</th>
-        <th scope="col" >Classement</th>
-      </tr>
-      </thead>
       <tbody>
       <tr *ngFor="let classementAFT of classementsAFT">
         <td>
@@ -77,9 +79,7 @@
       </tbody>
     </table>
   </div>
-
-  <button (click)="getOfficialAFT()">TEST</button>
-
+</div>
 
   <div align="center">
     <button class="btn btn-danger" (click)="cancel();">Annuler</button>
