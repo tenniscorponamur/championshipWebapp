@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { AuthenticationService } from './authentication.service';
+import {LocalStorageService} from './local-storage.service';
 import {UserService} from './user.service';
 import {User} from './user';
 import {Router} from '@angular/router';
@@ -21,11 +22,20 @@ export class AppComponent implements OnInit {
       private router:Router,
       private authenticationService: AuthenticationService,
       private userService: UserService,
+      private localStorageService:LocalStorageService,
       public dialog: MatDialog) {
 
-       }
+        if (!this.cookiePref){
+          this.cookiePopup();
+        }
+
+     }
 
     get user(): User {return this.authenticationService.getConnectedUser(); }
+
+    get cookiePref(): boolean {
+      return this.localStorageService.isCookieAuthorized();
+    }
 
   ngOnInit() {
     this.userService.getCurrentUser().subscribe(
@@ -35,6 +45,24 @@ export class AppComponent implements OnInit {
       );
   }
 
+  cookiePopup(){
+
+    let cookieDialogRef = this.dialog.open(CookieDialog, {
+      data: { }, panelClass: "cookieDialog", disableClose:true
+    });
+
+    cookieDialogRef.afterClosed().subscribe(accept => {
+      if (accept){
+        this.localStorageService.storeCookiePreference("true");
+      }else{
+        this.authenticationService.disconnect();
+        this.localStorageService.clearLocalStorage();
+        this.router.navigate(['/home']);
+      }
+    });
+
+  }
+
   ouvrirLoginForm(): void {
     let loginFormDialogRef = this.dialog.open(LoginFormDialog, {
       data: { }, panelClass: "loginFormDialog", disableClose:false
@@ -42,7 +70,7 @@ export class AppComponent implements OnInit {
 
     loginFormDialogRef.afterClosed().subscribe(result => {
       if (result){
-        //TODO : recuperation des informations de l'utilisateur
+        // Recuperation des informations de l'utilisateur
         this.userService.getCurrentUser().subscribe(user => {
             this.authenticationService.setConnectedUser(user);
           });
@@ -68,6 +96,37 @@ export class AppComponent implements OnInit {
   }
 
 }
+
+@Component({
+  selector: 'cookie-dialog',
+  templateUrl: './cookie.html',
+})
+export class CookieDialog {
+
+  constructor(public dialogRef: MatDialogRef<LoginFormDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+    accept(){
+      this.dialogRef.close(true);
+    }
+
+    decline(){
+      this.dialogRef.close(false);
+    }
+
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
+
+    //TODO :
+    // disconnect
+    // + delete other keys
+    // + cookie pref
+
+
+}
+
 
 @Component({
   selector: 'login-form-dialog',
@@ -124,6 +183,10 @@ export class CompteUtilisateurDialog {
     changePassword(): void {
         //TODO : permettre de changer le mot de passe
     }
+
+  cancel(): void {
+      this.dialogRef.close();
+  }
 
   deconnexion(): void {
     this.dialogRef.close(true);

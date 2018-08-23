@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+const TENNIS_CORPO_COOKIE_PREF = "tennisCorpoCookiePref";
+
 const TENNIS_CORPO_ACCESS_TOKEN_KEY = "tennisCorpoAccessToken";
 const TENNIS_CORPO_REFRESH_TOKEN_KEY = "tennisCorpoRefreshToken";
 
@@ -12,8 +14,25 @@ export class LocalStorageService {
 
   constructor() { }
 
+  //TODO : ne stocker des cookies que si on est autorise
+
+  isCookieAuthorized():boolean{
+      let cookiePref = this.getCookiePreference();
+      return cookiePref=="true";
+  }
+
+  storeCookiePreference(cookiePref:string){
+      localStorage.setItem(TENNIS_CORPO_COOKIE_PREF,cookiePref);
+  }
+
+  getCookiePreference():string{
+      return localStorage.getItem(TENNIS_CORPO_COOKIE_PREF);
+  }
+
   storeAccessToken(accessToken:string){
-      localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,accessToken);
+      if (this.isCookieAuthorized()){
+        localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,accessToken);
+      }
   }
 
   getAccessToken():string{
@@ -25,7 +44,9 @@ export class LocalStorageService {
   }
 
   storeRefreshToken(refreshToken:string){
+    if (this.isCookieAuthorized()){
       localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,refreshToken);
+    }
   }
 
   getRefreshToken():string{
@@ -37,7 +58,9 @@ export class LocalStorageService {
   }
 
   storeChampionshipKey(championshipKey:string){
-    localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_KEY,championshipKey);
+    if (this.isCookieAuthorized()){
+      localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_KEY,championshipKey);
+    }
   }
 
   getChampionshipKey(){
@@ -45,7 +68,9 @@ export class LocalStorageService {
   }
 
   storeChampionshipIndexKey(championshipIndexKey:string){
-    localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_INDEX_KEY,championshipIndexKey);
+    if (this.isCookieAuthorized()){
+      localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_INDEX_KEY,championshipIndexKey);
+    }
   }
 
   getChampionshipIndexKey(){
@@ -53,11 +78,17 @@ export class LocalStorageService {
   }
 
   storeChampionshipDivisionKey(championshipDivisionKey:string){
-    localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY,championshipDivisionKey);
+    if (this.isCookieAuthorized()){
+      localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY,championshipDivisionKey);
+    }
   }
 
   getChampionshipDivisionKey(){
     return localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY);
+  }
+
+  clearLocalStorage(){
+    localStorage.clear();
   }
 
 
