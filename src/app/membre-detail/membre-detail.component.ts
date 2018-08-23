@@ -169,6 +169,26 @@ export class MembreDetailComponent implements OnInit {
 
         clubInfosDialogRef.afterClosed().subscribe();
     }
+    
+    ouvrirCoordonnees(){
+
+        let coordonneesDialogRef = this.dialog.open(CoordonneesDialog, {
+          data: { membre: this.membre }, panelClass: "coordonneesDialog", disableClose:true
+        });
+
+        coordonneesDialogRef.afterClosed().subscribe();
+
+    }
+    
+    ouvrirContacts(){
+
+        let contactsDialogRef = this.dialog.open(ContactsDialog, {
+          data: { membre: this.membre }, panelClass: "contactsDialog", disableClose:true
+        });
+
+        contactsDialogRef.afterClosed().subscribe();
+
+    }
 
     ouvrirInfosAft(){
 
@@ -379,6 +399,61 @@ export class ClubInfosDialog {
   }
 }
 
+
+@Component({
+  selector: 'coordonnees-dialog',
+  templateUrl: './coordonneesDialog.html',
+})
+export class CoordonneesDialog {
+    
+   private _membre:Membre;
+   
+  constructor(
+    public dialogRef: MatDialogRef<CoordonneesDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membreService: MembreService
+    ) {
+        this._membre = data.membre;
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+  
+  save(): void {
+
+
+  }
+
+}
+
+
+@Component({
+  selector: 'contacts-dialog',
+  templateUrl: './contactsDialog.html',
+})
+export class ContactsDialog {
+    
+   private _membre:Membre;
+   
+  constructor(
+    public dialogRef: MatDialogRef<ContactsDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membreService: MembreService
+    ) {
+        this._membre = data.membre;
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+  
+  save(): void {
+
+
+  }
+
+}
 
 @Component({
   selector: 'infos-aft-dialog',
