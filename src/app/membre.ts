@@ -11,6 +11,10 @@ export class Membre {
   genre: string;
   club:Club;
   capitaine: boolean;
+  numeroAft: string;
+  numeroClubAft: string;
+  dateAffiliationAft: Date;
+  onlyCorpo: boolean;
   classementCorpoActuel:ClassementCorpo;
   classementAFTActuel:ClassementAFT;
 }

@@ -170,6 +170,16 @@ export class MembreDetailComponent implements OnInit {
         clubInfosDialogRef.afterClosed().subscribe();
     }
 
+    ouvrirInfosAft(){
+
+        let infosAftDialogRef = this.dialog.open(InfosAftDialog, {
+          data: { membre: this.membre }, panelClass: "infosAftDialog", disableClose:true
+        });
+
+        infosAftDialogRef.afterClosed().subscribe();
+
+    }
+
     ouvrirClassement(){
         let classementDialogRef = this.dialog.open(ClassementDialog, {
           data: { membre: this.membre }, panelClass: "classementDialog", disableClose:true
@@ -179,16 +189,6 @@ export class MembreDetailComponent implements OnInit {
             this.refreshClassement();
         });
     }
-
-  ouvrirHistoriqueClassement(): void {
-    let historiqueClassementDialogRef = this.dialog.open(HistoriqueClassementDialog, {
-      data: { membre: this.membre }, panelClass: "historiqueClassementDialog", disableClose:false
-    });
-
-    historiqueClassementDialogRef.afterClosed().subscribe(result => {
-      console.log('Le classement a ete ferme');
-    });
-  }
 
   getMembre(): void {
     const id = +this.route.snapshot.paramMap.get('id');
@@ -215,40 +215,6 @@ export class MembreDetailComponent implements OnInit {
     console.log(e);
   }
 
-
-}
-
-
-@Component({
-  selector: 'historique-classement-dialog',
-  templateUrl: './historiqueClassementDialog.html',
-})
-export class HistoriqueClassementDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<HistoriqueClassementDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  // lineChart
-  public lineChartData:Array<any> = [
-    {data: [5, 10, 15, 10, 10], label: 'AFT'},
-    {data: [10, 15, 20, 25, 20], label: 'Corpo'}
-  ];
-  public lineChartLabels:Array<any> = ['2014','2015','2016', '2017', '2018'];
-  public lineChartType:string = 'line';
-  public lineChartOptions:any = {responsive: true};
-
-  fermer(): void {
-    this.dialogRef.close();
-  }
-
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
-
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
 
 }
 
@@ -415,13 +381,66 @@ export class ClubInfosDialog {
 
 
 @Component({
+  selector: 'infos-aft-dialog',
+  templateUrl: './infosAftDialog.html',
+})
+export class InfosAftDialog {
+
+   private _membre:Membre;
+   _numeroAft: string;
+   _numeroClubAft: string;
+   _dateAffiliationAft: Date;
+   _onlyCorpo: boolean;
+
+  constructor(
+    public dialogRef: MatDialogRef<InfosAftDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membreService: MembreService
+    ) {
+        this._membre = data.membre;
+        this._numeroAft = this._membre.numeroAft;
+        this._numeroClubAft = this._membre.numeroClubAft;
+        this._dateAffiliationAft = this._membre.dateAffiliationAft;
+        this._onlyCorpo = this._membre.onlyCorpo;
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+
+        this._membre.numeroAft=this._numeroAft;
+        this._membre.numeroClubAft=this._numeroClubAft;
+        this._membre.onlyCorpo=this._onlyCorpo;
+
+        if (this._dateAffiliationAft!=null){
+          this._membre.dateAffiliationAft = new Date(this._dateAffiliationAft);
+        }else{
+          this._membre.dateAffiliationAft = null;
+        }
+        if (this._membre.dateAffiliationAft!=null){
+          this._membre.dateAffiliationAft.setHours(12);
+        }
+
+        //Mise a jour des infos AFT du membre
+        this.membreService.updateInfosAft(this._membre).subscribe(
+            result => {
+                this.dialogRef.close(this._membre);
+         });
+
+  }
+
+}
+
+@Component({
   selector: 'classement-dialog',
   templateUrl: './classementDialog.html',
   styleUrls: ['./classementDialog.css']
 })
 export class ClassementDialog implements OnInit {
 
-    private _membre:Membre;
+    membre:Membre;
     _numAft:string="6065450";
     classementsCorpo:ClassementCorpo[]=[];
     echellesCorpo:any[]=[];
@@ -433,18 +452,18 @@ export class ClassementDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private classementMembreService: ClassementMembreService
     ) {
-        this._membre = data.membre;
+        this.membre = data.membre;
     }
 
   ngOnInit() {
         this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
             this.echellesCorpo = echelles;
-            this.classementMembreService.getClassementsCorpoByMembre(this._membre.id).subscribe(classementsCorpo => this.classementsCorpo = classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
+            this.classementMembreService.getClassementsCorpoByMembre(this.membre.id).subscribe(classementsCorpo => this.classementsCorpo = classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
           });
 
         this.classementMembreService.getEchellesAFT().subscribe(echelles => {
             this.echellesAFT = echelles;
-            this.classementMembreService.getClassementsAFTByMembre(this._membre.id).subscribe(classementsAFT => this.classementsAFT = classementsAFT.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
+            this.classementMembreService.getClassementsAFTByMembre(this.membre.id).subscribe(classementsAFT => this.classementsAFT = classementsAFT.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
           });
 
   }
@@ -490,7 +509,7 @@ export class ClassementDialog implements OnInit {
 
     this.sortClassementsAFT();
   }
-  
+
   sortClassementsAFT(){
       this.classementsAFT = this.classementsAFT.sort((a,b) => compare(new Date(a.dateClassement), new Date(b.dateClassement), false));
   }
@@ -498,11 +517,11 @@ export class ClassementDialog implements OnInit {
   addOfficialAFT(){
     this.classementMembreService.getOfficialAFT(this._numAft).subscribe(result => {
       if (result && result.length>0){
-          
+
         if (result[0].ClasmtSimple){
-            
+
             let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==result[0].ClasmtSimple);
-            
+
             if (echelleWithSameCode){
                 let classementAFT = new ClassementAFT();
                 classementAFT.dateClassement = new Date();
@@ -514,9 +533,9 @@ export class ClassementDialog implements OnInit {
 
                 this.sortClassementsAFT();
             }
-            
+
         }
-          
+
       }
     });
   }
@@ -544,10 +563,10 @@ export class ClassementDialog implements OnInit {
       }
     });
 
-    this.classementMembreService.updateClassementsCorpo(this._membre.id,this.classementsCorpo).subscribe(classementCorpoActuel => {
-      this._membre.classementCorpoActuel = classementCorpoActuel;
-      this.classementMembreService.updateClassementsAFT(this._membre.id,this.classementsAFT).subscribe(classementAFTActuel => {
-            this._membre.classementAFTActuel = classementAFTActuel;
+    this.classementMembreService.updateClassementsCorpo(this.membre.id,this.classementsCorpo).subscribe(classementCorpoActuel => {
+      this.membre.classementCorpoActuel = classementCorpoActuel;
+      this.classementMembreService.updateClassementsAFT(this.membre.id,this.classementsAFT).subscribe(classementAFTActuel => {
+            this.membre.classementAFTActuel = classementAFTActuel;
             this.dialogRef.close(true);
             }
           );

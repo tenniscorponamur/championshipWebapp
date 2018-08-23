@@ -78,11 +78,42 @@
 
       <div class="col-12">
         <div class="myBox myBoxEditable">
-          <div class="myBoxTitle" (click)="ouvrirClassement();">
-            Infos AFT & Classement<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          <div class="myBoxTitle" (click)="ouvrirInfosAft();">
+            Informations AFT<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
-            Numéro AFT : 6065450&nbsp;Club AFT : Géronsart<br/>
+            <div class="row">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                Numéro AFT : {{membre.numeroAft}}
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                Date d'affiliation : {{membre.dateAffiliationAft| date:'dd/MM/yyyy'}}
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="membre.numeroClubAft" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                Club AFT : {{membre.numeroClubAft}}
+              </div>
+
+              <div *ngIf="membre.onlyCorpo" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                Corpo uniquement
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-12">
+        <div class="myBox myBoxEditable">
+          <div class="myBoxTitle" (click)="ouvrirClassement();">
+            Classements<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
 
             <span *ngIf="membre.classementAFTActuel"><strong>AFT :</strong> {{membre.classementAFTActuel.codeClassement}} - {{membre.classementAFTActuel.points}} points</span>
 

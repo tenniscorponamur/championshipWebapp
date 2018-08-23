@@ -49,4 +49,9 @@ export class MembreService {
       return this.http.put<Membre>(environment.publicApiUrl + "/membre/" + membre.id + "/clubInfos",membre);
   }
 
+  updateInfosAft(membre:Membre){
+      return this.http.put<Membre>(environment.publicApiUrl + "/membre/" + membre.id + "/infosAft",membre);
+  }
+
+
 }
