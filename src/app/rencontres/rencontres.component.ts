@@ -6,9 +6,10 @@ import {DivisionService} from '../division.service';
 import {PouleService} from '../poule.service';
 import {EquipeService} from '../equipe.service';
 import {RencontreService} from '../rencontre.service';
+import {LocalStorageService} from '../local-storage.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
-import {Championnat, TENNIS_CORPO_CHAMPIONSHIP_KEY} from '../championnat';
-import {Division, TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY} from '../division';
+import {Championnat} from '../championnat';
+import {Division} from '../division';
 import {Club} from '../club';
 import {Equipe} from '../equipe';
 import {Poule} from '../poule';
@@ -59,7 +60,8 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         private divisionService: DivisionService,
         private pouleService: PouleService,
         private equipeService: EquipeService,
-        private rencontreService: RencontreService
+        private rencontreService: RencontreService,
+        private localStorageService:LocalStorageService
         ) {
       super();
   }
@@ -82,7 +84,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                     }
                 });
 
-              let championnatInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_KEY);
+              let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
               if (championnatInLocalStorage) {
                 this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
                 this.loadDivisions();
@@ -93,7 +95,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
     loadDivisions() {
 
-        localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_KEY, JSON.stringify(this.selectedChampionnat));
+        this.localStorageService.storeChampionshipKey(JSON.stringify(this.selectedChampionnat));
 
         this.sortedRencontres = [];
         this.divisions = [];
@@ -103,7 +105,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                 divisions => {
                     this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
 
-                  let divisionInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY);
+                  let divisionInLocalStorage = this.localStorageService.getChampionshipDivisionKey();
                   if (divisionInLocalStorage) {
                     this.selectedDivision = this.divisions.find(division => division.id == JSON.parse(divisionInLocalStorage).id);
                     this.loadRencontres();
@@ -117,7 +119,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
     loadRencontres() {
 
-      localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY, JSON.stringify(this.selectedDivision));
+      this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
 
       this.selectedTeams = [];
       this.selectedPouleIds = [];

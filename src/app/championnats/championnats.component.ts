@@ -2,10 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTabChangeEvent} from '@angular/material';
 import {ChampionnatEquipesComponent} from '../championnat-equipes/championnat-equipes.component';
 import {ChampionnatPoulesComponent} from '../championnat-poules/championnat-poules.component';
-import {Championnat, TENNIS_CORPO_CHAMPIONSHIP_KEY} from '../championnat';
+import {Championnat} from '../championnat';
 import {ChampionnatRencontresComponent} from '../championnat-rencontres/championnat-rencontres.component';
-
-const TENNIS_CORPO_CHAMPIONSHIP_INDEX_KEY = "tennisCorpoChampionshipIndex";
+import {LocalStorageService} from '../local-storage.service';
 
 @Component({
     selector: 'app-championnats',
@@ -26,17 +25,17 @@ export class ChampionnatsComponent implements OnInit {
     private selectedChampionnat: Championnat;
     selectedIndex: number;
 
-    constructor() {
+    constructor(private localStorageService:LocalStorageService) {
     }
 
     ngOnInit() {
 
-        let championnatInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_KEY);
+        let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
         if (championnatInLocalStorage) {
 
             this.selectedChampionnat = JSON.parse(championnatInLocalStorage);
 
-            let championnatIndexInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_INDEX_KEY);
+            let championnatIndexInLocalStorage = this.localStorageService.getChampionshipIndexKey();
             if (championnatIndexInLocalStorage) {
                 this.selectedIndex = JSON.parse(championnatIndexInLocalStorage);
                 this.refreshTab();
@@ -47,8 +46,7 @@ export class ChampionnatsComponent implements OnInit {
     }
 
     tabChanged(event: MatTabChangeEvent) {
-
-        localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_INDEX_KEY, JSON.stringify(event.index));
+        this.localStorageService.storeChampionshipIndexKey(JSON.stringify(event.index));
         this.selectedIndex = event.index;
         this.refreshTab();
 
@@ -68,7 +66,7 @@ export class ChampionnatsComponent implements OnInit {
 
     selectChampionnat(championnat: Championnat) {
         this.selectedChampionnat = championnat;
-        localStorage.setItem(TENNIS_CORPO_CHAMPIONSHIP_KEY, JSON.stringify(championnat));
+        this.localStorageService.storeChampionshipKey(JSON.stringify(championnat));
     }
 
 }

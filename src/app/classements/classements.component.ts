@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Championnat, TENNIS_CORPO_CHAMPIONSHIP_KEY} from '../championnat';
+import {Championnat} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {ChampionnatService} from '../championnat.service';
 import {ClassementService} from '../classement.service';
+import {LocalStorageService} from '../local-storage.service';
 import {Classement} from '../classement';
 
 @Component({
@@ -23,7 +24,8 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
   classements:Classement[]=[];
 
   constructor(private championnatService:ChampionnatService,
-  private classementService:ClassementService ) {
+              private classementService:ClassementService,
+              private localStorageService:LocalStorageService) {
     super();
   }
 
@@ -44,7 +46,7 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
                     }
                 });
 
-              let championnatInLocalStorage = localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_KEY);
+              let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
               if (championnatInLocalStorage) {
                 this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
                 this.loadClassements();

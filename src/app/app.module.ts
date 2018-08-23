@@ -37,6 +37,7 @@ import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, Club
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
+import { LocalStorageService } from './local-storage.service';
 import { ChampionnatService } from './championnat.service';
 import { ClubService } from './club.service';
 import { MembreService } from './membre.service';
@@ -177,6 +178,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     TerrainService,
     UserService,
     AuthGuardService,
+    LocalStorageService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService,multi: true},
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, disableClose:false}},

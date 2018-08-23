@@ -5,9 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { environment } from '../environments/environment';
 import {User} from './user';
-
-const TENNIS_CORPO_ACCESS_TOKEN_KEY = "tennisCorpoAccessToken";
-const TENNIS_CORPO_REFRESH_TOKEN_KEY = "tennisCorpoRefreshToken";
+import {LocalStorageService} from './local-storage.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -18,18 +16,20 @@ export class AuthenticationService {
   private clientId = environment.clientId;
   private clientPassword:string = environment.clientPassword;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private localStorageService: LocalStorageService
+              ) { }
 
   setConnectedUser(user:User){
       if (user){
           this.connectedUser = user;
       }
   }
-  
+
   getConnectedUser():User{
       return this.connectedUser;
   }
-  
+
   isConnected():boolean{
       return this.connectedUser!=null;
   }
@@ -52,17 +52,17 @@ export class AuthenticationService {
   }
 
   disconnect() {
-      localStorage.removeItem(TENNIS_CORPO_ACCESS_TOKEN_KEY);
-      localStorage.removeItem(TENNIS_CORPO_REFRESH_TOKEN_KEY);
+      this.localStorageService.removeAccessToken();
+      this.localStorageService.removeRefreshToken();
       this.connectedUser=null;
   }
 
   getAccessToken():string{
-    return localStorage.getItem(TENNIS_CORPO_ACCESS_TOKEN_KEY);
+    return this.localStorageService.getAccessToken();
   }
 
   getRefreshToken():string{
-    return localStorage.getItem(TENNIS_CORPO_REFRESH_TOKEN_KEY);
+    return this.localStorageService.getRefreshToken();
   }
 
   private getHttpOptionsForTokenRequest(){
@@ -94,19 +94,19 @@ export class AuthenticationService {
          return result;
        })
   }
-  
+
   /**
    * Permet de stocker le token d'acces aux ressources
    */
   storeAccessToken(accessToken:string){
-      localStorage.setItem(TENNIS_CORPO_ACCESS_TOKEN_KEY,accessToken);
+      this.localStorageService.storeAccessToken(accessToken);
   }
-  
+
   /**
    * Permet de stocker le token de rafraichissement
    */
   storeRefreshToken(refreshToken:string){
-      localStorage.setItem(TENNIS_CORPO_REFRESH_TOKEN_KEY,refreshToken);
+      this.localStorageService.storeRefreshToken(refreshToken);
   }
 
 }

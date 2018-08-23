@@ -1,5 +1,3 @@
-export const TENNIS_CORPO_CHAMPIONSHIP_KEY = "tennisCorpoChampionship";
-
 export class Championnat {
     id: number;
     annee: number;
