@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import {AuthenticationService} from './authentication.service';
 
 import { Membre } from './membre';
 import { MEMBRES } from './mock-members';
@@ -11,7 +12,7 @@ import { MEMBRES } from './mock-members';
 @Injectable()
 export class MembreService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
 
   getMembres(clubId:number): Observable<Membre[]> {
     return this.http.get<Membre[]>(environment.publicApiUrl + "/membres" + (clubId!=null?("?clubId="+clubId):""));
@@ -21,36 +22,20 @@ export class MembreService {
     return this.http.get("http://localhost:9100/api/testRapport",{responseType: 'blob'});
   }
 
-  searchMembres(nomPrenom:string): Observable<Membre[]> {
-      return of(MEMBRES.filter(membre =>
-            membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
-         || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase())));
-  }
-
-  getMembre(id: number): Observable<Membre> {
-//    return this.http.get<Player>(`${this.playersUrl}/${id}`)
-//      .pipe(
-//          tap(_ => this.log(`fetched player id = ${id} from server`)),
-//          catchError(this.handleError<Player>(`getPlayer id=${id}`))
-//      );
-      return of(MEMBRES.find(membre => membre.id === id));
-  }
-
-
   ajoutMembre(membre:Membre){
-    return this.http.post<Membre>(environment.publicApiUrl + "/membre",membre);
+    return this.http.post<Membre>(environment.privateApiUrl + "/membre",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   updateMembreInfosGenerales(membre:Membre){
-      return this.http.put<Membre>(environment.publicApiUrl + "/membre/" + membre.id + "/infosGenerales",membre);
+      return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/infosGenerales",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   updateClubInfos(membre:Membre){
-      return this.http.put<Membre>(environment.publicApiUrl + "/membre/" + membre.id + "/clubInfos",membre);
+      return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/clubInfos",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   updateInfosAft(membre:Membre){
-      return this.http.put<Membre>(environment.publicApiUrl + "/membre/" + membre.id + "/infosAft",membre);
+      return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/infosAft",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
 

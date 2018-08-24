@@ -46,7 +46,6 @@ export class MembreDetailComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    //this.getMembre();
   }
 
   private _membre: Membre;
@@ -169,7 +168,7 @@ export class MembreDetailComponent implements OnInit {
 
         clubInfosDialogRef.afterClosed().subscribe();
     }
-    
+
     ouvrirCoordonnees(){
 
         let coordonneesDialogRef = this.dialog.open(CoordonneesDialog, {
@@ -179,7 +178,7 @@ export class MembreDetailComponent implements OnInit {
         coordonneesDialogRef.afterClosed().subscribe();
 
     }
-    
+
     ouvrirContacts(){
 
         let contactsDialogRef = this.dialog.open(ContactsDialog, {
@@ -209,12 +208,6 @@ export class MembreDetailComponent implements OnInit {
             this.refreshClassement();
         });
     }
-
-  getMembre(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.membreService.getMembre(id)
-      .subscribe(membre => this.membre = membre);
-  }
 
   goBack():void{
 //    this.router.navigate(['/membres',{filtreNomPrenom:'ceci est un test'}]);
@@ -405,9 +398,9 @@ export class ClubInfosDialog {
   templateUrl: './coordonneesDialog.html',
 })
 export class CoordonneesDialog {
-    
+
    private _membre:Membre;
-   
+
   constructor(
     public dialogRef: MatDialogRef<CoordonneesDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -419,7 +412,7 @@ export class CoordonneesDialog {
   cancel(): void {
     this.dialogRef.close();
   }
-  
+
   save(): void {
 
 
@@ -433,9 +426,9 @@ export class CoordonneesDialog {
   templateUrl: './contactsDialog.html',
 })
 export class ContactsDialog {
-    
+
    private _membre:Membre;
-   
+
   constructor(
     public dialogRef: MatDialogRef<ContactsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -447,7 +440,7 @@ export class ContactsDialog {
   cancel(): void {
     this.dialogRef.close();
   }
-  
+
   save(): void {
 
 
