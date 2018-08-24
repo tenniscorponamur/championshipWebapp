@@ -5,6 +5,7 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
 import {compare, addLeadingZero} from '../utility';
 import {MatchService} from '../match.service';
 import {RencontreService} from '../rencontre.service';
+import {AuthenticationService} from '../authentication.service';
 import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
 import {MembreService} from '../membre.service';
 import {SetService} from '../set.service';
@@ -30,6 +31,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     constructor(public dialog: MatDialog,
         private rencontreService:RencontreService,
         private matchService: MatchService,
+        private authenticationService: AuthenticationService,
         private setService: SetService) {
         super();
     }
@@ -50,6 +52,18 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     get rencontre(): Rencontre {return this._rencontre;}
+
+    isAdminConnected(){
+        return this.authenticationService.isAdminUserConnected();
+    }
+
+    get boxClass(): string{
+      if (this.isAdminConnected()){
+        return "myBox myBoxEditable";
+      }else{
+        return "myBox";
+      }
+    }
 
     getMatchs() {
 
@@ -157,12 +171,13 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     setValidite(validite:boolean){
+      if (this.isAdminConnected()){
           this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => this.rencontre.valide=validity,error=> console.log(error));
-
+      }
     }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
-
+      if (this.isAdminConnected()){
         let club;
         if (indexEquipe == 1) {
             club = this.rencontre.equipeVisites.club;
@@ -194,6 +209,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
             }
         });
+      }
     }
 
     sauverMatch(match: Match) {
@@ -210,13 +226,15 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ouvrirDateTerrain(){
+      if (this.isAdminConnected()){
         let dateTerrainDialogRef = this.dialog.open(DateTerrainDialog, {
             data: {rencontre: this.rencontre}, panelClass: "dateTerrainDialog", disableClose:true
         });
+      }
     }
 
     ouvrirResultats(matchExtended: MatchExtended) {
-
+      if (this.isAdminConnected()){
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
             data: {matchExtended: matchExtended}, panelClass: "resultatsDialog", disableClose:true
         });
@@ -226,7 +244,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
                 this.refreshRencontre();
             }
         });
-
+      }
     }
 
     refreshRencontre() {
