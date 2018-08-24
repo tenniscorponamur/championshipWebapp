@@ -10,12 +10,15 @@ import { Location } from '@angular/common';
 import {MembreService} from '../membre.service';
 import {ClassementMembreService} from '../classement-membre.service';
 import {AuthenticationService} from '../authentication.service';
+import {LocaliteService} from '../localite.service';
 import {Club} from '../club';
+import {Localite} from '../localite';
 import {ClassementCorpo} from '../classementCorpo';
 import {ClassementAFT} from '../classementAFT';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {ClubService} from '../club.service';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-membre-detail',
@@ -418,17 +421,65 @@ export class ClubInfosDialog {
   selector: 'coordonnees-dialog',
   templateUrl: './coordonneesDialog.html',
 })
-export class CoordonneesDialog {
+export class CoordonneesDialog implements OnInit {
 
+  localiteControl = new FormControl();
+  codePostalControl = new FormControl();
    private _membre:Membre;
+
+   localites:Localite[]=[];
+   codesPostaux:Localite[]=[];
+
+   filteredLocalitesWithLocalite:Observable<Localite[]>;
+   filteredLocalitesWithCodePostal:Observable<Localite[]>;
 
   constructor(
     public dialogRef: MatDialogRef<CoordonneesDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private membreService: MembreService
+    private membreService: MembreService,
+    private localiteService: LocaliteService
     ) {
         this._membre = data.membre;
+        this.localiteService.getLocalites().subscribe(localites => {
+          this.localites = localites.sort((a,b) => compare(a.nomLocalite,b.nomLocalite,true));
+          this.codesPostaux = localites.sort((a,b) => compare(a.codePostal,b.codePostal,true));
+        }
+        );
     }
+
+  ngOnInit() {
+    this.filteredLocalitesWithLocalite = this.localiteControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterWithLocalite(value))
+      );
+
+    this.filteredLocalitesWithCodePostal = this.codePostalControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterWithCodePostal(value))
+      );
+
+
+  }
+
+  private _filterWithLocalite(value: string): Localite[] {
+    const filterValue = value.toLowerCase();
+    return this.localites.filter(localite => {
+      return localite.nomLocalite.toLowerCase().includes(filterValue);
+    }
+    );
+  }
+
+  private _filterWithCodePostal(value: string): Localite[] {
+    const filterValue = value.toLowerCase();
+    return this.codesPostaux.filter(localite => {
+      return localite.codePostal.toLowerCase().startsWith(filterValue);
+    }
+    );
+  }
+
+
 
   cancel(): void {
     this.dialogRef.close();

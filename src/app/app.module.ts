@@ -38,6 +38,7 @@ import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, Club
 /* Services */
 import { AuthenticationService } from './authentication.service';
 import { LocalStorageService } from './local-storage.service';
+import { LocaliteService } from './localite.service';
 import { ChampionnatService } from './championnat.service';
 import { ClubService } from './club.service';
 import { MembreService } from './membre.service';
@@ -184,6 +185,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     TerrainService,
     UserService,
     AuthGuardService,
+    LocaliteService,
     LocalStorageService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService,multi: true},

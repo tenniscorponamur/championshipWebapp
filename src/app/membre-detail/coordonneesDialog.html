@@ -1,6 +1,24 @@
 <h1 mat-dialog-title>Coordonnées<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content >
-    
+
+  <mat-form-field >
+    <input type="text" placeholder="Code postal" matInput [formControl]="codePostalControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let localite of filteredLocalitesWithCodePostal | async" [value]="localite.codePostal">
+        {{localite.codePostal}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field >
+    <input type="text" placeholder="Commune" matInput [formControl]="localiteControl" [matAutocomplete]="autoLocalite">
+    <mat-autocomplete #autoLocalite="matAutocomplete">
+      <mat-option *ngFor="let localite of filteredLocalitesWithLocalite | async" [value]="localite.nomLocalite">
+        {{localite.nomLocalite}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
     <div align="center">
         <button class="btn btn-danger" (click)="cancel();">Annuler</button>
         <button class="btn btn-success" (click)="save();">Sauver</button>
