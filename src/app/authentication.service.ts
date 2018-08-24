@@ -34,6 +34,16 @@ export class AuthenticationService {
       return this.connectedUser!=null;
   }
 
+  isAdminUserConnected(){
+    if (this.connectedUser!=null){
+      let adminRole = this.connectedUser.roles.find(role => role=="ADMIN_USER");
+      if (adminRole!=null){
+        return true;
+      }
+    }
+    return false;
+  }
+
   getPublicApiHttpOptions(){
       return {
       headers: new HttpHeaders(
@@ -43,12 +53,19 @@ export class AuthenticationService {
   }
 
   getPrivateApiHttpOptions(){
+    if (this.getAccessToken()!=null){
+        return {
+          headers: new HttpHeaders(
+            {'Content-Type': 'application/json','Authorization': 'Bearer ' + this.getAccessToken()}
+            )
+        };
+    }else{
       return {
-      headers: new HttpHeaders(
-        {'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + this.getAccessToken()}
-        )
-    };
+          headers: new HttpHeaders(
+            {'Content-Type': 'application/json'}
+            )
+        };
+    }
   }
 
   disconnect() {

@@ -73,6 +73,7 @@ export class AppComponent implements OnInit {
         // Recuperation des informations de l'utilisateur
         this.userService.getCurrentUser().subscribe(user => {
             this.authenticationService.setConnectedUser(user);
+            this.router.navigate(['/home']);
           });
       }else{
         //console.log('La fenetre de login a ete fermee sans connexion');

@@ -109,7 +109,7 @@
                   </div>
 
                 </div>
-                <div align="right" style="margin-top:10px;">
+                <div *ngIf="isAdminConnected()" align="right" style="margin-top:10px;">
                     <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
                 </div>
             </div>

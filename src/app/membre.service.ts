@@ -15,7 +15,7 @@ export class MembreService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
 
   getMembres(clubId:number): Observable<Membre[]> {
-    return this.http.get<Membre[]>(environment.publicApiUrl + "/membres" + (clubId!=null?("?clubId="+clubId):""));
+    return this.http.get<Membre[]>(environment.publicApiUrl + "/membres" + (clubId!=null?("?clubId="+clubId):""), this.authenticationService.getPrivateApiHttpOptions());
   }
 
   getRapportMembres() {

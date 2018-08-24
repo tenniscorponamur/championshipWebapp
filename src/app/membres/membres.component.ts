@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { NgClass, DatePipe } from '@angular/common';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
+import {AuthenticationService} from '../authentication.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import {InfosGeneralesMembreDialog} from '../membre-detail/membre-detail.component';
 import {Observable} from 'rxjs/Observable';
@@ -59,6 +60,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   constructor(public media: RxResponsiveService,
     private membreService:MembreService,
     private clubService:ClubService,
+    private authenticationService: AuthenticationService,
     public dialog: MatDialog) {
       this.clubCtrl = new FormControl();
       this.clubs = this.clubService.getClubs();
@@ -66,6 +68,10 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
       this.membreService.getMembres(null).subscribe(membres => {this.sortedMembers = membres; this.sortData(this.actualSort);});
+  }
+
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
   }
 
   testRapport(){

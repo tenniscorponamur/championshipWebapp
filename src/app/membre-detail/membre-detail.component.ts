@@ -9,6 +9,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {MembreService} from '../membre.service';
 import {ClassementMembreService} from '../classement-membre.service';
+import {AuthenticationService} from '../authentication.service';
 import {Club} from '../club';
 import {ClassementCorpo} from '../classementCorpo';
 import {ClassementAFT} from '../classementAFT';
@@ -41,9 +42,11 @@ export class MembreDetailComponent implements OnInit {
     private router: Router,
     private membreService: MembreService,
     private classementMembreService: ClassementMembreService,
+    private authenticationService: AuthenticationService,
     private location: Location,
     public dialog: MatDialog
-    ) { }
+    ) {
+     }
 
   ngOnInit() {
   }
@@ -58,6 +61,18 @@ export class MembreDetailComponent implements OnInit {
   }
 
   get membre(): Membre { return this._membre; }
+
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
+  }
+
+  get boxClass(): string{
+    if (this.isAdminConnected()){
+      return "myBox myBoxEditable";
+    }else{
+      return "myBox";
+    }
+  }
 
   refreshUserImage(){
     if (this._membre) {
@@ -152,54 +167,59 @@ export class MembreDetailComponent implements OnInit {
   }
 
   ouvrirInfosGenerales() {
-    let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
-      data: { membre: this.membre }, panelClass: "infosGeneralesMembreDialog", disableClose:true
-    });
+    if (this.isAdminConnected()){
+      let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
+        data: { membre: this.membre }, panelClass: "infosGeneralesMembreDialog", disableClose:true
+      });
 
-    membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
-      this.refreshUserImage();
-    });
+      membreInfosGeneralesDialogRef.afterClosed().subscribe(result => {
+        this.refreshUserImage();
+      });
+    }
   }
 
     ouvrirClub() {
-        let clubInfosDialogRef = this.dialog.open(ClubInfosDialog, {
-          data: { membre: this.membre }, panelClass: "clubInfosDialog", disableClose:true
-        });
+      if (this.isAdminConnected()){
+          let clubInfosDialogRef = this.dialog.open(ClubInfosDialog, {
+            data: { membre: this.membre }, panelClass: "clubInfosDialog", disableClose:true
+          });
 
-        clubInfosDialogRef.afterClosed().subscribe();
+          clubInfosDialogRef.afterClosed().subscribe();
+      }
     }
 
     ouvrirCoordonnees(){
+      if (this.isAdminConnected()){
+          let coordonneesDialogRef = this.dialog.open(CoordonneesDialog, {
+            data: { membre: this.membre }, panelClass: "coordonneesDialog", disableClose:true
+          });
 
-        let coordonneesDialogRef = this.dialog.open(CoordonneesDialog, {
-          data: { membre: this.membre }, panelClass: "coordonneesDialog", disableClose:true
-        });
-
-        coordonneesDialogRef.afterClosed().subscribe();
-
+          coordonneesDialogRef.afterClosed().subscribe();
+      }
     }
 
     ouvrirContacts(){
-
+      if (this.isAdminConnected()){
         let contactsDialogRef = this.dialog.open(ContactsDialog, {
           data: { membre: this.membre }, panelClass: "contactsDialog", disableClose:true
         });
 
         contactsDialogRef.afterClosed().subscribe();
-
+      }
     }
 
     ouvrirInfosAft(){
-
+      if (this.isAdminConnected()){
         let infosAftDialogRef = this.dialog.open(InfosAftDialog, {
           data: { membre: this.membre }, panelClass: "infosAftDialog", disableClose:true
         });
 
         infosAftDialogRef.afterClosed().subscribe();
-
+      }
     }
 
     ouvrirClassement(){
+      if (this.isAdminConnected()){
         let classementDialogRef = this.dialog.open(ClassementDialog, {
           data: { membre: this.membre }, panelClass: "classementDialog", disableClose:true
         });
@@ -207,6 +227,7 @@ export class MembreDetailComponent implements OnInit {
         classementDialogRef.afterClosed().subscribe(result => {
             this.refreshClassement();
         });
+      }
     }
 
   goBack():void{
