@@ -2,17 +2,12 @@
 <div mat-dialog-content >
 
   <mat-form-field >
-    <input type="text" placeholder="Code postal" matInput [formControl]="codePostalControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let localite of filteredLocalitesWithCodePostal | async" [value]="localite.codePostal">
-        {{localite.codePostal}}
-      </mat-option>
-    </mat-autocomplete>
+    <input type="text" placeholder="Code postal" matInput [(ngModel)]="_codePostal" (keyup.enter)="codePostalChanged();" (blur)="codePostalChanged();">
   </mat-form-field>
-
+<br/>
   <mat-form-field >
-    <input type="text" placeholder="Commune" matInput [formControl]="localiteControl" [matAutocomplete]="autoLocalite">
-    <mat-autocomplete #autoLocalite="matAutocomplete">
+    <input type="text" placeholder="Commune" matInput [(ngModel)]="_localite" [formControl]="localiteControl" [matAutocomplete]="autoLocalite" >
+    <mat-autocomplete #autoLocalite="matAutocomplete" (optionSelected)="localiteSelected();" >
       <mat-option *ngFor="let localite of filteredLocalitesWithLocalite | async" [value]="localite.nomLocalite">
         {{localite.nomLocalite}}
       </mat-option>

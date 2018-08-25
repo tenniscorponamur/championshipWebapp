@@ -19,6 +19,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {ClubService} from '../club.service';
 import {map, startWith} from 'rxjs/operators';
+import {of} from 'rxjs/observable/of';
 
 @Component({
   selector: 'app-membre-detail',
@@ -427,11 +428,11 @@ export class CoordonneesDialog implements OnInit {
   codePostalControl = new FormControl();
    private _membre:Membre;
 
+    _codePostal:string;
+    _localite:string;
    localites:Localite[]=[];
-   codesPostaux:Localite[]=[];
 
    filteredLocalitesWithLocalite:Observable<Localite[]>;
-   filteredLocalitesWithCodePostal:Observable<Localite[]>;
 
   constructor(
     public dialogRef: MatDialogRef<CoordonneesDialog>,
@@ -442,9 +443,22 @@ export class CoordonneesDialog implements OnInit {
         this._membre = data.membre;
         this.localiteService.getLocalites().subscribe(localites => {
           this.localites = localites.sort((a,b) => compare(a.nomLocalite,b.nomLocalite,true));
-          this.codesPostaux = localites.sort((a,b) => compare(a.codePostal,b.codePostal,true));
         }
         );
+    }
+    
+    codePostalChanged(){
+        this._localite='';
+    }
+    
+    localiteSelected(){
+        if (this._codePostal == null || this._codePostal == undefined || this._codePostal == ''){
+            let localite:Localite = this.localites.find(localite => localite.nomLocalite == this._localite);
+            if (localite!=null){
+                this._codePostal=localite.codePostal;
+            }
+        }
+        
     }
 
   ngOnInit() {
@@ -453,40 +467,24 @@ export class CoordonneesDialog implements OnInit {
         startWith(''),
         map(value => this._filterWithLocalite(value))
       );
-
-    this.filteredLocalitesWithCodePostal = this.codePostalControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterWithCodePostal(value))
-      );
-
-
   }
 
   private _filterWithLocalite(value: string): Localite[] {
     const filterValue = value.toLowerCase();
     return this.localites.filter(localite => {
-      return localite.nomLocalite.toLowerCase().includes(filterValue);
+        return localite.nomLocalite.toLowerCase().includes(filterValue) 
+            && (this._codePostal==null || this._codePostal==undefined || this._codePostal=='' || localite.codePostal == this._codePostal);
     }
     );
   }
-
-  private _filterWithCodePostal(value: string): Localite[] {
-    const filterValue = value.toLowerCase();
-    return this.codesPostaux.filter(localite => {
-      return localite.codePostal.toLowerCase().startsWith(filterValue);
-    }
-    );
-  }
-
-
 
   cancel(): void {
     this.dialogRef.close();
   }
 
   save(): void {
-
+      console.log(this._codePostal);
+      console.log(this._localite);
 
   }
 
