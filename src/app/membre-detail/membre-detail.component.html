@@ -35,7 +35,17 @@
           <div class="myBoxContent">
               <span *ngIf="membre.club">{{membre.club.nom}}</span>
               <span *ngIf="!membre.club"><em>Aucun club</em></span>
+              <span *ngIf="membre.responsableClub" ><i class="fa fa-fort-awesome" aria-hidden="true"></i></span>
               <span *ngIf="membre.capitaine" ><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                Affiliation : {{membre.dateAffiliationCorpo | date:'dd/MM/yyyy'}}
+              </div>
+              <div *ngIf="membre.numeroClubAft" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                Désaffiliation : {{membre.dateDesaffiliationCorpo | date:'dd/MM/yyyy'}}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -86,19 +96,17 @@
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 Numéro AFT : {{membre.numeroAft}}
               </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                Date d'affiliation : {{membre.dateAffiliationAft| date:'dd/MM/yyyy'}}
-              </div>
-            </div>
-            <div class="row">
               <div *ngIf="membre.numeroClubAft" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 Club AFT : {{membre.numeroClubAft}}
               </div>
-
+              <!--<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">-->
+                <!--Date d'affiliation : {{membre.dateAffiliationAft| date:'dd/MM/yyyy'}}-->
+              <!--</div>-->
+            </div>
+            <div class="row">
               <div *ngIf="membre.onlyCorpo" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 Corpo uniquement
               </div>
-
             </div>
 
           </div>

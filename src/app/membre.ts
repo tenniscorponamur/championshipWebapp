@@ -11,6 +11,9 @@ export class Membre {
   genre: string;
   club:Club;
   capitaine: boolean;
+  responsableClub: boolean;
+  dateAffiliationCorpo: Date;
+  dateDesaffiliationCorpo: Date;
   numeroAft: string;
   numeroClubAft: string;
   dateAffiliationAft: Date;

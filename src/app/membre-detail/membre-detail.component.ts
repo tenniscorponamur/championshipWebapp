@@ -369,7 +369,10 @@ export class ClubInfosDialog {
   clubs:Observable<Club[]>;
 
     _clubId:number;
+    _responsableClub:boolean=false;
     _capitaine:boolean=false;
+    _dateAffiliationCorpo:Date;
+    _dateDesaffiliationCorpo:Date;
     private _membre:Membre;
 
   constructor(
@@ -384,6 +387,15 @@ export class ClubInfosDialog {
 
         this._membre = data.membre;
         this._capitaine = this._membre.capitaine;
+        this._responsableClub = this._membre.responsableClub;
+        // Si le membre n'a pas encore de club precise, on va definir la date du jour
+        // comme date d'affiliation
+        if (this._membre.club==null){
+          this._dateAffiliationCorpo = new Date();
+        }else{
+          this._dateAffiliationCorpo = this._membre.dateAffiliationCorpo;
+        }
+        this._dateDesaffiliationCorpo = this._membre.dateDesaffiliationCorpo;
         if (this._membre.club){
           this._clubId = this._membre.club.id;
         }
@@ -396,6 +408,26 @@ export class ClubInfosDialog {
   save(): void {
       if (this._membre.id){
           this._membre.capitaine = this._capitaine;
+          this._membre.responsableClub = this._responsableClub;
+
+        if (this._dateAffiliationCorpo!=null){
+          this._membre.dateAffiliationCorpo = new Date(this._dateAffiliationCorpo);
+        }else{
+          this._membre.dateAffiliationCorpo = null;
+        }
+        if (this._membre.dateAffiliationCorpo!=null){
+          this._membre.dateAffiliationCorpo.setHours(12);
+        }
+
+        if (this._dateDesaffiliationCorpo!=null){
+          this._membre.dateDesaffiliationCorpo = new Date(this._dateDesaffiliationCorpo);
+        }else{
+          this._membre.dateDesaffiliationCorpo = null;
+        }
+        if (this._membre.dateDesaffiliationCorpo!=null){
+          this._membre.dateDesaffiliationCorpo.setHours(12);
+        }
+
           if (this._clubId){
             this.clubService.getClub(this._clubId).subscribe(club => {
                 this._membre.club=club;
@@ -446,11 +478,11 @@ export class CoordonneesDialog implements OnInit {
         }
         );
     }
-    
+
     codePostalChanged(){
         this._localite='';
     }
-    
+
     localiteSelected(){
         if (this._codePostal == null || this._codePostal == undefined || this._codePostal == ''){
             let localite:Localite = this.localites.find(localite => localite.nomLocalite == this._localite);
@@ -458,7 +490,7 @@ export class CoordonneesDialog implements OnInit {
                 this._codePostal=localite.codePostal;
             }
         }
-        
+
     }
 
   ngOnInit() {
@@ -472,7 +504,7 @@ export class CoordonneesDialog implements OnInit {
   private _filterWithLocalite(value: string): Localite[] {
     const filterValue = value.toLowerCase();
     return this.localites.filter(localite => {
-        return localite.nomLocalite.toLowerCase().includes(filterValue) 
+        return localite.nomLocalite.toLowerCase().includes(filterValue)
             && (this._codePostal==null || this._codePostal==undefined || this._codePostal=='' || localite.codePostal == this._codePostal);
     }
     );
