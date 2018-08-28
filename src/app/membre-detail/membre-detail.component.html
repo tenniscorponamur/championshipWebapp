@@ -78,9 +78,17 @@
             Contacts<span *ngIf="isAdminConnected()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
-            <a href="mailto:thomas.dupont@machin.com">thomas.dupont@machin.com</a>
-            <br />
-            <a href="tel:0123253664">0123/25/36.64</a>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <span *ngIf="membre.mail"><i class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{membre.mail}}">{{membre.mail}}</a></span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-right">
+                <span *ngIf="membre.gsm"><i class="fa fa-mobile"></i>&nbsp;<a href="tel:{{membre.gsm}}">{{membre.gsm}}</a></span>
+              </div>
+              <div *ngIf="membre.telephone" class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+                <span *ngIf="membre.telephone"><i class="fa fa-phone"></i>&nbsp;<a href="tel:{{membre.telephone}}">{{membre.telephone}}</a></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

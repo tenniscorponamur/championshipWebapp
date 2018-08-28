@@ -571,6 +571,9 @@ export class CoordonneesDialog implements OnInit {
 export class ContactsDialog {
 
    private _membre:Membre;
+   _telephone:string;
+   _gsm:string;
+   _mail:string;
 
   constructor(
     public dialogRef: MatDialogRef<ContactsDialog>,
@@ -578,6 +581,9 @@ export class ContactsDialog {
     private membreService: MembreService
     ) {
         this._membre = data.membre;
+        this._telephone=this._membre.telephone;
+        this._gsm=this._membre.gsm;
+        this._mail=this._membre.mail;
     }
 
   cancel(): void {
@@ -586,6 +592,15 @@ export class ContactsDialog {
 
   save(): void {
 
+        this._membre.telephone=this._telephone;
+        this._membre.gsm=this._gsm;
+        this._membre.mail=this._mail;
+
+        //Mise a jour des coordonnees du membre
+        this.membreService.updateContacts(this._membre).subscribe(
+            result => {
+                this.dialogRef.close(this._membre);
+         });
 
   }
 
