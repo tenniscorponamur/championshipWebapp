@@ -1,20 +1,70 @@
 <h1 mat-dialog-title>Coordonnées<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content >
 
-  <mat-form-field >
-    <input type="text" placeholder="Code postal" matInput [(ngModel)]="_codePostal" (keyup.enter)="codePostalChanged();" (blur)="codePostalChanged();">
-  </mat-form-field>
-<br/>
-  <mat-form-field >
-    <input type="text" placeholder="Commune" matInput [(ngModel)]="_localite" [formControl]="localiteControl" [matAutocomplete]="autoLocalite" >
-    <mat-autocomplete #autoLocalite="matAutocomplete" (optionSelected)="localiteSelected();" >
-      <mat-option *ngFor="let localite of filteredLocalitesWithLocalite | async" [value]="localite.nomLocalite">
-        {{localite.nomLocalite}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <div class="coordonnees-form" >
 
-    <div align="center">
+    <div class="row">
+      <div class="col-12">
+
+        <mat-form-field>
+          <input type="text" placeholder="Code postal" matInput [(ngModel)]="_codePostal" (keyup.enter)="codePostalChanged();" (blur)="codePostalChanged();">
+        </mat-form-field>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+
+        <mat-form-field class="coordonnees-full-width">
+          <input type="text" placeholder="Commune" matInput [(ngModel)]="_localite" [formControl]="localiteControl" [matAutocomplete]="autoLocalite" >
+          <mat-autocomplete #autoLocalite="matAutocomplete" (optionSelected)="localiteSelected();" >
+            <mat-option *ngFor="let localite of filteredLocalites | async" [value]="localite.nomLocalite">
+              {{localite.nomLocalite}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+
+        <mat-form-field class="coordonnees-full-width">
+          <input type="text" placeholder="Rue" matInput [(ngModel)]="_rue" [formControl]="rueControl" [matAutocomplete]="autoRue" >
+          <mat-autocomplete #autoRue="matAutocomplete" >
+            <mat-option *ngFor="let rue of filteredRues | async" [value]="rue">
+              {{rue}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+
+        <mat-form-field>
+          <input type="text" placeholder="Numéro" matInput [(ngModel)]="_rueNumero" >
+        </mat-form-field>
+
+      </div>
+        <div class="col-6">
+        <mat-form-field>
+          <input type="text" placeholder="Boite" matInput [(ngModel)]="_rueBoite" >
+        </mat-form-field>
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div align="center">
         <button class="btn btn-danger" (click)="cancel();">Annuler</button>
         <button class="btn btn-success" (click)="save();">Sauver</button>
     </div>

@@ -59,10 +59,12 @@
             Coordonnées<span *ngIf="isAdminConnected()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
-              <span>Rue de Tournicotis</span>
-              <span>123</span>
-              <span>1234</span>
-              <span>MACHINLAND</span>
+              <span>{{membre.rue}}</span>
+              <span>{{membre.rueNumero}}</span>
+              <span *ngIf="membre.rueBoite">/{{membre.rueBoite}}</span>
+              &nbsp;
+              <span>{{membre.codePostal}}</span>
+              <span>{{membre.localite|uppercase}}</span>
           </div>
         </div>
       </div>

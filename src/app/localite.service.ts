@@ -15,4 +15,8 @@ export class LocaliteService {
     return this.http.get<Localite[]>(environment.publicApiUrl + "/localites");
   }
 
+  getRuesByCodePostal(codePostal:string): Observable<string[]> {
+    return this.http.get<string[]>(environment.publicApiUrl + "/localite/" + codePostal + "/rues");
+  }
+
 }

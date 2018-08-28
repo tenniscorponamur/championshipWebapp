@@ -34,6 +34,14 @@ export class MembreService {
       return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/clubInfos",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
+  updateCoordonnees(membre:Membre){
+      return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/coordonnees",membre, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  updateContacts(membre:Membre){
+      return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/contacts",membre, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
   updateInfosAft(membre:Membre){
       return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/infosAft",membre, this.authenticationService.getPrivateApiHttpOptions());
   }

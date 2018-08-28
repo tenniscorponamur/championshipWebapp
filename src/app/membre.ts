@@ -20,4 +20,12 @@ export class Membre {
   onlyCorpo: boolean;
   classementCorpoActuel:ClassementCorpo;
   classementAFTActuel:ClassementAFT;
+  codePostal:string;
+  localite:string;
+  rue:string;
+  rueNumero:string;
+  rueBoite:string;
+  telephone:string;
+  gsm:string;
+  mail:string;
 }

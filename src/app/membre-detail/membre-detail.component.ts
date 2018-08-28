@@ -453,18 +453,25 @@ export class ClubInfosDialog {
 @Component({
   selector: 'coordonnees-dialog',
   templateUrl: './coordonneesDialog.html',
+  styleUrls: ['./coordonneesDialog.css']
 })
 export class CoordonneesDialog implements OnInit {
 
-  localiteControl = new FormControl();
-  codePostalControl = new FormControl();
+   localiteControl = new FormControl();
+   rueControl = new FormControl();
    private _membre:Membre;
 
-    _codePostal:string;
-    _localite:string;
-   localites:Localite[]=[];
+   _codePostal:string;
+   _localite:string;
+   _rue:string;
+   _rueNumero:string;
+   _rueBoite:string;
 
-   filteredLocalitesWithLocalite:Observable<Localite[]>;
+   localites:Localite[]=[];
+   rues:string[]=[];
+
+   filteredLocalites:Observable<Localite[]>;
+   filteredRues:Observable<string[]>;
 
   constructor(
     public dialogRef: MatDialogRef<CoordonneesDialog>,
@@ -473,6 +480,12 @@ export class CoordonneesDialog implements OnInit {
     private localiteService: LocaliteService
     ) {
         this._membre = data.membre;
+        this._codePostal=this._membre.codePostal;
+        this._localite=this._membre.localite;
+        this._rue=this._membre.rue;
+        this._rueNumero=this._membre.rueNumero;
+        this._rueBoite=this._membre.rueBoite;
+
         this.localiteService.getLocalites().subscribe(localites => {
           this.localites = localites.sort((a,b) => compare(a.nomLocalite,b.nomLocalite,true));
         }
@@ -481,6 +494,12 @@ export class CoordonneesDialog implements OnInit {
 
     codePostalChanged(){
         this._localite='';
+        if (this._codePostal != null && this._codePostal != undefined && this._codePostal != ''){
+          this.localiteService.getRuesByCodePostal(this._codePostal).subscribe(rues => {
+            this.rues = rues.sort((a,b) => compare(a,b,true));
+          }
+          );
+        }
     }
 
     localiteSelected(){
@@ -494,11 +513,16 @@ export class CoordonneesDialog implements OnInit {
     }
 
   ngOnInit() {
-    this.filteredLocalitesWithLocalite = this.localiteControl.valueChanges
+    this.filteredLocalites = this.localiteControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterWithLocalite(value))
       );
+    this.filteredRues = this.rueControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterWithRue(value))
+          );
   }
 
   private _filterWithLocalite(value: string): Localite[] {
@@ -510,14 +534,31 @@ export class CoordonneesDialog implements OnInit {
     );
   }
 
+  private _filterWithRue(value: string): string[] {
+    const filterValue = value.toLowerCase();
+      return this.rues.filter(rue => {
+          return rue.toLowerCase().includes(filterValue);
+        }
+      );
+  }
+
+
   cancel(): void {
     this.dialogRef.close();
   }
 
   save(): void {
-      console.log(this._codePostal);
-      console.log(this._localite);
+        this._membre.codePostal=this._codePostal;
+        this._membre.localite=this._localite;
+        this._membre.rue=this._rue;
+        this._membre.rueNumero=this._rueNumero;
+        this._membre.rueBoite=this._rueBoite;
 
+        //Mise a jour des coordonnees du membre
+        this.membreService.updateCoordonnees(this._membre).subscribe(
+            result => {
+                this.dialogRef.close(this._membre);
+         });
   }
 
 }
