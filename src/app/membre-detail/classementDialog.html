@@ -22,7 +22,7 @@
             <mat-form-field>
               <mat-select placeholder="Points" [(ngModel)]="classementCorpo.points" >
                 <mat-option *ngFor="let echelleCorpo of echellesCorpo" [value]="echelleCorpo.points">
-                  <small>{{ echelleCorpo.points }}</small>
+                  {{ echelleCorpo.points }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -59,7 +59,7 @@
           <mat-form-field>
             <mat-select placeholder="Classement" [(ngModel)]="classementAFT.codeClassement" >
               <mat-option *ngFor="let echelleAFT of echellesAFT" [value]="echelleAFT.code">
-                <small>{{ echelleAFT.code }} - {{ echelleAFT.points }} points</small>
+                {{ echelleAFT.code }} - {{ echelleAFT.points }} points
               </mat-option>
             </mat-select>
           </mat-form-field>
