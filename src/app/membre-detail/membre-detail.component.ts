@@ -369,6 +369,7 @@ export class ClubInfosDialog {
   clubs:Observable<Club[]>;
 
     _clubId:number;
+    _actif:boolean=true;
     _responsableClub:boolean=false;
     _capitaine:boolean=false;
     _dateAffiliationCorpo:Date;
@@ -386,6 +387,7 @@ export class ClubInfosDialog {
       this.clubs = this.clubService.getClubs();
 
         this._membre = data.membre;
+        this._actif = this._membre.actif;
         this._capitaine = this._membre.capitaine;
         this._responsableClub = this._membre.responsableClub;
         // Si le membre n'a pas encore de club precise, on va definir la date du jour
@@ -407,6 +409,7 @@ export class ClubInfosDialog {
 
   save(): void {
       if (this._membre.id){
+          this._membre.actif = this._actif;
           this._membre.capitaine = this._capitaine;
           this._membre.responsableClub = this._responsableClub;
 

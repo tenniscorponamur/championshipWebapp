@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> 
 
     <div class="row">
 
@@ -33,11 +33,17 @@
             Club<span *ngIf="isAdminConnected()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
+            <div class="row">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <span *ngIf="membre.club">{{membre.club.nom}}</span>
               <span *ngIf="!membre.club"><em>Aucun club</em></span>
               <span *ngIf="membre.responsableClub" ><i class="fa fa-fort-awesome" aria-hidden="true"></i></span>
               <span *ngIf="membre.capitaine" ><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
-
+              </div>
+              <div *ngIf="!membre.actif" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <span style="color:red;font-weight:bold;">INACTIF</span>
+              </div>
+            </div>
             <div class="row">
               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 Affiliation : {{membre.dateAffiliationCorpo | date:'dd/MM/yyyy'}}
