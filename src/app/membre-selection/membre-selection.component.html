@@ -2,8 +2,10 @@
 <mat-form-field>
   <input matInput placeholder="Filter" [(ngModel)]="filtreNomPrenom" (keyup)="filtre()">
 </mat-form-field>
-<div *ngFor="let membre of filteredMembres" class="membreDiv" (click)="select(membre);">
-  <strong>{{membre.nom}}  {{membre.prenom}}</strong>
-    <br/>
-    <small>AFT : <span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span> / Corpo : <span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}} points</span></small>
+<div class="membreList">
+  <div *ngFor="let membre of filteredMembres" class="membreDiv" (click)="select(membre);">
+    <strong>{{membre.nom}}  {{membre.prenom}}</strong>
+      <br/>
+      <small>AFT : <span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span> / Corpo : <span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}} points</span></small>
+  </div>
 </div>
