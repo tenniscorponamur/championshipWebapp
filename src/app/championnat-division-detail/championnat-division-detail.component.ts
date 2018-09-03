@@ -186,7 +186,7 @@ export class ChampionnatDescriptionDialog {
     types = TYPES_CHAMPIONNAT;
     categories = CATEGORIES_CHAMPIONNAT;
 
-    _annee: number;
+    _annee: string;
     _type: string;
     _categorie: string;
 
@@ -217,7 +217,7 @@ export class ChampionnatDescriptionDialog {
         this.showAlertDoublon = false;
 
         // Verification de l'annee
-        if (this._annee) {
+        if (this._annee != null && this._annee != undefined && this._annee.trim()!='') {
             //this.showAlert=false;
         } else {
             this.showAlertNotNullable = true;

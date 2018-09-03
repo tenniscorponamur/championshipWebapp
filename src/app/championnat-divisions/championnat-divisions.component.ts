@@ -24,7 +24,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
 
     selectedType: TypeChampionnat;
     selectedCategories: CategorieChampionnat[];
-    annee: number;
+    annee: string;
 
     actualSort:Sort;
 
@@ -40,7 +40,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
         this.typeCtrl = new FormControl();
         this.categorieCtrl = new FormControl();
 
-        this.annee = new Date().getFullYear();
+        this.annee = new Date().getFullYear().toString();
         //this.selectedType = TYPE_CHAMPIONNAT_ETE;
         this.selectedCategories = [CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES];
     }
@@ -79,14 +79,15 @@ export class ChampionnatDivisionsComponent implements OnInit {
     this.filtre(this.annee,this.selectedType,this.selectedCategories);
   }
 
-    filtre(annee: number,selectedType:TypeChampionnat,selectedCategories:CategorieChampionnat[]): void {
+    filtre(annee: string,selectedType:TypeChampionnat,selectedCategories:CategorieChampionnat[]): void {
 
         this.filteredChampionnats = this.sortedChampionnats;
 
-        if (annee){
+        if (annee != null && annee != undefined && annee.trim()!='') {
 
             this.filteredChampionnats = this.filteredChampionnats.filter(championnat =>
-                championnat.annee == annee)
+                championnat.annee.includes(annee)
+            )
 
         }
 
@@ -111,7 +112,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
 
     nouveauChampionnat(){
         let nouveauChampionnat: Championnat = new Championnat();
-        nouveauChampionnat.annee=new Date().getFullYear();
+        nouveauChampionnat.annee = new Date().getFullYear().toString();
 
         let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
             data: { championnat: nouveauChampionnat }, panelClass: "championnatDescriptionDialog", disableClose:true
