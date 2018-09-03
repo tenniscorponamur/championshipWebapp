@@ -145,6 +145,14 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
     }
 
+    styleMembre(membre:Membre){
+        if (!membre.actif){
+            return "membreInactif";
+        }else{
+            return "";
+        }
+    }
+
     ouvrirMembre(membre:Membre):void{
       this.selectedMember=membre;
     }

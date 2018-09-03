@@ -39,7 +39,7 @@ export class ClassementDetailComponent implements OnInit {
 @Component({
   selector: 'rencontres-dialog',
   templateUrl: './rencontresDialog.html',
-  styles: [' .victoire{color:darkgreen;}.defaite{color:red;}']
+  styles: [' .victoire{color:green;}.defaite{color:red;}.matchNul{color:blue}']
 })
 export class RencontresDialog implements OnInit {
 
@@ -65,7 +65,7 @@ export class RencontresDialog implements OnInit {
           }else if (rencontre.pointsVisites < rencontre.pointsVisiteurs){
               return this.isVisites(rencontre)?"defaite":"victoire";
           }else{
-            return "font-weight:bold;"
+            return "matchNul";
           }
       }
     }
@@ -80,7 +80,7 @@ export class RencontresDialog implements OnInit {
           }else if (rencontre.pointsVisites < rencontre.pointsVisiteurs){
               return this.isVisites(rencontre)?"Défaite":"Victoire";
           }else{
-            return "Match nul;"
+            return "Match nul"
           }
       }
     }

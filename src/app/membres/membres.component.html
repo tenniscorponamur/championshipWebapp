@@ -97,12 +97,12 @@
                           </thead>
                           <tbody>
                               <tr *ngFor="let membre of filteredMembers" (click)="ouvrirMembre(membre);" class="text-left">
-                                  <td class="text-uppercase">{{membre.nom}}</td>
-                                  <td>{{membre.prenom}}</td>
+                                  <td class="text-uppercase {{styleMembre(membre)}}" >{{membre.nom}}</td>
+                                  <td class="{{styleMembre(membre)}}" >{{membre.prenom}}</td>
                                   <!--<td>{{membre.dateNaissance| date:'dd/MM/yyyy'}}</td>-->
-                                  <td><span *ngIf="membre.club">{{membre.club.nom}}</span></td>
-                                  <td><span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span></td>
-                                  <td><span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}}</span></td>
+                                  <td class="{{styleMembre(membre)}}"><span *ngIf="membre.club">{{membre.club.nom}}</span></td>
+                                  <td class="{{styleMembre(membre)}}"><span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span></td>
+                                  <td class="{{styleMembre(membre)}}"><span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}}</span></td>
                               </tr>
                           </tbody>
                       </table>

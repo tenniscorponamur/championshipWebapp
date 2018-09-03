@@ -3,10 +3,10 @@
   <div *ngFor="let rencontre of rencontres">
     <span class="{{getResultatClass(rencontre)}}" style="font-weight:bold;">{{getResultat(rencontre)}}</span>
     contre
-    <span *ngIf="rencontre.equipeVisites.id!=equipe.id">
+    <span style="font-weight: bold;" *ngIf="rencontre.equipeVisites.id!=equipe.id">
       {{rencontre.equipeVisites.codeAlphabetique}}
     </span>
-    <span *ngIf="rencontre.equipeVisiteurs.id!=equipe.id">
+    <span style="font-weight: bold;" *ngIf="rencontre.equipeVisiteurs.id!=equipe.id">
       {{rencontre.equipeVisiteurs.codeAlphabetique}}
     </span>
     :

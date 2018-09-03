@@ -1,6 +1,10 @@
 .membreTable:hover td{
   cursor:pointer;
 }
+
+.membreInactif{
+    color:red;
+}
 /*
 .mat-option{
     height:20px;
