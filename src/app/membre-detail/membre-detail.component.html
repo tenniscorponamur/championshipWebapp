@@ -45,10 +45,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <div *ngIf="membre.dateAffiliationCorpo" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 Affiliation : {{membre.dateAffiliationCorpo | date:'dd/MM/yyyy'}}
               </div>
-              <div *ngIf="membre.numeroClubAft" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <div *ngIf="membre.dateDesaffiliationCorpo" class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 Désaffiliation : {{membre.dateDesaffiliationCorpo | date:'dd/MM/yyyy'}}
               </div>
             </div>
