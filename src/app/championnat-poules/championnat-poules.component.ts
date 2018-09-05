@@ -105,23 +105,29 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
 
     addOnePoule(division: Division) {
+      if (!this.selectedChampionnat.calendrierValide){
         let poule = new Poule();
         poule.division = division;
         poule.numero = this.getNbPoulesInDivision(division) + 1;
         this.pouleService.ajoutPoule(division.id, poule).subscribe(newPoule => this.poules.push(newPoule));
+      }
     }
 
     removePoule(pouleToDelete: Poule) {
+      if (!this.selectedChampionnat.calendrierValide){
         this.pouleService.deletePoule(pouleToDelete).subscribe(result => {
             let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleToDelete.id);
             this.poules.splice(indexOfPoule, 1);
         });
+      }
     }
 
     changeTypeCalendrierPoule(poule: Poule){
+      if (!this.selectedChampionnat.calendrierValide){
         this.pouleService.updatePouleAllerRetour(poule.id, !poule.allerRetour).subscribe(result => {
             poule.allerRetour=!poule.allerRetour;
         });
+      }
     }
 
     getNbEquipesInChampionship() {
@@ -157,11 +163,11 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
 
     changePoule(equipe:Equipe){
-
+      if (!this.selectedChampionnat.calendrierValide){
         let changePouleDialogRef = this.dialog.open(ChangePouleDialog, {
             data: {equipe: equipe, poulesPossibles: this.getPoulesByDivision(equipe.division)}, panelClass: "changePouleDialog", disableClose:true
         });
-
+      }
     }
 
     ouvrirCapitaineEquipe(equipe:Equipe){

@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="pouleBox col-12">
                             <strong>Division {{division.numero}} - Poule {{poule.numero}} - {{getNbEquipesByPoule(poule)}} équipe(s)</strong>
-                            <span *ngIf="getNbEquipesByPoule(poule)==0" style="float:right">
+                            <span *ngIf="!selectedChampionnat.calendrierValide && getNbEquipesByPoule(poule)==0" style="float:right">
                                 <a (click)="removePoule(poule);" class="deletePouleButton"><i class="fa fa-trash" ></i></a>
                             </span>
                             <span style="float:right">
@@ -75,7 +75,7 @@
                                     <div class="teamBoxEditable" (click)="ouvrirTerrainEquipe(equipe);" >
                                       <small>Terrain : <span *ngIf="equipe.terrain">{{equipe.terrain.nom}}</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
-                                    <div *ngIf="getNbPoulesInDivision(division)>1" class="text-center" style="margin-top:5px">
+                                    <div *ngIf="!selectedChampionnat.calendrierValide && getNbPoulesInDivision(division)>1" class="text-center" style="margin-top:5px">
                                         <button class="btn btn-sm btn-primary" (click)="changePoule(equipe);">Changer poule</button>
                                     </div>
                                 </div>
@@ -87,32 +87,11 @@
 
                 </div>
 
-                <div class="col-12 text-right">
+                <div *ngIf="!selectedChampionnat.calendrierValide" class="col-12 text-right">
                     <button class="btn btn-sm btn-success" (click)="addOnePoule(division);">
                         <i class="fa fa-plus"></i>&nbsp;Ajouter une poule
                     </button>
                 </div>
-
-
-                <!--                <div *ngFor="let augmentedClub of augmentedClubs">
-                                    <div *ngIf="displayTeam(augmentedClub,division)" style="width:200px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:20px;padding-left:20px;padding-right:20px;margin:5px;">
-                                        <div class="text-right" style="float:right;padding-top:15px;" >
-                                            <span style="font-size:3em;">
-                                                <strong>{{getNbEquipesByClubAndDivision(augmentedClub.club,division)}}</strong>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <strong>{{augmentedClub.club.nom}}</strong><br/>{{getNbEquipesByClub(augmentedClub.club)}} équipe(s)
-                                        </div>
-                                        <span *ngIf="augmentedClub.selected" style="float:left;padding-top:5px;">
-                                            <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub.club,division);"><i class="fa fa-minus"></i></button>
-                                            <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(augmentedClub.club,division);"><i class="fa fa-plus"></i></button>
-                                        </span>
-                                        &nbsp;
-                                    </div>
-                                </div>
-                -->
-
 
             </div>
         </div>
