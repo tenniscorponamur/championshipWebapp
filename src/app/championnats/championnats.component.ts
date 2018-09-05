@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTabChangeEvent} from '@angular/material';
+import {ChampionnatDivisionsComponent} from '../championnat-divisions/championnat-divisions.component';
 import {ChampionnatEquipesComponent} from '../championnat-equipes/championnat-equipes.component';
 import {ChampionnatPoulesComponent} from '../championnat-poules/championnat-poules.component';
 import {Championnat} from '../championnat';
@@ -12,6 +13,9 @@ import {LocalStorageService} from '../local-storage.service';
     styleUrls: ['./championnats.component.css']
 })
 export class ChampionnatsComponent implements OnInit {
+
+    @ViewChild(ChampionnatDivisionsComponent)
+    private championnatDivisionsComponent: ChampionnatDivisionsComponent;
 
     @ViewChild(ChampionnatEquipesComponent)
     private championnatEquipesComponent: ChampionnatEquipesComponent;
@@ -53,8 +57,9 @@ export class ChampionnatsComponent implements OnInit {
     }
 
     refreshTab() {
-
-        if (this.selectedIndex == 1) {
+        if (this.selectedIndex == 0) {
+            this.championnatDivisionsComponent.refresh(this.selectedChampionnat,true);
+         }else if (this.selectedIndex == 1) {
             this.championnatEquipesComponent.refresh(this.selectedChampionnat,true);
         } else if (this.selectedIndex == 2) {
             this.championnatPoulesComponent.refresh(this.selectedChampionnat,true);

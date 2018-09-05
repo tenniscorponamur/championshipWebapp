@@ -1,7 +1,7 @@
 <div class="card tennisCorpoBox">
     <h4 class="card-header">
         Championnat
-        <span style="float:right">
+        <span *ngIf="!championnat.calendrierValide" style="float:right">
             <a (click)="supprimerChampionnat();" class="deleteChampionnatButton"><i class="fa fa-trash" ></i></a>
         </span>
     </h4>
@@ -20,9 +20,9 @@
             </div>
 
             <div class="col-10">
-                <div class="myBox myBoxEditable">
+                <div [ngClass]="boxClass">
                     <div class="myBoxTitle" (click)="ouvrirChampionnat();">
-                        Description<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+                        Description<span *ngIf="!championnat.calendrierValide" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
                     </div>
                     <div class="myBoxContent">
                         {{getTypeChampionnat(championnat).libelle}}
@@ -60,16 +60,16 @@
 
                                     <tr *ngFor="let division of divisions" class="text-left">
                                         <td>{{division.numero}}</td>
-                                        <td><input type="number" [(ngModel)]="division.pointsMinimum" step="5" style="width:5em" (keyup.enter)="pointsMinChanged(division);" (blur)="pointsMinChanged(division);" ></td>
-                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" step="5" style="width:5em" (keyup.enter)="pointsMaxChanged(division);" (blur)="pointsMaxChanged(division);"></td>
-                                        <td><button (click)="supprimerDivision(division);" class="deleteDivisionButton"><i class="fa fa-trash" ></i></button></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMinimum" step="5" disabled="{{championnat.calendrierValide}}" style="width:5em" (keyup.enter)="pointsMinChanged(division);" (blur)="pointsMinChanged(division);" ></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" step="5" disabled="{{championnat.calendrierValide}}" style="width:5em" (keyup.enter)="pointsMaxChanged(division);" (blur)="pointsMaxChanged(division);"></td>
+                                        <td><button *ngIf="!championnat.calendrierValide" (click)="supprimerDivision(division);" class="deleteDivisionButton"><i class="fa fa-trash" ></i></button></td>
                                     </tr>
 
                                 </tbody>
                             </table>
                         </div>
 
-                        <div align="right" style="margin-top:10px;">
+                        <div *ngIf="!championnat.calendrierValide" align="right" style="margin-top:10px;">
                             <button class="btn btn-secondary btn-sm" (click)="nouvelleDivision();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouvelle division</button>
                         </div>
 

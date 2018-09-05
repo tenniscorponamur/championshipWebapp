@@ -38,6 +38,14 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
     get championnat(): Championnat {return this._championnat;}
 
+    get boxClass(): string{
+      if (!this._championnat.calendrierValide){
+        return "myBox myBoxEditable";
+      }else{
+        return "myBox";
+      }
+    }
+
     refreshDivisions() {
         this.refreshStyles();
         this.divisionService.getDivisions(this._championnat.id).subscribe(divisions => {
@@ -79,88 +87,95 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
     }
 
     ouvrirChampionnat() {
-        let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
-            data: {championnat: this.championnat}, panelClass: "championnatDescriptionDialog", disableClose:true
-        });
+        if (!this._championnat.calendrierValide){
+          let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
+              data: {championnat: this.championnat}, panelClass: "championnatDescriptionDialog", disableClose:true
+          });
 
-        championnatDescriptionDialogRef.afterClosed().subscribe(result => {
-            this.refreshStyles();
-        });
+          championnatDescriptionDialogRef.afterClosed().subscribe(result => {
+              this.refreshStyles();
+          });
+        }
     }
 
 
     pointsMinChanged(division: Division) {
-        if (division.pointsMinimum == null || division.pointsMinimum < 0) {
-            division.pointsMinimum = 0;
+        if (!this._championnat.calendrierValide){
+          if (division.pointsMinimum == null || division.pointsMinimum < 0) {
+              division.pointsMinimum = 0;
+          }
+          if (division.pointsMinimum > division.pointsMaximum) {
+              division.pointsMinimum = division.pointsMaximum;
+          }
+          this.divisionService.updateDivision(this._championnat.id, division).subscribe();
         }
-        if (division.pointsMinimum > division.pointsMaximum) {
-            division.pointsMinimum = division.pointsMaximum;
-        }
-        this.divisionService.updateDivision(this._championnat.id, division).subscribe();
     }
 
     pointsMaxChanged(division: Division) {
+        if (!this._championnat.calendrierValide){
+          if (division.pointsMaximum == null || division.pointsMaximum < 0) {
+              division.pointsMaximum = 0;
+          }
 
-        if (division.pointsMaximum == null || division.pointsMaximum < 0) {
-            division.pointsMaximum = 0;
-        }
+          if (division.pointsMinimum > division.pointsMaximum) {
+              division.pointsMaximum = division.pointsMinimum;
+          }
 
-        if (division.pointsMinimum > division.pointsMaximum) {
-            division.pointsMaximum = division.pointsMinimum;
-        }
+          this.divisionService.updateDivision(this._championnat.id, division).subscribe();
 
-        this.divisionService.updateDivision(this._championnat.id, division).subscribe();
+          let needSort: boolean = false;
 
-        let needSort: boolean = false;
+          if (this.divisions.length > 1) {
+              let divisionIndex = this.divisions.indexOf(division);
+              if (divisionIndex == 0) {
+                  // Look forward
+                  let nextDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex + 1)[0];
+                  if (division.pointsMaximum < nextDivision.pointsMaximum) {
+                      needSort = true;
+                  }
+              } else if (divisionIndex == this.divisions.length - 1) {
+                  // Look backward
+                  let previousDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex - 1)[0];
+                  if (division.pointsMaximum > previousDivision.pointsMaximum) {
+                      needSort = true;
+                  }
+              } else {
+                  // Look forward and backward
+                  let nextDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex + 1)[0];
+                  if (division.pointsMaximum < nextDivision.pointsMaximum) {
+                      needSort = true;
+                  }
+                  let previousDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex - 1)[0];
+                  if (division.pointsMaximum > previousDivision.pointsMaximum) {
+                      needSort = true;
+                  }
+              }
+          }
 
-        if (this.divisions.length > 1) {
-            let divisionIndex = this.divisions.indexOf(division);
-            if (divisionIndex == 0) {
-                // Look forward
-                let nextDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex + 1)[0];
-                if (division.pointsMaximum < nextDivision.pointsMaximum) {
-                    needSort = true;
-                }
-            } else if (divisionIndex == this.divisions.length - 1) {
-                // Look backward
-                let previousDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex - 1)[0];
-                if (division.pointsMaximum > previousDivision.pointsMaximum) {
-                    needSort = true;
-                }
-            } else {
-                // Look forward and backward
-                let nextDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex + 1)[0];
-                if (division.pointsMaximum < nextDivision.pointsMaximum) {
-                    needSort = true;
-                }
-                let previousDivision = this.divisions.filter((divisionInList, index) => index == divisionIndex - 1)[0];
-                if (division.pointsMaximum > previousDivision.pointsMaximum) {
-                    needSort = true;
-                }
-            }
-        }
+          if (needSort) {
 
-        if (needSort) {
+              this.showProgress = true;
+              setTimeout(() => {
+                  this.divisions = this.divisions.sort((a, b) => {return compare(a.pointsMaximum, b.pointsMaximum, false);});
+                  this.divisions.forEach((division, index) => division.numero = index + 1);
+                  this.divisionService.updateDivisionList(this._championnat.id, this.divisions).subscribe(divisionList => this.showProgress = false);
+              }, 500);
 
-            this.showProgress = true;
-            setTimeout(() => {
-                this.divisions = this.divisions.sort((a, b) => {return compare(a.pointsMaximum, b.pointsMaximum, false);});
-                this.divisions.forEach((division, index) => division.numero = index + 1);
-                this.divisionService.updateDivisionList(this._championnat.id, this.divisions).subscribe(divisionList => this.showProgress = false);
-            }, 500);
-
+          }
         }
 
     }
 
     nouvelleDivision() {
-        let division = new Division();
-        division.numero = this.divisions.length + 1;
-        division.pointsMinimum = 0;
-        division.pointsMaximum = 0;
-        this.divisionService.ajoutDivision(this._championnat.id, division).subscribe(
-            newDivision => this.divisions.push(newDivision));
-        ;
+        if (!this._championnat.calendrierValide){
+          let division = new Division();
+          division.numero = this.divisions.length + 1;
+          division.pointsMinimum = 0;
+          division.pointsMaximum = 0;
+          this.divisionService.ajoutDivision(this._championnat.id, division).subscribe(
+              newDivision => this.divisions.push(newDivision));
+          ;
+        }
     }
 
     supprimerDivision(division: Division) {
@@ -173,7 +188,9 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
     }
 
     supprimerChampionnat(){
-        this.deleteChampionnat.emit(this._championnat);
+        if (!this._championnat.calendrierValide){
+          this.deleteChampionnat.emit(this._championnat);
+        }
     }
 }
 

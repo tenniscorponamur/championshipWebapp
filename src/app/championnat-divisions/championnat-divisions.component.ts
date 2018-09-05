@@ -57,6 +57,13 @@ export class ChampionnatDivisionsComponent implements OnInit {
         return getCategorieChampionnat(championnat);
     }
 
+    refresh(championnat: Championnat,flush:boolean) {
+        this.championnatService.getChampionnats().subscribe(championnats => {
+            this.sortedChampionnats = championnats; this.sortData(this.actualSort);
+            this.selectedChampionnat = this.sortedChampionnats.find(championnatInList => championnatInList.id == championnat.id);
+          });
+    }
+
   sortData(sort: Sort) {
     this.actualSort=sort;
     const data = this.sortedChampionnats.slice();

@@ -3,6 +3,9 @@ export class Championnat {
     annee: string;
     type: string;
     categorie: string;
+    calendrierARafraichir:boolean;
+    calendrierValide:boolean;
+    cloture:boolean;
 
 //    get categorieChampionnat():CategorieChampionnat{
 //        return CATEGORIE_CHAMPIONNAT_MESSIEURS;
