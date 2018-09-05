@@ -119,21 +119,21 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
     loadRencontres() {
 
-      this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
-
       this.selectedTeams = [];
       this.selectedPouleIds = [];
-
-      this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => {
-          this.poules = poules.sort((a, b) => compare(a.numero,b.numero,true));
-      });
-      this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => {
-          this.equipes = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true));
-      });
-
       this.sortedRencontres = [];
 
       if (this.selectedDivision) {
+        this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
+
+        this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => {
+            this.poules = poules.sort((a, b) => compare(a.numero,b.numero,true));
+        });
+
+        this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => {
+            this.equipes = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true));
+        });
+
         this.rencontreService.getRencontres(this.selectedDivision.id, null,null).subscribe(rencontresDivision => {
             this.sortedRencontres = rencontresDivision.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
             this.sortData(this.actualSort);
