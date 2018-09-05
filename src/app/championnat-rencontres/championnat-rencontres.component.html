@@ -72,12 +72,12 @@
                     <div class="col-lg-4 col-md-12">
 
                         <mat-form-field>
-                          <input class="dateRencontrePicker" matInput size="10" [matDatepicker]="picker" placeholder="Date" [(ngModel)]="rencontre.date" (dateInput)="changeDate(rencontre);" (dateChange)="changeDate(rencontre);">
+                          <input disabled="{{selectedChampionnat.cloture}}" class="dateRencontrePicker" matInput size="10" [matDatepicker]="picker" placeholder="Date" [(ngModel)]="rencontre.date" (dateInput)="changeDate(rencontre);" (dateChange)="changeDate(rencontre);">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker touchUi="true" #picker></mat-datepicker>
                         </mat-form-field>
 
-                        <select [(ngModel)]="rencontre.heure" (change)="changeDate(rencontre)" >
+                        <select disabled="{{selectedChampionnat.cloture}}" [(ngModel)]="rencontre.heure" (change)="changeDate(rencontre)" >
                             <option>8</option>
                             <option>9</option>
                             <option>10</option>
@@ -93,7 +93,7 @@
                             <option>20</option>
                       </select>
 
-                        <select [(ngModel)]="rencontre.minute" (change)="changeDate(rencontre)" >
+                        <select disabled="{{selectedChampionnat.cloture}}" [(ngModel)]="rencontre.minute" (change)="changeDate(rencontre)" >
                             <option value="0">00</option>
                             <option>15</option>
                             <option>30</option>
@@ -111,7 +111,7 @@
                         <div class="terrainBox">
                             <a style="cursor:pointer"><i class="fa fa-windows fa-rotate-90" style="color:coral"></i>&nbsp;
 
-                              <select [(ngModel)]="rencontre.terrainId" (change)="changeTerrain(rencontre)" >
+                              <select disabled="{{selectedChampionnat.cloture}}" [(ngModel)]="rencontre.terrainId" (change)="changeTerrain(rencontre)" >
                                     <option></option>
                                     <option *ngFor="let terrain of terrains" value="{{terrain.id}}">{{terrain.nom}}</option>
                               </select>

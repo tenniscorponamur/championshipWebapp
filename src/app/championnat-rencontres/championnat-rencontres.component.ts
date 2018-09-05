@@ -201,6 +201,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
 
     changeDate(rencontre:RencontreExtended){
+      if (!this.selectedChampionnat.cloture){
         if (rencontre.date!=null && rencontre.heure!=null && rencontre.minute!=null){
             rencontre.rencontre.dateHeureRencontre = new Date(rencontre.date);
             rencontre.rencontre.dateHeureRencontre.setHours(rencontre.heure);
@@ -220,10 +221,11 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
           rencontre.rencontre.dateHeureRencontre = null;
           this.rencontreService.updateRencontre(rencontre.rencontre).subscribe();
         }
-
+      }
     }
 
     changeTerrain(rencontre:RencontreExtended){
+      if (!this.selectedChampionnat.cloture){
         if (rencontre.terrainId){
             this.terrainService.getTerrain(rencontre.terrainId).subscribe(terrain => {
                 rencontre.rencontre.terrain=terrain;
@@ -233,7 +235,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
             rencontre.rencontre.terrain=null;
             this.updateTerrainRencontre(rencontre);
         }
-
+      }
     }
 
   updateTerrainRencontre(rencontre:RencontreExtended){
@@ -249,15 +251,16 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
   }
 
   switchTeams(rencontre:RencontreExtended){
+      if (!this.selectedChampionnat.cloture){
+        this.inverserEquipes(rencontre);
 
-    this.inverserEquipes(rencontre);
-
-    this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
-    result => {
-     },
-    error => {
-      this.inverserEquipes(rencontre);
-     });
+        this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
+        result => {
+         },
+        error => {
+          this.inverserEquipes(rencontre);
+         });
+      }
   }
 
   inverserEquipes(rencontre:RencontreExtended){
