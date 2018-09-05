@@ -7,6 +7,7 @@ import {PouleService} from '../poule.service';
 import {EquipeService} from '../equipe.service';
 import {RencontreService} from '../rencontre.service';
 import {LocalStorageService} from '../local-storage.service';
+import {AuthenticationService} from '../authentication.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {Championnat} from '../championnat';
 import {Division} from '../division';
@@ -48,7 +49,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   selectedPouleIds:number[]=[];
 
   typeRencontres:string[] = [RENCONTRES_VALIDES,RENCONTRES_A_ENCODER,RENCONTRES_A_VENIR, ALL_RENCONTRES];
-  selectedTypeRencontre:string=RENCONTRES_A_ENCODER;
+  selectedTypeRencontre:string=ALL_RENCONTRES;
 
   sortedRencontres:Rencontre[]=[];
   filteredRencontres:Rencontre[];
@@ -61,6 +62,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         private pouleService: PouleService,
         private equipeService: EquipeService,
         private rencontreService: RencontreService,
+        private authenticationService: AuthenticationService,
         private localStorageService:LocalStorageService
         ) {
       super();
@@ -92,6 +94,10 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
         });
   }
+  
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
+  }
 
     loadDivisions() {
 
@@ -99,6 +105,8 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
         this.sortedRencontres = [];
         this.divisions = [];
+        this.poules = [];
+        this.equipes = [];
 
         if (this.selectedChampionnat) {
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
@@ -217,6 +225,22 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                 })});
         }
 
+    }
+    
+    isInterseriesPossibles(){
+        if (this.isAdminConnected()){
+            if (this.selectedChampionnat){
+                if (!this.selectedChampionnat.cloture){
+                    if (this.poules!=null && this.poules.length>1){
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    
+    createInterserie(){
+        //TODO : ouvrir fenetre pour rencontres interseries
     }
 
     ouvrirRencontre(rencontre:Rencontre):void{

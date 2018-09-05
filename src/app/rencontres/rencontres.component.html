@@ -122,6 +122,10 @@
                 </div>
 
               </div>
+                
+                <div *ngIf="isInterseriesPossibles()" align="right" style="margin-top:10px;">
+                    <button class="btn btn-secondary" (click)="createInterserie();" ><i class="fa fa-plus-circle"></i>&nbsp;Intersérie</button>
+                </div>
 
             </div>
         </div>
