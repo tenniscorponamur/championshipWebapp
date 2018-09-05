@@ -115,6 +115,9 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
     }
 
     addOneTeam(club: Club, division: Division) {
+
+      if (!this.selectedChampionnat.calendrierValide) {
+
         let equipe = new Equipe();
         equipe.division = division;
         equipe.club = club;
@@ -146,6 +149,8 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
 
         }
 
+      }
+
     }
 
     ajoutEquipe(club:Club,division:Division,equipe:Equipe){
@@ -160,35 +165,38 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
     }
 
     removeOneTeam(club: Club, division: Division) {
-        // On trie les equipes par nom descendant pour trouver la derniere equipe dans cette division
 
-        let clubTeamsInDivision = this.getEquipesByClubAndDivision(club, division);
+      if (!this.selectedChampionnat.calendrierValide) {
+          // On trie les equipes par nom descendant pour trouver la derniere equipe dans cette division
 
-        if (clubTeamsInDivision.length > 0) {
+          let clubTeamsInDivision = this.getEquipesByClubAndDivision(club, division);
 
-            let sortedTeams = this.getEquipesByClubAndDivision(club, division).sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique, false));
+          if (clubTeamsInDivision.length > 0) {
 
-            let equipeToDelete = sortedTeams[0];
-            this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => {
-                let indexOfTeam = this.equipes.findIndex(equipe => equipe.id == equipeToDelete.id);
-                this.equipes.splice(indexOfTeam, 1);
-                // Renommage des equipes car le nom depend de la division a laquelle elle appartient
-                this.nommageEquipe(club);
+              let sortedTeams = this.getEquipesByClubAndDivision(club, division).sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique, false));
 
-                // On regarde s'il reste des equipes dans la division
-                // S'il n'y en a plus, on va supprimer les poules existantes
+              let equipeToDelete = sortedTeams[0];
+              this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => {
+                  let indexOfTeam = this.equipes.findIndex(equipe => equipe.id == equipeToDelete.id);
+                  this.equipes.splice(indexOfTeam, 1);
+                  // Renommage des equipes car le nom depend de la division a laquelle elle appartient
+                  this.nommageEquipe(club);
 
-                let nbEquipesInDivision = this.getNbEquipesByDivision(division);
-                if (nbEquipesInDivision == 0) {
+                  // On regarde s'il reste des equipes dans la division
+                  // S'il n'y en a plus, on va supprimer les poules existantes
 
-                    this.getPoulesByDivision(division).forEach(pouleInDivision => {
-                        this.pouleService.deletePoule(pouleInDivision).subscribe(result => {
-                            let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleInDivision.id);
-                            this.poules.splice(indexOfPoule, 1);
-                        });
-                    });
-                }
-            });
+                  let nbEquipesInDivision = this.getNbEquipesByDivision(division);
+                  if (nbEquipesInDivision == 0) {
+
+                      this.getPoulesByDivision(division).forEach(pouleInDivision => {
+                          this.pouleService.deletePoule(pouleInDivision).subscribe(result => {
+                              let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleInDivision.id);
+                              this.poules.splice(indexOfPoule, 1);
+                          });
+                      });
+                  }
+              });
+          }
         }
 
     }

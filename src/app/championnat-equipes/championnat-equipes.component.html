@@ -36,7 +36,7 @@
 <div *ngIf="selectedChampionnat" class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
     <i class="fa fa-trophy"></i>
     {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
-    <i class="{{getTypeIcon(selectedChampionnat)}}"></i> 
+    <i class="{{getTypeIcon(selectedChampionnat)}}"></i>
     - {{getCategorieChampionnat(selectedChampionnat).libelle}} - {{getNbEquipesInChampionship()}} équipes inscrites
 </div>
 
@@ -44,16 +44,16 @@
 <div *ngFor="let division of divisions" class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
     <div class="card">
         <h6 class="card-header">
-            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbPoulesInDivision(division)}} poule(s) - {{getNbEquipesByDivision(division)}} équipe(s) inscrite(s) 
+            Division {{division.numero}} (max {{division.pointsMaximum}} points) - {{getNbPoulesInDivision(division)}} poule(s) - {{getNbEquipesByDivision(division)}} équipe(s) inscrite(s)
 <!--            <span style="float:right;">
-                
-                
+
+
                 &nbsp;
                 <button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>
                 <a (click)="removeOnePoule(division);"><i class="fa fa-minus" style="cursor:pointer"></i></a>
-                
+
                 &nbsp;
-                
+
                 <a (click)="addOnePoule(division);"><i class="fa fa-plus" style="cursor:pointer"></i></a>
             </span>-->
         </h6>
@@ -69,7 +69,7 @@
                         <div>
                             <strong>{{augmentedClub.club.nom}}</strong><br/>{{getNbEquipesByClub(augmentedClub.club)}} équipe(s)
                         </div>
-                        <span *ngIf="augmentedClub.selected" style="float:left;padding-top:5px;">
+                        <span *ngIf="!selectedChampionnat.calendrierValide && augmentedClub.selected" style="float:left;padding-top:5px;">
                             <button class="btn btn-danger btn-sm" style="border-radius: 15px;" (click)="removeOneTeam(augmentedClub.club,division);"><i class="fa fa-minus"></i></button>
                             <button class="btn btn-success btn-sm" style="border-radius: 15px;" (click)="addOneTeam(augmentedClub.club,division);"><i class="fa fa-plus"></i></button>
                         </span>
@@ -80,51 +80,3 @@
         </div>
     </div>
 </div>
-
-
-
-<!--    </mat-expansion-panel>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header style="background-color:pink">
-            <mat-panel-title>
-                Dames - 12 équipes inscrites
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px">
-            <div class="card">
-                <h6 class="card-header">
-                    Division 1 (max 600 points)
-                    <span style="float:right;">
-                        2 poules
-                        &nbsp;
-                        <button class="btn btn-primary-outline"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-primary-outline"><i class="fa fa-plus"></i></button>
-                    </span>
-                </h6> 
-                <div class="card-body col-12">
-                    <div class="row">
-                        <div *ngFor="let club of clubs" class="col-xl-2 col-lg-4 col-md-6 col-sm-12" style="background-color:pink;border-radius:15px;padding:10px;">
-                            <div class="col-12">
-                                <strong>{{club}}</strong>
-                            </div>
-                            <div class="col-12">
-                                (2 équipes)
-                                <span style="float:right;">
-                                    <button class="btn btn-danger btn-sm" style="border-radius: 15px;"><i class="fa fa-minus"></i></button>
-                                    <button class="btn btn-success btn-sm" style="border-radius: 15px;"><i class="fa fa-plus"></i></button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </mat-expansion-panel>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header style="background:linear-gradient(90deg,pink, steelblue);">
-            <mat-panel-title>
-                Mixte
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-    </mat-expansion-panel>
-</mat-accordion>-->
