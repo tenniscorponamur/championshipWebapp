@@ -35,7 +35,12 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
     selectedChampionnat: Championnat;
     divisions: DivisionExtended[];
+
     nbRencontres:number;
+    calendarToRefresh:boolean=false;
+    calendarValidable:boolean=false;
+    calendarInvalidable:boolean=false;
+    calendarDeletable:boolean=false;
 
     terrains:Terrain[];
 
@@ -89,7 +94,16 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                       this.divisions = this.divisions.sort((a, b) => {return compare(a.division.numero, b.division.numero, true)});
                 }
             );
+
+            this.refreshStateBooleans();
         }
+    }
+
+    refreshStateBooleans(){
+          this.championnatService.isCalendrierARafraichir(this.selectedChampionnat).subscribe(toRefresh => {this.calendarToRefresh = toRefresh;});
+          this.championnatService.isCalendrierValidable(this.selectedChampionnat).subscribe(validable => {this.calendarValidable = validable;});
+          this.championnatService.isCalendrierInvalidable(this.selectedChampionnat).subscribe(invalidable => {this.calendarInvalidable = invalidable;});
+          this.championnatService.isCalendrierDeletable(this.selectedChampionnat).subscribe(deletable => {this.calendarDeletable = deletable;});
     }
 
     refresh(championnat: Championnat,flush:boolean) {
@@ -130,9 +144,30 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                     this.ordonnerRencontresParPoule(rencontresPoule, pouleExtended);
                   });
                 });
+                this.refreshStateBooleans();
             })
         }
 
+    }
+
+    rafraichirCalendrier(){
+
+    }
+
+    validerCalendrier(){
+        if (this.selectedChampionnat) {
+            this.championnatService.updateValiditeChampionnat(this.selectedChampionnat,true).subscribe(result => {
+                if (result){this.refreshStateBooleans();}
+              });
+        }
+    }
+
+    invaliderCalendrier(){
+        if (this.selectedChampionnat) {
+            this.championnatService.updateValiditeChampionnat(this.selectedChampionnat,false).subscribe(result => {
+                if (result){this.refreshStateBooleans();}
+              });
+        }
     }
 
     supprimerCalendrier(){

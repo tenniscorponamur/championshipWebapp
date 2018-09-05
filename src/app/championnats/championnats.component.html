@@ -1,5 +1,5 @@
 <div style="background-color:white;">
-    
+
     <mat-tab-group (selectedTabChange)="tabChanged($event);" selectedIndex="{{selectedIndex}}">
         <mat-tab label="Championnats/Divisions">
             <div style="padding:10px;">
@@ -16,7 +16,7 @@
                 <app-championnat-poules (selectChampionnat)="selectChampionnat($event)"></app-championnat-poules>
             </div>
         </mat-tab>
-        <mat-tab label="Rencontres">
+        <mat-tab label="Calendrier">
             <div style="padding:10px;">
                 <app-championnat-rencontres (selectChampionnat)="selectChampionnat($event)"></app-championnat-rencontres>
             </div>
