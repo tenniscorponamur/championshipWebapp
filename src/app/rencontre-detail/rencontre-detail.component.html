@@ -51,7 +51,7 @@
                   &nbsp;
                   <span *ngIf="jeuxVisiteurs!=null">{{jeuxVisiteurs}}</span><br />
                   <span *ngIf="isAdminConnected() && !rencontre.valide" style="font-weight:bold;color:red"><em>Rencontre non-validée</em><span *ngIf="isValidable"><br/><button class="btn btn-sm btn-success" (click)="setValidite(true);" >Valider&nbsp;<i class="fa fa-check"></i></button></span></span>
-                  <span *ngIf="isAdminConnected() && rencontre.valide" style="font-weight:bold;color:darkgreen"><em>Rencontre validée</em><br/><button class="btn btn-sm btn-danger" (click)="setValidite(false);" >Dévalider&nbsp;<i class="fa fa-times"></i></button></span>
+                  <span *ngIf="isAdminConnected() && rencontre.valide" style="font-weight:bold;color:darkgreen"><em>Rencontre validée</em><br/><button *ngIf="!rencontre.division.championnat.cloture" class="btn btn-sm btn-danger" (click)="setValidite(false);" >Dévalider&nbsp;<i class="fa fa-times"></i></button></span>
               </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
     <div class="col-12">
       <div [ngClass]="boxClass">
         <div class="myBoxTitle" (click)="ouvrirDateTerrain();" >
-          Date et lieu de la rencontre<span *ngIf="isAdminConnected()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          Date et lieu de la rencontre<span *ngIf="isAdminConnected() && !rencontre.division.championnat.cloture" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
         </div>
         <div class="myBoxContent">
           <span *ngIf="rencontre.dateHeureRencontre">{{formatDate(rencontre.dateHeureRencontre)}}</span><br />

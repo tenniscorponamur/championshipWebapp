@@ -58,7 +58,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     get boxClass(): string{
-      if (this.isAdminConnected()){
+      if (this.isAdminConnected() && !this.rencontre.division.championnat.cloture){
         return "myBox myBoxEditable";
       }else{
         return "myBox";
@@ -167,17 +167,27 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     refreshValidable() {
-      this.rencontreService.isValidable(this.rencontre).subscribe(result => this.isValidable = result);
+        if (this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
+            this.rencontreService.isValidable(this.rencontre).subscribe(result => this.isValidable = result);
+        }
     }
 
     setValidite(validite:boolean){
       if (this.isAdminConnected()){
-          this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => this.rencontre.valide=validity,error=> console.log(error));
+          if (validite){
+            if (this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
+                this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => this.rencontre.valide=validity,error=> console.log(error));
+            }
+          }else{
+            if (!this.rencontre.division.championnat.cloture){
+                this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => this.rencontre.valide=validity,error=> console.log(error));
+            }
+          }
       }
     }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
-      if (this.isAdminConnected()){
+        if (this.isAdminConnected() && this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
         let club;
         if (indexEquipe == 1) {
             club = this.rencontre.equipeVisites.club;
@@ -226,7 +236,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ouvrirDateTerrain(){
-      if (this.isAdminConnected()){
+      if (this.isAdminConnected() && !this.rencontre.division.championnat.cloture){
         let dateTerrainDialogRef = this.dialog.open(DateTerrainDialog, {
             data: {rencontre: this.rencontre}, panelClass: "dateTerrainDialog", disableClose:true
         });
@@ -234,7 +244,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ouvrirResultats(matchExtended: MatchExtended) {
-      if (this.isAdminConnected()){
+      if (this.isAdminConnected() && this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
             data: {matchExtended: matchExtended}, panelClass: "resultatsDialog", disableClose:true
         });
