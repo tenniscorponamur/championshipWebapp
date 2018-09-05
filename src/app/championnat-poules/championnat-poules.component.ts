@@ -171,7 +171,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
 
     ouvrirCapitaineEquipe(equipe:Equipe){
-
+      if (!this.selectedChampionnat.cloture){
         let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
             data: {club: equipe.club, capitaine: true}, panelClass: "membreSelectionDialog", disableClose: false
         });
@@ -182,15 +182,17 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
                 this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
             }
         });
-
+      }
     }
 
     ouvrirTerrainEquipe(equipe:Equipe) {
+      if (!this.selectedChampionnat.cloture){
         let equipeTerrainDialogRef = this.dialog.open(EquipeTerrainDialog, {
           data: { equipe: equipe}, panelClass: "equipeTerrainDialog", disableClose:true
         });
 
         equipeTerrainDialogRef.afterClosed().subscribe();
+      }
     }
 
 }
