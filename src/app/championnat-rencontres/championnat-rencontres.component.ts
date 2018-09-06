@@ -151,7 +151,19 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
 
     rafraichirCalendrier(){
-
+        if (this.selectedChampionnat) {
+          this.rencontreService.refreshCalendrier(this.selectedChampionnat.id).subscribe(rencontres => {
+                this.nbRencontres=0;
+                this.divisions.forEach(divisionExtended => {
+                  divisionExtended.poules.forEach( pouleExtended => {
+                    pouleExtended.journees=[];
+                    let rencontresPoule = rencontres.filter(rencontre => rencontre.poule.id == pouleExtended.poule.id);
+                    this.ordonnerRencontresParPoule(rencontresPoule, pouleExtended);
+                  });
+                });
+                this.refreshStateBooleans();
+            })
+        }
     }
 
     validerCalendrier(){
