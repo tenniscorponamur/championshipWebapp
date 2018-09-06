@@ -35,19 +35,17 @@
 
 <div *ngIf="selectedChampionnat" class="buttonBox">
 
-  <div class="col-12">
-      <span *ngIf="nbRencontres>0 && calendarToRefresh" >
-        Calendrier a rafraichir car des divisions/poules/équipes ont été ajoutées/supprimées
-      </span>
-      <span *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && calendarInvalidable" >
-        Calendrier validé mais aucun résultat encodé
-      </span>
-      <span *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && !calendarInvalidable" >
-        Calendrier validé et certains résultats encodés
-      </span>
-      <span *ngIf="nbRencontres>0 && selectedChampionnat.cloture" >
-        Calendrier clôturé
-      </span>
+  <div class="infoBox col-12" *ngIf="nbRencontres>0 && calendarToRefresh">
+      Calendrier à rafraichir car des divisions/poules/équipes ont été ajoutées ou supprimées
+  </div>
+  <div class="infoBox col-12" *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && calendarInvalidable">
+      Calendrier validé mais aucun résultat encodé
+  </div>
+  <div class="infoBox col-12" *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && !calendarInvalidable" >
+      Calendrier validé et plusieurs résultats encodés
+  </div>
+  <div class="infoBox col-12" *ngIf="nbRencontres>0 && selectedChampionnat.cloture" >
+      Calendrier clôturé
   </div>
 
   <div class="col-12">
