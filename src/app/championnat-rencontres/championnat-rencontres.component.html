@@ -33,27 +33,45 @@
     - {{getCategorieChampionnat(selectedChampionnat).libelle}}
 </div>
 
-<div class="buttonBox">
-  <span *ngIf="nbRencontres==0" style="margin-top:5px;margin-bottom:5px;">
-      <button class="btn btn-success" (click)="creerCalendrier();" >Créer</button>
-  </span>
+<div *ngIf="selectedChampionnat" class="buttonBox">
 
-    <span *ngIf="nbRencontres>0 && calendarToRefresh" style="margin-top:5px;margin-bottom:5px;">
-    Calendrier a rafraichir car des divisions/poules/équipes ont été ajoutées/supprimées
-    <button class="btn btn-success" (click)="rafraichirCalendrier();" >Rafraichir</button>
-  </span>
+  <div class="col-12">
+      <span *ngIf="nbRencontres>0 && calendarToRefresh" >
+        Calendrier a rafraichir car des divisions/poules/équipes ont été ajoutées/supprimées
+      </span>
+      <span *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && calendarInvalidable" >
+        Calendrier validé mais aucun résultat encodé
+      </span>
+      <span *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && !calendarInvalidable" >
+        Calendrier validé et certains résultats encodés
+      </span>
+      <span *ngIf="nbRencontres>0 && selectedChampionnat.cloture" >
+        Calendrier clôturé
+      </span>
+  </div>
 
-    <span *ngIf="nbRencontres>0 && calendarValidable" style="margin-top:5px;margin-bottom:5px;">
-    <button class="btn btn-info" (click)="validerCalendrier();" >Valider</button>
-  </span>
+  <div class="col-12">
 
-    <span *ngIf="nbRencontres>0 && calendarInvalidable" style="margin-top:5px;margin-bottom:5px;">
-    <button class="btn btn-warning" (click)="invaliderCalendrier();" >Invalider</button>
-  </span>
+    <span *ngIf="nbRencontres==0" >
+        <button class="btn btn-success" (click)="creerCalendrier();" >Créer</button>
+    </span>
 
-    <span *ngIf="nbRencontres>0 && calendarDeletable" style="float:right;" >
-      <button class="btn btn-danger" (click)="supprimerCalendrier();" >Supprimer</button>
-  </span>
+    <span *ngIf="nbRencontres>0 && calendarToRefresh" >
+      <button class="btn btn-success" (click)="rafraichirCalendrier();" >Rafraichir</button>
+    </span>
+
+    <span *ngIf="nbRencontres>0 && calendarValidable" >
+      <button class="btn btn-info" (click)="validerCalendrier();" >Valider</button>
+    </span>
+
+    <span *ngIf="nbRencontres>0 && calendarInvalidable" >
+      <button class="btn btn-warning" (click)="invaliderCalendrier();" >Invalider</button>
+    </span>
+
+      <span *ngIf="nbRencontres>0 && calendarDeletable" style="float:right;" >
+        <button class="btn btn-danger" (click)="supprimerCalendrier();" >Supprimer</button>
+    </span>
+  </div>
 </div>
 
 <div *ngFor="let division of divisions" >
