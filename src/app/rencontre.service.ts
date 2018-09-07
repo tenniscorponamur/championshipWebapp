@@ -40,5 +40,8 @@ export class RencontreService {
         return this.http.delete<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    getInterseries(championnatId: number) {
+      return this.http.get<Rencontre[]>(environment.privateApiUrl + "/rencontres/interseries?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
+    }
 
 }

@@ -94,7 +94,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
         });
   }
-  
+
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
   }
@@ -104,6 +104,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         this.localStorageService.storeChampionshipKey(JSON.stringify(this.selectedChampionnat));
 
         this.sortedRencontres = [];
+        this.filteredRencontres = [];
         this.divisions = [];
         this.poules = [];
         this.equipes = [];
@@ -130,6 +131,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
       this.selectedTeams = [];
       this.selectedPouleIds = [];
       this.sortedRencontres = [];
+      this.filteredRencontres = [];
 
       if (this.selectedDivision) {
         this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
@@ -226,7 +228,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         }
 
     }
-    
+
     isInterseriesPossibles(){
         if (this.isAdminConnected()){
             if (this.selectedChampionnat){
@@ -238,9 +240,15 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
             }
         }
     }
-    
+
     createInterserie(){
         //TODO : ouvrir fenetre pour rencontres interseries
+
+        if (this.selectedChampionnat){
+
+          this.rencontreService.getInterseries(this.selectedChampionnat.id).subscribe(rencontres => console.log(rencontres));
+
+        }
     }
 
     ouvrirRencontre(rencontre:Rencontre):void{
