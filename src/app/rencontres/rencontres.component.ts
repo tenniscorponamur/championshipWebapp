@@ -243,7 +243,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
     createInterserie(){
         //TODO : ouvrir fenetre pour rencontres interseries
-
+ 
         if (this.selectedChampionnat){
 
           this.rencontreService.getInterseries(this.selectedChampionnat.id).subscribe(rencontres => console.log(rencontres));

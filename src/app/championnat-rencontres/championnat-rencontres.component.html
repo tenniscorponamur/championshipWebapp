@@ -77,7 +77,7 @@
     <div *ngFor="let poule of division.poules" class="col-12" >
 
         <div class="pouleBox col-12">
-            <strong>Division {{division.division.numero}} - Poule {{poule.poule.numero}}</strong>
+            <strong>Division {{division.division.numero}} - Poule {{poule.poule.numero}}</strong> <small>Max {{division.division.pointsMaximum}} points</small>
         </div>
 
         <div *ngFor="let journee of poule.journees" class="journeeBox" >

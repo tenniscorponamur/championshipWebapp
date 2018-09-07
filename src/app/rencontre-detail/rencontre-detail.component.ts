@@ -187,39 +187,42 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
-        if (this.isAdminConnected() && this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
-        let club;
-        if (indexEquipe == 1) {
-            club = this.rencontre.equipeVisites.club;
-        } else {
-            club = this.rencontre.equipeVisiteurs.club;
-        }
-
-        let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-            data: {club: club}, panelClass: "membreSelectionDialog", disableClose: false
-        });
-
-        membreSelectionRef.afterClosed().subscribe(membre => {
-            if (membre) {
-                if (indexEquipe == 1) {
-                    if (indexJoueurEquipe == 1) {
-                        match.joueurVisites1 = membre;
-                    } else {
-                        match.joueurVisites2 = membre;
-                    }
-                } else {
-                    if (indexJoueurEquipe == 1) {
-                        match.joueurVisiteurs1 = membre;
-                    } else {
-                        match.joueurVisiteurs2 = membre;
-                    }
-                }
-
-                this.sauverMatch(match);
-
+        if (this.isAdminConnected() 
+            && !this.rencontre.valide
+            && this.rencontre.division.championnat.calendrierValide 
+            && !this.rencontre.division.championnat.cloture){
+            let club;
+            if (indexEquipe == 1) {
+                club = this.rencontre.equipeVisites.club;
+            } else {
+                club = this.rencontre.equipeVisiteurs.club;
             }
-        });
-      }
+
+            let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+                data: {club: club}, panelClass: "membreSelectionDialog", disableClose: false
+            });
+
+            membreSelectionRef.afterClosed().subscribe(membre => {
+                if (membre) {
+                    if (indexEquipe == 1) {
+                        if (indexJoueurEquipe == 1) {
+                            match.joueurVisites1 = membre;
+                        } else {
+                            match.joueurVisites2 = membre;
+                        }
+                    } else {
+                        if (indexJoueurEquipe == 1) {
+                            match.joueurVisiteurs1 = membre;
+                        } else {
+                            match.joueurVisiteurs2 = membre;
+                        }
+                    }
+
+                    this.sauverMatch(match);
+
+                }
+            });
+        }
     }
 
     sauverMatch(match: Match) {
@@ -244,7 +247,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ouvrirResultats(matchExtended: MatchExtended) {
-      if (this.isAdminConnected() && this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
+      if (this.isAdminConnected() 
+          && !this.rencontre.valide
+          && this.rencontre.division.championnat.calendrierValide 
+          && !this.rencontre.division.championnat.cloture){
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
             data: {matchExtended: matchExtended}, panelClass: "resultatsDialog", disableClose:true
         });
