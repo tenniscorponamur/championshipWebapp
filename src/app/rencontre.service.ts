@@ -20,6 +20,10 @@ export class RencontreService {
         return this.http.get<boolean>(environment.publicApiUrl + "/rencontre/" + rencontre.id + "/isValidable");
     }
 
+    createRencontre(rencontre: Rencontre) {
+        return this.http.post<Rencontre>(environment.privateApiUrl + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
     updateRencontre(rencontre: Rencontre) {
         return this.http.put<Rencontre>(environment.privateApiUrl + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }

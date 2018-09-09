@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { Rencontre } from '../rencontre';
 import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
@@ -17,6 +17,8 @@ import {Poule} from '../poule';
 import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import { RxResponsiveService } from 'rx-responsive';
+import {TerrainService} from '../terrain.service';
+import {Terrain} from '../terrain';
 
 const RENCONTRES_VALIDES="Validées"
 const RENCONTRES_A_ENCODER="A encoder"
@@ -63,7 +65,8 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         private equipeService: EquipeService,
         private rencontreService: RencontreService,
         private authenticationService: AuthenticationService,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        public dialog: MatDialog
         ) {
       super();
   }
@@ -243,12 +246,26 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
     createInterserie(){
         //TODO : ouvrir fenetre pour rencontres interseries
- 
-        if (this.selectedChampionnat){
 
-          this.rencontreService.getInterseries(this.selectedChampionnat.id).subscribe(rencontres => console.log(rencontres));
+        if (this.isAdminConnected()){
 
+            if (this.selectedChampionnat){
+
+                let interserieDialogRef = this.dialog.open(InterserieDialog, {
+                  data: { championnat: this.selectedChampionnat }, panelClass: "infosGeneralesMembreDialog", disableClose:true
+                });
+
+                interserieDialogRef.afterClosed().subscribe(rencontre => {
+                    if (rencontre){
+                        this.selectedRencontre = rencontre;
+                        this.sortedRencontres.push(this.selectedRencontre);
+                        this.sortData(this.actualSort);
+                    }
+                });
+
+            }
         }
+        
     }
 
     ouvrirRencontre(rencontre:Rencontre):void{
@@ -295,4 +312,71 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         }
     }
 
+}
+
+
+@Component({
+  selector: 'interserie-dialog',
+  templateUrl: './interserieDialog.html',
+})
+export class InterserieDialog implements OnInit {
+    
+    terrainCtrl: FormControl = new FormControl();
+    
+    rencontresInterseries:Rencontre[];
+    private _championnat:Championnat;
+    
+    date:Date;
+    heure:number;
+    minute:number;
+    terrainId:number;
+    
+    interserieSelected:Rencontre;
+    
+    terrains:Terrain[]=[];
+    
+  constructor(
+    public dialogRef: MatDialogRef<InterserieDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private rencontreService: RencontreService,
+    private terrainService: TerrainService) {
+        this._championnat = data.championnat;
+    }
+    
+  ngOnInit() {
+    this.rencontreService.getInterseries(this._championnat.id).subscribe(rencontres => this.rencontresInterseries=rencontres);
+    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
+  }
+  
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+      if (this.interserieSelected){
+          if (this.terrainId){
+            let selectedTerrain = this.terrains.find(terrain => terrain.id == this.terrainId);
+            this.interserieSelected.terrain = selectedTerrain;
+        }else{
+            this.interserieSelected.terrain=null;
+        }
+        
+        if (this.date!=null && this.heure!=null && this.minute!=null){
+            this.interserieSelected.dateHeureRencontre = new Date(this.date);
+            this.interserieSelected.dateHeureRencontre.setHours(this.heure);
+            this.interserieSelected.dateHeureRencontre.setMinutes(this.minute);
+        }else{
+            this.interserieSelected.dateHeureRencontre=null;
+        }
+        
+        this.rencontreService.createRencontre(this.interserieSelected).subscribe(
+            interserie => {
+                this.interserieSelected.id=interserie.id;
+                this.dialogRef.close(this.interserieSelected);
+         });
+      }
+        
+  }
+    
+    
 }

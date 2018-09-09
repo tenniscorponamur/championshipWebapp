@@ -42,7 +42,7 @@
             <tbody>
             <tr *ngFor="let classementEquipe of classement.classementEquipes; let i = index;" class="{{getClassForEquipe(i)}}">
               <!--<td>#{{i+1}}</td>-->
-              <td><a style="cursor:pointer" (click)="showRencontres(classementEquipe.equipe);"><u>{{classementEquipe.equipe.codeAlphabetique}}</u></a></td>
+              <td><span *ngIf="classementEquipe.gagnantInterseries"><i class="fa fa-star" style="color:goldenrod;"></i>&nbsp;</span><a style="cursor:pointer" (click)="showRencontres(classementEquipe.equipe);"><u>{{classementEquipe.equipe.codeAlphabetique}}</u></a></td>
               <td>{{classementEquipe.matchsJoues}}</td>
               <td>{{classementEquipe.points}}</td>
               <td>{{classementEquipe.setsGagnes}}/{{classementEquipe.setsPerdus}}</td>
