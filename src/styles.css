@@ -3,6 +3,8 @@
 @import "~font-awesome/css/font-awesome.min.css";
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
 body {
   padding-top:80px;
   background-color:#DA6635;
