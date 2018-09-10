@@ -245,7 +245,6 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
     }
 
     createInterserie(){
-        //TODO : ouvrir fenetre pour rencontres interseries
 
         if (this.isAdminConnected()){
 
@@ -265,7 +264,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
             }
         }
-        
+
     }
 
     ouvrirRencontre(rencontre:Rencontre):void{
@@ -318,23 +317,22 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 @Component({
   selector: 'interserie-dialog',
   templateUrl: './interserieDialog.html',
+  styleUrls: ['./interserieDialog.css']
 })
 export class InterserieDialog implements OnInit {
-    
-    terrainCtrl: FormControl = new FormControl();
-    
+
     rencontresInterseries:Rencontre[];
     private _championnat:Championnat;
-    
+
     date:Date;
     heure:number;
     minute:number;
     terrainId:number;
-    
+
     interserieSelected:Rencontre;
-    
+
     terrains:Terrain[]=[];
-    
+
   constructor(
     public dialogRef: MatDialogRef<InterserieDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -342,12 +340,24 @@ export class InterserieDialog implements OnInit {
     private terrainService: TerrainService) {
         this._championnat = data.championnat;
     }
-    
+
   ngOnInit() {
     this.rencontreService.getInterseries(this._championnat.id).subscribe(rencontres => this.rencontresInterseries=rencontres);
     this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
   }
-  
+
+  switchTeams(rencontre:Rencontre){
+    let oldEquipeVisites = rencontre.equipeVisites;
+    rencontre.equipeVisites = rencontre.equipeVisiteurs;
+    rencontre.equipeVisiteurs = oldEquipeVisites;
+
+    if (rencontre.equipeVisites.terrain){
+        this.terrainId = rencontre.equipeVisites.terrain.id;
+    }else{
+        this.terrainId = null;
+    }
+  }
+
   cancel(): void {
     this.dialogRef.close();
   }
@@ -360,7 +370,7 @@ export class InterserieDialog implements OnInit {
         }else{
             this.interserieSelected.terrain=null;
         }
-        
+
         if (this.date!=null && this.heure!=null && this.minute!=null){
             this.interserieSelected.dateHeureRencontre = new Date(this.date);
             this.interserieSelected.dateHeureRencontre.setHours(this.heure);
@@ -368,15 +378,16 @@ export class InterserieDialog implements OnInit {
         }else{
             this.interserieSelected.dateHeureRencontre=null;
         }
-        
+
         this.rencontreService.createRencontre(this.interserieSelected).subscribe(
             interserie => {
                 this.interserieSelected.id=interserie.id;
                 this.dialogRef.close(this.interserieSelected);
          });
+
       }
-        
+
   }
-    
-    
+
+
 }
