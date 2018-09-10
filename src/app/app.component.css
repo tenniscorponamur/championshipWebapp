@@ -1,11 +1,12 @@
 /* Workaround pour dialog angular material au dessus de navbar bootstrap */
 .tennisCorpoNavbar{
     z-index:999;
-    font-family:Ubuntu;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .tennisCorpoConnectionBar{
   height:25px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .tennisCorpoMenuBar{

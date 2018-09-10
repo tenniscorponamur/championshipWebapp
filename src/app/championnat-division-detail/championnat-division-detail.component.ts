@@ -25,7 +25,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
     private _championnat: Championnat;
     private divisions: Division[];
-    private cloturable:boolean=false;
+    cloturable:boolean=false;
 
     divisionHeaderClass: string = "card-header";
     trophyTypeClass: string = "";

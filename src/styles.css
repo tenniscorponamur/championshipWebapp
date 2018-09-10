@@ -4,6 +4,11 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Dosis');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Raleway:700');
 
 body {
   padding-top:80px;
@@ -12,6 +17,7 @@ body {
 
 .tennisCorpoBox{
   padding-bottom:25px;
+  font-family: 'Raleway', sans-serif;
 }
 
 .myBox{
