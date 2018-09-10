@@ -1,7 +1,16 @@
 <h1 mat-dialog-title>Sélection<span style="float:right;"><button class="close" (click)="fermerSelection();">&times;</button></span></h1>
-<mat-form-field>
-  <input matInput placeholder="Filter" [(ngModel)]="filtreNomPrenom" (keyup)="filtre()">
-</mat-form-field>
+<div class="row">
+  <mat-form-field>
+    <input matInput placeholder="Filter" [(ngModel)]="filtreNomPrenom" (keyup)="filtre()">
+  </mat-form-field>
+</div>
+<div class="row">
+  <mat-radio-group required [(ngModel)]="filtreGenre" (change)="filtre()">
+    <mat-radio-button color="primary" *ngFor="let genre of genres" [value]="genre.code" style="margin-right:10px">
+      {{genre.libelle}}
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
 <div class="membreList">
   <div *ngFor="let membre of filteredMembres" class="membreDiv" (click)="select(membre);">
     <strong>{{membre.nom}}  {{membre.prenom}}</strong>

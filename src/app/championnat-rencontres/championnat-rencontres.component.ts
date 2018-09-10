@@ -80,15 +80,31 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                         this.divisions.push(divisionExtended);
 
                         this.pouleService.getPoules(division.id).subscribe(poules => {
-                            poules.forEach(poule => {
-                                let pouleExtended = new PouleExtended();
-                                pouleExtended.poule = poule;
-                                divisionExtended.poules.push(pouleExtended);
-                                this.rencontreService.getRencontres(division.id, poule.id,null).subscribe(rencontresPoule => {
-                                  this.ordonnerRencontresParPoule(rencontresPoule,pouleExtended);
+
+                              this.rencontreService.getRencontres(division.id, null,null).subscribe(rencontresDivision => {
+
+                                  poules.forEach(poule => {
+                                      let pouleExtended = new PouleExtended();
+                                      pouleExtended.poule = poule;
+                                      divisionExtended.poules.push(pouleExtended);
+                                      let rencontresPoule = rencontresDivision.filter(rencontre => {
+                                        if (rencontre.poule!=null){
+                                          return rencontre.poule.id == poule.id;
+                                        }
+                                        return false;
+                                      });
+                                      this.ordonnerRencontresParPoule(rencontresPoule,pouleExtended);
+                                  });
+
+                                  divisionExtended.poules.sort((a, b) => {return compare(a.poule.numero, b.poule.numero, true)});
+
+                                  let rencontresInterseries = rencontresDivision.filter(rencontre => rencontre.poule==null);
+                                  rencontresInterseries.forEach(rencontre => {
+                                      divisionExtended.interseries.push(new RencontreExtended(rencontre));
+                                  });
+
                                 });
-                            });
-                            divisionExtended.poules.sort((a, b) => {return compare(a.poule.numero, b.poule.numero, true)});
+
                         });
                       });
                       this.divisions = this.divisions.sort((a, b) => {return compare(a.division.numero, b.division.numero, true)});
@@ -264,14 +280,15 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
   switchTeams(rencontre:RencontreExtended){
       if (!this.selectedChampionnat.cloture){
-        this.inverserEquipes(rencontre);
-
-        this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
-        result => {
-         },
-        error => {
+        if (!rencontre.rencontre.valide){
           this.inverserEquipes(rencontre);
-         });
+          this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
+          result => {
+           },
+          error => {
+            this.inverserEquipes(rencontre);
+           });
+        }
       }
   }
 
@@ -300,6 +317,7 @@ class Journee {
 class DivisionExtended {
     division: Division;
     poules:PouleExtended[]=[];
+    interseries:RencontreExtended[]=[];
 }
 
 class PouleExtended {

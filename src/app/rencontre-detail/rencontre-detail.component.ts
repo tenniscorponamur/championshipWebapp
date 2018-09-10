@@ -17,6 +17,8 @@ import {Club} from '../club';
 import {Set} from '../set';
 import {Terrain} from '../terrain';
 import {Equipe} from '../equipe';
+import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES} from '../championnat';
+import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 
 
 @Component({
@@ -187,9 +189,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
-        if (this.isAdminConnected() 
+        if (this.isAdminConnected()
             && !this.rencontre.valide
-            && this.rencontre.division.championnat.calendrierValide 
+            && this.rencontre.division.championnat.calendrierValide
             && !this.rencontre.division.championnat.cloture){
             let club;
             if (indexEquipe == 1) {
@@ -198,8 +200,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
                 club = this.rencontre.equipeVisiteurs.club;
             }
 
+            let genre:string = this.getGenreChampionnat();
+
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, genre:genre}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {
@@ -225,6 +229,18 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         }
     }
 
+    getGenreChampionnat():string{
+        //TODO : Adapter lorsqu'il y aura une gestion des categories pour le criterium
+        let genre:string;
+        if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_MESSIEURS.code){
+          genre = GENRE_HOMME.code;
+        } else if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_DAMES.code){
+          genre = GENRE_FEMME.code;
+        } else if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_MIXTES.code){
+        }
+        return genre;
+    }
+
     sauverMatch(match: Match) {
         this.matchService.updateMatch(match).subscribe();
     }
@@ -247,9 +263,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ouvrirResultats(matchExtended: MatchExtended) {
-      if (this.isAdminConnected() 
+      if (this.isAdminConnected()
           && !this.rencontre.valide
-          && this.rencontre.division.championnat.calendrierValide 
+          && this.rencontre.division.championnat.calendrierValide
           && !this.rencontre.division.championnat.cloture){
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
             data: {matchExtended: matchExtended}, panelClass: "resultatsDialog", disableClose:true
