@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Championnat} from '../championnat';
+import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -16,6 +16,7 @@ import {MembreSelectionComponent} from '../membre-selection/membre-selection.com
 import {Observable} from 'rxjs/Observable';
 import {Terrain} from '../terrain';
 import {TerrainService} from '../terrain.service';
+import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 
 @Component({
   selector: 'app-championnat-poules',
@@ -172,8 +173,11 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
 
     ouvrirCapitaineEquipe(equipe:Equipe){
       if (!this.selectedChampionnat.cloture){
+
+        let genre:string = this.getGenreChampionnat();
+
         let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-            data: {club: equipe.club, capitaine: true}, panelClass: "membreSelectionDialog", disableClose: false
+            data: {club: equipe.club, capitaine: true, genre:genre}, panelClass: "membreSelectionDialog", disableClose: false
         });
 
         membreSelectionRef.afterClosed().subscribe(membre => {
@@ -183,6 +187,18 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
             }
         });
       }
+    }
+
+    getGenreChampionnat():string{
+        //TODO : Adapter lorsqu'il y aura une gestion des categories pour le criterium
+        let genre:string;
+        if (this.selectedChampionnat.categorie==CATEGORIE_CHAMPIONNAT_MESSIEURS.code){
+          genre = GENRE_HOMME.code;
+        } else if (this.selectedChampionnat.categorie==CATEGORIE_CHAMPIONNAT_DAMES.code){
+          genre = GENRE_FEMME.code;
+        } else if (this.selectedChampionnat.categorie==CATEGORIE_CHAMPIONNAT_MIXTES.code){
+        }
+        return genre;
     }
 
     ouvrirTerrainEquipe(equipe:Equipe) {
