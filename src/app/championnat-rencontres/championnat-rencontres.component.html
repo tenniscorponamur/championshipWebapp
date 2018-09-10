@@ -41,7 +41,7 @@
   <div class="infoBox col-12" *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && calendarInvalidable">
       Calendrier validé mais aucun résultat encodé
   </div>
-  <div class="infoBox col-12" *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && !calendarInvalidable" >
+  <div class="infoBox col-12" *ngIf="nbRencontres>0 && selectedChampionnat.calendrierValide && !calendarInvalidable && !selectedChampionnat.cloture" >
       Calendrier validé et plusieurs résultats encodés
   </div>
   <div class="infoBox col-12" *ngIf="nbRencontres>0 && selectedChampionnat.cloture" >

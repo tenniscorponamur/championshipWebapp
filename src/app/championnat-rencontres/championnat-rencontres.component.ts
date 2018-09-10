@@ -177,6 +177,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                     this.ordonnerRencontresParPoule(rencontresPoule, pouleExtended);
                   });
                 });
+                this.selectedChampionnat.calendrierARafraichir=false;
                 this.refreshStateBooleans();
             })
         }
@@ -185,7 +186,10 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     validerCalendrier(){
         if (this.selectedChampionnat) {
             this.championnatService.updateValiditeChampionnat(this.selectedChampionnat,true).subscribe(result => {
-                if (result){this.refreshStateBooleans();}
+                if (result){
+                    this.selectedChampionnat.calendrierValide=true;
+                    this.refreshStateBooleans();
+                }
               });
         }
     }
@@ -193,7 +197,10 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     invaliderCalendrier(){
         if (this.selectedChampionnat) {
             this.championnatService.updateValiditeChampionnat(this.selectedChampionnat,false).subscribe(result => {
-                if (result){this.refreshStateBooleans();}
+                if (result){
+                    this.selectedChampionnat.calendrierValide=false;
+                    this.refreshStateBooleans();
+                }
               });
         }
     }

@@ -25,6 +25,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 
     private _championnat: Championnat;
     private divisions: Division[];
+    private cloturable:boolean=false;
 
     divisionHeaderClass: string = "card-header";
     trophyTypeClass: string = "";
@@ -47,10 +48,15 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
     }
 
     refreshDivisions() {
+        this.refreshCloturable();
         this.refreshStyles();
         this.divisionService.getDivisions(this._championnat.id).subscribe(divisions => {
             this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true);});
         });
+    }
+    
+    refreshCloturable(){
+        this.championnatService.isCloturable(this.championnat).subscribe(cloturable => {this.cloturable = cloturable;});
     }
 
     refreshStyles() {
@@ -185,6 +191,17 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
             this.divisions.forEach((division, index) => division.numero = index + 1);
             this.divisionService.updateDivisionList(this._championnat.id, this.divisions).subscribe();
         });
+    }
+    
+    cloturerChampionnat(){
+        if (this._championnat.calendrierValide){
+            this.championnatService.updateClotureChampionnat(this.championnat, true).subscribe(result => {
+                if(result) {
+                    this.championnat.cloture=true;
+                    this.refreshCloturable();
+                }
+            });
+        }
     }
 
     supprimerChampionnat(){
