@@ -1,8 +1,9 @@
-    import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuardService }                from './auth-guard.service';
+import { IsSecureGuardService }                from './is-secure-guard.service';
 import { ClassementsComponent }      from './classements/classements.component';
 import { HomeComponent }      from './home/home.component';
 import { MembresComponent }      from './membres/membres.component';
@@ -14,15 +15,15 @@ import {ChampionnatsComponent} from './championnats/championnats.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: 'classements', component: ClassementsComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'clubs', component: ClubsComponent, canActivate: [AuthGuardService] },
-  { path: 'championnats', component: ChampionnatsComponent, canActivate: [AuthGuardService] },
-  { path: 'membres', component: MembresComponent },
-  { path: 'rencontres', component: RencontresComponent },
-  { path: 'terrains', component: TerrainsComponent },
-  { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [AuthGuardService] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
+  { path: 'classements', component: ClassementsComponent, canActivate: [IsSecureGuardService] },
+  { path: 'home', component: HomeComponent, canActivate: [IsSecureGuardService] },
+  { path: 'clubs', component: ClubsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
+  { path: 'championnats', component: ChampionnatsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
+  { path: 'membres', component: MembresComponent, canActivate: [IsSecureGuardService] },
+  { path: 'rencontres', component: RencontresComponent, canActivate: [IsSecureGuardService] },
+  { path: 'terrains', component: TerrainsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
+  { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 

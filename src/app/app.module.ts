@@ -45,6 +45,7 @@ import { MembreService } from './membre.service';
 import { UserService } from './user.service';
 import { TerrainService } from './terrain.service';
 import { AuthGuardService } from './auth-guard.service';
+import { IsSecureGuardService } from './is-secure-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
 import { RencontreDetailComponent, ResultatsDialog, DateTerrainDialog} from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent, RencontresDialog } from './classement-detail/classement-detail.component';
@@ -187,6 +188,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     TerrainService,
     UserService,
     AuthGuardService,
+    IsSecureGuardService,
     LocaliteService,
     LocalStorageService,
     {provide: LocationStrategy, useClass: HashLocationStrategy},
