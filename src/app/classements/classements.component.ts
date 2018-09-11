@@ -23,6 +23,8 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
 
   classements:Classement[]=[];
 
+  showProgress = false;
+
   constructor(private championnatService:ChampionnatService,
               private classementService:ClassementService,
               private localStorageService:LocalStorageService) {
@@ -55,8 +57,12 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
     }
 
     loadClassements() {
+      this.showProgress = true;
       if (this.selectedChampionnat!=null){
-        this.classementService.getClassements(this.selectedChampionnat.id).subscribe(classements => this.classements = classements);
+        this.classementService.getClassements(this.selectedChampionnat.id).subscribe(classements => {
+          this.classements = classements;
+          this.showProgress = false;
+        });
       }
     }
 

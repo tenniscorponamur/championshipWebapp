@@ -1,42 +1,47 @@
 <div style="background-color:white;">
 
-<div style="margin-top:10px;margin-bottom:10px;">
+  <div style="margin-top:10px;margin-bottom:10px;">
 
-  <div class="row">
-    <div class="col-12">
+    <div class="row">
+      <div class="col-12">
 
-      <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadClassements();" >
-        <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+        <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadClassements();" >
+          <mat-option *ngFor="let championnat of championnats" [value]="championnat">
 
-                    <span>
-                        <i class="{{getTrophyClass(championnat)}}"></i>
-                        <i class="{{getTypeClass(championnat)}}" ></i>
-                    </span>
+                      <span>
+                          <i class="{{getTrophyClass(championnat)}}"></i>
+                          <i class="{{getTypeClass(championnat)}}" ></i>
+                      </span>
 
-          <small>
+            <small>
 
-            {{getTypeChampionnat(championnat).libelle}}
-            {{championnat.annee}}
-            {{getCategorieChampionnat(championnat).libelle}}
+              {{getTypeChampionnat(championnat).libelle}}
+              {{championnat.annee}}
+              {{getCategorieChampionnat(championnat).libelle}}
 
-          </small>
-        </mat-option>
-      </mat-select>
+            </small>
+          </mat-option>
+        </mat-select>
+      </div>
+
     </div>
-
   </div>
-</div>
 
-<div *ngIf="selectedChampionnat" class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
-  <i class="fa fa-trophy"></i>
-  {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
-  <i class="{{getTypeIcon(selectedChampionnat)}}"></i>
-  - {{getCategorieChampionnat(selectedChampionnat).libelle}}
-</div>
-
-<div class="row">
-  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-4" *ngFor="let classement of classements">
-    <app-classement-detail [classement]="classement"></app-classement-detail>
+  <div *ngIf="selectedChampionnat" class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
+    <i class="fa fa-trophy"></i>
+    {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
+    <i class="{{getTypeIcon(selectedChampionnat)}}"></i>
+    - {{getCategorieChampionnat(selectedChampionnat).libelle}}
   </div>
-</div>
+
+  <div *ngIf="showProgress" class="progressDiv text-center">
+    <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+    Génération des classements
+  </div>
+
+  <div class="row" *ngIf="!showProgress">
+    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-4" *ngFor="let classement of classements">
+      <app-classement-detail [classement]="classement"></app-classement-detail>
+    </div>
+  </div>
 </div>
