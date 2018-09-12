@@ -9,7 +9,7 @@ import {RencontreService} from '../rencontre.service';
 import {LocalStorageService} from '../local-storage.service';
 import {AuthenticationService} from '../authentication.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
-import {Championnat} from '../championnat';
+import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE} from '../championnat';
 import {Division} from '../division';
 import {Club} from '../club';
 import {Equipe} from '../equipe';
@@ -235,9 +235,12 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
     isInterseriesPossibles(){
         if (this.isAdminConnected()){
             if (this.selectedChampionnat){
-                if (!this.selectedChampionnat.cloture){
-                    if (this.poules!=null && this.poules.length>1){
-                        return true;
+                if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_ETE.code
+                || this.selectedChampionnat.type==TYPE_CHAMPIONNAT_HIVER.code){
+                    if (!this.selectedChampionnat.cloture){
+                        if (this.poules!=null && this.poules.length>1){
+                            return true;
+                        } 
                     }
                 }
             }
