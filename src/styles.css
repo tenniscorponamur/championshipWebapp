@@ -85,6 +85,10 @@ body {
     color:#e3cf7a;
 }
 
+.coupeHiverTrophyType{
+    color:skyblue;
+}
+
 
 /* Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {

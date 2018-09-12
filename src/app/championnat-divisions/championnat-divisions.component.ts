@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Championnat, TYPES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TypeChampionnat, TYPE_CHAMPIONNAT_ETE, CATEGORIES_CHAMPIONNAT, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, getCategorieChampionnat , getTypeChampionnat} from '../championnat';
+import {Championnat, TYPES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TypeChampionnat, TYPE_CHAMPIONNAT_ETE, CATEGORIES_CHAMPIONNAT, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES,CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES, getCategorieChampionnat , getTypeChampionnat} from '../championnat';
 import {RxResponsiveService} from 'rx-responsive';
 import {MatDialog, Sort} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
@@ -42,7 +42,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
 
         this.annee = new Date().getFullYear().toString();
         //this.selectedType = TYPE_CHAMPIONNAT_ETE;
-        this.selectedCategories = [CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES];
+        this.selectedCategories = [CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES,CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES];
     }
 
     ngOnInit() {

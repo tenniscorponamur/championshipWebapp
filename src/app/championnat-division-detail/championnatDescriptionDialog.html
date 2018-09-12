@@ -16,16 +16,16 @@
     </mat-form-field>
     </div>
     <div class="col-12">
-      <mat-radio-group required [(ngModel)]="_type">
+      <mat-radio-group required [(ngModel)]="_type" (change)="initCategories();" >
         <mat-radio-button color="primary" *ngFor="let type of types" [value]="type.code" style="margin-right:10px">
           {{type.libelle}}
         </mat-radio-button>
       </mat-radio-group>
     </div>
     
-    <div class="col-12">
-      <mat-radio-group required [(ngModel)]="_categorie">
-        <mat-radio-button color="primary" *ngFor="let categorie of categories" [value]="categorie.code" style="margin-right:10px">
+    <div class="col-12" style="margin-top:10px;">
+      <mat-radio-group class="categorieRadioGroup" required [(ngModel)]="_categorie">
+        <mat-radio-button color="primary" *ngFor="let categorie of categories" [value]="categorie.code">
           {{categorie.libelle}}
         </mat-radio-button>
       </mat-radio-group>

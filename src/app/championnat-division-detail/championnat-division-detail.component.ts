@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, Inject, Output, EventEmitter} from '@angular/core';
-import {Championnat, TypeChampionnat, getTypeChampionnat, getCategorieChampionnat, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPES_CHAMPIONNAT, CATEGORIES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
+import {Championnat, TypeChampionnat, getTypeChampionnat, getCategorieChampionnat, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPES_CHAMPIONNAT, CATEGORIES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, TYPE_CHAMPIONNAT_COUPE_HIVER} from '../championnat';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
 import {Division} from '../division';
@@ -59,11 +59,15 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         this.championnatService.isCloturable(this.championnat).subscribe(cloturable => {this.cloturable = cloturable;});
     }
 
-    refreshStyles() {
+    refreshStyles() {        
         if (this._championnat) {
-            if (this._championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code) {
+            if (this._championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code
+                || this._championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+                || this._championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code) {
                 this.divisionHeaderClass = "card-header menDivisionHeader";
-            } else if (this._championnat.categorie == CATEGORIE_CHAMPIONNAT_DAMES.code) {
+            } else if (this._championnat.categorie == CATEGORIE_CHAMPIONNAT_DAMES.code
+                || this._championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code
+                || this._championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code) {
                 this.divisionHeaderClass = "card-header womenDivisionHeader";
             } else if (this._championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code) {
                 this.divisionHeaderClass = "card-header mixteDivisionHeader";
@@ -78,6 +82,8 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
                 this.trophyTypeClass = "fa fa-2x fa-sun-o trophyType summerTrophyType";
             } else if (this._championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code) {
                 this.trophyTypeClass = "fa fa-2x fa-star trophyType criteriumTrophyType";
+            } else if (this._championnat.type == TYPE_CHAMPIONNAT_COUPE_HIVER.code) {
+                this.trophyTypeClass = "fa fa-2x fa-group trophyType coupeHiverTrophyType";
             } else {
                 this.trophyTypeClass = "";
             }
@@ -214,11 +220,13 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 @Component({
     selector: 'championnat-description-dialog',
     templateUrl: './championnatDescriptionDialog.html',
+    styleUrls: ['./championnatDescriptionDialog.css']
 })
 export class ChampionnatDescriptionDialog {
 
     types = TYPES_CHAMPIONNAT;
-    categories = CATEGORIES_CHAMPIONNAT;
+    
+    categories:CategorieChampionnat[] = [];
 
     _annee: string;
     _type: string;
@@ -238,7 +246,28 @@ export class ChampionnatDescriptionDialog {
         this._annee = this._championnat.annee;
         this._type = this._championnat.type;
         this._categorie = this._championnat.categorie;
-
+        
+        this.initCategories();
+    }
+    
+    initCategories(){
+        if (this._type == TYPE_CHAMPIONNAT_HIVER.code
+            || this._type == TYPE_CHAMPIONNAT_ETE.code) {
+            this.categories = [CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES];
+        } else if (this._type == TYPE_CHAMPIONNAT_CRITERIUM.code){
+            this.categories = [CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES];
+        } else if (this._type == TYPE_CHAMPIONNAT_CRITERIUM.code){
+            this.categories = [CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES];
+        } else if (this._type == TYPE_CHAMPIONNAT_COUPE_HIVER.code){
+            this.categories = [CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES];
+        }
+        
+        // On reinitialise la categorie si elle ne se trouve pas dans la liste obtenue
+        
+        let selectedCategorie = this.categories.find(categorie => categorie.code == this._categorie);
+        if (selectedCategorie==null){
+            this._categorie = null;
+        }
     }
 
     cancel(): void {
