@@ -1,9 +1,13 @@
 <h1 mat-dialog-title>Compte utilisateur<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
-<div mat-dialog-content >
+<div mat-dialog-content style="min-width: 300px;">
     <i class="fa fa-user fa-3x" style="color:lightgrey" ></i>
+    
+    
     {{user.prenom}}&nbsp;{{user.nom}}
 
+    
   <div align="center">
     <button class="btn btn-danger" (click)="deconnexion();"><i class="fa fa-sign-out"></i>&nbsp;Se déconnecter</button>
   </div>
+    
 </div>
