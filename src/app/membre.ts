@@ -5,9 +5,9 @@ import {ClassementAFT} from "./classementAFT";
 export class Membre {
   id: number;
   nom: string;
-  prenom: string;
+  prenom: string; 
   dateNaissance: Date;
-  actif: boolean;
+  actif: boolean=true;
   genre: string;
   club:Club;
   capitaine: boolean;
