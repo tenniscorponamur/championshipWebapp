@@ -81,6 +81,19 @@ export class MembresComponent implements OnInit, AfterViewInit {
     },error => {console.log(error);});
   }
 
+  importData(event:any) {
+    let reader = new FileReader();
+      if(event.target.files && event.target.files.length > 0) {
+        let file = event.target.files[0];
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          let content = reader.result.split(',')[1];
+          this.membreService.importData(content).subscribe();
+          //TODO : message pour signaler que le fichier est en cours de chargement/charge
+        };
+      }
+  }
+
   sortData(sort: Sort) {
     this.actualSort=sort;
     const data = this.sortedMembers.slice();

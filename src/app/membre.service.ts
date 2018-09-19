@@ -22,6 +22,10 @@ export class MembreService {
     return this.http.get("http://localhost:9100/api/testRapport",{responseType: 'blob'});
   }
 
+  importData(content){
+    return this.http.post<any>(environment.privateApiUrl + "/membres/import",content, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
   ajoutMembre(membre:Membre){
     return this.http.post<Membre>(environment.privateApiUrl + "/membre",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
