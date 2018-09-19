@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import { environment } from '../environments/environment';
 import {ClassementAFT} from './classementAFT';
 import {ClassementCorpo} from './classementCorpo';
+import {formatDate} from './utility';
 
 @Injectable()
 export class ClassementMembreService {
@@ -39,6 +40,9 @@ export class ClassementMembreService {
         return this.http.put<ClassementCorpo>(environment.privateApiUrl + "/membre/" + membreId + "/classementsCorpo", classementsCorpo, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+  calculClassementCorpo(membreId: number, startDate:Date, endDate:Date){
+    return this.http.get<any>(environment.privateApiUrl + "/membre/" + membreId + "/classementCorpo/simulation?startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate), this.authenticationService.getPrivateApiHttpOptions());
+  }
 
   updateClassementsAFT(membreId: number, classementsAFT: ClassementAFT[]) {
         return this.http.put<ClassementAFT>(environment.privateApiUrl + "/membre/" + membreId + "/classementsAFT", classementsAFT, this.authenticationService.getPrivateApiHttpOptions());

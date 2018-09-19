@@ -15,3 +15,13 @@ export function addLeadingZero(value:number):string{
   }
 }
 
+export function formatDate(date:Date){
+  let dateStr:string = "";
+  if (date){
+    dateStr+=date.getFullYear();
+    dateStr+=addLeadingZero(date.getMonth()+1);
+    dateStr+=addLeadingZero(date.getDate());
+  }
+  return dateStr;
+}
+

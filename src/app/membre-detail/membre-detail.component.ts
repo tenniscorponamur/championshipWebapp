@@ -88,6 +88,10 @@ export class MembreDetailComponent implements OnInit {
     }
   }
 
+  simulationClassement(){
+    this.classementMembreService.calculClassementCorpo(this.membre.id,new Date(),new Date()).subscribe(result => console.log(result));
+  }
+
   refreshClassement(){
 
     this.showGraph=false;
