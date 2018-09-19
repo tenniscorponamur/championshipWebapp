@@ -15,6 +15,10 @@ export class ClassementMembreService {
     return this.http.get<any[]>(environment.publicApiUrl + "/echellesCorpo");
   }
 
+  correspondanceEchelleCorpo():Observable<any>{
+    return this.http.get<any>(environment.publicApiUrl + "/echellesCorpo/correspondanceHommeFemme");
+  }
+
   getEchellesAFT():Observable<any[]>{
     return this.http.get<any[]>(environment.publicApiUrl + "/echellesAFT");
   }

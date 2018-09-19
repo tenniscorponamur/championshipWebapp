@@ -2,6 +2,7 @@ import { Component, OnInit, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {Membre} from '../membre';
 import {MembreService} from '../membre.service';
+import {ClassementMembreService} from '../classement-membre.service';
 import {Club} from '../club';
 import {compare} from '../utility';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
@@ -17,6 +18,9 @@ export class MembreSelectionComponent implements OnInit {
 
     private club:Club;
     private capitaine: Boolean;
+    private championnatHomme:Boolean;
+    private mapEquivalence;
+
     membres:Membre[]=[];
     filteredMembres:Membre[]=[];
     filtreNomPrenom:string;
@@ -24,14 +28,39 @@ export class MembreSelectionComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<MembreSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private membreService:MembreService) {
+    private membreService:MembreService,
+    private classementMembreService:ClassementMembreService) {
         this.club = data.club;
         this.capitaine = data.capitaine;
         this.filtreGenre = data.genre;
+        this.championnatHomme = data.championnatHomme;
       }
 
   ngOnInit() {
       this.membreService.getMembres(this.club.id).subscribe(membres => {this.membres = membres; this.filtre();});
+      this.classementMembreService.correspondanceEchelleCorpo().subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
+  }
+
+  showEquivalence(membre:Membre):boolean{
+    if (this.mapEquivalence){
+      if (this.championnatHomme==true){
+        if (membre) {
+            if (membre.genre == GENRE_FEMME.code){
+              return true;
+            }
+        }
+      }
+    }
+    return false;
+  }
+
+  equivalencePoints(membre:Membre):number{
+    if (this.mapEquivalence){
+      if (membre.classementCorpoActuel){
+        return this.mapEquivalence[membre.classementCorpoActuel.points];
+      }
+    }
+    return null;
   }
 
   filtre(){

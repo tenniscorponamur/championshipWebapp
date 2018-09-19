@@ -15,6 +15,6 @@
   <div *ngFor="let membre of filteredMembres" class="membreDiv" (click)="select(membre);">
     <strong>{{membre.nom}}  {{membre.prenom}}</strong>
       <br/>
-      <small>AFT : <span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span> / Corpo : <span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}} points</span></small>
+      <small>AFT : <span *ngIf="membre.classementAFTActuel">{{membre.classementAFTActuel.codeClassement}}</span> / Corpo : <span *ngIf="membre.classementCorpoActuel">{{membre.classementCorpoActuel.points}} points</span><span class="equivalence" *ngIf="showEquivalence(membre);">&nbsp;({{equivalencePoints(membre)}} points)</span></small>
   </div>
 </div>

@@ -17,7 +17,7 @@ import {Club} from '../club';
 import {Set} from '../set';
 import {Terrain} from '../terrain';
 import {Equipe} from '../equipe';
-import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES} from '../championnat';
+import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 
 
@@ -202,8 +202,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
             let genre:string = this.getGenreChampionnat();
 
+            let championnatHomme:boolean = this.isChampionnatHomme();
+
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, genre:genre}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, genre:genre, championnatHomme:championnatHomme}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {
@@ -230,15 +232,22 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     getGenreChampionnat():string{
-        //TODO : Adapter lorsqu'il y aura une gestion des categories pour le criterium
         let genre:string;
-        if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_MESSIEURS.code){
+        if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_MESSIEURS.code
+            || this.rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+            || this.rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code){
           genre = GENRE_HOMME.code;
-        } else if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_DAMES.code){
+        } else if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_DAMES.code
+            || this.rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code
+            || this.rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code){
           genre = GENRE_FEMME.code;
         } else if (this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_MIXTES.code){
         }
         return genre;
+    }
+
+    isChampionnatHomme():boolean {
+        return this.rencontre.division.championnat.categorie==CATEGORIE_CHAMPIONNAT_MESSIEURS.code;
     }
 
     sauverMatch(match: Match) {
