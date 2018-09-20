@@ -6,4 +6,5 @@ export class Club {
     nom: string;
     description: string;
     terrain:Terrain;
+    actif: boolean=true;
 }

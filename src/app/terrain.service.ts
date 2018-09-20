@@ -25,4 +25,12 @@ export class TerrainService {
   updateTerrain(terrain:Terrain){
       return this.http.put<Terrain>(environment.privateApiUrl + "/terrain",terrain, this.authenticationService.getPrivateApiHttpOptions());
   }
+
+  deleteTerrain(terrain: Terrain) {
+        return this.http.delete<Terrain>(environment.privateApiUrl + "/terrain?terrainId=" + terrain.id, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    isTerrainDeletable(terrain:Terrain) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/terrain/" + terrain.id + "/deletable", this.authenticationService.getPrivateApiHttpOptions());
+    }
 }

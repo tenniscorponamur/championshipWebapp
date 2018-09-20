@@ -69,9 +69,20 @@ export class ClubsComponent implements OnInit {
         if (!this.selectedClub){
         scrollPosition = "start";
       }
-      //TODO : getMembreById --> pour recuperer l'ensemble des informations du membre --> voir en fonction du role de l'utilisateur ??
       this.selectedClub=club;
       //TODO : scroll only if mobile
       //this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: scrollPosition, inline: "nearest" });
+    }
+
+    deleteClub(clubToDelete:Club){
+        this.clubService.deleteClub(clubToDelete).subscribe(result => {
+            this.selectedClub = null;
+
+            let indexInSorted = this.sortedClubs.findIndex(club => club.id == clubToDelete.id);
+            if (indexInSorted!=-1){
+                this.sortedClubs.splice(indexInSorted,1);
+            }
+
+        });
     }
 }

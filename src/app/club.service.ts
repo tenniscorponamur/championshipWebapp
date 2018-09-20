@@ -13,7 +13,7 @@ export class ClubService {
   getClubs(): Observable<Club[]> {
     return this.http.get<Club[]>(environment.publicApiUrl + "/clubs");
   }
-  
+
   getClub(id:number): Observable<Club> {
     return this.http.get<Club>(environment.publicApiUrl + "/club?id="+id);
   }
@@ -25,6 +25,14 @@ export class ClubService {
   updateClub(club:Club){
       return this.http.put<Club>(environment.privateApiUrl + "/club",club, this.authenticationService.getPrivateApiHttpOptions());
   }
+
+  deleteClub(club: Club) {
+        return this.http.delete<Club>(environment.privateApiUrl + "/club?clubId=" + club.id, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    isClubDeletable(club:Club) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/club/" + club.id + "/deletable", this.authenticationService.getPrivateApiHttpOptions());
+    }
 
 
 }

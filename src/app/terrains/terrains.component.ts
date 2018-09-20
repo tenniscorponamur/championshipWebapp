@@ -70,4 +70,16 @@ export class TerrainsComponent implements OnInit {
       this.selectedTerrain=terrain;
     }
 
+    deleteTerrain(terrainToDelete:Terrain){
+        this.terrainService.deleteTerrain(terrainToDelete).subscribe(result => {
+            this.selectedTerrain = null;
+
+            let indexInSorted = this.sortedTerrains.findIndex(terrain => terrain.id == terrainToDelete.id);
+            if (indexInSorted!=-1){
+                this.sortedTerrains.splice(indexInSorted,1);
+            }
+
+        });
+    }
+
 }

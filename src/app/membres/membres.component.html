@@ -111,7 +111,7 @@
                 </div>
                 <div *ngIf="isAdminConnected()" class="row" style="margin-top:10px;">
                     <div class="col-6 text-left">
-                      <!--<input type="file" class="form-control-file" (change)="importData($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">-->
+                      <input type="file" class="form-control-file" (change)="importData($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                     </div>
                     <div class="col-6 text-right">
                       <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
@@ -124,7 +124,7 @@
     </div>
 
     <div #membreDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
-        <app-membre-detail *ngIf="selectedMember" [membre]="selectedMember" [master]="componentName" (childResult)="childResult($event)" ></app-membre-detail>
+        <app-membre-detail *ngIf="selectedMember" [membre]="selectedMember" [master]="componentName" (deleteMembre)="deleteMembre($event)" ></app-membre-detail>
     </div>
 
 </div>

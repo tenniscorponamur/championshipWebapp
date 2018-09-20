@@ -1,6 +1,9 @@
 <div class="card tennisCorpoBox">
   <h4 class="card-header">
     Membre
+    <span *ngIf="deletable" style="float:right">
+        <a (click)="supprimerMembre();" class="deleteMembreButton"><i class="fa fa-trash" ></i></a>
+    </span>
   </h4>
   <div class="card-body">
 

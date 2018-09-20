@@ -3,5 +3,5 @@ export class Terrain {
   nom:string;
   description: string;
   adresse:string;
-  
+  actif: boolean=true;
 }

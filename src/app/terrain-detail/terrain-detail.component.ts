@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Inject, Input, Output } from '@angular/core';
 import {Terrain} from '../terrain';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {TerrainService} from '../terrain.service';
@@ -10,23 +10,45 @@ import {TerrainService} from '../terrain.service';
 })
 export class TerrainDetailComponent implements OnInit {
 
+  @Output() deleteTerrain = new EventEmitter<Terrain>();
+
+  deletable=false;
+
+  private _terrain: Terrain;
+
   @Input()
-  terrain: Terrain;
+  set terrain(terrain: Terrain) {
+    this._terrain = terrain;
+    this.refreshDeletable();
+  }
+
+  get terrain(): Terrain { return this._terrain; }
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private terrainService: TerrainService
     ) { }
 
   ngOnInit() {
   }
 
-  ouvrirClub() {
+  refreshDeletable(){
+    this.terrainService.isTerrainDeletable(this.terrain).subscribe(result => this.deletable = result);
+  }
+
+  ouvrirTerrain() {
     let terrainDialogRef = this.dialog.open(TerrainDialog, {
       data: { terrain: this.terrain }, panelClass: "terrainDialog", disableClose:true
     });
 
     terrainDialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  supprimerTerrain(){
+      if (this.deletable){
+        this.deleteTerrain.emit(this._terrain);
+      }
   }
 
 }

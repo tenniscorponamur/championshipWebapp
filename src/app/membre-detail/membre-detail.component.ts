@@ -31,8 +31,10 @@ export class MembreDetailComponent implements OnInit {
   @Input('master') masterName: string;
   @Output() childResult = new EventEmitter<string>();
 
-  userImageClass:string = "fa fa-user fa-5x undefinedMember";
+  @Output() deleteMembre = new EventEmitter<Membre>();
 
+  userImageClass:string = "fa fa-user fa-5x undefinedMember";
+  deletable=false;
   showGraph=false;
   // lineChart
   public lineChartData:Array<any> = [];
@@ -61,6 +63,7 @@ export class MembreDetailComponent implements OnInit {
   set membre(membre: Membre) {
     this._membre = membre;
     this.refreshUserImage();
+    this.refreshDeletable();
     this.refreshClassement();
   }
 
@@ -85,6 +88,12 @@ export class MembreDetailComponent implements OnInit {
       }else{
           this.userImageClass = "fa fa-user fa-5x femaleMember";
       }
+    }
+  }
+
+  refreshDeletable(){
+    if (this.isAdminConnected()){
+      this.membreService.isMembreDeletable(this.membre).subscribe(result => this.deletable = result);
     }
   }
 
@@ -236,6 +245,12 @@ export class MembreDetailComponent implements OnInit {
             this.refreshClassement();
         });
       }
+    }
+
+    supprimerMembre(){
+        if (this.deletable){
+          this.deleteMembre.emit(this._membre);
+        }
     }
 
   goBack():void{

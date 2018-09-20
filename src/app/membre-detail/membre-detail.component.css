@@ -13,6 +13,11 @@
 .membreRow {
     margin-bottom: 10px;
 }
+
+.deleteMembreButton{
+    cursor:pointer;
+}
+
 /*
 .editionMembreDiv{
     margin:auto;

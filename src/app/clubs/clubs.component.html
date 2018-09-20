@@ -48,7 +48,7 @@
   </div>
 
   <div #clubDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
-    <app-club-detail *ngIf="selectedClub" [club]="selectedClub" [master]="componentName" (childResult)="childResult($event)" ></app-club-detail>
+    <app-club-detail *ngIf="selectedClub" [club]="selectedClub" [master]="componentName" (deleteClub)="deleteClub($event)" ></app-club-detail>
   </div>
 
 </div>

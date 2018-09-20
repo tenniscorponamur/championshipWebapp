@@ -1,6 +1,9 @@
 <div class="card tennisCorpoBox">
   <h4 class="card-header">
     Terrain
+    <span *ngIf="deletable" style="float:right">
+        <a (click)="supprimerTerrain();" class="deleteTerrainButton"><i class="fa fa-trash" ></i></a>
+    </span>
   </h4>
   <div class="card-body">
 
@@ -14,7 +17,7 @@
 
       <div class="col-10">
         <div class="myBox myBoxEditable">
-          <div class="myBoxTitle" (click)="ouvrirClub();">
+          <div class="myBoxTitle" (click)="ouvrirTerrain();">
             Informations du terrain<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">

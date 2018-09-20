@@ -175,6 +175,21 @@ export class MembresComponent implements OnInit, AfterViewInit {
       this.membreDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     }
 
+    deleteMembre(membreToDelete:Membre){
+        this.membreService.deleteMembre(membreToDelete).subscribe(result => {
+            this.selectedMember = null;
+
+            let indexInFiltered = this.filteredMembers.findIndex(membre => membre.id == membreToDelete.id);
+            if (indexInFiltered!=-1){
+                this.filteredMembers.splice(indexInFiltered,1);
+            }
+            let indexInSorted = this.sortedMembers.findIndex(membre => membre.id == membreToDelete.id);
+            if (indexInSorted!=-1){
+                this.sortedMembers.splice(indexInSorted,1);
+            }
+
+        });
+    }
 
   childResult(childResult : string){
       console.log("resultat : " + childResult);

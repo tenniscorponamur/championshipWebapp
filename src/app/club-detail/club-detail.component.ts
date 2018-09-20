@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Inject, Input, Output } from '@angular/core';
 import {Club} from '../club';
 import {Terrain} from '../terrain';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
@@ -14,14 +14,30 @@ import {Observable} from 'rxjs/Observable';
 })
 export class ClubDetailComponent implements OnInit {
 
+  @Output() deleteClub = new EventEmitter<Club>();
+
+  deletable=false;
+
+  private _club: Club;
+
   @Input()
-  club: Club;
+  set club(club: Club) {
+    this._club = club;
+    this.refreshDeletable();
+  }
+
+  get club(): Club { return this._club; }
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private clubService: ClubService
     ) { }
 
   ngOnInit() {
+  }
+
+  refreshDeletable(){
+    this.clubService.isClubDeletable(this.club).subscribe(result => this.deletable = result);
   }
 
   ouvrirClub() {
@@ -39,6 +55,12 @@ export class ClubDetailComponent implements OnInit {
         });
 
         clubTerrainDialogRef.afterClosed().subscribe();
+    }
+
+    supprimerClub(){
+        if (this.deletable){
+          this.deleteClub.emit(this._club);
+        }
     }
 
 }
