@@ -20,6 +20,9 @@
       <textarea matInput placeholder="Adresse" [(ngModel)]="_adresse" ></textarea>
     </mat-form-field>
   </div>
+  <div class="col-12">
+      <mat-checkbox color="primary" [(ngModel)]="_actif">Actif</mat-checkbox>
+  </div>
   <div align="center">
     <button class="btn btn-danger" (click)="cancel();">Annuler</button>
     <button class="btn btn-success" (click)="save();">Sauver</button>

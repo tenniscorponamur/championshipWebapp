@@ -8,7 +8,7 @@
 
         <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
           <div *ngFor="let club of sortedClubs" (click)="ouvrirClub(club);" class="myBox text-left" style="cursor:pointer;">
-            <div class="myBoxTitle">
+            <div class="myBoxTitle {{styleClub(club)}}">
               <span class="text-uppercase">{{club.nom}}</span>
             </div>
             <div class="myBoxContent">
@@ -32,8 +32,8 @@
               </thead>
               <tbody>
               <tr *ngFor="let club of sortedClubs" (click)="ouvrirClub(club);" class="text-left">
-                <td>{{club.numero}}</td>
-                <td class="text-uppercase">{{club.nom}}</td>
+                <td class="{{styleClub(club)}}">{{club.numero}}</td>
+                <td class="{{styleClub(club)}} text-uppercase">{{club.nom}}</td>
               </tr>
               </tbody>
             </table>

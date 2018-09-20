@@ -64,6 +64,14 @@ export class ClubsComponent implements OnInit {
         });
     }
 
+    styleClub(club:Club){
+        if (!club.actif){
+            return "clubInactif";
+        }else{
+            return "";
+        }
+    }
+
     ouvrirClub(club:Club):void{
       let scrollPosition = "end";
         if (!this.selectedClub){

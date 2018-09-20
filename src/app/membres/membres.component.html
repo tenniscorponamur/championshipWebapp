@@ -72,7 +72,7 @@
                 </div>
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let membre of filteredMembers" (click)="ouvrirMembreOnMobile(membre);" class="myBox text-left" style="cursor:pointer;">
-                    <div class="myBoxTitle">
+                    <div class="myBoxTitle {{styleMembre(membre)}}">
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
                     </div>
                     <div class="myBoxContent">
@@ -111,7 +111,7 @@
                 </div>
                 <div *ngIf="isAdminConnected()" class="row" style="margin-top:10px;">
                     <div class="col-6 text-left">
-                      <input type="file" class="form-control-file" (change)="importData($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                      <!--<input type="file" class="form-control-file" (change)="importData($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">-->
                     </div>
                     <div class="col-6 text-right">
                       <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>

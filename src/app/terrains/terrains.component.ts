@@ -62,6 +62,14 @@ export class TerrainsComponent implements OnInit {
         });
     }
 
+    styleTerrain(terrain:Terrain){
+        if (!terrain.actif){
+            return "terrainInactif";
+        }else{
+            return "";
+        }
+    }
+
     ouvrirTerrain(terrain:Terrain):void{
       let scrollPosition = "end";
         if (!this.selectedTerrain){

@@ -1,3 +1,7 @@
 .terrainTable:hover td{
   cursor:pointer;
 }
+
+.terrainInactif{
+    color:red;
+}

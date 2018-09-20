@@ -75,6 +75,7 @@ export class ClubDialog {
     _numero:string;
     _nom:string;
     _description:string;
+    _actif:boolean;
 
     showAlert:boolean=false;
 
@@ -89,6 +90,7 @@ export class ClubDialog {
         this._numero = this._club.numero;
         this._nom = this._club.nom;
         this._description = this._club.description;
+        this._actif = this._club.actif;
 
     }
 
@@ -119,6 +121,7 @@ export class ClubDialog {
         this._club.numero=this._numero;
         this._club.nom=this._nom;
         this._club.description=this._description;
+        this._club.actif=this._actif;
 
         if (!this._club.id){
             // Ajout d'un nouveal utilisateur

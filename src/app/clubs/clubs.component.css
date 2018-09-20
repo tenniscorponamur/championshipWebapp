@@ -1,3 +1,7 @@
 .clubTable:hover td{
   cursor:pointer;
 }
+
+.clubInactif{
+    color:red;
+}
