@@ -16,3 +16,30 @@
 .bottomLink{
   padding-bottom:10px;
 }
+
+.contactLink{
+  cursor:pointer;
+  color:white;
+}
+
+.contactLink:hover{
+  color:#58D68D;
+}
+
+.reglementsLink{
+  cursor:pointer;
+  color:white;
+}
+
+.reglementsLink:hover{
+  color:#E74C3C;
+}
+
+.facebookLink{
+  cursor:pointer;
+  color:white;
+}
+
+.facebookLink:hover{
+  color:#8b9dc3;
+}
