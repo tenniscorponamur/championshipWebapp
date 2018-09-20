@@ -1,13 +1,28 @@
 <h1 mat-dialog-title>Compte utilisateur<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content style="min-width: 300px;">
-    <i class="fa fa-user fa-3x" style="color:lightgrey" ></i>
-    
-    
-    {{user.prenom}}&nbsp;{{user.nom}}
+    <div class="row text-center">
+      <div class="col-4 text-center">
+        <i class="fa fa-user fa-3x" style="color:lightgrey" ></i>
+      </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-12">
+            <strong>{{user.prenom}}&nbsp;{{user.nom}}</strong>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-sm" (click)="changePassword();">Modifier mon mot de passe</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    
-  <div align="center">
+  <div class="col-12" *ngIf="showSuccess" style="margin-top:10px;">
+    <div class="alert alert-success" role="alert">
+      Mot de passe modifié avec succès
+    </div>
+  </div>
+
+  <div class="text-center" style="margin-top:10px;">
     <button class="btn btn-danger" (click)="deconnexion();"><i class="fa fa-sign-out"></i>&nbsp;Se déconnecter</button>
   </div>
-    
 </div>

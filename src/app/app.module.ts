@@ -28,7 +28,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 
 /* Component */
 
-import { AppComponent, LoginFormDialog, CompteUtilisateurDialog, CookieDialog } from './app.component';
+import { AppComponent, LoginFormDialog, CompteUtilisateurDialog, CookieDialog, ChangePasswordDialog } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent } from './membres/membres.component';
 import { RencontresComponent, InterserieDialog } from './rencontres/rencontres.component';
@@ -85,6 +85,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     MembreDetailComponent,
     LoginFormDialog,
     CompteUtilisateurDialog,
+    ChangePasswordDialog,
     CookieDialog,
     InfosAftDialog,
     InfosGeneralesMembreDialog,
@@ -151,6 +152,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
   entryComponents: [
       LoginFormDialog,
       CompteUtilisateurDialog,
+      ChangePasswordDialog,
       CookieDialog,
       InfosAftDialog,
       InfosGeneralesMembreDialog,

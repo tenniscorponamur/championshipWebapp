@@ -158,7 +158,6 @@ export class LoginFormDialog {
           },
          error => {
              this.showAlert=true;
-             //TODO : gestion des erreurs de connexion (mot de passe incorrect)
             console.log("bad credentials");
             console.log(error);
           }
@@ -167,22 +166,35 @@ export class LoginFormDialog {
 
 }
 
-
 @Component({
   selector: 'compte-utilisateur-dialog',
   templateUrl: './compteUtilisateur.html',
 })
 export class CompteUtilisateurDialog {
 
+  showSuccess:boolean=false;
+
   constructor(
     private http: HttpClient, private authenticationService: AuthenticationService,
     public dialogRef: MatDialogRef<CompteUtilisateurDialog>,
+    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     get user(): User {return this.authenticationService.getConnectedUser(); }
 
     changePassword(): void {
-        //TODO : permettre de changer le mot de passe
+      this.showSuccess=false;
+
+      let changePasswordDialogRef = this.dialog.open(ChangePasswordDialog, {
+        data: { }, panelClass: "changePasswordDialog", disableClose:false
+      });
+
+    changePasswordDialogRef.afterClosed().subscribe(result => {
+        if (result){
+          this.showSuccess=true;
+        }
+    });
+
     }
 
   cancel(): void {
@@ -191,6 +203,51 @@ export class CompteUtilisateurDialog {
 
   deconnexion(): void {
     this.dialogRef.close(true);
+  }
+
+}
+
+@Component({
+  selector: 'change-password-dialog',
+  templateUrl: './changePassword.html',
+})
+export class ChangePasswordDialog {
+
+  _oldPassword:string;
+  _newPassword1:string;
+  _newPassword2:string;
+  alerte:string;
+
+  constructor(
+    private http: HttpClient,
+    public dialogRef: MatDialogRef<ChangePasswordDialog>,
+    private userService: UserService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  cancel(): void {
+      this.dialogRef.close();
+  }
+
+  modifier():void {
+      this.alerte = null;
+
+      if (this._oldPassword==null || this._oldPassword == undefined || this._oldPassword.trim() == ''){
+        this.alerte = "Veuillez renseigner le mot de passe actuel";
+      } else if (this._newPassword1==null || this._newPassword1 == undefined || this._newPassword1.trim() == ''){
+        this.alerte = "Le nouveau mot de passe ne peut pas être vide";
+      }else if (this._newPassword1!=this._newPassword2) {
+        this.alerte = "Les deux mots de passe ne sont pas identiques";
+      }else{
+
+        this.userService.changePassword(this._oldPassword,this._newPassword1).subscribe(result => {
+          if (!result){
+             this.alerte = "Le mot de passe n'a pas pu être modifié"
+          }else{
+            this.dialogRef.close(true);
+          }
+        });
+
+      }
   }
 
 }
