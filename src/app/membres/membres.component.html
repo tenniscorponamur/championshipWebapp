@@ -111,6 +111,7 @@
                 </div>
                 <div *ngIf="isAdminConnected()" class="row" style="margin-top:10px;">
                     <div class="col-6 text-left">
+                        <button class="btn btn-info" (click)="importer();" >Importer</button>
                       <!--<input type="file" class="form-control-file" (change)="importData($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">-->
                     </div>
                     <div class="col-6 text-right">

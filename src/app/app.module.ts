@@ -30,7 +30,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 
 import { AppComponent, LoginFormDialog, CompteUtilisateurDialog, CookieDialog, ChangePasswordDialog } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { MembresComponent } from './membres/membres.component';
+import { MembresComponent, ImportMembresDialog } from './membres/membres.component';
 import { RencontresComponent, InterserieDialog } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
 import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog } from './membre-detail/membre-detail.component';
@@ -79,6 +79,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
   declarations: [
     AppComponent,
     MembresComponent,
+    ImportMembresDialog,
     RencontresComponent,
     InterserieDialog,
     HomeComponent,
@@ -172,7 +173,8 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
       ResultatsDialog,
       DateTerrainDialog,
       InterserieDialog,
-      RencontresDialog
+      RencontresDialog,
+      ImportMembresDialog
   ],
   providers: [
     AuthenticationService,
