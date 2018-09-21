@@ -162,6 +162,11 @@
         </div>
       </div>
     </div>
+    <div class="row" *ngIf="isAdminConnected()">
+      <div class="col-12 text-center">
+        <button class="btn btn-sm btn-info" (click)="anonymisation();" ><i class="fa fa-eye-slash" ></i>&nbsp;Anonymisation</button>
+      </div>
+    </div>
 
     <!--<button class="btn btn-warning" (click)="simulationClassement();">TEST</button>-->
 

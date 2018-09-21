@@ -246,6 +246,14 @@ export class MembreDetailComponent implements OnInit {
         });
       }
     }
+    
+    anonymisation(){
+      if (this.isAdminConnected()){
+        let anonymisationDialogRef = this.dialog.open(AnonymisationDialog, {
+          data: { membre: this.membre }, panelClass: "anonymisationDialog", disableClose:true
+        });
+      }
+    }
 
     supprimerMembre(){
         if (this.deletable){
@@ -823,4 +831,41 @@ export class ClassementDialog implements OnInit {
     );
 
   }
+}
+
+
+@Component({
+  selector: 'anonymisation-dialog',
+  templateUrl: './anonymisationDialog.html',
+})
+export class AnonymisationDialog {
+
+   private _membre:Membre;
+   nom:string;
+   prenom:string;
+
+  constructor(
+    public dialogRef: MatDialogRef<InfosAftDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membreService: MembreService
+    ) {
+        this._membre = data.membre;
+        this.nom = this._membre.nom;
+        this.prenom = this._membre.prenom;
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  confirm(): void {
+    // Anonymisation du membre
+    this.membreService.anonymisation(this._membre).subscribe(
+        membre => {
+            Object.assign(this._membre, membre);
+            this.dialogRef.close();
+     });
+
+    }
+
 }

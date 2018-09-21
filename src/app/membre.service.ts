@@ -55,6 +55,10 @@ export class MembreService {
   updateInfosAft(membre:Membre){
       return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/infosAft",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
+  
+  anonymisation(membre:Membre){
+      return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/anonymisation",membre, this.authenticationService.getPrivateApiHttpOptions());
+  }
 
   deleteMembre(membre: Membre) {
         return this.http.delete<Membre>(environment.privateApiUrl + "/membre?membreId=" + membre.id, this.authenticationService.getPrivateApiHttpOptions());
