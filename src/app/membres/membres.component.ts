@@ -81,19 +81,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
     },error => {console.log(error);});
   }
 
-  importData(event:any) {
-    let reader = new FileReader();
-      if(event.target.files && event.target.files.length > 0) {
-        let file = event.target.files[0];
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          let content = reader.result.split(',')[1];
-          this.membreService.importData(content).subscribe();
-          //TODO : message pour signaler que le fichier est en cours de chargement/charge
-        };
-      }
-  }
-
   sortData(sort: Sort) {
     this.actualSort=sort;
     const data = this.sortedMembers.slice();
@@ -195,16 +182,16 @@ export class MembresComponent implements OnInit, AfterViewInit {
       console.log("resultat : " + childResult);
     //this.membreListComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
   }
-  
+
 
     importer(){
-        
+
         let importMembresDialogRef = this.dialog.open(ImportMembresDialog, {
             data: {}, panelClass: "importMembresDialog", disableClose:false
         });
-        
+
     }
-    
+
 
 }
 
@@ -215,13 +202,38 @@ export class MembresComponent implements OnInit, AfterViewInit {
 })
 export class ImportMembresDialog {
 
-    showInfo:boolean=false;
+    showWorkInProgress:boolean=false;
+    showFinished:boolean=false;
 
   constructor(
     public dialogRef: MatDialogRef<ImportMembresDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private membreService: MembreService) {
     }
+
+  getTemplate(){
+    this.membreService.getTemplateImportMembres().subscribe(result => {
+      saveAs(result, "template.xls");
+      //var fileURL = URL.createObjectURL(result);window.open(fileURL);
+    },error => {console.log(error);});
+  }
+
+  importData(event:any) {
+    let reader = new FileReader();
+      if(event.target.files && event.target.files.length > 0) {
+        let file = event.target.files[0];
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.showFinished=false;
+          this.showWorkInProgress=true;
+          let content = reader.result.split(',')[1];
+          this.membreService.importData(content).subscribe(result => {
+            this.showWorkInProgress=false;
+            this.showFinished=true;
+          });
+        };
+      }
+  }
 
   cancel(): void {
     this.dialogRef.close();

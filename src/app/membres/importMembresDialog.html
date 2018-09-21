@@ -1,4 +1,28 @@
 <h1 mat-dialog-title>Import de membres<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content style="min-width:300px;">
-    
+
+  Les membres avec un numéro AFT présents dans le fichier seront ajoutés/mis à jour
+
+  <div *ngIf="showWorkInProgress" style="margin-top:10px;">
+    <div class="alert alert-warning" role="alert">
+      Import en cours
+    </div>
+  </div>
+
+  <div *ngIf="showFinished" style="margin-top:10px;">
+    <div class="alert alert-success" role="alert">
+      Import terminé
+    </div>
+  </div>
+
+  <div style="margin-top:10px">
+    <input type="file" class="form-control-file" (change)="importData($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+  </div>
+
+  <div style="margin-top:10px">
+    <button class="btn btn-sm btn-info" (click)="getTemplate();">Récupérer un modèle</button>
+  </div>
+
+
+
 </div>

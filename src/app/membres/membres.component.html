@@ -1,4 +1,3 @@
-<!--<button (click)="testRapport();">Test</button>-->
 <div class="row">
     <div #membreList class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <div class="card text-center">
@@ -112,7 +111,6 @@
                 <div *ngIf="isAdminConnected()" class="row" style="margin-top:10px;">
                     <div class="col-6 text-left">
                         <button class="btn btn-info" (click)="importer();" >Importer</button>
-                      <!--<input type="file" class="form-control-file" (change)="importData($event)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">-->
                     </div>
                     <div class="col-6 text-right">
                       <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>

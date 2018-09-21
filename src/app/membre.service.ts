@@ -18,6 +18,12 @@ export class MembreService {
     return this.http.get<Membre[]>(environment.publicApiUrl + "/membres" + (clubId!=null?("?clubId="+clubId):""), this.authenticationService.getPrivateApiHttpOptions());
   }
 
+  getTemplateImportMembres(){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(environment.privateApiUrl + "/membres/import/template",options);
+  }
+
   getRapportMembres() {
     return this.http.get("http://localhost:9100/api/testRapport",{responseType: 'blob'});
   }

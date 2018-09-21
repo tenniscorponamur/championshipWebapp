@@ -20,6 +20,7 @@
 .contactLink{
   cursor:pointer;
   color:white;
+  text-decoration:none;
 }
 
 .contactLink:hover{
@@ -29,6 +30,7 @@
 .reglementsLink{
   cursor:pointer;
   color:white;
+  text-decoration:none;
 }
 
 .reglementsLink:hover{
@@ -38,6 +40,7 @@
 .facebookLink{
   cursor:pointer;
   color:white;
+  text-decoration:none;
 }
 
 .facebookLink:hover{
