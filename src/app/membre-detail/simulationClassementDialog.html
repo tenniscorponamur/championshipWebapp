@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Simulation nouveau classement<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+    
+    <div *ngIf="showAlert" class="col-12">
+        <div class="alert alert-danger" role="alert">
+          Veuillez indiquer des dates valides
+        </div>
+    </div>
+    
+    <div>
+        <mat-form-field>
+          <input matInput [matDatepicker]="startPicker" placeholder="Date de début" [(ngModel)]="startDate" >
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi="true" #startPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="endPicker" placeholder="Date de fin" [(ngModel)]="endDate" >
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi="true" #endPicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    
+    <div class="text-center">
+        <button class="btn btn-info" (click)="simuler();" >Simulation</button>
+    </div>
+    
+    <div *ngIf="nouveauxPoints" style="margin-top:10px;">
+        Classement au {{endDate| date:'dd/MM/yyyy'}} : <strong>{{nouveauxPoints}} points</strong>
+    </div>
+    
+<!--  <div class="text-center" style="margin-top:10px;">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+  </div>-->
+
+</div>

@@ -33,7 +33,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent, ImportMembresDialog } from './membres/membres.component';
 import { RencontresComponent, InterserieDialog } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
-import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog, AnonymisationDialog } from './membre-detail/membre-detail.component';
+import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog, SimulationClassementDialog, AnonymisationDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
@@ -89,6 +89,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     ChangePasswordDialog,
     CookieDialog,
     InfosAftDialog,
+    SimulationClassementDialog,
     AnonymisationDialog,
     InfosGeneralesMembreDialog,
     ClubInfosDialog,
@@ -157,6 +158,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
       ChangePasswordDialog,
       CookieDialog,
       InfosAftDialog,
+      SimulationClassementDialog,
       AnonymisationDialog,
       InfosGeneralesMembreDialog,
       CoordonneesDialog,
