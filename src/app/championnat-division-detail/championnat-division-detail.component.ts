@@ -110,6 +110,11 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         }
     }
 
+    multiISChanged(division:Division){
+        if (!this._championnat.calendrierValide){
+          this.divisionService.updateDivision(this._championnat.id, division).subscribe();
+        }
+    }
 
     pointsMinChanged(division: Division) {
         if (!this._championnat.calendrierValide){

@@ -6,4 +6,5 @@ export class Division {
     pointsMinimum: number;
     pointsMaximum: number;
     championnat:Championnat;
+    multiIS: boolean=false;
 }
