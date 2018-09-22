@@ -1,6 +1,12 @@
 <h1 mat-dialog-title>Simulation nouveau classement<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content >
     
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+          Assurez-vous que les classements Corpo soient bien enregistrés avant d'effectuer une simulation
+        </div>
+    </div>
+    
     <div *ngIf="showAlert" class="col-12">
         <div class="alert alert-danger" role="alert">
           Veuillez indiquer des dates valides
