@@ -7,6 +7,7 @@ import {ChampionnatService} from '../championnat.service';
 import {ClassementService} from '../classement.service';
 import {LocalStorageService} from '../local-storage.service';
 import {Classement} from '../classement';
+import {ClassementClub} from '../classementClub';
 
 @Component({
   selector: 'app-classements',
@@ -22,8 +23,10 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
   selectedChampionnat: Championnat;
 
   classements:Classement[]=[];
+  classementsClub:ClassementClub[]=[];
 
-  showProgress = false;
+  showProgressPoules = false;
+  showProgressClubs = false;
 
   constructor(private championnatService:ChampionnatService,
               private classementService:ClassementService,
@@ -55,14 +58,41 @@ export class ClassementsComponent extends ChampionnatDetailComponent implements 
               }
         });
     }
-
+    
+    
     loadClassements() {
-      this.showProgress = true;
+        if (this.selectedChampionnat!=null){
+            this.localStorageService.storeChampionshipKey(JSON.stringify(this.selectedChampionnat));
+            this.loadClassementsPoules();
+            this.loadClassementClubs();
+        }
+    }
+
+    loadClassementsPoules() {
+      this.showProgressPoules = true;
       if (this.selectedChampionnat!=null){
         this.classementService.getClassements(this.selectedChampionnat.id).subscribe(classements => {
           this.classements = classements;
-          this.showProgress = false;
+          this.showProgressPoules = false;
         });
+      }
+    }
+    
+    loadClassementClubs(){
+      this.showProgressClubs = true;
+      if (this.selectedChampionnat!=null){
+          this.classementService.getClassementsClub(this.selectedChampionnat.id).subscribe(classementsClub => {
+              this.classementsClub = classementsClub;
+              this.showProgressClubs=false;
+          });
+      }
+    }
+    
+    getClassForClub(index:number){
+      if (index==0){
+        return "premier";
+      }else{
+        return "";
       }
     }
 

@@ -4,6 +4,7 @@ import {AuthenticationService} from './authentication.service';
 import {Observable} from 'rxjs/Observable';
 import { environment } from '../environments/environment';
 import {Classement} from './classement';
+import {ClassementClub} from './classementClub';
 
 @Injectable()
 export class ClassementService {
@@ -14,4 +15,8 @@ export class ClassementService {
     return this.http.get<Classement[]>(environment.publicApiUrl + "/classements?championnatId="+championnatId);
   }
 
+  getClassementsClub(championnatId:number): Observable<ClassementClub[]> {
+    return this.http.get<ClassementClub[]>(environment.publicApiUrl + "/classementsClub?championnatId="+championnatId);
+  }
+  
 }
