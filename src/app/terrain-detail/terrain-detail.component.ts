@@ -1,7 +1,9 @@
 import { Component, OnInit, EventEmitter, Inject, Input, Output } from '@angular/core';
-import {Terrain} from '../terrain';
-import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
+import {Terrain, HoraireTerrain, JOURS_SEMAINE, JourSemaine} from '../terrain';
+import {MatDialogRef, MAT_DIALOG_DATA, MatDialog, Sort} from '@angular/material';
 import {TerrainService} from '../terrain.service';
+import {TYPES_CHAMPIONNAT, TypeChampionnat} from '../championnat';
+import {compare} from '../utility';
 
 @Component({
   selector: 'app-terrain-detail',
@@ -12,6 +14,10 @@ export class TerrainDetailComponent implements OnInit {
 
   @Output() deleteTerrain = new EventEmitter<Terrain>();
 
+  joursSemaine:JourSemaine[] = JOURS_SEMAINE;
+  typesChampionnat: TypeChampionnat[] = TYPES_CHAMPIONNAT;
+      
+  horairesTerrain:HoraireTerrain[];
   deletable=false;
 
   private _terrain: Terrain;
@@ -19,6 +25,7 @@ export class TerrainDetailComponent implements OnInit {
   @Input()
   set terrain(terrain: Terrain) {
     this._terrain = terrain;
+    this.refreshHoraires();
     this.refreshDeletable();
   }
 
@@ -30,10 +37,32 @@ export class TerrainDetailComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+      this.refreshHoraires();
   }
 
+  sortData(sort: Sort) {
+    const data = this.horairesTerrain.slice();
+    if (sort){
+        if (!sort.active || sort.direction == '') {
+          this.horairesTerrain = data;
+          return;
+        }
+        
+        this.horairesTerrain = data.sort((a, b) => {
+          let isAsc = sort.direction == 'asc';
+          switch (sort.active) {
+            case 'typeChampionnat': return compare(a.typeChampionnat, b.typeChampionnat, isAsc);
+            case 'jourSemaine': return compare(a.jourSemaine==1?8:a.jourSemaine, b.jourSemaine==1?8:b.jourSemaine, isAsc);
+            default: return 0;
+          }
+        });
+    }
+  }
+  
   refreshDeletable(){
-    this.terrainService.isTerrainDeletable(this.terrain).subscribe(result => this.deletable = result);
+      if (this.terrain){
+        this.terrainService.isTerrainDeletable(this.terrain).subscribe(result => this.deletable = result);
+      }
   }
 
   ouvrirTerrain() {
@@ -45,8 +74,34 @@ export class TerrainDetailComponent implements OnInit {
     });
   }
   
-  ouvrirHorairesTerrain(){
-      //TODO : ouvrir horaires
+  refreshHoraires(){
+      if (this.terrain){
+          this.terrainService.getHorairesTerrain(this.terrain).subscribe(horairesTerrain => this.horairesTerrain = horairesTerrain);
+      }
+  }
+  
+  addHoraire(){
+    let horaireTerrain = new HoraireTerrain();
+    this.horairesTerrain.push(horaireTerrain);
+  }
+  
+  changeHoraire(horaireTerrain:HoraireTerrain){
+    if (horaireTerrain.typeChampionnat != null 
+        && horaireTerrain.jourSemaine != null 
+        && horaireTerrain.heures != null 
+        && horaireTerrain.minutes!=null){
+        if (horaireTerrain.id!=null){
+            this.terrainService.updateHoraireTerrain(this.terrain,horaireTerrain).subscribe();
+        }else{
+            this.terrainService.ajoutHoraireTerrain(this.terrain, horaireTerrain).subscribe(horaireSaved => horaireTerrain.id = horaireSaved.id);
+        }
+    }
+  }
+  
+  supprimerHoraire(horaireTerrain:HoraireTerrain){
+      this.terrainService.deleteHoraireTerrain(this.terrain,horaireTerrain).subscribe(result => {
+        this.horairesTerrain.splice(this.horairesTerrain.indexOf(horaireTerrain), 1);
+    });
   }
 
   supprimerTerrain(){

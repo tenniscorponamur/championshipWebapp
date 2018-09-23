@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {Observable} from 'rxjs/Observable';
 import { environment } from '../environments/environment';
-import { Terrain } from './terrain';
+import { Terrain, HoraireTerrain } from './terrain';
 
 @Injectable()
 export class TerrainService {
@@ -17,6 +17,10 @@ export class TerrainService {
   getTerrain(id:number): Observable<Terrain> {
     return this.http.get<Terrain>(environment.publicApiUrl + "/terrain?id="+id);
   }
+  
+  getHorairesTerrain(terrain:Terrain): Observable<HoraireTerrain[]> {
+    return this.http.get<HoraireTerrain[]>(environment.publicApiUrl + "/terrain/"+terrain.id+ "/horaires");
+  }
 
   ajoutTerrain(terrain:Terrain){
     return this.http.post<Terrain>(environment.privateApiUrl + "/terrain",terrain, this.authenticationService.getPrivateApiHttpOptions());
@@ -27,10 +31,22 @@ export class TerrainService {
   }
 
   deleteTerrain(terrain: Terrain) {
-        return this.http.delete<Terrain>(environment.privateApiUrl + "/terrain?terrainId=" + terrain.id, this.authenticationService.getPrivateApiHttpOptions());
-    }
+      return this.http.delete<Terrain>(environment.privateApiUrl + "/terrain?terrainId=" + terrain.id, this.authenticationService.getPrivateApiHttpOptions());
+  }
 
-    isTerrainDeletable(terrain:Terrain) {
-        return this.http.get<boolean>(environment.privateApiUrl + "/terrain/" + terrain.id + "/deletable", this.authenticationService.getPrivateApiHttpOptions());
-    }
+  isTerrainDeletable(terrain:Terrain) {
+      return this.http.get<boolean>(environment.privateApiUrl + "/terrain/" + terrain.id + "/deletable", this.authenticationService.getPrivateApiHttpOptions());
+  }
+  
+  ajoutHoraireTerrain(terrain:Terrain,horaireTerrain:HoraireTerrain){
+    return this.http.post<Terrain>(environment.privateApiUrl + "/terrain/" + terrain.id + "/horaire", horaireTerrain, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  updateHoraireTerrain(terrain:Terrain,horaireTerrain:HoraireTerrain){
+      return this.http.put<Terrain>(environment.privateApiUrl + "/terrain/" + terrain.id + "/horaire", horaireTerrain, this.authenticationService.getPrivateApiHttpOptions());
+  }
+ 
+  deleteHoraireTerrain(terrain:Terrain,horaireTerrain: HoraireTerrain) {
+      return this.http.delete<Terrain>(environment.privateApiUrl + "/terrain/" + terrain.id + "/horaire?horaireTerrainId=" + horaireTerrain.id, this.authenticationService.getPrivateApiHttpOptions());
+  }
 }

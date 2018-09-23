@@ -1,3 +1,9 @@
 .deleteTerrainButton{
     cursor:pointer;
 }
+
+.deleteHoraireTerrainButton{
+    background-color:lightgrey;
+    border-radius:10px;
+    cursor:pointer;
+}
