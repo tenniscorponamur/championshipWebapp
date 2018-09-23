@@ -44,6 +44,10 @@ export class TerrainDetailComponent implements OnInit {
     terrainDialogRef.afterClosed().subscribe(result => {
     });
   }
+  
+  ouvrirHorairesTerrain(){
+      //TODO : ouvrir horaires
+  }
 
   supprimerTerrain(){
       if (this.deletable){
