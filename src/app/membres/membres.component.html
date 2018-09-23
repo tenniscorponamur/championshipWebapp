@@ -8,13 +8,13 @@
                 <div class="row" style="margin-bottom:10px;">
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <mat-form-field>
-                          <input #searchBox matInput placeholder="Nom/Prénom" [(ngModel)]="filtreNomPrenom" (keyup)="filtre(searchBox.value,clubSelect.value)">
+                          <input #searchBox matInput placeholder="Nom/Prénom" [(ngModel)]="filtreNomPrenom" (keyup)="filtre()">
                         </mat-form-field>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <form>
                             <mat-form-field>
-                              <mat-select #clubSelect placeholder="Clubs" [(ngModel)]="filtreSelectedClubs" [formControl]="clubCtrl" multiple (selectionChange)="filtre(searchBox.value,clubSelect.value)">
+                              <mat-select #clubSelect placeholder="Clubs" [(ngModel)]="filtreSelectedClubs" [formControl]="clubCtrl" multiple (selectionChange)="filtre()">
                                   <mat-option *ngFor="let club of clubs | async" [value]="club">
                                       <small>{{ club.nom }}</small>
                                   </mat-option>
@@ -24,50 +24,45 @@
                     </div>
                 </div>
                 <div align="right">
-                    <a data-toggle="collapse" href="#otherCriterias" role="button" aria-expanded="false" aria-controls="otherCriterias">Autres critères</a>
+                    <i *ngIf="isOtherCriterias();" class="fa fa-exclamation-circle" style="color:red"></i>&nbsp;<a data-toggle="collapse" href="#otherCriterias" role="button" aria-expanded="false" aria-controls="otherCriterias">Autres critères</a>
                 </div>
                 <div class="collapse" id="otherCriterias">
-                    <div class="card card-body">
                         <div class="row">
                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="classementGroupSelect">Classement</label>
-                                    </div>
-                                    <select class="custom-select" id="classementGroupSelect">
-                                        <option selected>Choisir...</option>
-                                        <option value="1">C30-4</option>
-                                        <option value="2">C30-2</option>
-                                        <option value="3">C30</option>
-                                        <option value="4">C15-4</option>
-                                    </select>
-                                </div>
+                                <mat-form-field>
+                                    <mat-select placeholder="Genre" [(ngModel)]="filtreSelectedGenre" (selectionChange)="filtre();">
+                                        <mat-option>-</mat-option>
+                                        <mat-option *ngFor="let genre of genres" [value]="genre">
+                                            <small>{{ genre.libelle }}</small>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text">Actif</label>
-                                    </div>
-                                    <div>
-                                        &nbsp;
-                                        &nbsp;
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                        <label class="form-check-label" for="inlineRadio1">Oui</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                        <label class="form-check-label" for="inlineRadio2">Non</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
-                                        <label class="form-check-label" for="inlineRadio3">Sans importance</label>
-                                    </div>
-                                </div>
+                                <mat-form-field>
+                                    <mat-select placeholder="Activité" [(ngModel)]="filtreActivite" (selectionChange)="filtre();">
+                                        <mat-option>-</mat-option>
+                                        <mat-option value="true" ><small>Actif</small></mat-option>
+                                        <mat-option value="false" ><small>Inactif</small></mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <mat-form-field>
+                                  <input  matInput placeholder="Numéro club AFT" [(ngModel)]="filtreNumeroClubAFT" (keyup)="filtre()" >
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <mat-form-field>
+                                    <mat-select placeholder="Points Corpo" [(ngModel)]="filtreEchellecorpo" (selectionChange)="filtre()">
+                                        <mat-option>-</mat-option>
+                                        <mat-option *ngFor="let echelleCorpo of echellesCorpo" [value]="echelleCorpo.points">
+                                            <small>{{ echelleCorpo.points }} points</small>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                             </div>
                         </div>
-                    </div>
                 </div>
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let membre of filteredMembers" (click)="ouvrirMembreOnMobile(membre);" class="myBox text-left" style="cursor:pointer;">

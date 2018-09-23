@@ -17,6 +17,9 @@ import {ClubService} from '../club.service';
 import {Club} from '../club';
 import {compare} from '../utility';
 import { saveAs } from 'file-saver/FileSaver';
+import {Genre, GENRES} from '../genre';
+import {ClassementCorpo} from '../classementCorpo';
+import {ClassementMembreService} from '../classement-membre.service';
 
 @Component({
   selector: 'app-membres',
@@ -43,14 +46,21 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   clubCtrl: FormControl=new FormControl();
   clubs:Observable<Club[]>;
+  genres:Genre[];
+  echellesCorpo:any[]=[];
 
     componentName:string="membresComponent";
     @ViewChild("membreDetail") membreDetailComponent: ElementRef;
     @ViewChild("membreList") membreListComponent: ElementRef;
 
-
     filtreNomPrenom:string;
     filtreSelectedClubs:Club[]=[];
+    
+    filtreEchellecorpo:number;
+    filtreNumeroClubAFT:string;
+    filtreSelectedGenre:Genre;
+    filtreActivite:string;    
+    
     membres:Membre[];
     sortedMembers:Membre[];
     filteredMembers:Membre[];
@@ -61,9 +71,12 @@ export class MembresComponent implements OnInit, AfterViewInit {
     private membreService:MembreService,
     private clubService:ClubService,
     private authenticationService: AuthenticationService,
+    private classementMembreService: ClassementMembreService,
     public dialog: MatDialog) {
       this.clubCtrl = new FormControl();
       this.clubs = this.clubService.getClubs();
+      this.genres = GENRES;
+      this.classementMembreService.getEchellesCorpo().subscribe(echellesCorpo => this.echellesCorpo = echellesCorpo);
     }
 
   ngOnInit() {
@@ -100,29 +113,69 @@ export class MembresComponent implements OnInit, AfterViewInit {
           }
         });
     }
-    this.filtre(this.filtreNomPrenom,this.filtreSelectedClubs);
+    this.filtre();
   }
 
-    filtre(nomPrenom: string,selectedClubs:Club[]): void {
+    isOtherCriterias(){
+    return (this.filtreSelectedGenre != null && this.filtreSelectedGenre != undefined) 
+        || (this.filtreActivite != null && this.filtreActivite != undefined) 
+        || (this.filtreEchellecorpo != null && this.filtreEchellecorpo != undefined) 
+        || (this.filtreNumeroClubAFT != null && this.filtreNumeroClubAFT != undefined && this.filtreNumeroClubAFT.trim()!='');
+    }
+
+    filtre(): void {
 
         this.filteredMembers = this.sortedMembers;
 
-        if (nomPrenom && nomPrenom.trim().length > 0){
+        if (this.filtreNomPrenom && this.filtreNomPrenom.trim().length > 0){
 
             this.filteredMembers = this.filteredMembers.filter(membre =>
-                membre.nom.toLowerCase().includes(nomPrenom.toLowerCase())
-             || membre.prenom.toLowerCase().includes(nomPrenom.toLowerCase()))
+                membre.nom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
+             || membre.prenom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase()));
 
         }
-        if (selectedClubs && selectedClubs.length > 0){
+        if (this.filtreSelectedClubs && this.filtreSelectedClubs.length > 0){
             this.filteredMembers = this.filteredMembers.filter(({club}) => {
                 // Workaround car je ne parviens pas a faire en sorte que la methode includes retourne true
-                return selectedClubs.some(selectedClub => {
+                return this.filtreSelectedClubs.some(selectedClub => {
                     if (club){
                         return selectedClub.id==club.id
                     }
                     return false;
                 })});
+        }
+        
+        if (this.filtreSelectedGenre != null && this.filtreSelectedGenre != undefined){
+            this.filteredMembers = this.filteredMembers.filter(membre => membre.genre == this.filtreSelectedGenre.code);
+        }
+        
+        if (this.filtreActivite != null && this.filtreActivite != undefined){
+            this.filteredMembers = this.filteredMembers.filter(membre => {
+                if (this.filtreActivite=="true"){
+                    return membre.actif;
+                }else{
+                    return !membre.actif;
+                }
+            });
+        }
+
+        if (this.filtreEchellecorpo != null && this.filtreEchellecorpo != undefined){
+            this.filteredMembers = this.filteredMembers.filter(membre => {
+                if (membre.classementCorpoActuel != null){
+                    return membre.classementCorpoActuel.points == this.filtreEchellecorpo;
+                }
+                return false;
+            });
+        }
+        
+        if (this.filtreNumeroClubAFT != null && this.filtreNumeroClubAFT != undefined && this.filtreNumeroClubAFT.trim().length > 0){
+            
+            this.filteredMembers = this.filteredMembers.filter(membre => {
+                if (membre.numeroClubAft!=null){
+                    return membre.numeroClubAft.toLowerCase().includes(this.filtreNumeroClubAFT.toLowerCase());
+                }
+            });
+
         }
 
     }
