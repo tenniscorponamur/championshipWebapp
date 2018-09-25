@@ -29,7 +29,7 @@
     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
       <mat-form-field>
         <input class="dateRencontrePicker" matInput size="10" [matDatepicker]="picker" placeholder="Date"
-               [(ngModel)]="date" >
+               [(ngModel)]="date" (dateChange)="changeDate();">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi="true" #picker></mat-datepicker>
       </mat-form-field>
@@ -60,7 +60,7 @@
 
     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-center">
         <mat-form-field>
-          <mat-select placeholder="Terrain" [(ngModel)]="terrainId" >
+          <mat-select placeholder="Terrain" [(ngModel)]="terrainId" (change)="changeTerrain()">
             <mat-option>Aucun terrain</mat-option>
             <mat-option *ngFor="let terrain of terrains" [value]="terrain.id">
               <small>{{ terrain.nom }}</small>

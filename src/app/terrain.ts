@@ -10,6 +10,7 @@ export class Terrain {
 
 export class HoraireTerrain {
     id:number;
+    terrain:Terrain;
     typeChampionnat:string;
     jourSemaine:number;
     heures:number;

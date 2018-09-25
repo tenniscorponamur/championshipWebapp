@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Championnat} from '../championnat';
+import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
 import {MatDialog, MatDatepickerInputEvent} from '@angular/material';
@@ -14,7 +14,7 @@ import {Division} from '../division';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {Rencontre} from '../rencontre';
 import {RencontreService} from '../rencontre.service';
-import {Terrain} from '../terrain';
+import {Terrain, HoraireTerrain} from '../terrain';
 import {TerrainService} from '../terrain.service';
 
 @Component({
@@ -43,6 +43,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     calendarDeletable:boolean=false;
 
     terrains:Terrain[];
+    horairesTerrain:HoraireTerrain[]=[];
 
     constructor(
         public dialog: MatDialog,
@@ -70,8 +71,12 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
         this.divisions=[];
         this.nbRencontres=0;
+        this.horairesTerrain=[];
 
         if (this.selectedChampionnat) {
+
+            this.terrainService.getHorairesTerrainByTypeChampionnat(this.selectedChampionnat.type).subscribe(horaires => this.horairesTerrain = horaires);
+
             this.divisionService.getDivisions(this.selectedChampionnat.id).subscribe(
                 divisions => {
                     divisions.forEach(division => {
@@ -237,53 +242,96 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
     changeDate(rencontre:RencontreExtended){
       if (!this.selectedChampionnat.cloture){
-        if (rencontre.date!=null && rencontre.heure!=null && rencontre.minute!=null){
-            rencontre.rencontre.dateHeureRencontre = new Date(rencontre.date);
-            rencontre.rencontre.dateHeureRencontre.setHours(rencontre.heure);
-            rencontre.rencontre.dateHeureRencontre.setMinutes(rencontre.minute);
 
-            this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
-            result => {
-             },
-            error => {
-                console.log("erreur save date rencontre");
-                rencontre.rencontre.dateHeureRencontre=null;
-                rencontre.date=null;
-                rencontre.heure=null;
-                rencontre.minute=null;
-             });
-        }else{
-          rencontre.rencontre.dateHeureRencontre = null;
-          this.rencontreService.updateRencontre(rencontre.rencontre).subscribe();
-        }
+        this.initHoraireFromDate(rencontre);
+        this.formatDateAndTerrain(rencontre);
+
+        this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
+        result => {
+         },
+        error => {
+            console.log("erreur save rencontre");
+            rencontre.rencontre.dateHeureRencontre=null;
+            rencontre.date=null;
+            rencontre.heure=null;
+            rencontre.minute=null;
+         });
+
       }
+    }
+
+    initHoraireFromDate(rencontre:RencontreExtended){
+        if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_HIVER.code){
+          if (rencontre.date!=null){
+            let newDate = new Date(rencontre.date);
+            let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));
+            if (horaire!=null){
+              rencontre.terrainId = horaire.terrain.id;
+              rencontre.heure=horaire.heures;
+              rencontre.minute=horaire.minutes;
+            }
+          }
+        }else if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_ETE.code){
+          if (rencontre.date!=null && rencontre.terrainId!=null){
+            let newDate = new Date(rencontre.date);
+            let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == rencontre.terrainId));
+            if (horaire!=null){
+              rencontre.heure=horaire.heures;
+              rencontre.minute=horaire.minutes;
+            }
+          }
+        }
     }
 
     changeTerrain(rencontre:RencontreExtended){
       if (!this.selectedChampionnat.cloture){
-        if (rencontre.terrainId){
-            this.terrainService.getTerrain(rencontre.terrainId).subscribe(terrain => {
-                rencontre.rencontre.terrain=terrain;
-                this.updateTerrainRencontre(rencontre);
-            });
-        }else{
+
+        this.initHoraireFromTerrain(rencontre);
+        this.formatDateAndTerrain(rencontre);
+
+        //Mise a jour du terrain de la rencontre
+        this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
+        result => {
+         },
+        error => {
+            console.log("erreur save rencontre");
+            rencontre.terrainId=null;
             rencontre.rencontre.terrain=null;
-            this.updateTerrainRencontre(rencontre);
+         });
+      }
+    }
+
+    initHoraireFromTerrain(rencontre:RencontreExtended){
+      if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_ETE.code){
+        if (rencontre.date!=null && rencontre.terrainId!=null){
+          let newDate = new Date(rencontre.date);
+          let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == rencontre.terrainId));
+          if (horaire!=null){
+            rencontre.heure=horaire.heures;
+            rencontre.minute=horaire.minutes;
+          }
         }
       }
     }
 
-  updateTerrainRencontre(rencontre:RencontreExtended){
-    //Mise a jour du terrain de la rencontre
-    this.rencontreService.updateRencontre(rencontre.rencontre).subscribe(
-    result => {
-     },
-    error => {
-        console.log("erreur save terrain rencontre");
-        rencontre.terrainId=null;
-        rencontre.rencontre.terrain=null;
-     });
-  }
+    formatDateAndTerrain(rencontre:RencontreExtended){
+
+      if (rencontre.date!=null && rencontre.heure!=null && rencontre.minute!=null){
+        rencontre.rencontre.dateHeureRencontre = new Date(rencontre.date);
+        rencontre.rencontre.dateHeureRencontre.setHours(rencontre.heure);
+        rencontre.rencontre.dateHeureRencontre.setMinutes(rencontre.minute);
+      }else{
+        rencontre.rencontre.dateHeureRencontre = null;
+      }
+
+      if (rencontre.terrainId){
+          let selectedTerrain = this.terrains.find(terrain => terrain.id == rencontre.terrainId);
+          rencontre.rencontre.terrain=selectedTerrain;
+      }else{
+          rencontre.rencontre.terrain=null;
+      }
+
+    }
 
   switchTeams(rencontre:RencontreExtended){
       if (!this.selectedChampionnat.cloture){

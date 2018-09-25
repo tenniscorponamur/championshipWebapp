@@ -15,9 +15,9 @@ import {FormControl} from '@angular/forms';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Club} from '../club';
 import {Set} from '../set';
-import {Terrain} from '../terrain';
+import {Terrain, HoraireTerrain} from '../terrain';
 import {Equipe} from '../equipe';
-import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
+import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE} from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 
 
@@ -345,6 +345,7 @@ export class DateTerrainDialog implements OnInit {
     terrainId:number;
 
     terrains:Terrain[]=[];
+    horairesTerrain:HoraireTerrain[]=[];
 
     constructor(
         private rencontreService: RencontreService,
@@ -364,6 +365,43 @@ export class DateTerrainDialog implements OnInit {
 
   ngOnInit() {
     this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
+    this.terrainService.getHorairesTerrainByTypeChampionnat(this.rencontre.division.championnat.type).subscribe(horaires => this.horairesTerrain = horaires);
+    }
+
+    changeDate(){
+      if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_HIVER.code){
+        if (this.date!=null){
+          let newDate = new Date(this.date);
+          let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));
+          if (horaire!=null){
+            this.terrainId = horaire.terrain.id;
+            this.heure=horaire.heures;
+            this.minute=horaire.minutes;
+          }
+        }
+      }else if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+        if (this.date!=null && this.terrainId!=null){
+          let newDate = new Date(this.date);
+          let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == this.terrainId));
+          if (horaire!=null){
+            this.heure=horaire.heures;
+            this.minute=horaire.minutes;
+          }
+        }
+      }
+    }
+
+    changeTerrain(){
+      if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+        if (this.date!=null && this.terrainId!=null){
+          let newDate = new Date(this.date);
+          let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == this.terrainId));
+          if (horaire!=null){
+            this.heure=horaire.heures;
+            this.minute=horaire.minutes;
+          }
+        }
+      }
     }
 
     cancel(): void {

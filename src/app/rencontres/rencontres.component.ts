@@ -18,7 +18,7 @@ import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import { RxResponsiveService } from 'rx-responsive';
 import {TerrainService} from '../terrain.service';
-import {Terrain} from '../terrain';
+import {Terrain,HoraireTerrain} from '../terrain';
 
 const RENCONTRES_VALIDES="Validées"
 const RENCONTRES_A_ENCODER="A encoder"
@@ -237,10 +237,10 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
             if (this.selectedChampionnat){
                 if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_ETE.code
                 || this.selectedChampionnat.type==TYPE_CHAMPIONNAT_HIVER.code){
-                    if (!this.selectedChampionnat.cloture){
+                    if (this.selectedChampionnat.calendrierValide && !this.selectedChampionnat.cloture){
                         if (this.poules!=null && this.poules.length>1){
                             return true;
-                        } 
+                        }
                     }
                 }
             }
@@ -335,6 +335,7 @@ export class InterserieDialog implements OnInit {
     interserieSelected:Rencontre;
 
     terrains:Terrain[]=[];
+    horairesTerrain:HoraireTerrain[]=[];
 
   constructor(
     public dialogRef: MatDialogRef<InterserieDialog>,
@@ -347,6 +348,7 @@ export class InterserieDialog implements OnInit {
   ngOnInit() {
     this.rencontreService.getInterseries(this._championnat.id).subscribe(rencontres => this.rencontresInterseries=rencontres);
     this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
+    this.terrainService.getHorairesTerrainByTypeChampionnat(this._championnat.type).subscribe(horaires => this.horairesTerrain = horaires);
   }
 
   switchTeams(rencontre:Rencontre){
@@ -360,6 +362,42 @@ export class InterserieDialog implements OnInit {
         this.terrainId = null;
     }
   }
+
+    changeDate(){
+      if (this._championnat.type==TYPE_CHAMPIONNAT_HIVER.code){
+        if (this.date!=null){
+          let newDate = new Date(this.date);
+          let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));
+          if (horaire!=null){
+            this.terrainId = horaire.terrain.id;
+            this.heure=horaire.heures;
+            this.minute=horaire.minutes;
+          }
+        }
+      }else if (this._championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+        if (this.date!=null && this.terrainId!=null){
+          let newDate = new Date(this.date);
+          let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == this.terrainId));
+          if (horaire!=null){
+            this.heure=horaire.heures;
+            this.minute=horaire.minutes;
+          }
+        }
+      }
+    }
+
+    changeTerrain(){
+      if (this._championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+        if (this.date!=null && this.terrainId!=null){
+          let newDate = new Date(this.date);
+          let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == this.terrainId));
+          if (horaire!=null){
+            this.heure=horaire.heures;
+            this.minute=horaire.minutes;
+          }
+        }
+      }
+    }
 
   cancel(): void {
     this.dialogRef.close();

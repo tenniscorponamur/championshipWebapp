@@ -17,9 +17,13 @@ export class TerrainService {
   getTerrain(id:number): Observable<Terrain> {
     return this.http.get<Terrain>(environment.publicApiUrl + "/terrain?id="+id);
   }
-  
+
   getHorairesTerrain(terrain:Terrain): Observable<HoraireTerrain[]> {
     return this.http.get<HoraireTerrain[]>(environment.publicApiUrl + "/terrain/"+terrain.id+ "/horaires");
+  }
+
+  getHorairesTerrainByTypeChampionnat(typeChampionnat:string): Observable<HoraireTerrain[]> {
+    return this.http.get<HoraireTerrain[]>(environment.publicApiUrl + "/horairesTerrain?typeChampionnat="+ typeChampionnat);
   }
 
   ajoutTerrain(terrain:Terrain){
@@ -37,7 +41,7 @@ export class TerrainService {
   isTerrainDeletable(terrain:Terrain) {
       return this.http.get<boolean>(environment.privateApiUrl + "/terrain/" + terrain.id + "/deletable", this.authenticationService.getPrivateApiHttpOptions());
   }
-  
+
   ajoutHoraireTerrain(terrain:Terrain,horaireTerrain:HoraireTerrain){
     return this.http.post<Terrain>(environment.privateApiUrl + "/terrain/" + terrain.id + "/horaire", horaireTerrain, this.authenticationService.getPrivateApiHttpOptions());
   }
@@ -45,7 +49,7 @@ export class TerrainService {
   updateHoraireTerrain(terrain:Terrain,horaireTerrain:HoraireTerrain){
       return this.http.put<Terrain>(environment.privateApiUrl + "/terrain/" + terrain.id + "/horaire", horaireTerrain, this.authenticationService.getPrivateApiHttpOptions());
   }
- 
+
   deleteHoraireTerrain(terrain:Terrain,horaireTerrain: HoraireTerrain) {
       return this.http.delete<Terrain>(environment.privateApiUrl + "/terrain/" + terrain.id + "/horaire?horaireTerrainId=" + horaireTerrain.id, this.authenticationService.getPrivateApiHttpOptions());
   }
