@@ -54,12 +54,12 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
             this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true);});
         });
     }
-    
+
     refreshCloturable(){
         this.championnatService.isCloturable(this.championnat).subscribe(cloturable => {this.cloturable = cloturable;});
     }
 
-    refreshStyles() {        
+    refreshStyles() {
         if (this._championnat) {
             if (this._championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code
                 || this._championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
@@ -111,6 +111,12 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
     }
 
     multiISChanged(division:Division){
+        if (!this._championnat.calendrierValide){
+          this.divisionService.updateDivision(this._championnat.id, division).subscribe();
+        }
+    }
+
+    withFinalesChanged(division:Division){
         if (!this._championnat.calendrierValide){
           this.divisionService.updateDivision(this._championnat.id, division).subscribe();
         }
@@ -203,7 +209,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
             this.divisionService.updateDivisionList(this._championnat.id, this.divisions).subscribe();
         });
     }
-    
+
     cloturerChampionnat(){
         if (this._championnat.calendrierValide){
             this.championnatService.updateClotureChampionnat(this.championnat, true).subscribe(result => {
@@ -230,7 +236,7 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
 export class ChampionnatDescriptionDialog {
 
     types = TYPES_CHAMPIONNAT;
-    
+
     categories:CategorieChampionnat[] = [];
 
     _annee: string;
@@ -251,10 +257,10 @@ export class ChampionnatDescriptionDialog {
         this._annee = this._championnat.annee;
         this._type = this._championnat.type;
         this._categorie = this._championnat.categorie;
-        
+
         this.initCategories();
     }
-    
+
     initCategories(){
         if (this._type == TYPE_CHAMPIONNAT_HIVER.code
             || this._type == TYPE_CHAMPIONNAT_ETE.code) {
@@ -266,9 +272,9 @@ export class ChampionnatDescriptionDialog {
         } else if (this._type == TYPE_CHAMPIONNAT_COUPE_HIVER.code){
             this.categories = [CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES];
         }
-        
+
         // On reinitialise la categorie si elle ne se trouve pas dans la liste obtenue
-        
+
         let selectedCategorie = this.categories.find(categorie => categorie.code == this._categorie);
         if (selectedCategorie==null){
             this._categorie = null;
