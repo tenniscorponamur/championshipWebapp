@@ -16,17 +16,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">12/03/18</th>
-                                <td>UNAMUR A</td>
-                                <td>TC Wallonie B</td>
-                                <td><a href="https://www.google.be/maps/dir/''/google+map+geronsart/@50.4487228,4.8202329,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c199ab1390490d:0x35c056f67720da22!2m2!1d4.8902725!2d50.4487438" target="_blank">GERONSART TC</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">24/03/18</th>
-                                <td>IATA B</td>
-                                <td>GAZELEC</td>
-                                <td><a href="">HAILLOT TC</a></td>
+                            <tr *ngFor="let rencontre of nextMeetings">
+                                <td>{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td>{{rencontre.equipeVisites.codeAlphabetique}}</td>
+                                <td>{{rencontre.equipeVisiteurs.codeAlphabetique}}</td>
+                                <td><span *ngIf="rencontre.terrain" ><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -52,17 +46,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>08/03/18</td>
-                                <td>UNAMUR B</td>
-                                <td><strong>GAZELEC</strong></td>
-                                <td>7-5</td>
-                            </tr>
-                            <tr>
-                                <td>21/02/18</td>
-                                <td><strong>TC WALLONIE A</strong></td>
-                                <td>IATA A</td>
-                                <td>10-2</td>
+                            <tr *ngFor="let rencontre of lastResults">
+                                <td>{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy'}}</td>
+                                <td>{{rencontre.equipeVisites.codeAlphabetique}}</td>
+                                <td>{{rencontre.equipeVisiteurs.codeAlphabetique}}</td>
+                                <td>{{rencontre.pointsVisites}} - {{rencontre.pointsVisiteurs}}</td>
                             </tr>
                         </tbody>
                     </table>

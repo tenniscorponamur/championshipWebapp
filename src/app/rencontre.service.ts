@@ -15,6 +15,14 @@ export class RencontreService {
     getRencontres(divisionId: number,pouleId:number,equipeId:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):"")+(equipeId!=null?("&equipeId="+equipeId):""));
     }
+    
+    getLastResults(maxNumberOfResults:number): Observable<Rencontre[]> {
+        return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/last?numberOfResults=" + maxNumberOfResults);
+    }
+    
+    getNextMeetings(maxNumberOfResults:number): Observable<Rencontre[]> {
+        return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/next?numberOfResults=" + maxNumberOfResults);
+    }
 
     isValidable(rencontre:Rencontre) {
         return this.http.get<boolean>(environment.publicApiUrl + "/rencontre/" + rencontre.id + "/isValidable");
