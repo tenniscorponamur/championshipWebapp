@@ -1,4 +1,6 @@
 import { Component} from '@angular/core';
+import {MembreService} from '../membre.service';
+//import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,14 @@ import { Component} from '@angular/core';
 })
 export class HomeComponent {
 
-  constructor() { }
+  constructor(
+    private membreService: MembreService) { }
+  
+  getListeForces(){
+      this.membreService.getListeForce().subscribe(result => {
+      //saveAs(result, "listeForces.pdf");
+      var fileURL = URL.createObjectURL(result);window.open(fileURL);
+    },error => {console.log(error);});
+  }
 
 }

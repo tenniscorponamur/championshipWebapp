@@ -24,6 +24,12 @@ export class MembreService {
     return this.http.get(environment.privateApiUrl + "/membres/import/template",options);
   }
 
+  getListeForce(){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(environment.publicApiUrl + "/membres/listeForce",options);
+  }
+
   getRapportMembres() {
     return this.http.get("http://localhost:9100/api/testRapport",{responseType: 'blob'});
   }
