@@ -73,6 +73,7 @@ import {SetService} from './set.service';
 import {ClassementService} from './classement.service';
 import {ClassementMembreService} from './classement-membre.service';
 import { MembreSelectionComponent } from './membre-selection/membre-selection.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 
 @NgModule({
@@ -123,7 +124,8 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
     TerrainDetailComponent,
     TerrainDialog,
     ClubTerrainDialog,
-    MembreSelectionComponent
+    MembreSelectionComponent,
+    DocumentsComponent
   ],
   imports: [
     BrowserModule,

@@ -13,12 +13,14 @@ import {UtilisateursComponent} from './utilisateurs/utilisateurs.component';
 import { TerrainsComponent } from './terrains/terrains.component';
 import {ChampionnatsComponent} from './championnats/championnats.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {DocumentsComponent} from './documents/documents.component';
 
 const routes: Routes = [
   { path: 'classements', component: ClassementsComponent, canActivate: [IsSecureGuardService] },
   { path: 'home', component: HomeComponent, canActivate: [IsSecureGuardService] },
   { path: 'clubs', component: ClubsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'championnats', component: ChampionnatsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
+  { path: 'documents', component: DocumentsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'membres', component: MembresComponent, canActivate: [IsSecureGuardService] },
   { path: 'rencontres', component: RencontresComponent, canActivate: [IsSecureGuardService] },
   { path: 'terrains', component: TerrainsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
