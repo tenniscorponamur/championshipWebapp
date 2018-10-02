@@ -15,11 +15,11 @@ export class RencontreService {
     getRencontres(divisionId: number,pouleId:number,equipeId:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):"")+(equipeId!=null?("&equipeId="+equipeId):""));
     }
-    
+
     getLastResults(maxNumberOfResults:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/last?numberOfResults=" + maxNumberOfResults);
     }
-    
+
     getNextMeetings(maxNumberOfResults:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/next?numberOfResults=" + maxNumberOfResults);
     }
@@ -31,7 +31,7 @@ export class RencontreService {
     createRencontre(rencontre: Rencontre) {
         return this.http.post<Rencontre>(environment.privateApiUrl + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     updateRencontre(rencontre: Rencontre) {
         return this.http.put<Rencontre>(environment.privateApiUrl + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
@@ -41,11 +41,11 @@ export class RencontreService {
     }
 
     creerCalendrier(championnatId: number){
-        return this.http.post<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.post<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, null, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     refreshCalendrier(championnatId: number){
-        return this.http.put<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, null, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     supprimerCalendrier(championnatId: number){
