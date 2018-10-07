@@ -4,7 +4,12 @@
             <h4 class="card-header">
                 Prochaines rencontres
             </h4>
-            <div class="card-body">
+            
+            <div *ngIf="chargementProchainesRencontres" class="progressDiv text-center">
+              <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+            </div>
+            
+            <div *ngIf="!chargementProchainesRencontres" class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
                         <thead class="bg-info">
@@ -34,7 +39,12 @@
             <h4 class="card-header">
                 Derniers résultats
             </h4>
-            <div class="card-body">
+
+            <div *ngIf="chargementDerniersResultats" class="progressDiv text-center">
+              <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+            </div>
+            
+            <div *ngIf="!chargementDerniersResultats" class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
                         <thead class="bg-info">

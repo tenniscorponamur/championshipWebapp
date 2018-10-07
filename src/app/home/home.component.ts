@@ -15,14 +15,22 @@ export class HomeComponent implements OnInit {
     lastResults:Rencontre[]=[];
     nextMeetings:Rencontre[]=[];
     preparationListeForce:boolean=false;
+    chargementDerniersResultats:boolean=true;
+    chargementProchainesRencontres:boolean=true;
 
   constructor(
     private rencontreService:RencontreService,
     private membreService: MembreService) { }
   
     ngOnInit(): void {
-        this.rencontreService.getLastResults(5).subscribe(lastResults => this.lastResults = lastResults);
-        this.rencontreService.getNextMeetings(5).subscribe(nextMeetings => this.nextMeetings = nextMeetings);
+        this.rencontreService.getLastResults(5).subscribe(lastResults => {
+            this.chargementDerniersResultats = false;
+            this.lastResults = lastResults;
+        });
+        this.rencontreService.getNextMeetings(5).subscribe(nextMeetings => {
+            this.chargementProchainesRencontres = false;
+            this.nextMeetings = nextMeetings;
+        });
     }
     
     formatDate(date:Date):string{
