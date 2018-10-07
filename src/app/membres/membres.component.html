@@ -15,7 +15,7 @@
                       <form>
                             <mat-form-field>
                               <mat-select #clubSelect placeholder="Clubs" [(ngModel)]="filtreSelectedClubs" [formControl]="clubCtrl" multiple (selectionChange)="filtre()">
-                                  <mat-option *ngFor="let club of clubs | async" [value]="club">
+                                  <mat-option *ngFor="let club of clubs" [value]="club">
                                       <small>{{ club.nom }}</small>
                                   </mat-option>
                               </mat-select>

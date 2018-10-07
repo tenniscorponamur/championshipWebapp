@@ -45,7 +45,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   }
 
   clubCtrl: FormControl=new FormControl();
-  clubs:Observable<Club[]>;
+  clubs:Club[];
   genres:Genre[];
   echellesCorpo:any[]=[];
 
@@ -74,12 +74,12 @@ export class MembresComponent implements OnInit, AfterViewInit {
     private classementMembreService: ClassementMembreService,
     public dialog: MatDialog) {
       this.clubCtrl = new FormControl();
-      this.clubs = this.clubService.getClubs();
       this.genres = GENRES;
-      this.classementMembreService.getEchellesCorpo().subscribe(echellesCorpo => this.echellesCorpo = echellesCorpo);
     }
 
   ngOnInit() {
+      this.clubService.getClubs().subscribe(clubs => this.clubs = clubs.sort((a, b) => compare(a.nom, b.nom,true)));
+      this.classementMembreService.getEchellesCorpo().subscribe(echellesCorpo => this.echellesCorpo = echellesCorpo);
       this.membreService.getMembres(null).subscribe(membres => {this.sortedMembers = membres; this.sortData(this.actualSort);});
   }
 

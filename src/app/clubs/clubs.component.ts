@@ -23,7 +23,7 @@ export class ClubsComponent implements OnInit {
 
 
   ngOnInit() {
-      this.clubService.getClubs().subscribe(clubs => {this.sortedClubs = clubs; this.sortData(this.actualSort);});
+      this.clubService.getClubs().subscribe(clubs => {this.sortedClubs = clubs.sort((a, b) => compare(a.nom, b.nom,true)); this.sortData(this.actualSort);});
   }
 
   sortData(sort: Sort) {
