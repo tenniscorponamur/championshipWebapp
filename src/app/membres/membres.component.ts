@@ -67,6 +67,8 @@ export class MembresComponent implements OnInit, AfterViewInit {
     actualSort:Sort;
     selectedMember:Membre;
 
+    chargementMembres:boolean=true;
+    
   constructor(public media: RxResponsiveService,
     private membreService:MembreService,
     private clubService:ClubService,
@@ -80,7 +82,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   ngOnInit() {
       this.clubService.getClubs().subscribe(clubs => this.clubs = clubs.sort((a, b) => compare(a.nom, b.nom,true)));
       this.classementMembreService.getEchellesCorpo().subscribe(echellesCorpo => this.echellesCorpo = echellesCorpo);
-      this.membreService.getMembres(null).subscribe(membres => {this.sortedMembers = membres; this.sortData(this.actualSort);});
+      this.membreService.getMembres(null).subscribe(membres => {this.chargementMembres=false;this.sortedMembers = membres; this.sortData(this.actualSort);});
   }
 
   isAdminConnected(){

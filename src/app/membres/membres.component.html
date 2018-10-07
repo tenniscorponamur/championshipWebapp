@@ -64,6 +64,12 @@
                             </div>
                         </div>
                 </div>
+                
+                <div *ngIf="chargementMembres" class="progressDiv text-center">
+                  <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+                  Récupération des membres
+                </div>
+                
                 <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let membre of filteredMembers" (click)="ouvrirMembreOnMobile(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle {{styleMembre(membre)}}">
@@ -74,10 +80,11 @@
                     </div>
                   </div>
                 </div>
+                
                 <div *ngIf="media.is.lg.or.xl | async">
 
                   <div class="table-responsive" style="height:300px;">
-                      <table class="membreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+                      <table *ngIf="!chargementMembres" class="membreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
                           <!--table-striped-->
                           <thead class="bg-info" >
                               <tr>

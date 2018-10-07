@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 
     lastResults:Rencontre[]=[];
     nextMeetings:Rencontre[]=[];
+    preparationListeForce:boolean=false;
 
   constructor(
     private rencontreService:RencontreService,
@@ -34,8 +35,10 @@ export class HomeComponent implements OnInit {
     }
     
   getListeForces(){
+      this.preparationListeForce = true;
       this.membreService.getListeForce().subscribe(result => {
-      saveAs(result, "listeForces.pdf");
+          this.preparationListeForce = false;
+          saveAs(result, "listeForces.pdf");
       //var fileURL = URL.createObjectURL(result);window.open(fileURL);
     },error => {console.log(error);});
   }

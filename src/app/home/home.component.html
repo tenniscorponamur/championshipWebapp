@@ -65,8 +65,20 @@
                 Documents utiles
             </h4>
             <div class="card-body">
+                
                 <div class="col-12">
-                    <button class="btn" (click)="getListeForces();">Liste de forces</button>
+                    <div> 
+                        <a class="documentLink" (click)="getListeForces();">Liste de forces</a>
+                    </div>
+                    <div *ngIf="preparationListeForce">
+                        <small>Préparation du fichier en cours...</small>
+                    </div>
+                </div>
+                
+                <div class="col-12">
+                    <div>
+                        <a class="documentLink" href="/assets/files/feuilleResultats.pdf" target="_blank">Feuille de résultats</a>
+                    </div>
                 </div>
 <!--                <div class="col-12">
                     <a>Calendriers</a>
