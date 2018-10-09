@@ -30,8 +30,10 @@ export class MembreService {
     return this.http.get(environment.publicApiUrl + "/membres/listeForce",options);
   }
 
-  getRapportMembres() {
-    return this.http.get("http://localhost:9100/api/testRapport",{responseType: 'blob'});
+  getExportMembres(){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(environment.privateApiUrl + "/membres/export",options);
   }
 
   importData(content){
@@ -61,7 +63,7 @@ export class MembreService {
   updateInfosAft(membre:Membre){
       return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/infosAft",membre, this.authenticationService.getPrivateApiHttpOptions());
   }
-  
+
   anonymisation(membre:Membre){
       return this.http.put<Membre>(environment.privateApiUrl + "/membre/" + membre.id + "/anonymisation",membre, this.authenticationService.getPrivateApiHttpOptions());
   }

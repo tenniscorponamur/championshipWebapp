@@ -60,4 +60,10 @@ export class ChampionnatService {
         return this.http.get<boolean>(environment.privateApiUrl + "/championnat/isCloturable?championnatId=" + championnat.id, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+  getListeCapitaines(championnat:Championnat){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(environment.privateApiUrl + "/championnat/listeCapitaines?championnatId=" + championnat.id,options);
+  }
+
 }

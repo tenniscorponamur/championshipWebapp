@@ -56,4 +56,10 @@ export class RencontreService {
       return this.http.get<Rencontre[]>(environment.privateApiUrl + "/rencontres/interseries?championnatId=" + championnatId, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    getCalendrier(championnatId: number, excelFile:boolean){
+      let options = this.authenticationService.getPrivateApiHttpOptions();
+      options["responseType"] = "blob";
+      return this.http.get(environment.publicApiUrl + "/rencontres/calendrier?championnatId=" + championnatId + "&excel="+excelFile,options);
+    }
+
 }

@@ -1,12 +1,58 @@
-<div>
-    Export des membres 
-</div>
-<div>
-    Export des capitaines pour un championnat donné
-</div>
-<div>
-    Export du calendrier pour un championnat donné 
-</div>
-<div>
-    Indicateur pour signaler qu'un export est en cours
+<div class="row">
+
+  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+    <div class="card">
+      <h4 class="card-header">
+        Championnats
+      </h4>
+      <div class="card-body">
+
+        <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat"  >
+          <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+                <span>
+                    <i class="{{getTrophyClass(championnat)}}"></i>
+                    <i class="{{getTypeClass(championnat)}}" ></i>
+                </span>
+            <small>
+              {{getTypeChampionnat(championnat).libelle}}
+              {{championnat.annee}}
+              {{getCategorieChampionnat(championnat).libelle}}
+            </small>
+          </mat-option>
+        </mat-select>
+
+        <div>
+
+          <div class="exportButtonDiv"><button class="btn btn-info btn-sm" (click)="getListeCapitaine();">Liste des capitaines</button></div>
+          <div *ngIf="preparationListeCapitaines"><span><small>Préparation du fichier en cours...</small></span></div>
+
+          <div class="exportButtonDiv"><button class="btn btn-info btn-sm" (click)="getCalendrierPdf();">Export du calendrier (PDF)</button></div>
+          <div *ngIf="preparationCalendrierPdf"><span><small>Préparation du fichier en cours...</small></span></div>
+
+          <div class="exportButtonDiv"><button class="btn btn-info btn-sm" (click)="getCalendrierExcel();">Export du calendrier (Excel)</button></div>
+          <div *ngIf="preparationCalendrierExcel"><span><small>Préparation du fichier en cours...</small></span></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+    <div class="card">
+      <h4 class="card-header">
+        Membres
+      </h4>
+      <div class="card-body">
+        <div><button class="btn btn-info btn-sm" (click)="getExportMembres();">Export des membres</button></div>
+        <div *ngIf="preparationExportMembres"><span><small>Préparation du fichier en cours...</small></span></div>
+      </div>
+
+    </div>
+  </div>
+
 </div>

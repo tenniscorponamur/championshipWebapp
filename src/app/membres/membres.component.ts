@@ -55,12 +55,12 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
     filtreNomPrenom:string;
     filtreSelectedClubs:Club[]=[];
-    
+
     filtreEchellecorpo:number;
     filtreNumeroClubAFT:string;
     filtreSelectedGenre:Genre;
-    filtreActivite:string;    
-    
+    filtreActivite:string;
+
     membres:Membre[];
     sortedMembers:Membre[];
     filteredMembers:Membre[];
@@ -68,7 +68,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
     selectedMember:Membre;
 
     chargementMembres:boolean=true;
-    
+
   constructor(public media: RxResponsiveService,
     private membreService:MembreService,
     private clubService:ClubService,
@@ -87,13 +87,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
-  }
-
-  testRapport(){
-    this.membreService.getRapportMembres().subscribe(result => {
-      saveAs(result, "test.pdf");
-      //var fileURL = URL.createObjectURL(result);window.open(fileURL);
-    },error => {console.log(error);});
   }
 
   sortData(sort: Sort) {
@@ -119,9 +112,9 @@ export class MembresComponent implements OnInit, AfterViewInit {
   }
 
     isOtherCriterias(){
-    return (this.filtreSelectedGenre != null && this.filtreSelectedGenre != undefined) 
-        || (this.filtreActivite != null && this.filtreActivite != undefined) 
-        || (this.filtreEchellecorpo != null && this.filtreEchellecorpo != undefined) 
+    return (this.filtreSelectedGenre != null && this.filtreSelectedGenre != undefined)
+        || (this.filtreActivite != null && this.filtreActivite != undefined)
+        || (this.filtreEchellecorpo != null && this.filtreEchellecorpo != undefined)
         || (this.filtreNumeroClubAFT != null && this.filtreNumeroClubAFT != undefined && this.filtreNumeroClubAFT.trim()!='');
     }
 
@@ -146,11 +139,11 @@ export class MembresComponent implements OnInit, AfterViewInit {
                     return false;
                 })});
         }
-        
+
         if (this.filtreSelectedGenre != null && this.filtreSelectedGenre != undefined){
             this.filteredMembers = this.filteredMembers.filter(membre => membre.genre == this.filtreSelectedGenre.code);
         }
-        
+
         if (this.filtreActivite != null && this.filtreActivite != undefined){
             this.filteredMembers = this.filteredMembers.filter(membre => {
                 if (this.filtreActivite=="true"){
@@ -169,9 +162,9 @@ export class MembresComponent implements OnInit, AfterViewInit {
                 return false;
             });
         }
-        
+
         if (this.filtreNumeroClubAFT != null && this.filtreNumeroClubAFT != undefined && this.filtreNumeroClubAFT.trim().length > 0){
-            
+
             this.filteredMembers = this.filteredMembers.filter(membre => {
                 if (membre.numeroClubAft!=null){
                     return membre.numeroClubAft.toLowerCase().includes(this.filtreNumeroClubAFT.toLowerCase());
