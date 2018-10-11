@@ -4,20 +4,23 @@
 
 .joueur{
   margin:3px;
+  cursor:default;
 }
 
-.joueur:hover{
+.joueur.modifiable:hover{
   background-color:lightblue;
   border-radius:3px;
+  cursor:pointer;
 }
 
 .resultats{
   margin:3px;
 }
 
-.resultats:hover{
+.resultats.modifiable:hover{
   background-color:lightblue;
   border-radius:3px;
+  cursor:pointer;
 }
 
 .set {

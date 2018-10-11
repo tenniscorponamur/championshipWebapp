@@ -128,6 +128,13 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         return match.pointsVisites < match.pointsVisiteurs;
     }
 
+    getEditableClass(match:Match){
+      if (this.isResultatsRencontreModifiables()){
+        return "modifiable";
+      }
+      return "";
+    }
+
     getVisitesClass(match: Match) {
         if (this.isVisitesGagnant(match)) {
             return "victorieux";
@@ -188,11 +195,15 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }
     }
 
+    isResultatsRencontreModifiables():boolean{
+      return this.isAdminConnected()
+             && !this.rencontre.valide
+             && this.rencontre.division.championnat.calendrierValide
+             && !this.rencontre.division.championnat.cloture;
+    }
+
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
-        if (this.isAdminConnected()
-            && !this.rencontre.valide
-            && this.rencontre.division.championnat.calendrierValide
-            && !this.rencontre.division.championnat.cloture){
+        if (this.isResultatsRencontreModifiables()){
             let club;
             if (indexEquipe == 1) {
                 club = this.rencontre.equipeVisites.club;
@@ -272,10 +283,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ouvrirResultats(matchExtended: MatchExtended) {
-      if (this.isAdminConnected()
-          && !this.rencontre.valide
-          && this.rencontre.division.championnat.calendrierValide
-          && !this.rencontre.division.championnat.cloture){
+      if (this.isResultatsRencontreModifiables()){
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
             data: {matchExtended: matchExtended}, panelClass: "resultatsDialog", disableClose:true
         });

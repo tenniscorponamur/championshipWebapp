@@ -87,25 +87,25 @@
           <tr *ngFor="let matchExtended of matchs">
               <td><strong>{{getMatchIdent(matchExtended.match)}}</strong></td>
               <td>
-                  <a class="joueur {{getVisitesClass(matchExtended.match)}}" style="cursor:pointer" (click)="selectionnerJoueur(matchExtended.match,1,1)">
+                  <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisitesClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,1,1)">
                       <span *ngIf="matchExtended.match.joueurVisites1" >{{matchExtended.match.joueurVisites1.nom}} {{matchExtended.match.joueurVisites1.prenom}}</span>
                       <span *ngIf="!matchExtended.match.joueurVisites1"><em>Joueur à préciser</em></span>
                   </a>
                   <span class="{{getVisitesClass(matchExtended.match)}}" *ngIf="isDouble(matchExtended.match)">/</span>
-                  <span class="joueur {{getVisitesClass(matchExtended.match)}}" *ngIf="isDouble(matchExtended.match)">
-                      <a style="cursor:pointer" (click)="selectionnerJoueur(matchExtended.match,1,2)">
+                  <span *ngIf="isDouble(matchExtended.match)">
+                      <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisitesClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,1,2)">
                         <span *ngIf="matchExtended.match.joueurVisites2">{{matchExtended.match.joueurVisites2.nom}} {{matchExtended.match.joueurVisites2.prenom}}</span>
                         <span *ngIf="!matchExtended.match.joueurVisites2"><em>Joueur à préciser</em></span>
                       </a>
                   </span>
                   <br />
-                  <a class="joueur {{getVisiteursClass(matchExtended.match)}}" style="cursor:pointer" (click)="selectionnerJoueur(matchExtended.match,2,1)">
+                  <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisiteursClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,2,1)">
                         <span *ngIf="matchExtended.match.joueurVisiteurs1">{{matchExtended.match.joueurVisiteurs1.nom}} {{matchExtended.match.joueurVisiteurs1.prenom}}</span>
                         <span *ngIf="!matchExtended.match.joueurVisiteurs1"><em>Joueur à préciser</em></span>
                   </a>
                   <span class="{{getVisiteursClass(matchExtended.match)}}" *ngIf="isDouble(matchExtended.match)">/</span>
-                  <span class="joueur {{getVisiteursClass(matchExtended.match)}}" *ngIf="isDouble(matchExtended.match)">
-                      <a style="cursor:pointer" (click)="selectionnerJoueur(matchExtended.match,2,2)">
+                  <span *ngIf="isDouble(matchExtended.match)">
+                      <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisiteursClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,2,2)">
                         <span *ngIf="matchExtended.match.joueurVisiteurs2">{{matchExtended.match.joueurVisiteurs2.nom}} {{matchExtended.match.joueurVisiteurs2.prenom}}</span>
                         <span *ngIf="!matchExtended.match.joueurVisiteurs2"><em>Joueur à préciser</em></span>
                       </a>
@@ -113,7 +113,7 @@
               </td>
               <td>
 
-                <div class="resultats row" *ngIf="matchExtended.sets.length>0" style="cursor:pointer;" (click)="ouvrirResultats(matchExtended);">
+                <div class="resultats {{getEditableClass(matchExtended.match)}} row" *ngIf="matchExtended.sets.length>0" (click)="ouvrirResultats(matchExtended);">
                     <div class="set" *ngFor="let set of matchExtended.sets">
                          <span class="{{getVisitesSetClass(set)}}">{{set.jeuxVisites}}</span>
                           <br />
@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <div class="resultats row" *ngIf="matchExtended.sets.length==0" style="cursor:pointer;" (click)="ouvrirResultats(matchExtended);">
+                <div class="resultats {{getEditableClass(matchExtended.match)}} row" *ngIf="matchExtended.sets.length==0" (click)="ouvrirResultats(matchExtended);">
                   <div style="margin-left:5px;margin-right:5px;"><i class="fa fa-braille fa-2x"></i></div>
                 </div>
 
