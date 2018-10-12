@@ -19,6 +19,7 @@
             {{rencontre.division.championnat.annee}}
             {{getCategorieChampionnat(rencontre.division.championnat).libelle}}
             - Division {{rencontre.division.numero}}<span *ngIf="rencontre.poule"> - Poule {{rencontre.poule.numero}}</span>
+            ({{rencontre.division.pointsMinimum}}-{{rencontre.division.pointsMaximum}} points)
           </div>
           <div class="myBoxContent text-center">
               <div class="row">
@@ -72,6 +73,30 @@
     </div>
   </div>
 
+    <div *ngIf="isSimpleExists()" class="row">
+      <div class="col-12">
+        <strong>Simples :</strong>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        {{rencontre.equipeVisites.codeAlphabetique}} : <span class="{{pointsDepassesSimplesVisites()}}">{{pointsSimplesVisites()}} points</span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        {{rencontre.equipeVisiteurs.codeAlphabetique}} : <span class="{{pointsDepassesSimplesVisiteurs()}}">{{pointsSimplesVisiteurs()}} points</span>
+      </div>
+    </div>
+
+    <div *ngIf="isDoubleExists()" class="row">
+      <div class="col-12">
+        <strong>Doubles :</strong>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        {{rencontre.equipeVisites.codeAlphabetique}} : <span class="{{pointsDepassesDoublesVisites()}}">{{pointsDoublesVisites()}} points</span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        {{rencontre.equipeVisiteurs.codeAlphabetique}} : <span class="{{pointsDepassesDoublesVisiteurs()}}">{{pointsDoublesVisiteurs()}} points</span>
+      </div>
+    </div>
+
     <div class="row">
 
       <div class="table-responsive">
@@ -88,25 +113,25 @@
               <td><strong>{{getMatchIdent(matchExtended.match)}}</strong></td>
               <td>
                   <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisitesClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,1,1)">
-                      <span *ngIf="matchExtended.match.joueurVisites1" >{{matchExtended.match.joueurVisites1.nom}} {{matchExtended.match.joueurVisites1.prenom}}</span>
+                      <span *ngIf="matchExtended.match.joueurVisites1" >{{matchExtended.match.joueurVisites1.nom}} {{matchExtended.match.joueurVisites1.prenom}}<span *ngIf="matchExtended.match.joueurVisites1.classementCorpoActuel">&nbsp;<small>({{getPointsCorpo(matchExtended.match.joueurVisites1)}} points)</small></span></span>
                       <span *ngIf="!matchExtended.match.joueurVisites1"><em>Joueur à préciser</em></span>
                   </a>
                   <span class="{{getVisitesClass(matchExtended.match)}}" *ngIf="isDouble(matchExtended.match)">/</span>
                   <span *ngIf="isDouble(matchExtended.match)">
                       <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisitesClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,1,2)">
-                        <span *ngIf="matchExtended.match.joueurVisites2">{{matchExtended.match.joueurVisites2.nom}} {{matchExtended.match.joueurVisites2.prenom}}</span>
+                        <span *ngIf="matchExtended.match.joueurVisites2">{{matchExtended.match.joueurVisites2.nom}} {{matchExtended.match.joueurVisites2.prenom}}<span *ngIf="matchExtended.match.joueurVisites2.classementCorpoActuel">&nbsp;<small>({{getPointsCorpo(matchExtended.match.joueurVisites2)}} points)</small></span></span>
                         <span *ngIf="!matchExtended.match.joueurVisites2"><em>Joueur à préciser</em></span>
                       </a>
                   </span>
                   <br />
                   <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisiteursClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,2,1)">
-                        <span *ngIf="matchExtended.match.joueurVisiteurs1">{{matchExtended.match.joueurVisiteurs1.nom}} {{matchExtended.match.joueurVisiteurs1.prenom}}</span>
+                        <span *ngIf="matchExtended.match.joueurVisiteurs1">{{matchExtended.match.joueurVisiteurs1.nom}} {{matchExtended.match.joueurVisiteurs1.prenom}}<span *ngIf="matchExtended.match.joueurVisiteurs1.classementCorpoActuel">&nbsp;<small>({{getPointsCorpo(matchExtended.match.joueurVisiteurs1)}} points)</small></span></span>
                         <span *ngIf="!matchExtended.match.joueurVisiteurs1"><em>Joueur à préciser</em></span>
                   </a>
                   <span class="{{getVisiteursClass(matchExtended.match)}}" *ngIf="isDouble(matchExtended.match)">/</span>
                   <span *ngIf="isDouble(matchExtended.match)">
                       <a class="joueur {{getEditableClass(matchExtended.match)}} {{getVisiteursClass(matchExtended.match)}}" (click)="selectionnerJoueur(matchExtended.match,2,2)">
-                        <span *ngIf="matchExtended.match.joueurVisiteurs2">{{matchExtended.match.joueurVisiteurs2.nom}} {{matchExtended.match.joueurVisiteurs2.prenom}}</span>
+                        <span *ngIf="matchExtended.match.joueurVisiteurs2">{{matchExtended.match.joueurVisiteurs2.nom}} {{matchExtended.match.joueurVisiteurs2.prenom}}<span *ngIf="matchExtended.match.joueurVisiteurs2.classementCorpoActuel">&nbsp;<small>({{getPointsCorpo(matchExtended.match.joueurVisiteurs2)}} points)</small></span></span>
                         <span *ngIf="!matchExtended.match.joueurVisiteurs2"><em>Joueur à préciser</em></span>
                       </a>
                   </span>

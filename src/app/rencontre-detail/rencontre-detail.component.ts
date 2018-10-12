@@ -5,6 +5,7 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
 import {compare, addLeadingZero} from '../utility';
 import {MatchService} from '../match.service';
 import {RencontreService} from '../rencontre.service';
+import {ClassementMembreService} from '../classement-membre.service';
 import {AuthenticationService} from '../authentication.service';
 import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
 import {MembreService} from '../membre.service';
@@ -29,16 +30,19 @@ import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 export class RencontreDetailComponent extends ChampionnatDetailComponent implements OnInit {
 
     matchs: MatchExtended[] = [];
+    private mapEquivalence;
 
     constructor(public dialog: MatDialog,
         private rencontreService:RencontreService,
         private matchService: MatchService,
+        private classementMembreService:ClassementMembreService,
         private authenticationService: AuthenticationService,
         private setService: SetService) {
         super();
     }
 
     ngOnInit() {
+      this.classementMembreService.correspondanceEchelleCorpo().subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
     }
 
     private _rencontre: Rencontre;
@@ -65,6 +69,118 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }else{
         return "myBox";
       }
+    }
+
+    isSimpleExists():boolean{
+      let simpleExists:boolean = false;
+      this.matchs.forEach(match => {
+        if (MATCH_SIMPLE == match.match.type){
+          simpleExists = true;
+        }
+      });
+      return simpleExists;
+    }
+
+    isDoubleExists():boolean{
+      let doubleExists:boolean = false;
+      this.matchs.forEach(match => {
+        if (MATCH_DOUBLE == match.match.type){
+          doubleExists = true;
+        }
+      });
+      return doubleExists;
+    }
+
+  getPointsCorpo(membre:Membre):number{
+    if (membre.classementCorpoActuel){
+      if (this.isChampionnatHomme() && this.mapEquivalence!=null && membre.genre == GENRE_FEMME.code){
+        return this.mapEquivalence[membre.classementCorpoActuel.points];
+      }else{
+        return membre.classementCorpoActuel.points;
+      }
+    }
+    return null;
+  }
+
+    pointsSimplesVisites():number{
+      let pointsSimples: number = 0;
+      this.matchs.forEach(match => {
+        if (MATCH_SIMPLE == match.match.type){
+          if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
+            pointsSimples = pointsSimples + this.getPointsCorpo(match.match.joueurVisites1);
+          }
+        }
+      });
+      return pointsSimples;
+    }
+
+    pointsSimplesVisiteurs():number{
+      let pointsSimples: number = 0;
+      this.matchs.forEach(match => {
+        if (MATCH_SIMPLE == match.match.type){
+          if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
+            pointsSimples = pointsSimples + this.getPointsCorpo(match.match.joueurVisiteurs1);
+          }
+        }
+      });
+      return pointsSimples;
+    }
+
+    pointsDoublesVisites():number{
+
+      let pointsDoubles: number = 0;
+      this.matchs.forEach(match => {
+        if (MATCH_DOUBLE == match.match.type){
+          if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
+            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites1);
+          }
+          if (match.match.joueurVisites2!=null && match.match.joueurVisites2.classementCorpoActuel!=null){
+            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites2);
+          }
+        }
+      });
+      return pointsDoubles;
+
+    }
+
+    pointsDoublesVisiteurs():number{
+      let pointsDoubles: number = 0;
+      this.matchs.forEach(match => {
+        if (MATCH_DOUBLE == match.match.type){
+          if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
+            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs1);
+          }
+          if (match.match.joueurVisiteurs2!=null && match.match.joueurVisiteurs2.classementCorpoActuel!=null){
+            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs2);
+          }
+        }
+      });
+      return pointsDoubles;
+
+    }
+
+    pointsDepassesSimplesVisites():string{
+      return this.pointsDepasses(this.pointsSimplesVisites());
+    }
+
+    pointsDepassesSimplesVisiteurs():string{
+      return this.pointsDepasses(this.pointsSimplesVisiteurs());
+    }
+
+    pointsDepassesDoublesVisites():string{
+      return this.pointsDepasses(this.pointsDoublesVisites());
+    }
+
+    pointsDepassesDoublesVisiteurs():string{
+      return this.pointsDepasses(this.pointsDoublesVisiteurs());
+    }
+
+    pointsDepasses(points:number):string{
+      if (points < this.rencontre.division.pointsMinimum
+          || points > this.rencontre.division.pointsMaximum ){
+          return "pointsDepasses";
+      }
+      return "";
     }
 
     getMatchs() {
