@@ -1,6 +1,9 @@
 <div class="card tennisCorpoBox">
   <h4 class="card-header">
     Utilisateur
+    <span style="float:right">
+        <a (click)="supprimerUtilisateur();" class="deleteUserButton"><i class="fa fa-trash" ></i></a>
+    </span>
   </h4>
   <div class="card-body">
 
@@ -28,8 +31,9 @@
         </div>
       </div>
     </div>
-      <button class="btn btn-primary" (click)="resetPassword();" >Reset Password</button>
-      <button class="btn btn-danger">Supprimer</button>
+      <div class="col-12 text-center">
+        <button class="btn btn-primary" (click)="resetPassword();" >Reset Password</button>
+      </div>
 </div>
 
 </div>

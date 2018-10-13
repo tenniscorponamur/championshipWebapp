@@ -43,7 +43,7 @@
     </div>
 
     <div #utilisateurDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
-        <app-utilisateur-detail *ngIf="selectedUser" [utilisateur]="selectedUser" ></app-utilisateur-detail>
+        <app-utilisateur-detail *ngIf="selectedUser" [utilisateur]="selectedUser" (deleteUser)="deleteUtilisateur($event)" ></app-utilisateur-detail>
     </div>
 
 </div>

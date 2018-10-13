@@ -26,7 +26,11 @@ export class UserService {
   updateUtilisateur(utilisateur:User){
       return this.http.put<User>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }
-  
+
+  deleteUtilisateur(utilisateur: User) {
+      return this.http.delete<User>(environment.privateApiUrl + "/user?userId=" + utilisateur.id, this.authenticationService.getPrivateApiHttpOptions());
+}
+    
   resetPassword(utilisateur:User){
       return this.http.post<User>(environment.privateApiUrl + "/user/resetPassword?id="+utilisateur.id,utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }

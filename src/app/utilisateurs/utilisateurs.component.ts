@@ -73,5 +73,17 @@ export class UtilisateursComponent implements OnInit {
   ouvrirUtilisateur(utilisateur:User):void{
     this.selectedUser=utilisateur;
   }
+  
+    deleteUtilisateur(userToDelete:User){
+        this.userService.deleteUtilisateur(userToDelete).subscribe(result => {
+            this.selectedUser = null;
+
+            let indexInSorted = this.sortedUsers.findIndex(user => user.id == userToDelete.id);
+            if (indexInSorted!=-1){
+                this.sortedUsers.splice(indexInSorted,1);
+            }
+
+        });
+    }
 
 }

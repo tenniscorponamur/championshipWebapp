@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, Input, EventEmitter, Output } from '@angular/core';
 import {User} from '../user';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {UserService} from '../user.service';
@@ -12,7 +12,9 @@ export class UtilisateurDetailComponent implements OnInit {
 
   @Input()
   utilisateur:User
-
+    
+  @Output() deleteUser = new EventEmitter<User>();
+  
   constructor(
     public dialog: MatDialog,
     private userService: UserService
@@ -35,6 +37,10 @@ export class UtilisateurDetailComponent implements OnInit {
         this.userService.resetPassword(this.utilisateur).subscribe();
     }
 
+    supprimerUtilisateur(){
+        this.deleteUser.emit(this.utilisateur);
+    }
+    
 }
 
 
