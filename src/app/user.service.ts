@@ -26,6 +26,10 @@ export class UserService {
   updateUtilisateur(utilisateur:User){
       return this.http.put<User>(environment.privateApiUrl + "/user",utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }
+  
+  resetPassword(utilisateur:User){
+      return this.http.post<User>(environment.privateApiUrl + "/user/resetPassword?id="+utilisateur.id,utilisateur, this.authenticationService.getPrivateApiHttpOptions());
+  }
 
   changePassword(oldPassword:string,newPassword:string){
     return this.http.put<boolean>(environment.privateApiUrl + "/user/changePassword",{oldPassword:oldPassword,newPassword:newPassword}, this.authenticationService.getPrivateApiHttpOptions());

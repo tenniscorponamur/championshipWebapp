@@ -14,7 +14,8 @@ export class UtilisateurDetailComponent implements OnInit {
   utilisateur:User
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private userService: UserService
     ) { }
 
   ngOnInit() {
@@ -29,6 +30,10 @@ export class UtilisateurDetailComponent implements OnInit {
       console.log("Les informations de l'utilisateur ont ete modifiees a ete ferme : " + result);
     });
   }
+    
+    resetPassword(){
+        this.userService.resetPassword(this.utilisateur).subscribe();
+    }
 
 }
 
