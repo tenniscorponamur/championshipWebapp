@@ -347,7 +347,7 @@ export class InterserieDialog implements OnInit {
 
   ngOnInit() {
     this.rencontreService.getInterseries(this._championnat.id).subscribe(rencontres => this.rencontresInterseries=rencontres);
-    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
+    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.filter(terrain => terrain.actif));
     this.terrainService.getHorairesTerrainByTypeChampionnat(this._championnat.type).subscribe(horaires => this.horairesTerrain = horaires);
   }
 

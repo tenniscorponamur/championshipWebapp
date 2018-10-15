@@ -65,6 +65,10 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         this.refresh(null,false);
   }
 
+    getTerrains(rencontre:RencontreExtended):Terrain[]{
+        return this.terrains.filter(terrain => terrain.actif || terrain.id == rencontre.terrainId);
+    }
+
     loadCalendar() {
 
         this.selectChampionnat.emit(this.selectedChampionnat);

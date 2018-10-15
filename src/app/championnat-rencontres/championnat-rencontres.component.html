@@ -129,7 +129,7 @@
 
                               <select disabled="{{selectedChampionnat.cloture}}" [(ngModel)]="rencontre.terrainId" (change)="changeTerrain(rencontre)" >
                                     <option></option>
-                                    <option *ngFor="let terrain of terrains" value="{{terrain.id}}">{{terrain.nom}}</option>
+                                    <option *ngFor="let terrain of getTerrains(rencontre)" value="{{terrain.id}}">{{terrain.nom}}</option>
                               </select>
 
                             </a>

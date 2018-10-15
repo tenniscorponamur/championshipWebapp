@@ -488,7 +488,7 @@ export class DateTerrainDialog implements OnInit {
         }
 
   ngOnInit() {
-    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
+    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.filter(terrain => terrain.actif));
     this.terrainService.getHorairesTerrainByTypeChampionnat(this.rencontre.division.championnat.type).subscribe(horaires => this.horairesTerrain = horaires);
     }
 
