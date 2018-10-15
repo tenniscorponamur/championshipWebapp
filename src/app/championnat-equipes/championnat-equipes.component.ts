@@ -309,7 +309,7 @@ export class SelectionClubDialog {
         public dialogRef: MatDialogRef<SelectionClubDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
-        this.augmentedClubs = data.augmentedClubs;
+        this.augmentedClubs = data.augmentedClubs.filter(augmentedClub => augmentedClub.club.actif);
 
     }
 
