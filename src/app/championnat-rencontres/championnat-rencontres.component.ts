@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE} from '../championnat';
+import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
 import {MatDialog, MatDatepickerInputEvent} from '@angular/material';
@@ -265,7 +265,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
 
     initHoraireFromDate(rencontre:RencontreExtended){
-        if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_HIVER.code){
+        if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_HIVER.code || this.selectedChampionnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code){
           if (rencontre.date!=null){
             let newDate = new Date(rencontre.date);
             let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));

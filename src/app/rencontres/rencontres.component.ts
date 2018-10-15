@@ -9,7 +9,7 @@ import {RencontreService} from '../rencontre.service';
 import {LocalStorageService} from '../local-storage.service';
 import {AuthenticationService} from '../authentication.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
-import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE} from '../championnat';
+import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {Division} from '../division';
 import {Club} from '../club';
 import {Equipe} from '../equipe';
@@ -364,7 +364,7 @@ export class InterserieDialog implements OnInit {
   }
 
     changeDate(){
-      if (this._championnat.type==TYPE_CHAMPIONNAT_HIVER.code){
+      if (this._championnat.type==TYPE_CHAMPIONNAT_HIVER.code || this._championnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code){
         if (this.date!=null){
           let newDate = new Date(this.date);
           let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));
