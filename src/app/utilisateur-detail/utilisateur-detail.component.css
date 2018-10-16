@@ -2,6 +2,12 @@
     cursor:pointer;
 }
 
+.adminStyle{
+    color:red;
+    font-weight: bold;
+    font-style: italic;
+}
+
 .membreLink{
   cursor:pointer;
 }

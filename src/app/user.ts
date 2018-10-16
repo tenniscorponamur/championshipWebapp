@@ -6,6 +6,6 @@ export class User {
   nom: string;
   prenom: string;
   roles:string[];
-  admin:boolean;
+  admin:boolean=false;
   membre:Membre;
 }

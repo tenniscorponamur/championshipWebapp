@@ -27,6 +27,9 @@
               <div class="col-12">
                 <span>{{utilisateur.nom|uppercase}}&nbsp;</span><span>{{utilisateur.prenom}}</span>
               </div>
+              <div *ngIf="utilisateur.admin" class="col-12">
+                  <span class="adminStyle" >Administrateur</span>
+              </div>
           </div>
         </div>
       </div>

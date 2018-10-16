@@ -73,6 +73,7 @@ export class UserDialog {
     _prenom:string;
     _nom:string;
     _username:string;
+    _admin:boolean;
 
     showAlert:boolean=false;
 
@@ -86,6 +87,7 @@ export class UserDialog {
         this._prenom = this._utilisateur.prenom;
         this._nom = this._utilisateur.nom;
         this._username = this._utilisateur.username;
+        this._admin = this._utilisateur.admin;
     }
 
   cancel(): void {
@@ -122,6 +124,7 @@ export class UserDialog {
         this._utilisateur.prenom=this._prenom;
         this._utilisateur.nom=this._nom;
         this._utilisateur.username=this._username;
+        this._utilisateur.admin = this._admin;
 
         if (!this._utilisateur.id){
             // Ajout d'un nouveal utilisateur
