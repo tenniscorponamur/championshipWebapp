@@ -44,6 +44,10 @@ export class AppComponent implements OnInit {
         }
       );
   }
+  
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
+  }
 
   cookiePopup(){
 
