@@ -30,6 +30,20 @@
           </div>
         </div>
       </div>
+
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle">
+            Membre
+          </div>
+          <div class="myBoxContent">
+            <span *ngIf="utilisateur.membre"><a (click)="selectionMembre();" class="membreLink" >{{utilisateur.membre.prenom}}&nbsp;{{utilisateur.membre.nom}}<span *ngIf="utilisateur.membre.numeroAft">&nbsp;({{utilisateur.membre.numeroAft}})</span></a>
+              <span><button class="clearMembreButton" (click)="clearMembre();"><i class="fa fa-trash"></i></button></span>
+              <span *ngIf="utilisateur.membre.capitaine"><br/>Capitaine</span><span *ngIf="utilisateur.membre.responsableClub"><br/>Responsable de club</span></span>
+            <span *ngIf="!utilisateur.membre"><a (click)="selectionMembre();" class="membreLink"><em>Aucun membre</em></a></span>
+          </div>
+        </div>
+      </div>
     </div>
       <div class="col-12 text-center">
         <button class="btn btn-primary" (click)="resetPassword();" >Reset Password</button>

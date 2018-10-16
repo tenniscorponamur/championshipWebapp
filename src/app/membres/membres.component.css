@@ -1,3 +1,7 @@
+.progressDiv{
+  margin:25px;
+}
+
 .membreTable:hover td{
   cursor:pointer;
 }

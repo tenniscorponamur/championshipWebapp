@@ -11,6 +11,12 @@
     </mat-radio-button>
   </mat-radio-group>
 </div>
+
+<div *ngIf="chargementMembres" class="progressDiv text-center">
+  <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+  Récupération des membres
+</div>
+
 <div class="membreList">
   <div *ngFor="let membre of filteredMembres" class="membreDiv" (click)="select(membre);">
     <strong>{{membre.nom}}  {{membre.prenom}}</strong>

@@ -21,6 +21,7 @@ export class MembreSelectionComponent implements OnInit {
     private championnatHomme:Boolean;
     private mapEquivalence;
 
+    chargementMembres:boolean=true;
     membres:Membre[]=[];
     filteredMembres:Membre[]=[];
     filtreNomPrenom:string;
@@ -37,7 +38,11 @@ export class MembreSelectionComponent implements OnInit {
       }
 
   ngOnInit() {
-      this.membreService.getMembres(this.club.id).subscribe(membres => {this.membres = membres; this.filtre();});
+      let clubId = null;
+      if (this.club){
+        clubId = this.club.id;
+      }
+      this.membreService.getMembres(clubId).subscribe(membres => {this.membres = membres; this.filtre();this.chargementMembres=false;});
       this.classementMembreService.correspondanceEchelleCorpo().subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
   }
 

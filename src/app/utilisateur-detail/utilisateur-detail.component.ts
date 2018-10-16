@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, Input, EventEmitter, Output } from '@angular
 import {User} from '../user';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {UserService} from '../user.service';
+import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 
 @Component({
   selector: 'app-utilisateur-detail',
@@ -12,9 +13,9 @@ export class UtilisateurDetailComponent implements OnInit {
 
   @Input()
   utilisateur:User
-    
+
   @Output() deleteUser = new EventEmitter<User>();
-  
+
   constructor(
     public dialog: MatDialog,
     private userService: UserService
@@ -32,7 +33,7 @@ export class UtilisateurDetailComponent implements OnInit {
       console.log("Les informations de l'utilisateur ont ete modifiees a ete ferme : " + result);
     });
   }
-    
+
     resetPassword(){
         this.userService.resetPassword(this.utilisateur).subscribe();
     }
@@ -40,7 +41,26 @@ export class UtilisateurDetailComponent implements OnInit {
     supprimerUtilisateur(){
         this.deleteUser.emit(this.utilisateur);
     }
-    
+
+    clearMembre(){
+      this.utilisateur.membre=null;
+      this.userService.updateUtilisateur(this.utilisateur).subscribe();
+    }
+
+    selectionMembre(){
+
+        let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+            data: {}, panelClass: "membreSelectionDialog", disableClose: true
+        });
+
+        membreSelectionRef.afterClosed().subscribe(membre => {
+            if (membre) {
+                this.utilisateur.membre=membre;
+                this.userService.updateUtilisateur(this.utilisateur).subscribe();
+            }
+        });
+    }
+
 }
 
 
