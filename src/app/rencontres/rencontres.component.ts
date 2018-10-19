@@ -9,7 +9,7 @@ import {RencontreService} from '../rencontre.service';
 import {LocalStorageService} from '../local-storage.service';
 import {AuthenticationService} from '../authentication.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
-import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
+import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, getCategorieChampionnatCode} from '../championnat';
 import {Division} from '../division';
 import {Club} from '../club';
 import {Equipe} from '../equipe';
@@ -38,6 +38,8 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   divisionCtrl: FormControl = new FormControl();
   pouleCtrl: FormControl = new FormControl();
   teamCtrl: FormControl = new FormControl();
+    
+  date:Date=new Date();
 
   selectedChampionnat: Championnat;
   championnats: Championnat[];
@@ -57,6 +59,9 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   filteredRencontres:Rencontre[];
   actualSort:Sort;
   selectedRencontre:Rencontre;
+  
+  classicView:boolean=true;
+  criteriumView:boolean=false;
 
   constructor(public media: RxResponsiveService,
         private championnatService: ChampionnatService,
@@ -98,6 +103,12 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         });
   }
 
+    changeView(){
+        this.classicView=!this.classicView;
+        this.criteriumView=!this.criteriumView;
+        this.loadRencontres();
+    }
+
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
   }
@@ -136,27 +147,41 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
       this.sortedRencontres = [];
       this.filteredRencontres = [];
 
-      if (this.selectedDivision) {
-        this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
+        if (this.classicView){
+            
+            if (this.selectedDivision) {
+              this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
 
-        this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => {
-            this.poules = poules.sort((a, b) => compare(a.numero,b.numero,true));
-        });
+              this.pouleService.getPoules(this.selectedDivision.id).subscribe(poules => {
+                  this.poules = poules.sort((a, b) => compare(a.numero,b.numero,true));
+              });
 
-        this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => {
-            this.equipes = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true));
-        });
+              this.equipeService.getEquipes(this.selectedDivision.id,null).subscribe(equipes => {
+                  this.equipes = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true));
+              });
 
-        this.rencontreService.getRencontres(this.selectedDivision.id, null,null).subscribe(rencontresDivision => {
-            this.sortedRencontres = rencontresDivision.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
-            this.sortData(this.actualSort);
-        });
+              this.rencontreService.getRencontres(this.selectedDivision.id, null,null).subscribe(rencontresDivision => {
+                  this.sortedRencontres = rencontresDivision.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
+                  this.sortData(this.actualSort);
+              });
 
-      }
+            }
+        } else if (this.criteriumView){
+            
+            if (this.date){
+                
+                this.date = new Date(this.date);
+                this.date.setHours(12);
 
+                this.rencontreService.getRencontresByDate(this.date).subscribe(rencontresDivision => {
+                      this.sortedRencontres = rencontresDivision.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
+                      this.sortData(this.actualSort);
+                  });
+            }
+        
+        }
 
     }
-
 
   sortData(sort: Sort) {
     this.actualSort=sort;
@@ -184,7 +209,20 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                   }
                   return 0;
                 }
-//              case 'poule': return  compare(this.formatPoule(a), this.formatPoule(b), isAsc);
+                case 'court':
+                {
+                  if (a.court && !b.court){
+                    return (isAsc ? -1 : 1);
+                  }
+                  if (!a.court && b.court){
+                    return (isAsc ? 1 : -1);
+                  }
+                  if (a.court && b.court) {
+                    return compare(a.court.code, b.court.code, isAsc);
+                  }
+                  return 0;
+                }
+              case 'categorie': return compare(this.getCategorieCode(a), this.getCategorieCode(b), isAsc);
               case 'equipeVisites': return compare(a.equipeVisites.codeAlphabetique, b.equipeVisites.codeAlphabetique, isAsc);
               case 'equipeVisiteurs': return compare(a.equipeVisiteurs.codeAlphabetique, b.equipeVisiteurs.codeAlphabetique, isAsc);
             default: return 0;
@@ -212,22 +250,24 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                 });
        }
 
-       if (this.selectedPouleIds  && this.selectedPouleIds.length > 0){
-            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-                return this.selectedPouleIds.some(selectedPouleId => {
-                    if (selectedPouleId==0){
-                        return rencontre.poule==null;
-                    }else{
-                        return rencontre.poule.id == selectedPouleId;
-                    }
-                })});
-        }
+        if (this.classicView){
+            if (this.selectedPouleIds  && this.selectedPouleIds.length > 0){
+                 this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+                     return this.selectedPouleIds.some(selectedPouleId => {
+                         if (selectedPouleId==0){
+                             return rencontre.poule==null;
+                         }else{
+                             return rencontre.poule.id == selectedPouleId;
+                         }
+                     })});
+             }
 
-       if (this.selectedTeams && this.selectedTeams.length > 0){
-            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-                return this.selectedTeams.some(selectedTeam => {
-                    return rencontre.equipeVisites.id==selectedTeam.id || rencontre.equipeVisiteurs.id==selectedTeam.id
-                })});
+            if (this.selectedTeams && this.selectedTeams.length > 0){
+                 this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+                     return this.selectedTeams.some(selectedTeam => {
+                         return rencontre.equipeVisites.id==selectedTeam.id || rencontre.equipeVisiteurs.id==selectedTeam.id
+                     })});
+             }
         }
 
     }
@@ -305,10 +345,23 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 //        }
 //    }
 
+    getCategorieCode(rencontre:Rencontre):string{
+        return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
+    }
+
     formatDate(date:Date):string{
         if (date){
             let dateToFormat=new Date(date);
             return addLeadingZero(dateToFormat.getDate()) + "/" + addLeadingZero(dateToFormat.getMonth()+1) + "/" + dateToFormat.getFullYear() + " " + addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
+        }else{
+            return "";
+        }
+    }
+    
+    formatHeure(date:Date):string{
+        if (date){
+            let dateToFormat=new Date(date);
+            return addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
         }else{
             return "";
         }

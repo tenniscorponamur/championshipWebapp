@@ -3,126 +3,179 @@
         <div class="card text-center">
             <h4 class="card-header">
                 Rencontres
+                <span *ngIf="criteriumView" style="float:right"><button class="btn btn-info btn-sm" (click)="changeView();"><i class="fa fa-forward"></i>&nbsp;Vue classique</button></span>
+                <span *ngIf="classicView" style="float:right"><button class="btn btn-warning btn-sm" (click)="changeView();"><i class="fa fa-forward"></i>&nbsp;Vue Critérium</button></span>
             </h4>
             <div class="card-body text-center">
 
-              <div class="row">
+                <div *ngIf="classicView" class="row">
 
-                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-              <mat-form-field>
-                <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadDivisions();" >
-                  <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <mat-form-field>
+                            <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadDivisions();" >
+                                <mat-option *ngFor="let championnat of championnats" [value]="championnat">
 
-                      <span>
-                          <i class="{{getTrophyClass(championnat)}}"></i>
-                          <i class="{{getTypeClass(championnat)}}" ></i>
-                      </span>
+                                    <span>
+                                        <i class="{{getTrophyClass(championnat)}}"></i>
+                                        <i class="{{getTypeClass(championnat)}}" ></i>
+                                    </span>
 
-                    <small>
+                                    <small>
 
-                      {{getTypeChampionnat(championnat).libelle}}
-                      {{championnat.annee}}
-                      {{getCategorieChampionnat(championnat).libelle}}
+                                        {{getTypeChampionnat(championnat).libelle}}
+                                        {{championnat.annee}}
+                                        {{getCategorieChampionnat(championnat).libelle}}
 
-                    </small>
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+                                    </small>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <mat-form-field *ngIf="divisions.length>0">
+                            <mat-select placeholder="Division" [(ngModel)]="selectedDivision" [formControl]="divisionCtrl" (selectionChange)="loadRencontres();" >
+                                <mat-option *ngFor="let division of divisions" [value]="division">
+                                    <small>
+                                        Division&nbsp;{{division.numero}}
+                                    </small>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <mat-form-field *ngIf="poules.length>1">
+                            <mat-select #pouleSelect placeholder="Contexte" [(ngModel)]="selectedPouleIds" [formControl]="pouleCtrl" multiple (selectionChange)="filtre()">
+                                <mat-option *ngFor="let poule of poules" [value]="poule.id">
+                                    <small>
+                                        Poule&nbsp;{{ poule.numero }}
+                                    </small>
+                                </mat-option>
+                                <mat-option value="0" ><small>Interséries</small></mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <mat-form-field *ngIf="equipes.length>0">
+                            <mat-select #teamSelect placeholder="Equipes" [(ngModel)]="selectedTeams" [formControl]="teamCtrl" multiple (selectionChange)="filtre()">
+                                <mat-option *ngFor="let equipe of equipes" [value]="equipe">
+                                    <small>{{ equipe.codeAlphabetique }}</small>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
                 </div>
-
-                  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-              <mat-form-field *ngIf="divisions.length>0">
-              <mat-select placeholder="Division" [(ngModel)]="selectedDivision" [formControl]="divisionCtrl" (selectionChange)="loadRencontres();" >
-                <mat-option *ngFor="let division of divisions" [value]="division">
-                  <small>
-                    Division&nbsp;{{division.numero}}
-                  </small>
-                </mat-option>
-              </mat-select>
-              </mat-form-field>
-
-              </div>
-              </div>
-
-              <div class="row">
-
-                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                <mat-form-field *ngIf="poules.length>1">
-                  <mat-select #pouleSelect placeholder="Contexte" [(ngModel)]="selectedPouleIds" [formControl]="pouleCtrl" multiple (selectionChange)="filtre()">
-                    <mat-option *ngFor="let poule of poules" [value]="poule.id">
-                      <small>
-                        Poule&nbsp;{{ poule.numero }}
-                      </small>
-                    </mat-option>
-                      <mat-option value="0" ><small>Interséries</small></mat-option>
-                  </mat-select>
-                </mat-form-field>
-                </div>
-
-                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                  <mat-form-field *ngIf="equipes.length>0">
-                    <mat-select #teamSelect placeholder="Equipes" [(ngModel)]="selectedTeams" [formControl]="teamCtrl" multiple (selectionChange)="filtre()">
-                      <mat-option *ngFor="let equipe of equipes" [value]="equipe">
-                        <small>{{ equipe.codeAlphabetique }}</small>
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-              </div>
-              </div>
-
-              <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <mat-radio-group [(ngModel)]="selectedTypeRencontre" (change)="filtre()">
-                <mat-radio-button color="primary" *ngFor="let typeRencontre of typeRencontres" [value]="typeRencontre" style="margin-right:10px" >
-                  <small>{{typeRencontre}}</small>
-                </mat-radio-button>
-              </mat-radio-group>
-              </div>
-              </div>
-
-              <div *ngIf="media.is.md.or.sm.or.xs | async" class="text-left" style="height:300px;overflow-y:auto;">
-                <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
-                  <div class="myBoxTitle">
-                    <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
-                  </div>
-                  <div class="myBoxContent">
-                    <span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span>
-                    &nbsp;-&nbsp;
-                     <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
-                     <span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span>&nbsp;-&nbsp;<span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div *ngIf="media.is.lg.or.xl | async" class="text-left">
-                <div class="table-responsive" style="height:300px;">
-                  <table class="rencontreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
-                    <!--table-striped-->
-                    <thead class="bg-info" >
-                    <tr>
-                      <th scope="col" mat-sort-header="dateHeureRencontre">Date/heure</th>
-                      <th scope="col" mat-sort-header="terrain">Terrain</th>
-                      <!--<th scope="col" mat-sort-header="poule">Ctx</th>-->
-                      <th scope="col" mat-sort-header="equipeVisites" >Visités</th>
-                      <th scope="col" mat-sort-header="equipeVisiteurs" >Visiteurs</th>
-                      <th scope="col" >Résultat</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
-                      <td class="text-uppercase">{{formatDate(rencontre.dateHeureRencontre)}}</td>
-                      <!--<td>{{formatPoule(rencontre)}}</td>-->
-                      <td><span *ngIf="rencontre.terrain">{{rencontre.terrain.nom}}</span></td>
-                      <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
-                      <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
-                      <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
                 
+                <div *ngIf="criteriumView" class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        
+                        <mat-form-field>
+                          <input matInput size="10" [matDatepicker]="picker" placeholder="Date"
+                                 [(ngModel)]="date" (dateChange)="loadRencontres();" >
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker touchUi="true" #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <mat-radio-group [(ngModel)]="selectedTypeRencontre" (change)="filtre()">
+                            <mat-radio-button color="primary" *ngFor="let typeRencontre of typeRencontres" [value]="typeRencontre" style="margin-right:10px" >
+                                <small>{{typeRencontre}}</small>
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div *ngIf="media.is.md.or.sm.or.xs | async" class="text-left" style="height:300px;overflow-y:auto;">
+                    <div *ngIf="classicView" >
+                        <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
+                            <div class="myBoxTitle">
+                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
+                            </div>
+                            <div class="myBoxContent">
+                                <span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span>
+                                &nbsp;-&nbsp;
+                                <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
+                                <span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span>&nbsp;-&nbsp;<span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
+                        <div *ngIf="criteriumView" > 
+                            <div class="myBoxTitle">
+                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatHeure(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.court"> - {{rencontre.court.code}}</span> - {{getCategorieCode(rencontre)}}
+                            </div>
+                            <div class="myBoxContent">
+                                <span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span>
+                                &nbsp;-&nbsp;
+                                <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
+                                <span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span>&nbsp;-&nbsp;<span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="media.is.lg.or.xl | async" class="text-left">
+                    <div *ngIf="classicView" class="table-responsive" style="height:300px;">
+                        <table class="rencontreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+                               <!--table-striped-->
+                               <thead class="bg-info" >
+                                <tr>
+                                    <th scope="col" mat-sort-header="dateHeureRencontre">Date/heure</th>
+                                    <th scope="col" mat-sort-header="terrain">Terrain</th>
+                                    <th scope="col" mat-sort-header="equipeVisites" >Visités</th>
+                                    <th scope="col" mat-sort-header="equipeVisiteurs" >Visiteurs</th>
+                                    <th scope="col" >Résultat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
+                                    <td class="text-uppercase">{{formatDate(rencontre.dateHeureRencontre)}}</td>
+                                    <td><span *ngIf="rencontre.terrain">{{rencontre.terrain.nom}}</span></td>
+                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
+                                    <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
+                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div *ngIf="criteriumView" class="table-responsive" style="height:300px;">
+                        <table class="rencontreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+                               <!--table-striped-->
+                               <thead class="bg-info" >
+                                <tr>
+                                    <th scope="col" mat-sort-header="dateHeureRencontre">Heure</th>
+                                    <th scope="col" mat-sort-header="categorie">Catégorie</th>
+                                    <th scope="col" mat-sort-header="court">Court</th>
+                                    <th scope="col" mat-sort-header="equipeVisites" >Visités</th>
+                                    <th scope="col" mat-sort-header="equipeVisiteurs" >Visiteurs</th>
+                                    <th scope="col" >Résultat</th>
+                                </tr>
+                            </thead> 
+                            <tbody>
+                                <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
+                                    <td class="text-uppercase">{{formatHeure(rencontre.dateHeureRencontre)}}</td>
+                                    <td>{{getCategorieCode(rencontre)}}</td>
+                                    <td><span *ngIf="rencontre.court">{{rencontre.court.code}}</span></td>
+                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
+                                    <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
+                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
                 <div *ngIf="isInterseriesPossibles()" align="right" style="margin-top:10px;">
                     <button class="btn btn-secondary" (click)="createInterserie();" ><i class="fa fa-plus-circle"></i>&nbsp;Intersérie</button>
                 </div>

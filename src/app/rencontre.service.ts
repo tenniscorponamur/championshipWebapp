@@ -6,6 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Rencontre} from './rencontre';
+import {formatDate} from './utility';
 
 @Injectable()
 export class RencontreService {
@@ -14,6 +15,10 @@ export class RencontreService {
 
     getRencontres(divisionId: number,pouleId:number,equipeId:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):"")+(equipeId!=null?("&equipeId="+equipeId):""));
+    }
+    
+    getRencontresByDate(date:Date): Observable<Rencontre[]> {
+        return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/byDate?date=" + formatDate(date));
     }
 
     getLastResults(maxNumberOfResults:number): Observable<Rencontre[]> {

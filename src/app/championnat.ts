@@ -34,6 +34,27 @@ export function getCategorieChampionnat(championnat: Championnat): CategorieCham
     }
 }
 
+export function getCategorieChampionnatCode(championnat: Championnat){
+    switch (championnat.categorie) {
+        case CATEGORIE_CHAMPIONNAT_MESSIEURS.code:
+            return "M";
+        case CATEGORIE_CHAMPIONNAT_DAMES.code:
+            return "D";
+        case CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code:
+            return "SM";
+        case CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code:
+            return "DM";
+        case CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code:
+            return "SD";
+        case CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code:
+            return "DD";
+        case CATEGORIE_CHAMPIONNAT_MIXTES.code:
+            return "DMX";
+        default:
+            return null;
+    }
+}
+
 export function getTypeChampionnat(championnat: Championnat): TypeChampionnat {
     switch (championnat.type) {
         case TYPE_CHAMPIONNAT_HIVER.code:
