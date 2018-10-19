@@ -33,6 +33,17 @@
           <div class="exportButtonDiv"><button class="btn btn-info btn-sm" (click)="getCalendrierExcel();">Export du calendrier (Excel)</button></div>
           <div *ngIf="preparationCalendrierExcel"><span><small>Préparation du fichier en cours...</small></span></div>
 
+        <div class="exportButtonDiv" *ngIf="isCriterium();">
+            <button class="btn btn-info btn-sm" (click)="getTableauCriterium();">Tableau critérium</button>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Jour des rencontres" [(ngModel)]="date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker touchUi="true" #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+          
+          <div *ngIf="preparationTableauCriterium"><span><small>Préparation du fichier en cours...</small></span></div>
+          
         </div>
 
       </div>

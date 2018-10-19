@@ -6,6 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {Championnat} from './championnat';
 import {AuthenticationService} from './authentication.service';
+import {formatDate} from './utility';
 
 @Injectable()
 export class ChampionnatService {
@@ -64,6 +65,12 @@ export class ChampionnatService {
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";
     return this.http.get(environment.privateApiUrl + "/championnat/listeCapitaines?championnatId=" + championnat.id,options);
+  }
+  
+  getTableauCriterium(championnat:Championnat, date:Date){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(environment.privateApiUrl + "/championnat/tableauCriterium?championnatId=" + championnat.id + "&date=" + formatDate(date),options);
   }
 
 }
