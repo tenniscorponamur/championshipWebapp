@@ -61,21 +61,12 @@ export class DocumentsComponent extends ChampionnatDetailComponent implements On
     }
   }
   
-  isCriterium():boolean{
-      if (this.selectedChampionnat){ 
-          if (this.selectedChampionnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code){
-              return true;
-          }
-      }
-      return false;
-  }
-  
   getTableauCriterium(){
-    if (this.selectedChampionnat && this.date){
+    if (this.date){
       this.preparationTableauCriterium=true;
       this.date = new Date(this.date);
       this.date.setHours(12);
-      this.championnatService.getTableauCriterium(this.selectedChampionnat, this.date).subscribe(result => {
+      this.championnatService.getTableauCriterium(this.date).subscribe(result => {
           this.preparationTableauCriterium = false;
           saveAs(result, "tableauCriterium_" + formatDate(this.date) + ".pdf");
       },error => {console.log(error);});

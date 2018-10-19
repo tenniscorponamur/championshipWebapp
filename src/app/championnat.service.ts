@@ -67,10 +67,10 @@ export class ChampionnatService {
     return this.http.get(environment.privateApiUrl + "/championnat/listeCapitaines?championnatId=" + championnat.id,options);
   }
   
-  getTableauCriterium(championnat:Championnat, date:Date){
+  getTableauCriterium(date:Date){
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";
-    return this.http.get(environment.privateApiUrl + "/championnat/tableauCriterium?championnatId=" + championnat.id + "&date=" + formatDate(date),options);
+    return this.http.get(environment.privateApiUrl + "/championnat/tableauCriterium?date=" + formatDate(date),options);
   }
 
 }
