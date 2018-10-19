@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Inject, Input, Output } from '@angular/core';
-import {Terrain, HoraireTerrain, JOURS_SEMAINE, JourSemaine} from '../terrain';
+import {Terrain, HoraireTerrain, JOURS_SEMAINE, JourSemaine, Court} from '../terrain';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog, Sort} from '@angular/material';
 import {TerrainService} from '../terrain.service';
 import {TYPES_CHAMPIONNAT, TypeChampionnat} from '../championnat';
@@ -18,6 +18,7 @@ export class TerrainDetailComponent implements OnInit {
   typesChampionnat: TypeChampionnat[] = TYPES_CHAMPIONNAT;
       
   horairesTerrain:HoraireTerrain[];
+  courts:Court[];
   deletable=false;
 
   private _terrain: Terrain;
@@ -26,6 +27,7 @@ export class TerrainDetailComponent implements OnInit {
   set terrain(terrain: Terrain) {
     this._terrain = terrain;
     this.refreshHoraires();
+      this.refreshCourts();
     this.refreshDeletable();
   }
 
@@ -80,6 +82,12 @@ export class TerrainDetailComponent implements OnInit {
       }
   }
   
+  refreshCourts(){
+      if (this.terrain){
+          this.terrainService.getCourtsTerrain(this.terrain.id).subscribe(courts => this.courts = courts);
+      }
+  }
+  
   addHoraire(){
     let horaireTerrain = new HoraireTerrain();
     this.horairesTerrain.push(horaireTerrain);
@@ -101,6 +109,25 @@ export class TerrainDetailComponent implements OnInit {
   supprimerHoraire(horaireTerrain:HoraireTerrain){
       this.terrainService.deleteHoraireTerrain(this.terrain,horaireTerrain).subscribe(result => {
         this.horairesTerrain.splice(this.horairesTerrain.indexOf(horaireTerrain), 1);
+    });
+  }
+  
+  addCourt(){
+    let court = new Court();
+    this.courts.push(court);
+  }
+  
+  changeCourt(court:Court){
+    if (court.id!=null){
+        this.terrainService.updateCourt(this.terrain,court).subscribe();
+    }else{
+        this.terrainService.ajoutCourt(this.terrain, court).subscribe(courtSaved => court.id = courtSaved.id);
+    }
+  }
+  
+  supprimerCourt(court:Court){
+      this.terrainService.deleteCourt(this.terrain,court).subscribe(result => {
+        this.courts.splice(this.courts.indexOf(court), 1);
     });
   }
 

@@ -50,6 +50,20 @@
       </form>
     </div>
   </div>
+  <div *ngIf="isCourtPrecisable()" class="row text-center">
+    <div class="col-12">
+      <form>
+        <mat-form-field>
+          <mat-select placeholder="Court" [(ngModel)]="courtId" [formControl]="courtCtrl">
+            <mat-option>Aucun court</mat-option>
+            <mat-option *ngFor="let court of courts" [value]="court.id">
+              <small>{{ court.code }}</small>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
 
   <div align="center">
     <button class="btn btn-danger" (click)="cancel();">Annuler</button>

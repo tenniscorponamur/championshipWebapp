@@ -61,7 +61,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
 
   ngOnInit() {
-        this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
+      this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.sort((a, b) => compare(a.nom,b.nom,true)));
         this.refresh(null,false);
   }
 

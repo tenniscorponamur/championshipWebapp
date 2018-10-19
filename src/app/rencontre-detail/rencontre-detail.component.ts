@@ -16,7 +16,7 @@ import {FormControl} from '@angular/forms';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Club} from '../club';
 import {Set} from '../set';
-import {Terrain, HoraireTerrain} from '../terrain';
+import {Terrain, HoraireTerrain, Court} from '../terrain';
 import {Equipe} from '../equipe';
 import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
@@ -298,6 +298,12 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     setValidite(validite:boolean){
+        
+        // TODO : adapter les isAdmin dans le html
+        // TODO : prevoir un refus de validation et message a destination de l'encodeur
+        // TODO : devalidation : only admin
+        // TODO : validation par admin, responsable club visiteur, capitaine equipe visiteur
+        
       if (this.isAdminConnected()){
           if (validite){
             if (this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
@@ -312,6 +318,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     isResultatsRencontreModifiables():boolean{
+        
+        //TODO : admin, responsable de club visite ou capitaine equipe visitee
+        
       return this.isAdminConnected()
              && !this.rencontre.valide
              && this.rencontre.division.championnat.calendrierValide
@@ -461,14 +470,17 @@ class MatchExtended {
 export class DateTerrainDialog implements OnInit {
 
     terrainCtrl: FormControl = new FormControl();
+    courtCtrl: FormControl = new FormControl();
 
     rencontre:Rencontre;
     date:Date;
     heure:number;
     minute:number;
     terrainId:number;
+    courtId:number;
 
     terrains:Terrain[]=[];
+    courts:Court[]=[];
     horairesTerrain:HoraireTerrain[]=[];
 
     constructor(
@@ -485,11 +497,21 @@ export class DateTerrainDialog implements OnInit {
           if (this.rencontre.terrain){
               this.terrainId=this.rencontre.terrain.id;
           }
+          if (this.rencontre.court){
+              this.courtId=this.rencontre.court.id;
+          }
         }
 
   ngOnInit() {
-    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.filter(terrain => terrain.actif));
+    this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.filter(terrain => terrain.actif).sort((a, b) => compare(a.nom,b.nom,true)));
     this.terrainService.getHorairesTerrainByTypeChampionnat(this.rencontre.division.championnat.type).subscribe(horaires => this.horairesTerrain = horaires);
+      if (this.terrainId){
+          this.terrainService.getCourtsTerrain(this.terrainId).subscribe(courts => this.courts = courts);
+      }
+    }
+
+    isCourtPrecisable():boolean{
+        return this.rencontre.division.championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code && this.courts.length > 0;
     }
 
     changeDate(){
@@ -499,6 +521,7 @@ export class DateTerrainDialog implements OnInit {
           let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));
           if (horaire!=null){
             this.terrainId = horaire.terrain.id;
+            this.refreshCourts();
             this.heure=horaire.heures;
             this.minute=horaire.minutes;
           }
@@ -526,6 +549,17 @@ export class DateTerrainDialog implements OnInit {
           }
         }
       }
+      
+      this.refreshCourts();
+      
+    }
+    
+    refreshCourts(){
+      this.courts = [];
+      this.courtId=null;
+      if (this.terrainId!=null && this.terrainId!=undefined){
+          this.terrainService.getCourtsTerrain(this.terrainId).subscribe(courts => this.courts = courts.sort((a,b)=> compare(a.code,b.code,true)));
+      }
     }
 
     cancel(): void {
@@ -539,6 +573,13 @@ export class DateTerrainDialog implements OnInit {
             this.rencontre.terrain = selectedTerrain;
         }else{
             this.rencontre.terrain=null;
+        }
+        
+        if (this.courtId){
+            let selectedCourt = this.courts.find(court => court.id == this.courtId);
+            this.rencontre.court = selectedCourt;
+        }else{
+            this.rencontre.court=null;
         }
 
         if (this.date!=null && this.heure!=null && this.minute!=null){

@@ -17,6 +17,12 @@ export class HoraireTerrain {
     minutes:number;
 }
 
+export class Court {
+    id:number;
+    code:string;
+    terrain:Terrain;
+}
+
 export class JourSemaine {
     code: number;
     libelle: string;
