@@ -48,17 +48,24 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     private _rencontre: Rencontre;
     jeuxVisites:number;
     jeuxVisiteurs:number;
+    isResultatsRencontreModifiables:boolean=false;
+    isResultatsCloturables:boolean=false;
+    isPoursuiteEncodagePossible:boolean=false;
     isValidable:boolean=false;
 
     @Input()
     set rencontre(rencontre: Rencontre) {
         this._rencontre = rencontre;
-        this.refreshValidable();
+        this.refreshBooleans();
         this.getMatchs();
     }
 
     get rencontre(): Rencontre {return this._rencontre;}
 
+    isUserConnected(){
+        return this.authenticationService.isConnected();
+    }
+    
     isAdminConnected(){
         return this.authenticationService.isAdminUserConnected();
     }
@@ -245,7 +252,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     getEditableClass(match:Match){
-      if (this.isResultatsRencontreModifiables()){
+      if (this.isResultatsRencontreModifiables){
         return "modifiable";
       }
       return "";
@@ -291,44 +298,32 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         return "";
     }
 
-    refreshValidable() {
-        if (this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
+    refreshBooleans() {
+        if (this.isUserConnected()){
+            this.rencontreService.isResultatsRencontreModifiables(this.rencontre).subscribe(result => this.isResultatsRencontreModifiables = result);
+            this.rencontreService.isResultatsCloturables(this.rencontre).subscribe(result => this.isResultatsCloturables = result);
+            this.rencontreService.isPoursuiteEncodagePossible(this.rencontre).subscribe(result => this.isPoursuiteEncodagePossible = result);
             this.rencontreService.isValidable(this.rencontre).subscribe(result => this.isValidable = result);
         }
     }
-
-    setValidite(validite:boolean){
+    
+    setResultatsEncodes(resultatsEncodes:boolean){
         
-        // TODO : adapter les isAdmin dans le html
         // TODO : prevoir un refus de validation et message a destination de l'encodeur
-        // TODO : devalidation : only admin
-        // TODO : validation par admin, responsable club visiteur, capitaine equipe visiteur
         
-      if (this.isAdminConnected()){
-          if (validite){
-            if (this.rencontre.division.championnat.calendrierValide && !this.rencontre.division.championnat.cloture){
-                this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => this.rencontre.valide=validity,error=> console.log(error));
-            }
-          }else{
-            if (!this.rencontre.division.championnat.cloture){
-                this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => this.rencontre.valide=validity,error=> console.log(error));
-            }
-          }
-      }
+        this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes).subscribe(resultsEncoded => {
+            this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
+        },error=> console.log(error));
     }
 
-    isResultatsRencontreModifiables():boolean{
-        
-        //TODO : admin, responsable de club visite ou capitaine equipe visitee
-        
-      return this.isAdminConnected()
-             && !this.rencontre.valide
-             && this.rencontre.division.championnat.calendrierValide
-             && !this.rencontre.division.championnat.cloture;
+    setValidite(validite:boolean){
+        this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => {
+            this.rencontre.valide = validity; this.refreshBooleans();
+        },error=> console.log(error));
     }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
-        if (this.isResultatsRencontreModifiables()){
+        if (this.isResultatsRencontreModifiables){
             let club;
             if (indexEquipe == 1) {
                 club = this.rencontre.equipeVisites.club;
@@ -408,7 +403,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ouvrirResultats(matchExtended: MatchExtended) {
-      if (this.isResultatsRencontreModifiables()){
+      if (this.isResultatsRencontreModifiables){
         let resultatsDialogRef = this.dialog.open(ResultatsDialog, {
             data: {matchExtended: matchExtended}, panelClass: "resultatsDialog", disableClose:true
         });
@@ -424,7 +419,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     refreshRencontre() {
         this.calculMatchRencontre();
         // sauver les points de la rencontre sur base des resultats des matchs
-        this.rencontreService.updateRencontre(this.rencontre).subscribe( result => this.refreshValidable());
+        this.rencontreService.updateRencontre(this.rencontre).subscribe(result => this.refreshBooleans());
     }
 
     calculMatchRencontre(){

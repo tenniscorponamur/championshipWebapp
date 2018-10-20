@@ -46,13 +46,31 @@
                   </div>
               </div>
               <div>
+                  <div>
                   <span *ngIf="jeuxVisites!=null">{{jeuxVisites}}</span>
                   &nbsp;
                   -
                   &nbsp;
-                  <span *ngIf="jeuxVisiteurs!=null">{{jeuxVisiteurs}}</span><br />
-                  <span *ngIf="isAdminConnected() && !rencontre.valide" style="font-weight:bold;color:red"><em>Rencontre non-validée</em><span *ngIf="isValidable"><br/><button class="btn btn-sm btn-success" (click)="setValidite(true);" >Valider&nbsp;<i class="fa fa-check"></i></button></span></span>
-                  <span *ngIf="isAdminConnected() && rencontre.valide" style="font-weight:bold;color:darkgreen"><em>Rencontre validée</em><br/><button *ngIf="!rencontre.division.championnat.cloture" class="btn btn-sm btn-danger" (click)="setValidite(false);" >Dévalider&nbsp;<i class="fa fa-times"></i></button></span>
+                  <span *ngIf="jeuxVisiteurs!=null">{{jeuxVisiteurs}}</span>
+                  </div>
+                  <div *ngIf="!rencontre.resultatsEncodes || !rencontre.valide" >
+                    <span style="font-weight:bold;color:red"><em>Résultats non-validés</em></span>
+                    <div class="workflowButtonDiv" *ngIf="isResultatsCloturables">
+                        <button class="btn btn-sm btn-success" (click)="setResultatsEncodes(true);" >Encodage terminé&nbsp;<i class="fa fa-step-forward"></i></button>
+                    </div>
+                      <div class="workflowButtonDiv" *ngIf="isPoursuiteEncodagePossible">
+                        <button class="btn btn-sm btn-warning" (click)="setResultatsEncodes(false);" >Poursuivre encodage&nbsp;<i class="fa fa-step-backward"></i></button>
+                      </div>
+                      <div class="workflowButtonDiv" *ngIf="isValidable">
+                          <button class="btn btn-sm btn-success" (click)="setValidite(true);" >Valider&nbsp;<i class="fa fa-check"></i></button>
+                      </div>
+                  </div>
+                  <div *ngIf="rencontre.valide">
+                      <span style="font-weight:bold;color:darkgreen"><em>Résultats validés</em></span>
+                      <div class="workflowButtonDiv" *ngIf="isAdminConnected() && !rencontre.division.championnat.cloture">
+                        <button class="btn btn-sm btn-danger" (click)="setValidite(false);" >Dévalider&nbsp;<i class="fa fa-times"></i></button>
+                      </div>
+                  </div>
               </div>
             </div>
         </div>

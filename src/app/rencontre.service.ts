@@ -28,9 +28,21 @@ export class RencontreService {
     getNextMeetings(maxNumberOfResults:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/next?numberOfResults=" + maxNumberOfResults);
     }
+    
+    isResultatsRencontreModifiables(rencontre:Rencontre) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isResultatsModifiables", this.authenticationService.getPrivateApiHttpOptions());
+    }
 
+    isResultatsCloturables(rencontre:Rencontre) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isResultatsCloturables", this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
+    isPoursuiteEncodagePossible(rencontre:Rencontre) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isPoursuiteEncodagePossible", this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
     isValidable(rencontre:Rencontre) {
-        return this.http.get<boolean>(environment.publicApiUrl + "/rencontre/" + rencontre.id + "/isValidable");
+        return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isValidable", this.authenticationService.getPrivateApiHttpOptions());
     }
 
     createRencontre(rencontre: Rencontre) {
@@ -41,6 +53,10 @@ export class RencontreService {
         return this.http.put<Rencontre>(environment.privateApiUrl + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    updateResultatsEncodesRencontre(rencontre:Rencontre, resultatsEncodes:boolean){
+        return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/resultatsEncodes", resultatsEncodes, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
     updateValiditeRencontre(rencontre:Rencontre, validite:boolean){
         return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/validite", validite, this.authenticationService.getPrivateApiHttpOptions());
     }
