@@ -53,12 +53,12 @@ export class RencontreService {
         return this.http.put<Rencontre>(environment.privateApiUrl + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
 
-    updateResultatsEncodesRencontre(rencontre:Rencontre, resultatsEncodes:boolean){
-        return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/resultatsEncodes", resultatsEncodes, this.authenticationService.getPrivateApiHttpOptions());
+    updateResultatsEncodesRencontre(rencontre:Rencontre, resultatsEncodes:boolean, message:string){
+        return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/resultatsEncodes?resultatsEncodes=" + resultatsEncodes, message, this.authenticationService.getPrivateApiHttpOptions());
     }
     
-    updateValiditeRencontre(rencontre:Rencontre, validite:boolean){
-        return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/validite", validite, this.authenticationService.getPrivateApiHttpOptions());
+    updateValiditeRencontre(rencontre:Rencontre, validite:boolean, message:string){
+        return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/validite?validite=" + validite, message, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     creerCalendrier(championnatId: number){

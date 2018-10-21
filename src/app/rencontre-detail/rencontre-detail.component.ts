@@ -309,15 +309,16 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     
     setResultatsEncodes(resultatsEncodes:boolean){
         
-        // TODO : prevoir un refus de validation et message a destination de l'encodeur
+        // TODO : dans le cas du poursuite d'encodage, prevoir un refus de validation et message a destination de l'encodeur
+        // TODO : popup avec encodage d'un message possible pour le retour a l'envoyeur
         
-        this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes).subscribe(resultsEncoded => {
+        this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,null).subscribe(resultsEncoded => {
             this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
         },error=> console.log(error));
     }
 
     setValidite(validite:boolean){
-        this.rencontreService.updateValiditeRencontre(this.rencontre, validite).subscribe(validity => {
+        this.rencontreService.updateValiditeRencontre(this.rencontre, validite,null).subscribe(validity => {
             this.rencontre.valide = validity; this.refreshBooleans();
         },error=> console.log(error));
     }
