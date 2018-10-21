@@ -3,7 +3,7 @@
 
 <div class="traceList">
   <div *ngFor="let trace of traces" class="traceDiv">
-      <strong>{{trace.utilisateur}}</strong>&nbsp;<small>({{trace.dateHeure| date:'dd/MM/yyyy HH:mm'}})</small><br/>
+      <strong>{{trace.utilisateur}}</strong>&nbsp;<small>({{trace.dateHeure| date:'dd/MM/yyyy HH:mm:ss'}})</small><br/>
       <em>{{trace.message}}</em> 
   </div>
 </div>
