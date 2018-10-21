@@ -321,9 +321,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
                 data: {}, panelClass: "messagePoursuiteDialog", disableClose: false
             });
             
-            messagePoursuiteDialog.afterClosed().subscribe(message => {
-                if (message){
-                    this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,message).subscribe(resultsEncoded => {
+            messagePoursuiteDialog.afterClosed().subscribe(retour => {
+                if (retour){
+                    this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,retour.message).subscribe(resultsEncoded => {
                         this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
                     },error=> console.log(error));
                 }
@@ -633,7 +633,7 @@ export class MessagePoursuiteDialog implements OnInit {
     }
     
     save(){
-        this.dialogRef.close(this.message);
+        this.dialogRef.close({"message":this.message});
     }
     
 }
