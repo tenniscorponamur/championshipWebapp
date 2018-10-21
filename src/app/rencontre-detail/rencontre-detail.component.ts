@@ -309,12 +309,28 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     
     setResultatsEncodes(resultatsEncodes:boolean){
         
-        // TODO : dans le cas du poursuite d'encodage, prevoir un refus de validation et message a destination de l'encodeur
-        // TODO : popup avec encodage d'un message possible pour le retour a l'envoyeur
-        
-        this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,null).subscribe(resultsEncoded => {
-            this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
-        },error=> console.log(error));
+        if (resultatsEncodes){
+            
+            this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,null).subscribe(resultsEncoded => {
+                this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
+            },error=> console.log(error));
+                
+        }else{
+            
+            let messagePoursuiteDialog = this.dialog.open(MessagePoursuiteDialog, {
+                data: {}, panelClass: "messagePoursuiteDialog", disableClose: false
+            });
+            
+            messagePoursuiteDialog.afterClosed().subscribe(message => {
+                if (message){
+                    this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,message).subscribe(resultsEncoded => {
+                        this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
+                    },error=> console.log(error));
+                }
+            });
+            
+        }
+            
     }
 
     setValidite(validite:boolean){
@@ -595,6 +611,31 @@ export class DateTerrainDialog implements OnInit {
          });
 
     }
+}
+
+@Component({
+    selector: 'message-poursuite-dialog',
+    templateUrl: './messagePoursuiteDialog.html'
+})
+export class MessagePoursuiteDialog implements OnInit {
+    
+    message:string;
+    
+    constructor(public dialogRef: MatDialogRef<MessagePoursuiteDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any){
+    }
+    
+    ngOnInit(): void {
+    }
+    
+    cancel(){
+        this.dialogRef.close();
+    }
+    
+    save(){
+        this.dialogRef.close(this.message);
+    }
+    
 }
 
 @Component({

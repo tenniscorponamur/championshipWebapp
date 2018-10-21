@@ -47,7 +47,7 @@ import { TerrainService } from './terrain.service';
 import { AuthGuardService } from './auth-guard.service';
 import { IsSecureGuardService } from './is-secure-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
-import { RencontreDetailComponent, ResultatsDialog, DateTerrainDialog} from './rencontre-detail/rencontre-detail.component';
+import { RencontreDetailComponent, ResultatsDialog, DateTerrainDialog, MessagePoursuiteDialog} from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent, RencontresDialog } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
@@ -103,6 +103,7 @@ import { DocumentsComponent } from './documents/documents.component';
     RencontreDetailComponent,
     ResultatsDialog,
     DateTerrainDialog,
+    MessagePoursuiteDialog,
     ClassementDetailComponent,
     RencontresDialog,
     ClassementsComponent,
@@ -178,6 +179,7 @@ import { DocumentsComponent } from './documents/documents.component';
       MembreSelectionComponent,
       ResultatsDialog,
       DateTerrainDialog,
+      MessagePoursuiteDialog,
       InterserieDialog,
       RencontresDialog,
       ImportMembresDialog

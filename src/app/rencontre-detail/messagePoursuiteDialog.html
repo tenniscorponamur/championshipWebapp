@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Poursuite de l'encodage des résultats<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content>
+
+    <mat-form-field style="width:100%;">
+        <textarea matInput placeholder="Message" rows=5 [(ngModel)]="message"></textarea>
+    </mat-form-field>
+
+  <div align="center">
+    <button class="btn btn-warning" (click)="save();">Envoyer message</button>
+  </div>
+</div>
