@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Historique des actions<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+
+<div class="traceList">
+  <div *ngFor="let trace of traces" class="traceDiv">
+      <strong>{{trace.utilisateur}}</strong>&nbsp;<small>({{trace.dateHeure| date:'dd/MM/yyyy HH:mm'}})</small><br/>
+      <em>{{trace.message}}</em> 
+  </div>
+</div>
+
+</div>

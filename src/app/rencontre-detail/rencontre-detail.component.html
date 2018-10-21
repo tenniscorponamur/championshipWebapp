@@ -54,7 +54,10 @@
                   <span *ngIf="jeuxVisiteurs!=null">{{jeuxVisiteurs}}</span>
                   </div>
                   <div *ngIf="!rencontre.resultatsEncodes || !rencontre.valide" >
-                    <span style="font-weight:bold;color:red"><em>Résultats non-validés</em></span>
+                      <div>
+                        <span style="font-weight:bold;color:red"><em>Résultats non-validés</em></span>
+                        <button *ngIf="traces.length>0" class="btn" (click)="showHistory();"><i class="fa fa-history" aria-hidden="true"></i></button>
+                      </div>
                     <div class="workflowButtonDiv" *ngIf="isResultatsCloturables">
                         <button class="btn btn-sm btn-success" (click)="setResultatsEncodes(true);" >Encodage terminé&nbsp;<i class="fa fa-step-forward"></i></button>
                     </div>
@@ -66,11 +69,17 @@
                       </div>
                   </div>
                   <div *ngIf="rencontre.valide">
-                      <span style="font-weight:bold;color:darkgreen"><em>Résultats validés</em></span>
+                      <div>
+                        <span style="font-weight:bold;color:darkgreen"><em>Résultats validés</em></span>
+                        <button *ngIf="traces.length>0" class="btn" (click)="showHistory();"><i class="fa fa-history" aria-hidden="true"></i></button>
+                      </div>
                       <div class="workflowButtonDiv" *ngIf="isAdminConnected() && !rencontre.division.championnat.cloture">
                         <button class="btn btn-sm btn-danger" (click)="setValidite(false);" >Dévalider&nbsp;<i class="fa fa-times"></i></button>
                       </div>
                   </div>
+                  
+                  
+                  
               </div>
             </div>
         </div>

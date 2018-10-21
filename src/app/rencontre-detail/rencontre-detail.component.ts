@@ -20,6 +20,8 @@ import {Terrain, HoraireTerrain, Court} from '../terrain';
 import {Equipe} from '../equipe';
 import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
+import {Trace} from '../trace';
+import {TraceService} from '../trace.service';
 
 
 @Component({
@@ -30,6 +32,7 @@ import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 export class RencontreDetailComponent extends ChampionnatDetailComponent implements OnInit {
 
     matchs: MatchExtended[] = [];
+    traces:Trace[]=[];
     private mapEquivalence;
 
     constructor(public dialog: MatDialog,
@@ -37,6 +40,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         private matchService: MatchService,
         private classementMembreService:ClassementMembreService,
         private authenticationService: AuthenticationService,
+        private traceService: TraceService,
         private setService: SetService) {
         super();
     }
@@ -56,7 +60,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     @Input()
     set rencontre(rencontre: Rencontre) {
         this._rencontre = rencontre;
-        this.refreshBooleans();
+        this.refreshBooleansAndTraces();
         this.getMatchs();
     }
 
@@ -298,12 +302,13 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         return "";
     }
 
-    refreshBooleans() {
+    refreshBooleansAndTraces() {
         if (this.isUserConnected()){
             this.rencontreService.isResultatsRencontreModifiables(this.rencontre).subscribe(result => this.isResultatsRencontreModifiables = result);
             this.rencontreService.isResultatsCloturables(this.rencontre).subscribe(result => this.isResultatsCloturables = result);
             this.rencontreService.isPoursuiteEncodagePossible(this.rencontre).subscribe(result => this.isPoursuiteEncodagePossible = result);
             this.rencontreService.isValidable(this.rencontre).subscribe(result => this.isValidable = result);
+            this.traceService.getTraces("rencontre", this.rencontre.id.toString()).subscribe(traces => this.traces = traces);
         }
     }
     
@@ -312,7 +317,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         if (resultatsEncodes){
             
             this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,null).subscribe(resultsEncoded => {
-                this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
+                this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleansAndTraces();
             },error=> console.log(error));
                 
         }else{
@@ -324,7 +329,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             messagePoursuiteDialog.afterClosed().subscribe(retour => {
                 if (retour){
                     this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,retour.message).subscribe(resultsEncoded => {
-                        this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleans();
+                        this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleansAndTraces();
                     },error=> console.log(error));
                 }
             });
@@ -335,8 +340,14 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
     setValidite(validite:boolean){
         this.rencontreService.updateValiditeRencontre(this.rencontre, validite,null).subscribe(validity => {
-            this.rencontre.valide = validity; this.refreshBooleans();
+            this.rencontre.valide = validity; this.refreshBooleansAndTraces();
         },error=> console.log(error));
+    }
+
+    showHistory(){
+        let tracesRencontreDialogRef = this.dialog.open(TracesRencontreDialog, {
+            data: {traces: this.traces}, panelClass: "tracesRencontreDialog", disableClose:false
+        });
     }
 
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
@@ -436,7 +447,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     refreshRencontre() {
         this.calculMatchRencontre();
         // sauver les points de la rencontre sur base des resultats des matchs
-        this.rencontreService.updateRencontre(this.rencontre).subscribe(result => this.refreshBooleans());
+        this.rencontreService.updateRencontre(this.rencontre).subscribe(result => this.refreshBooleansAndTraces());
     }
 
     calculMatchRencontre(){
@@ -637,6 +648,29 @@ export class MessagePoursuiteDialog implements OnInit {
     }
     
 }
+@Component({
+    selector: 'traces-rencontre-dialog',
+    templateUrl: './tracesRencontreDialog.html',
+    styleUrls: ['./tracesRencontreDialog.css']
+})
+export class TracesRencontreDialog implements OnInit {
+    
+    traces:Trace[]=[];
+    
+    constructor(public dialogRef: MatDialogRef<MessagePoursuiteDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any){
+        this.traces = data.traces;
+    }
+    
+    ngOnInit(): void {
+    }
+    
+    cancel(){
+        this.dialogRef.close();
+    }
+    
+}
+
 
 @Component({
     selector: 'resultats-dialog',
