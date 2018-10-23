@@ -33,6 +33,7 @@ export class MembreDetailComponent implements OnInit {
 
   @Output() deleteMembre = new EventEmitter<Membre>();
 
+  resetPasswordOk:boolean=false;
   userImageClass:string = "fa fa-user fa-5x undefinedMember";
   deletable=false;
   showGraph=false;
@@ -62,6 +63,7 @@ export class MembreDetailComponent implements OnInit {
   @Input()
   set membre(membre: Membre) {
     this._membre = membre;
+    this.resetPasswordOk=false;
     this.refreshUserImage();
     this.refreshDeletable();
     this.refreshClassement();
@@ -249,6 +251,11 @@ export class MembreDetailComponent implements OnInit {
           data: { membre: this.membre }, panelClass: "anonymisationDialog", disableClose:true
         });
       }
+    }
+    
+    resetPassword(){
+        this.resetPasswordOk=false;
+        this.membreService.resetPassword(this.membre).subscribe(result => this.resetPasswordOk=result);
     }
 
     supprimerMembre(){

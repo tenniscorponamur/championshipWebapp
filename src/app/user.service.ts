@@ -31,8 +31,8 @@ export class UserService {
       return this.http.delete<User>(environment.privateApiUrl + "/user?userId=" + utilisateur.id, this.authenticationService.getPrivateApiHttpOptions());
 }
     
-  resetPassword(utilisateur:User){
-      return this.http.post<User>(environment.privateApiUrl + "/user/resetPassword?id="+utilisateur.id,utilisateur, this.authenticationService.getPrivateApiHttpOptions());
+  resetPassword(utilisateur:User):Observable<boolean>{
+      return this.http.post<boolean>(environment.privateApiUrl + "/user/resetPassword?id="+utilisateur.id,utilisateur, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   changePassword(oldPassword:string,newPassword:string){

@@ -50,6 +50,9 @@
     </div>
       <div class="col-12 text-center">
         <button class="btn btn-primary" (click)="resetPassword();" >Reset Password</button>
+        <div *ngIf="resetOk" class="alert alert-success" role="alert">
+          Mot de passe réinitialisé
+        </div>
       </div>
 </div>
 

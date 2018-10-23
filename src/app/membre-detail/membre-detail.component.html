@@ -165,7 +165,11 @@
     <div class="row" *ngIf="isAdminConnected()">
       <div class="col-12 text-center">
         <button class="btn btn-sm btn-info" (click)="anonymisation();" ><i class="fa fa-eye-slash" ></i>&nbsp;Anonymisation</button>
+        <button class="btn btn-sm btn-warning" (click)="resetPassword();" ><i class="fa fa-key" ></i>&nbsp;Reset Password</button>
       </div>
+        <div *ngIf="resetPasswordOk" class="col-12 text-center alert alert-success" role="alert">
+          Nouveau mot de passe envoyé avec succès
+        </div>
     </div>
 
     <!--<div class="row">-->

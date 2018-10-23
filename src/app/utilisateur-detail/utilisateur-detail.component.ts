@@ -11,9 +11,18 @@ import {MembreSelectionComponent} from '../membre-selection/membre-selection.com
 })
 export class UtilisateurDetailComponent implements OnInit {
 
-  @Input()
-  utilisateur:User
+    resetOk:boolean=false;
+    
+  private _utilisateur: User;
 
+  @Input()
+  set utilisateur(utilisateur: User) {
+      this._utilisateur = utilisateur;
+      this.resetOk=false;
+  }
+  
+  get utilisateur(): User { return this._utilisateur; }
+  
   @Output() deleteUser = new EventEmitter<User>();
 
   constructor(
@@ -35,7 +44,8 @@ export class UtilisateurDetailComponent implements OnInit {
   }
 
     resetPassword(){
-        this.userService.resetPassword(this.utilisateur).subscribe();
+        this.resetOk=false;
+        this.userService.resetPassword(this.utilisateur).subscribe(result => this.resetOk=result);
     }
 
     supprimerUtilisateur(){
