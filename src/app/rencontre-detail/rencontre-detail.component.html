@@ -108,6 +108,24 @@
       </div>
     </div>
   </div>
+      
+      <div *ngIf="canAuthoriseEncodage">
+          
+          <div *ngFor="let autorisation of getAutorisationsEncodage()">
+              {{autorisation.membre.nom}}&nbsp;{{autorisation.membre.prenom}}
+              <button (click)="deleteAutorisation(autorisation);"><i class="fa fa-trash"></i></button>
+            </div>
+        <button class="btn btn-info" (click)="addAutorisationEncodage();">Ajouter autorisation d'encodage</button>
+      </div>
+      
+      <div *ngIf="canAuthoriseValidation">
+          
+          <div *ngFor="let autorisation of getAutorisationsValidation()">
+              {{autorisation.membre.nom}}&nbsp;{{autorisation.membre.prenom}}
+              <button (click)="deleteAutorisation(autorisation);"><i class="fa fa-trash"></i></button>
+            </div>
+        <button class="btn btn-info" (click)="addAutorisationValidation();">Ajouter autorisation de validation</button>
+      </div>
 
     <div *ngIf="isSimpleExists()" class="row">
       <div class="col-12">

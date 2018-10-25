@@ -2,6 +2,7 @@ import {Division} from "./division";
 import {Poule} from "./poule";
 import {Equipe} from "./equipe";
 import {Terrain, Court} from "./terrain";
+import {Membre} from "./membre";
 
 export class Rencontre {
   id: number;
@@ -18,3 +19,13 @@ export class Rencontre {
   resultatsEncodes:boolean;
   valide:boolean;
 }
+
+export class AutorisationRencontre {
+    id:number;
+    rencontreFk:number;
+    type:string;
+    membre:Membre;
+}
+
+export const TYPE_AUTORISATION_ENCODAGE="ENCODAGE";
+export const TYPE_AUTORISATION_VALIDATION="VALIDATION";

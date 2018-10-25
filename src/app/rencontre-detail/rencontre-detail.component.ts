@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, Input} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {Rencontre} from '../rencontre';
+import {Rencontre, AutorisationRencontre, TYPE_AUTORISATION_ENCODAGE,TYPE_AUTORISATION_VALIDATION} from '../rencontre';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {compare, addLeadingZero} from '../utility';
 import {MatchService} from '../match.service';
@@ -32,6 +32,7 @@ import {TraceService} from '../trace.service';
 export class RencontreDetailComponent extends ChampionnatDetailComponent implements OnInit {
 
     matchs: MatchExtended[] = [];
+    autorisations:AutorisationRencontre[]=[];
     traces:Trace[]=[];
     private mapEquivalence;
 
@@ -52,6 +53,8 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     private _rencontre: Rencontre;
     jeuxVisites:number;
     jeuxVisiteurs:number;
+    canAuthoriseEncodage:boolean=false;
+    canAuthoriseValidation:boolean=false;
     isResultatsRencontreModifiables:boolean=false;
     isResultatsCloturables:boolean=false;
     isPoursuiteEncodagePossible:boolean=false;
@@ -60,9 +63,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     @Input()
     set rencontre(rencontre: Rencontre) {
         this._rencontre = rencontre;
-        this.refreshBooleansAndTraces();
+        this.refreshBooleansAndTracesAndAutorisations();
         this.getMatchs();
-    }
+    } 
 
     get rencontre(): Rencontre {return this._rencontre;}
 
@@ -193,6 +196,18 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }
       return "";
     }
+    
+    getAutorisationsEncodage(){
+        return this.getAutorisationsByType(TYPE_AUTORISATION_ENCODAGE);
+    }
+    
+    getAutorisationsValidation(){
+        return this.getAutorisationsByType(TYPE_AUTORISATION_VALIDATION);
+    }
+    
+    getAutorisationsByType(type:string){
+        return this.autorisations.filter(autorisation => autorisation.type == type);
+    }
 
     getMatchs() {
 
@@ -302,13 +317,18 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         return "";
     }
 
-    refreshBooleansAndTraces() {
+    refreshBooleansAndTracesAndAutorisations() {
         if (this.isUserConnected()){
+            this.rencontreService.canAuthoriseEncodage(this.rencontre).subscribe(result => this.canAuthoriseEncodage = result);
+            this.rencontreService.canAuthoriseValidation(this.rencontre).subscribe(result => this.canAuthoriseValidation = result);
             this.rencontreService.isResultatsRencontreModifiables(this.rencontre).subscribe(result => this.isResultatsRencontreModifiables = result);
             this.rencontreService.isResultatsCloturables(this.rencontre).subscribe(result => this.isResultatsCloturables = result);
             this.rencontreService.isPoursuiteEncodagePossible(this.rencontre).subscribe(result => this.isPoursuiteEncodagePossible = result);
             this.rencontreService.isValidable(this.rencontre).subscribe(result => this.isValidable = result);
             this.traceService.getTraces("rencontre", this.rencontre.id.toString()).subscribe(traces => this.traces = traces);
+            this.rencontreService.getAutorisations(this.rencontre).subscribe(autorisations => {
+                this.autorisations = autorisations.sort((a, b) => compare(a.membre.nom, b.membre.nom,true))
+            });
         }
     }
     
@@ -317,7 +337,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         if (resultatsEncodes){
             
             this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,null).subscribe(resultsEncoded => {
-                this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleansAndTraces();
+                this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleansAndTracesAndAutorisations();
             },error=> console.log(error));
                 
         }else{
@@ -329,7 +349,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             messagePoursuiteDialog.afterClosed().subscribe(retour => {
                 if (retour){
                     this.rencontreService.updateResultatsEncodesRencontre(this.rencontre, resultatsEncodes,retour.message).subscribe(resultsEncoded => {
-                        this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleansAndTraces();
+                        this.rencontre.resultatsEncodes = resultsEncoded; this.refreshBooleansAndTracesAndAutorisations();
                     },error=> console.log(error));
                 }
             });
@@ -340,7 +360,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
     setValidite(validite:boolean){
         this.rencontreService.updateValiditeRencontre(this.rencontre, validite,null).subscribe(validity => {
-            this.rencontre.valide = validity; this.refreshBooleansAndTraces();
+            this.rencontre.valide = validity; this.refreshBooleansAndTracesAndAutorisations();
         },error=> console.log(error));
     }
 
@@ -429,6 +449,52 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
       }
     }
+    
+    addAutorisationEncodage(){
+        if (this.canAuthoriseEncodage){
+            this.addAutorisation(TYPE_AUTORISATION_ENCODAGE, this.rencontre.equipeVisites.club);
+        }
+    }
+    
+    addAutorisationValidation(){
+        if (this.canAuthoriseValidation){
+            this.addAutorisation(TYPE_AUTORISATION_VALIDATION, this.rencontre.equipeVisiteurs.club);
+        }
+    }
+    
+    addAutorisation(type:string, club:Club){
+        if (this.isUserConnected()){
+            let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+                data: {club: club}, panelClass: "membreSelectionDialog", disableClose: false
+            });
+
+            membreSelectionRef.afterClosed().subscribe(membre => {
+                if (membre) {
+                    let autorisationRencontre: AutorisationRencontre = new AutorisationRencontre();
+                    autorisationRencontre.rencontreFk = this.rencontre.id;
+                    autorisationRencontre.type=type;
+                    autorisationRencontre.membre=membre;
+                    this.rencontreService.addAutorisationRencontre(autorisationRencontre).subscribe(autorisation => {
+                        this.autorisations.push(autorisation);
+                        this.autorisations.sort((a, b) => compare(a.membre.nom, b.membre.nom,true));
+                    });
+                }
+            });
+        }
+    }
+    
+    deleteAutorisation(autorisationRencontre:AutorisationRencontre){
+        if (this.isUserConnected()){
+            this.rencontreService.deleteAutorisationRencontre(autorisationRencontre).subscribe(result => {
+               if (result){
+                    let index = this.autorisations.findIndex(autorisation => autorisation.id == autorisationRencontre.id);
+                    if (index!=-1){
+                        this.autorisations.splice(index,1);
+                    }
+               } 
+            });
+        }
+    }
 
     ouvrirResultats(matchExtended: MatchExtended) {
       if (this.isResultatsRencontreModifiables){
@@ -447,7 +513,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     refreshRencontre() {
         this.calculMatchRencontre();
         // sauver les points de la rencontre sur base des resultats des matchs
-        this.rencontreService.updateRencontre(this.rencontre).subscribe(result => this.refreshBooleansAndTraces());
+        this.rencontreService.updateRencontre(this.rencontre).subscribe(result => this.refreshBooleansAndTracesAndAutorisations());
     }
 
     calculMatchRencontre(){

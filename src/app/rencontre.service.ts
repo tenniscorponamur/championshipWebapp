@@ -5,7 +5,7 @@ import {of} from 'rxjs/observable/of';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
-import {Rencontre} from './rencontre';
+import {Rencontre, AutorisationRencontre} from './rencontre';
 import {formatDate} from './utility';
 
 @Injectable()
@@ -61,6 +61,26 @@ export class RencontreService {
         return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/validite?validite=" + validite, message, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    getAutorisations(rencontre:Rencontre): Observable<AutorisationRencontre[]> {
+        return this.http.get<AutorisationRencontre[]>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/autorisations", this.authenticationService.getPrivateApiHttpOptions());
+    }
+  
+    canAuthoriseEncodage(rencontre:Rencontre) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/canAuthoriseEncodage", this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
+    canAuthoriseValidation(rencontre:Rencontre) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/canAuthoriseValidation", this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
+    addAutorisationRencontre(autorisationRencontre:AutorisationRencontre){
+        return this.http.post<AutorisationRencontre>(environment.privateApiUrl + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation", autorisationRencontre, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
+    deleteAutorisationRencontre(autorisationRencontre:AutorisationRencontre){
+        return this.http.delete<boolean>(environment.privateApiUrl + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation?autorisationRencontreId=" + autorisationRencontre.id, this.authenticationService.getPrivateApiHttpOptions());
+    }
+    
     creerCalendrier(championnatId: number){
         return this.http.post<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, null, this.authenticationService.getPrivateApiHttpOptions());
     }
