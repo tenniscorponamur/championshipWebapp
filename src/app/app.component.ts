@@ -8,6 +8,7 @@ import {LocalStorageService} from './local-storage.service';
 import {UserService} from './user.service';
 import {User} from './user';
 import {Router} from '@angular/router';
+import {MembreService} from './membre.service';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit {
         }
       );
   }
-  
+    
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
   }
@@ -136,6 +137,7 @@ export class CookieDialog {
 @Component({
   selector: 'login-form-dialog',
   templateUrl: './loginForm.html',
+  styleUrls: ['./loginForm.css']
 })
 export class LoginFormDialog {
 
@@ -144,10 +146,10 @@ export class LoginFormDialog {
   _rememberMe:boolean=true;
   showAlert:boolean=false;
 
-  constructor(
-    private http: HttpClient, private authenticationService: AuthenticationService,
+  constructor(private authenticationService: AuthenticationService,
     public dialogRef: MatDialogRef<LoginFormDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog) { }
 
   connexion(): void {
       this.authenticationService.requestAccessToken(this._login, this._password, this._rememberMe)
@@ -167,7 +169,60 @@ export class LoginFormDialog {
           }
       );
   }
+  
+  cancel(): void {
+      this.dialogRef.close();
+  }
+  
+  askPassword(){
+    let askPasswordDialogRef = this.dialog.open(AskPasswordDialog, {
+      data: { }, panelClass: "askPasswordDialog", disableClose:false
+    });
+  }
 
+}
+
+@Component({
+  selector: 'ask-password-dialog',
+  templateUrl: './askPassword.html'
+})
+export class AskPasswordDialog {
+    
+  constructor(private userService: UserService,
+    public dialogRef: MatDialogRef<AskPasswordDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    
+    showAlert:boolean=false;
+    showSuccess:boolean=false;
+    showFailure:boolean=false;
+    
+  numeroAft:string;
+  private captchaResponse:string;
+  
+  resolved(captchaResponse: string) {
+    this.captchaResponse = captchaResponse;
+  }
+  
+  cancel(): void {
+      this.dialogRef.close();
+  }
+    
+  askPassword(): void {
+      this.showAlert=false;
+      this.showSuccess=false;
+      this.showFailure=false;
+      
+      if (!this.numeroAft || !this.captchaResponse){
+          this.showAlert=true;
+      }else{
+          this.userService.askPassword(this.numeroAft, this.captchaResponse).subscribe(result => {
+              this.showSuccess=result;
+              this.showFailure=!result;
+          });
+      }
+      
+  }
+    
 }
 
 @Component({
@@ -178,8 +233,7 @@ export class CompteUtilisateurDialog {
 
   showSuccess:boolean=false;
 
-  constructor(
-    private http: HttpClient, private authenticationService: AuthenticationService,
+  constructor(private authenticationService: AuthenticationService,
     public dialogRef: MatDialogRef<CompteUtilisateurDialog>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any) { }

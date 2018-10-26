@@ -28,8 +28,8 @@ export class UserService {
   }
 
   deleteUtilisateur(utilisateur: User) {
-      return this.http.delete<User>(environment.privateApiUrl + "/user?userId=" + utilisateur.id, this.authenticationService.getPrivateApiHttpOptions());
-}
+    return this.http.delete<User>(environment.privateApiUrl + "/user?userId=" + utilisateur.id, this.authenticationService.getPrivateApiHttpOptions());
+  }
     
   resetPassword(utilisateur:User):Observable<boolean>{
       return this.http.post<boolean>(environment.privateApiUrl + "/user/resetPassword?id="+utilisateur.id,utilisateur, this.authenticationService.getPrivateApiHttpOptions());
@@ -38,5 +38,10 @@ export class UserService {
   changePassword(oldPassword:string,newPassword:string){
     return this.http.put<boolean>(environment.privateApiUrl + "/user/changePassword",{oldPassword:oldPassword,newPassword:newPassword}, this.authenticationService.getPrivateApiHttpOptions());
   }
+  
+  askPassword(numeroAft:string, captchaResponse:string):Observable<boolean>{
+      return this.http.post<boolean>(environment.publicApiUrl + "/user/askPassword?numeroAft="+numeroAft,captchaResponse);
+  }
+
 
 }

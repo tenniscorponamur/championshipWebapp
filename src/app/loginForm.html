@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Connexion</h1>
+<h1 mat-dialog-title>Connexion<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content >
   <div *ngIf="showAlert" class="col-12">
     <div class="alert alert-danger" role="alert">
@@ -21,5 +21,13 @@
   <div align="center">
     <button class="btn btn-warning" (click)="connexion();"><i class="fa fa-key"></i>&nbsp;Se connecter</button>
   </div>
+    
+  <div align="center" class="askPasswordDiv">
+    <a style="cursor:pointer" (click)="askPassword();">Demander un accès</a>
+  </div>
 
+  <div align="center" class="askPasswordDiv">
+    <a style="cursor:pointer" (click)="askPassword();">Mot de passe oublié ?</a>
+  </div>
+    
 </div>

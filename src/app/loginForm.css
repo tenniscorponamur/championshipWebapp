@@ -1,0 +1,9 @@
+.askPasswordDiv{
+    margin-top:10px;
+}
+
+.askPasswordDiv a{
+    cursor:pointer;
+    text-decoration:underline;
+    color:blue;
+}

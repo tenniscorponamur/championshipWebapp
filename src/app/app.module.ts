@@ -24,11 +24,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { Angular5TimePickerModule } from 'angular5-time-picker';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { RecaptchaModule, RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
 
 
 /* Component */
 
-import { AppComponent, LoginFormDialog, CompteUtilisateurDialog, CookieDialog, ChangePasswordDialog } from './app.component';
+import { AppComponent, LoginFormDialog, AskPasswordDialog, CompteUtilisateurDialog, CookieDialog, ChangePasswordDialog } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent, ImportMembresDialog } from './membres/membres.component';
 import { RencontresComponent, InterserieDialog } from './rencontres/rencontres.component';
@@ -87,6 +88,7 @@ import { DocumentsComponent } from './documents/documents.component';
     HomeComponent,
     MembreDetailComponent,
     LoginFormDialog,
+    AskPasswordDialog,
     CompteUtilisateurDialog,
     ChangePasswordDialog,
     CookieDialog,
@@ -132,6 +134,7 @@ import { DocumentsComponent } from './documents/documents.component';
   ],
   imports: [
     BrowserModule,
+    RecaptchaModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -159,6 +162,7 @@ import { DocumentsComponent } from './documents/documents.component';
   ],
   entryComponents: [
       LoginFormDialog,
+      AskPasswordDialog,
       CompteUtilisateurDialog,
       ChangePasswordDialog,
       CookieDialog,
@@ -213,6 +217,7 @@ import { DocumentsComponent } from './documents/documents.component';
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    {provide: RECAPTCHA_LANGUAGE,useValue: 'fr'},
     ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
