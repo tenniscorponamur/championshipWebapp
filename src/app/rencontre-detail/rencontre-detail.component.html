@@ -77,9 +77,9 @@
                         <button class="btn btn-sm btn-danger" (click)="setValidite(false);" >Dévalider&nbsp;<i class="fa fa-times"></i></button>
                       </div>
                   </div>
-                  
-                  
-                  
+
+
+
               </div>
             </div>
         </div>
@@ -108,24 +108,38 @@
       </div>
     </div>
   </div>
-      
-      <div *ngIf="canAuthoriseEncodage">
-          
-          <div *ngFor="let autorisation of getAutorisationsEncodage()">
-              {{autorisation.membre.nom}}&nbsp;{{autorisation.membre.prenom}}
-              <button (click)="deleteAutorisation(autorisation);"><i class="fa fa-trash"></i></button>
+
+    <div class="row" *ngIf="canAuthoriseEncodage || canAuthoriseValidation">
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle">
+            Autorisations
+          </div>
+          <div class="myBoxContent">
+            <div class="autorisationBox" *ngIf="canAuthoriseEncodage">
+              <span class="autorisationTitle" ><em>&nbsp;Encodage des résultats&nbsp;</em></span>
+                <div class="autorisationMembreDiv" *ngFor="let autorisation of getAutorisationsEncodage()">
+                  {{autorisation.membre.nom}}&nbsp;{{autorisation.membre.prenom}}
+                  <a (click)="deleteAutorisation(autorisation);" style="cursor:pointer"><i class="fa fa-trash"></i></a>
+                </div>
+              <div>
+                <button class="btn btn-sm btn-success" (click)="addAutorisationEncodage();"><i class="fa fa-plus"></i>&nbsp;Ajouter membre</button>
+              </div>
             </div>
-        <button class="btn btn-info" (click)="addAutorisationEncodage();">Ajouter autorisation d'encodage</button>
-      </div>
-      
-      <div *ngIf="canAuthoriseValidation">
-          
-          <div *ngFor="let autorisation of getAutorisationsValidation()">
-              {{autorisation.membre.nom}}&nbsp;{{autorisation.membre.prenom}}
-              <button (click)="deleteAutorisation(autorisation);"><i class="fa fa-trash"></i></button>
+            <div class="autorisationBox" *ngIf="canAuthoriseValidation">
+              <span class="autorisationTitle" ><em>&nbsp;Validation des résultats&nbsp;</em></span>
+              <div class="autorisationMembreDiv" *ngFor="let autorisation of getAutorisationsValidation()">
+                {{autorisation.membre.nom}}&nbsp;{{autorisation.membre.prenom}}
+                <a (click)="deleteAutorisation(autorisation);" style="cursor:pointer"><i class="fa fa-trash"></i></a>
+              </div>
+              <div>
+                <button class="btn btn-sm btn-success" (click)="addAutorisationValidation();"><i class="fa fa-plus"></i>&nbsp;Ajouter membre</button>
+              </div>
             </div>
-        <button class="btn btn-info" (click)="addAutorisationValidation();">Ajouter autorisation de validation</button>
+          </div>
+        </div>
       </div>
+    </div>
 
     <div *ngIf="isSimpleExists()" class="row">
       <div class="col-12">

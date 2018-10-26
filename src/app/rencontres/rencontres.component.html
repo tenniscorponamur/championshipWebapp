@@ -69,10 +69,10 @@
                     </div>
 
                 </div>
-                
+
                 <div *ngIf="criteriumView" class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        
+
                         <mat-form-field>
                           <input matInput size="10" [matDatepicker]="picker" placeholder="Date"
                                  [(ngModel)]="date" (dateChange)="loadRencontres();" >
@@ -80,9 +80,9 @@
                           <mat-datepicker touchUi="true" #picker></mat-datepicker>
                         </mat-form-field>
                     </div>
-                    
+
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                         <mat-radio-group [(ngModel)]="selectedTypeRencontre" (change)="filtre()">
@@ -105,11 +105,11 @@
                                 <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
                                 <span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span>&nbsp;-&nbsp;<span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span>
                             </div>
-                        </div>  
+                        </div>
                     </div>
 
-                    <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
-                        <div *ngIf="criteriumView" > 
+                    <div *ngIf="criteriumView" >
+                      <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                             <div class="myBoxTitle">
                                 <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatHeure(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.court"> - {{rencontre.court.code}}</span> - {{getCategorieCode(rencontre)}}
                             </div>
@@ -160,7 +160,7 @@
                                     <th scope="col" mat-sort-header="equipeVisiteurs" >Visiteurs</th>
                                     <th scope="col" >Résultat</th>
                                 </tr>
-                            </thead> 
+                            </thead>
                             <tbody>
                                 <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
                                     <td class="text-uppercase">{{formatHeure(rencontre.dateHeureRencontre)}}</td>
