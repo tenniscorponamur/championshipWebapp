@@ -1,26 +1,95 @@
 <div style="background-color:white;">
 
-    <mat-tab-group (selectedTabChange)="tabChanged($event);" selectedIndex="{{selectedIndex}}">
-        <mat-tab label="Championnats/Divisions">
-            <div style="padding:10px;">
-                <app-championnat-divisions (selectChampionnat)="selectChampionnat($event)"></app-championnat-divisions>
+  <mat-tab-group (selectedTabChange)="tabChanged($event);" selectedIndex="{{selectedIndex}}">
+    <mat-tab label="Championnats/Divisions">
+      <div style="padding:10px;">
+        <app-championnat-divisions (selectChampionnat)="selectChampionnat($event)"></app-championnat-divisions>
+      </div>
+    </mat-tab>
+    <mat-tab label="Equipes">
+      <div style="padding:10px;">
+        <app-championnat-equipes (selectChampionnat)="selectChampionnat($event)"></app-championnat-equipes>
+      </div>
+    </mat-tab>
+    <mat-tab label="Poules">
+      <div style="padding:10px;">
+        <app-championnat-poules (selectChampionnat)="selectChampionnat($event)"></app-championnat-poules>
+      </div>
+    </mat-tab>
+    <mat-tab label="Calendrier">
+      <div style="padding:10px;">
+        <app-championnat-rencontres (selectChampionnat)="selectChampionnat($event)"></app-championnat-rencontres>
+      </div>
+    </mat-tab>
+    <mat-tab label="Critérium">
+      <div style="padding:10px;">
+
+        <div class="card">
+          <h6 class="card-header">
+            Planification des rencontres Critérium
+          </h6>
+          <div class="card-body">
+            <input placeholder="Saison"/>
+            <button class="btn btn-info btn-sm">Ajouter journée + terrain</button>
+            <div class="col-12" style="border:1px solid #ccc;border-radius:10px;margin-top:10px;">
+              <div class="row" style="padding:10px;border-radius:10px;background-color:darkgrey;font-size:1.2em;margin-bottom:10px;">
+                <strong>02/12/2018</strong>
+                &nbsp;
+                <select>
+                  <option></option>
+                  <option selected="true">
+                    <small>GERONSART</small>
+                  </option>
+                  <option>
+                    <small>HAILLOT</small>
+                  </option>
+                </select>
+                &nbsp;
+                <button class="btn btn-success btn-sm">Ajouter horaire</button>
+              </div>
+              <div class="col-12" style="border:1px solid #ccc;border-radius:10px;">
+                <div class="row" style="padding:10px;border-radius:10px;background-color:lightgrey;font-size:1.2em;">
+                  <strong>02/12/2018 - 13h30</strong>
+                  &nbsp;<button class="btn btn-primary btn-sm">Ajouter rencontre</button>
+                </div>
+                <div class="row">
+                  <div
+                    style="width:250px;background-color:lightblue;border-radius:15px;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;margin:5px;">
+                    <div>
+                      <span style="float:right;"><i class="fa fa-ban"></i></span>
+                    </div>
+                    <div style="margin-right:20px;">
+                      <div>
+                        <strong>UNAMUR A</strong>
+                      </div>
+                      <div>
+                        <strong>UNAMUR B</strong>
+                      </div>
+                      <div>
+                        <small>DMX 60</small>
+                      </div>
+                      <div>
+                        <select>
+                          <option></option>
+                          <option selected="true">
+                            <small>VOOS</small>
+                          </option>
+                          <option>
+                            <small>DUMONT</small>
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </mat-tab>
-        <mat-tab label="Equipes">
-            <div style="padding:10px;">
-                <app-championnat-equipes (selectChampionnat)="selectChampionnat($event)"></app-championnat-equipes>
-            </div>
-        </mat-tab>
-        <mat-tab label="Poules">
-            <div style="padding:10px;">
-                <app-championnat-poules (selectChampionnat)="selectChampionnat($event)"></app-championnat-poules>
-            </div>
-        </mat-tab>
-        <mat-tab label="Calendrier">
-            <div style="padding:10px;">
-                <app-championnat-rencontres (selectChampionnat)="selectChampionnat($event)"></app-championnat-rencontres>
-            </div>
-        </mat-tab>
-    </mat-tab-group>
+            Pour la sélection de rencontre : Dernières rencontres "supprimées" afin de faciliter les mouvements
+            d'horaire
+          </div>
+        </div>
+      </div>
+  </mat-tab>
+</mat-tab-group>
 
 </div>
