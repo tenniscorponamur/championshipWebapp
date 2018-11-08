@@ -24,8 +24,8 @@ export class ClassementMembreService {
     return this.http.get<any[]>(environment.publicApiUrl + "/echellesAFT");
   }
 
-  getOfficialAFT(numAft:string){
-     return this.http.get<string>(environment.privateApiUrl + "/officialAFT/" + numAft, this.authenticationService.getPrivateApiHttpOptions());
+  getOfficialAFT(numAft:string):Observable<any>{
+     return this.http.get<any>(environment.privateApiUrl + "/officialAFT/" + numAft, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   getClassementsAFTByMembre(membreId:number): Observable<ClassementAFT[]> {
