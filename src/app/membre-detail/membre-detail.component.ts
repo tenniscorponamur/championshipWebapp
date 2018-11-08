@@ -776,6 +776,7 @@ export class ClassementDialog implements OnInit {
   addOfficialAFT(){
     if (this.membre.numeroAft!=null) {
       this.classementMembreService.getOfficialAFT(this.membre.numeroAft).subscribe(result => {
+        console.log(result);
         if (result){
 
             let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==result);
