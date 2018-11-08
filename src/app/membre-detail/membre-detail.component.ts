@@ -776,25 +776,21 @@ export class ClassementDialog implements OnInit {
   addOfficialAFT(){
     if (this.membre.numeroAft!=null) {
       this.classementMembreService.getOfficialAFT(this.membre.numeroAft).subscribe(result => {
-        if (result && result.length>0){
+        if (result){
 
-          if (result[0].ClasmtSimple){
+            let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==result);
 
-              let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==result[0].ClasmtSimple.trim());
+            if (echelleWithSameCode){
+                let classementAFT = new ClassementAFT();
+                classementAFT.dateClassement = new Date();
+                classementAFT.dateClassement.setHours(12);
 
-              if (echelleWithSameCode){
-                  let classementAFT = new ClassementAFT();
-                  classementAFT.dateClassement = new Date();
-                  classementAFT.dateClassement.setHours(12);
+                classementAFT.codeClassement=echelleWithSameCode.code;
 
-                  classementAFT.codeClassement=echelleWithSameCode.code;
+                this.classementsAFT.push(classementAFT);
 
-                  this.classementsAFT.push(classementAFT);
-
-                  this.sortClassementsAFT();
-              }
-
-          }
+                this.sortClassementsAFT();
+            }
 
         }
       });
