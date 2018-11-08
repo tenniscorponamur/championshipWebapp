@@ -244,7 +244,7 @@ export class MembreDetailComponent implements OnInit {
         });
       }
     }
-    
+
     anonymisation(){
       if (this.isAdminConnected()){
         let anonymisationDialogRef = this.dialog.open(AnonymisationDialog, {
@@ -252,7 +252,7 @@ export class MembreDetailComponent implements OnInit {
         });
       }
     }
-    
+
     resetPassword(){
         this.resetPasswordOk=false;
         this.membreService.resetPassword(this.membre).subscribe(result => this.resetPasswordOk=result);
@@ -780,7 +780,7 @@ export class ClassementDialog implements OnInit {
 
           if (result[0].ClasmtSimple){
 
-              let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==result[0].ClasmtSimple);
+              let echelleWithSameCode = this.echellesAFT.find(echelleAFT => echelleAFT.code==result[0].ClasmtSimple.trim());
 
               if (echelleWithSameCode){
                   let classementAFT = new ClassementAFT();
@@ -800,13 +800,13 @@ export class ClassementDialog implements OnInit {
       });
     }
   }
-  
+
   simulationNouveauClassement(){
       let startDate = null;
       if (this.classementsCorpo.length>0){
           startDate = this.classementsCorpo[0].dateClassement;
       }
-      
+
     let simulationClassementDialogRef = this.dialog.open(SimulationClassementDialog, {
       data: { membre: this.membre, startDate: startDate }, panelClass: "simulationClassementDialog", disableClose:false
     });
@@ -851,7 +851,7 @@ export class ClassementDialog implements OnInit {
   templateUrl: './simulationClassementDialog.html',
 })
 export class SimulationClassementDialog {
-    
+
     showAlert:boolean=false;
     startDate:Date;
     endDate:Date;
@@ -864,7 +864,7 @@ export class SimulationClassementDialog {
     private classementMembreService: ClassementMembreService
     ) {
         this._membre = data.membre;
-        
+
         this.startDate = data.startDate;
         this.endDate=new Date();
     }
@@ -872,27 +872,27 @@ export class SimulationClassementDialog {
   cancel(): void {
     this.dialogRef.close();
   }
-  
+
   simuler():void{
-      
+
       this.showAlert=false;
       this.nouveauxPoints=null;
-      
+
       if (this.startDate==null||this.startDate==undefined||this.endDate==null||this.endDate==undefined||this.startDate >= this.endDate){
         this.showAlert=true;
       }else{
-          
+
           this.startDate = new Date(this.startDate);
           this.startDate.setHours(12);
-          
+
           this.endDate = new Date(this.endDate);
           this.endDate.setHours(12);
-          
+
           this.classementMembreService.simulationClassementCorpo(this._membre.id, this.startDate, this.endDate).subscribe(classementCorpo => this.nouveauxPoints = classementCorpo.points);
-      
+
       }
   }
-  
+
 }
 
 @Component({
