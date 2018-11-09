@@ -4,7 +4,7 @@
     <div class="text-left" style="margin-bottom:10px;">
         <button class="btn btn-sm btn-info" (click)="simulationNouveauClassement();" >Simulation classement</button>
     </div>
-    
+
     <div class="classementDiv">
         <span style="padding-left:5px;"><strong>Classements Corpo</strong>&nbsp;
            <a style="cursor:pointer;" (click)="addClassementCorpo()"><i class="fa fa-plus"></i></a>
@@ -62,8 +62,8 @@
         <td>
           <mat-form-field>
             <mat-select placeholder="Classement" [(ngModel)]="classementAFT.codeClassement" >
-              <mat-option *ngFor="let echelleAFT of echellesAFT" [value]="echelleAFT.code">
-                {{ echelleAFT.code }} - {{ echelleAFT.points }} points
+              <mat-option *ngFor="let echelleAFT of getEchellesAugmented(classementAFT)" [value]="echelleAFT.code">
+                <span class="{{classeEchelleAFT(echelleAFT)}}">{{ echelleAFT.code }} - {{ echelleAFT.points }} points</span>
               </mat-option>
             </mat-select>
           </mat-form-field>

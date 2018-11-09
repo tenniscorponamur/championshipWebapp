@@ -727,6 +727,17 @@ export class ClassementDialog implements OnInit {
 
   }
 
+  getEchellesAugmented(classementAFT:ClassementAFT){
+    return this.echellesAFT.filter(echelleAFT => echelleAFT.actif || echelleAFT.code==classementAFT.codeClassement);
+  }
+
+  classeEchelleAFT(echelleAFT){
+    if (echelleAFT.actif==false){
+      return "echelleAFTInactive";
+    }
+    return "";
+  }
+
   addClassementCorpo(){
     let classementCorpo = new ClassementCorpo();
     classementCorpo.dateClassement = new Date();
