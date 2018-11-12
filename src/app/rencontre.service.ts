@@ -16,9 +16,13 @@ export class RencontreService {
     getRencontres(divisionId: number,pouleId:number,equipeId:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):"")+(equipeId!=null?("&equipeId="+equipeId):""));
     }
-    
+
     getRencontresByDate(date:Date): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/byDate?date=" + formatDate(date));
+    }
+
+    getRencontresCriteriumByAnnee(annee:string): Observable<Rencontre[]> {
+        return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/criterium?annee=" + annee);
     }
 
     getLastResults(maxNumberOfResults:number): Observable<Rencontre[]> {
@@ -28,7 +32,7 @@ export class RencontreService {
     getNextMeetings(maxNumberOfResults:number): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(environment.publicApiUrl + "/rencontres/next?numberOfResults=" + maxNumberOfResults);
     }
-    
+
     isResultatsRencontreModifiables(rencontre:Rencontre) {
         return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isResultatsModifiables", this.authenticationService.getPrivateApiHttpOptions());
     }
@@ -36,11 +40,11 @@ export class RencontreService {
     isResultatsCloturables(rencontre:Rencontre) {
         return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isResultatsCloturables", this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     isPoursuiteEncodagePossible(rencontre:Rencontre) {
         return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isPoursuiteEncodagePossible", this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     isValidable(rencontre:Rencontre) {
         return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/isValidable", this.authenticationService.getPrivateApiHttpOptions());
     }
@@ -56,7 +60,7 @@ export class RencontreService {
     updateResultatsEncodesRencontre(rencontre:Rencontre, resultatsEncodes:boolean, message:string){
         return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/resultatsEncodes?resultatsEncodes=" + resultatsEncodes, message, this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     updateValiditeRencontre(rencontre:Rencontre, validite:boolean, message:string){
         return this.http.put<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/validite?validite=" + validite, message, this.authenticationService.getPrivateApiHttpOptions());
     }
@@ -64,23 +68,23 @@ export class RencontreService {
     getAutorisations(rencontre:Rencontre): Observable<AutorisationRencontre[]> {
         return this.http.get<AutorisationRencontre[]>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/autorisations", this.authenticationService.getPrivateApiHttpOptions());
     }
-  
+
     canAuthoriseEncodage(rencontre:Rencontre) {
         return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/canAuthoriseEncodage", this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     canAuthoriseValidation(rencontre:Rencontre) {
         return this.http.get<boolean>(environment.privateApiUrl + "/rencontre/" + rencontre.id + "/canAuthoriseValidation", this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     addAutorisationRencontre(autorisationRencontre:AutorisationRencontre){
         return this.http.post<AutorisationRencontre>(environment.privateApiUrl + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation", autorisationRencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     deleteAutorisationRencontre(autorisationRencontre:AutorisationRencontre){
         return this.http.delete<boolean>(environment.privateApiUrl + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation?autorisationRencontreId=" + autorisationRencontre.id, this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
     creerCalendrier(championnatId: number){
         return this.http.post<Rencontre[]>(environment.privateApiUrl + "/rencontres/calendrier?championnatId=" + championnatId, null, this.authenticationService.getPrivateApiHttpOptions());
     }

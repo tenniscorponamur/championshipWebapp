@@ -76,6 +76,7 @@ import {ClassementService} from './classement.service';
 import {ClassementMembreService} from './classement-membre.service';
 import { MembreSelectionComponent } from './membre-selection/membre-selection.component';
 import { DocumentsComponent } from './documents/documents.component';
+import { PlanificationCriteriumComponent, JourneeCriteriumDialog, HoraireJourneeCriteriumDialog, ChoixRencontreCriteriumDialog } from './planification-criterium/planification-criterium.component';
 
 
 @NgModule({
@@ -130,7 +131,11 @@ import { DocumentsComponent } from './documents/documents.component';
     TerrainDialog,
     ClubTerrainDialog,
     MembreSelectionComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    PlanificationCriteriumComponent,
+    JourneeCriteriumDialog,
+    HoraireJourneeCriteriumDialog,
+    ChoixRencontreCriteriumDialog
   ],
   imports: [
     BrowserModule,
@@ -189,7 +194,10 @@ import { DocumentsComponent } from './documents/documents.component';
       TracesRencontreDialog,
       InterserieDialog,
       RencontresDialog,
-      ImportMembresDialog
+      ImportMembresDialog,
+      JourneeCriteriumDialog,
+      HoraireJourneeCriteriumDialog,
+      ChoixRencontreCriteriumDialog
   ],
   providers: [
     AuthenticationService,
