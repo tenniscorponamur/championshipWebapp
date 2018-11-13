@@ -118,9 +118,9 @@ export class PlanificationCriteriumComponent implements OnInit {
 
   }
 
-  choixRencontre(){
+  choixRencontre(journee:Journee,horaire:Horaire){
     let choixRencontreDialogRef = this.dialog.open(ChoixRencontreCriteriumDialog, {
-        data: {}, panelClass: "choixRencontreDialog", disableClose:true
+        data: {journee:journee,horaire:horaire,rencontres:this.rencontres}, panelClass: "choixRencontreDialog", disableClose:true
     });
   }
 
@@ -128,9 +128,24 @@ export class PlanificationCriteriumComponent implements OnInit {
       return " " + addLeadingZero(heures) + "h" + addLeadingZero(minutes);
   }
 
-  changeCourt(rencontre:RencontreExtended){
-    // let selectedCourt = this.courts.find(court => court.id == this.courtId);
-    console.log("save de la rencontre");
+  changeCourt(journee:Journee,rencontre:RencontreExtended){
+    let selectedCourt = journee.courts.find(court => court.id == rencontre.courtId);
+    rencontre.rencontre.court=selectedCourt;
+    this.rencontreService.updateRencontre(rencontre.rencontre).subscribe();
+  }
+
+  deplanifierRencontre(horaire:Horaire,rencontre:Rencontre){
+
+    rencontre.dateHeureRencontre=null;
+    rencontre.terrain=null;
+    rencontre.court=null;
+
+    this.rencontreService.updateRencontre(rencontre).subscribe(rencontre => {
+      let index = horaire.rencontres.findIndex(rencontreExtended => rencontreExtended.rencontre.id == rencontre.id);
+      if (index!=-1){
+          horaire.rencontres.splice(index,1);
+      }
+    });
   }
 
 }
@@ -202,10 +217,35 @@ export class HoraireJourneeCriteriumDialog {
 })
 export class ChoixRencontreCriteriumDialog {
 
-    constructor(
+  journee:Journee;
+  horaire:Horaire;
+  rencontres:Rencontre[]=[];
+
+    constructor(private rencontreService:RencontreService,
         public dialogRef: MatDialogRef<ChoixRencontreCriteriumDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
+          this.journee=data.journee;
+          this.horaire=data.horaire;
+          this.rencontres=data.rencontres.filter(rencontre => !rencontre.dateHeureRencontre);
         }
+
+    choixRencontre(rencontre:Rencontre){
+      rencontre.dateHeureRencontre=new Date(this.journee.date);
+      rencontre.dateHeureRencontre.setHours(this.horaire.heures);
+      rencontre.dateHeureRencontre.setMinutes(this.horaire.minutes);
+      rencontre.terrain=this.journee.terrain;
+
+      this.rencontreService.updateRencontre(rencontre).subscribe(rencontre => {
+          let rencontreExtended = new RencontreExtended();
+          rencontreExtended.rencontre=rencontre;
+          if (rencontre.court){
+            rencontreExtended.courtId=rencontre.court.id;
+          }
+          this.horaire.rencontres.push(rencontreExtended);
+          this.dialogRef.close();
+      });
+
+    }
 
     cancel(): void {
         this.dialogRef.close();

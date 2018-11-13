@@ -19,12 +19,12 @@
       <div *ngFor="let horaire of journee.horaires" class="horaireBox col-12" >
         <div class="horaireTitle row" >
           <strong>{{journee.date| date:'dd/MM/yyyy'}} - {{formatHeureMinutes(horaire.heures,horaire.minutes)}}</strong>
-          &nbsp;<button class="btn btn-primary btn-sm" (click)="choixRencontre();">Ajouter rencontre</button>
+          &nbsp;<button class="btn btn-primary btn-sm" (click)="choixRencontre(journee,horaire);">Ajouter rencontre</button>
         </div>
         <div class="row">
           <div class="rencontreBox" *ngFor="let rencontre of horaire.rencontres">
             <div>
-              <span style="float:right;"><button style="border-radius:15px;cursor:pointer;"><i class="fa fa-ban" ></i></button></span>
+              <span style="float:right;"><button style="border-radius:15px;cursor:pointer;" (click)="deplanifierRencontre(horaire,rencontre.rencontre);"><i class="fa fa-ban" ></i></button></span>
             </div>
             <div style="margin-right:20px;">
               <div>
@@ -39,7 +39,7 @@
               <div>
 
                 <select [(ngModel)]="rencontre.courtId"
-                        (change)="changeCourt(rencontre)">
+                        (change)="changeCourt(journee,rencontre)">
                   <option></option>
                   <option *ngFor="let court of journee.courts" value="{{court.id}}">{{court.code}}
                   </option>
