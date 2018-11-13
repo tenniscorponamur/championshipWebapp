@@ -5,6 +5,7 @@ import {Rencontre} from '../rencontre';
 import {Terrain} from '../terrain';
 import {RencontreService} from '../rencontre.service';
 import {getCategorieChampionnatCode} from '../championnat';
+import {TerrainService} from '../terrain.service';
 
 @Component({
   selector: 'app-planification-criterium',
@@ -50,6 +51,7 @@ export class PlanificationCriteriumComponent implements OnInit {
         if (selectedJournee==null){
           selectedJournee = new Journee();
           selectedJournee.date = rencontre.dateHeureRencontre;
+          selectedJournee.terrain = rencontre.terrain;
           this.journees.push(selectedJournee);
         }
         let selectedHoraire = selectedJournee.horaires.find(horaire => {
@@ -128,19 +130,28 @@ export class PlanificationCriteriumComponent implements OnInit {
     selector: 'journee-criterium-dialog',
     templateUrl: './journeeCriterium.html'
 })
-export class JourneeCriteriumDialog {
+export class JourneeCriteriumDialog implements OnInit {
 
     date:Date;
+    terrainId:number;
+    terrains:Terrain[];
 
     constructor(
+        private terrainService: TerrainService,
         public dialogRef: MatDialogRef<JourneeCriteriumDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         }
 
+    ngOnInit() {
+        this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.sort((a, b) => compare(a.nom,b.nom,true)));
+    }
+
     save(): void {
-        if (this.date){
+        if (this.date && this.terrainId){
           let journee = new Journee();
           journee.date=this.date;
+          let selectedTerrain = this.terrains.find(terrain => terrain.id == this.terrainId);
+          journee.terrain=selectedTerrain;
           this.dialogRef.close(journee);
         }
     }

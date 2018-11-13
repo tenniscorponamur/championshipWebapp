@@ -10,17 +10,9 @@
     <span *ngIf="getRemainingSize()>0" style="color:red;"><strong>Reste {{getRemainingSize()}} rencontre(s) à planifier</strong></span>
     <div *ngFor="let journee of journees" class="journeeBox col-12" >
       <div class="journeeTitle row" >
-        <strong>{{journee.date| date:'dd/MM/yyyy'}}</strong>
+        <span *ngIf="journee.terrain"><strong>{{journee.terrain.nom}}</strong></span>
         &nbsp;
-        <select>
-          <option></option>
-          <option selected="true">
-            <small>GERONSART</small>
-          </option>
-          <option>
-            <small>HAILLOT</small>
-          </option>
-        </select>
+        <strong>le {{journee.date| date:'dd/MM/yyyy'}}</strong>
         &nbsp;
         <button class="btn btn-success btn-sm" (click)="addHoraire(journee);">Ajouter horaire</button>
       </div>

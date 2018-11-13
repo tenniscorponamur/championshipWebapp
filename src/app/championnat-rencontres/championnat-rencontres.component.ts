@@ -42,6 +42,8 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     calendarInvalidable:boolean=false;
     calendarDeletable:boolean=false;
 
+    chargementRencontres:boolean=true;
+
     terrains:Terrain[];
     horairesTerrain:HoraireTerrain[]=[];
 
@@ -73,6 +75,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
         this.selectChampionnat.emit(this.selectedChampionnat);
 
+        this.chargementRencontres = true;
         this.divisions=[];
         this.nbRencontres=0;
         this.horairesTerrain=[];
@@ -117,6 +120,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                         });
                       });
                       this.divisions = this.divisions.sort((a, b) => {return compare(a.division.numero, b.division.numero, true)});
+                      this.chargementRencontres = false;
                 }
             );
 
