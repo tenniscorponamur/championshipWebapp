@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {compare, addLeadingZero} from '../utility';
 import {Rencontre} from '../rencontre';
-import {Terrain} from '../terrain';
+import {Terrain,Court} from '../terrain';
 import {RencontreService} from '../rencontre.service';
 import {getCategorieChampionnatCode} from '../championnat';
 import {TerrainService} from '../terrain.service';
@@ -20,6 +20,7 @@ export class PlanificationCriteriumComponent implements OnInit {
 
   constructor(
         public dialog: MatDialog,
+        private terrainService:TerrainService,
         private rencontreService:RencontreService
       ) { }
 
@@ -49,9 +50,7 @@ export class PlanificationCriteriumComponent implements OnInit {
           new Date(journee.date).getDate() == new Date(rencontre.dateHeureRencontre).getDate();
         });
         if (selectedJournee==null){
-          selectedJournee = new Journee();
-          selectedJournee.date = rencontre.dateHeureRencontre;
-          selectedJournee.terrain = rencontre.terrain;
+          selectedJournee = new Journee(this.terrainService, rencontre.dateHeureRencontre,rencontre.terrain);
           this.journees.push(selectedJournee);
         }
         let selectedHoraire = selectedJournee.horaires.find(horaire => {
@@ -63,7 +62,12 @@ export class PlanificationCriteriumComponent implements OnInit {
           selectedHoraire.minutes = new Date(rencontre.dateHeureRencontre).getMinutes();
           selectedJournee.horaires.push(selectedHoraire);
         }
-        selectedHoraire.rencontres.push(rencontre);
+        let rencontreExtended = new RencontreExtended();
+        rencontreExtended.rencontre=rencontre;
+        if (rencontre.court){
+          rencontreExtended.courtId=rencontre.court.id;
+        }
+        selectedHoraire.rencontres.push(rencontreExtended);
       }
     });
 
@@ -120,9 +124,14 @@ export class PlanificationCriteriumComponent implements OnInit {
     });
   }
 
-    formatHeureMinutes(heures:number, minutes:number): string {
-        return " " + addLeadingZero(heures) + "h" + addLeadingZero(minutes);
-    }
+  formatHeureMinutes(heures:number, minutes:number): string {
+      return " " + addLeadingZero(heures) + "h" + addLeadingZero(minutes);
+  }
+
+  changeCourt(rencontre:RencontreExtended){
+    // let selectedCourt = this.courts.find(court => court.id == this.courtId);
+    console.log("save de la rencontre");
+  }
 
 }
 
@@ -148,10 +157,8 @@ export class JourneeCriteriumDialog implements OnInit {
 
     save(): void {
         if (this.date && this.terrainId){
-          let journee = new Journee();
-          journee.date=this.date;
           let selectedTerrain = this.terrains.find(terrain => terrain.id == this.terrainId);
-          journee.terrain=selectedTerrain;
+          let journee = new Journee(this.terrainService, this.date,selectedTerrain);
           this.dialogRef.close(journee);
         }
     }
@@ -209,10 +216,22 @@ export class Journee {
   date:Date;
   terrain:Terrain;
   horaires:Horaire[]=[];
+  courts:Court[]=[];
+
+  constructor(private terrainService:TerrainService, date:Date, terrain:Terrain){
+    this.date=date;
+    this.terrain=terrain;
+    this.terrainService.getCourtsTerrain(terrain.id).subscribe(courts => this.courts = courts.sort((a,b)=> compare(a.code,b.code,true)));
+  }
 }
 
 export class Horaire {
   heures:number;
   minutes:number;
-  rencontres:Rencontre[]=[];
+  rencontres:RencontreExtended[]=[];
+}
+
+export class RencontreExtended{
+  rencontre:Rencontre;
+  courtId:number;
 }

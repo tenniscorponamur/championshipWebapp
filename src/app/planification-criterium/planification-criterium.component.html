@@ -28,24 +28,23 @@
             </div>
             <div style="margin-right:20px;">
               <div>
-                <strong>{{rencontre.equipeVisites.codeAlphabetique}}</strong>
+                <strong>{{rencontre.rencontre.equipeVisites.codeAlphabetique}}</strong>
               </div>
               <div>
-                <strong>{{rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
+                <strong>{{rencontre.rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
               </div>
               <div>
-                <small>{{getCategorieCode(rencontre)}}</small>
+                <small>{{getCategorieCode(rencontre.rencontre)}}</small>
               </div>
               <div>
-                <select>
+
+                <select [(ngModel)]="rencontre.courtId"
+                        (change)="changeCourt(rencontre)">
                   <option></option>
-                  <option selected="true">
-                    <small>VOOS</small>
-                  </option>
-                  <option>
-                    <small>DUMONT</small>
+                  <option *ngFor="let court of journee.courts" value="{{court.id}}">{{court.code}}
                   </option>
                 </select>
+
               </div>
             </div>
           </div>
