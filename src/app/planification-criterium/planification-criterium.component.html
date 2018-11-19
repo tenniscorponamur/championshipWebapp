@@ -6,24 +6,31 @@
   </h6>
   <div class="card-body">
     <input placeholder="Saison" [(ngModel)]="annee" (change)="refreshCalendrier()" />
-    <button class="btn btn-info btn-sm" (click)="addJournee();" >Ajouter journée</button>
+    <button *ngIf="criteriumEditable" class="btn btn-info btn-sm" (click)="addJournee();" >Ajouter journée</button>
     <span *ngIf="getRemainingSize()>0" style="color:red;"><strong>Reste {{getRemainingSize()}} rencontre(s) à planifier</strong></span>
+    <span *ngIf="getRemainingSize()==0" ><strong>Aucune rencontre à planifier</strong></span>
+
+    <div *ngIf="chargementRencontres" class="progressDiv text-center" >
+      <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+    </div>
+
+    <div *ngIf="!chargementRencontres">
     <div *ngFor="let journee of journees" class="journeeBox col-12" >
       <div class="journeeTitle row" >
         <span *ngIf="journee.terrain"><strong>{{journee.terrain.nom}}</strong></span>
         &nbsp;
         <strong>le {{journee.date| date:'dd/MM/yyyy'}}</strong>
         &nbsp;
-        <button class="btn btn-success btn-sm" (click)="addHoraire(journee);">Ajouter horaire</button>
+        <button *ngIf="criteriumEditable" class="btn btn-success btn-sm" (click)="addHoraire(journee);">Ajouter horaire</button>
       </div>
       <div *ngFor="let horaire of journee.horaires" class="horaireBox col-12" >
         <div class="horaireTitle row" >
           <strong>{{journee.date| date:'dd/MM/yyyy'}} - {{formatHeureMinutes(horaire.heures,horaire.minutes)}}</strong>
-          &nbsp;<button class="btn btn-primary btn-sm" (click)="choixRencontre(journee,horaire);">Ajouter rencontre</button>
+          &nbsp;<button  *ngIf="criteriumEditable" class="btn btn-primary btn-sm" (click)="choixRencontre(journee,horaire);">Ajouter rencontre</button>
         </div>
         <div class="row">
           <div class="rencontreBox" *ngFor="let rencontre of horaire.rencontres">
-            <div>
+            <div *ngIf="criteriumEditable">
               <span style="float:right;"><button style="border-radius:15px;cursor:pointer;" (click)="deplanifierRencontre(horaire,rencontre.rencontre);"><i class="fa fa-ban" ></i></button></span>
             </div>
             <div style="margin-right:20px;">
@@ -43,7 +50,8 @@
               <div>
 
                 <select [(ngModel)]="rencontre.courtId"
-                        (change)="changeCourt(journee,rencontre)">
+                        (change)="changeCourt(journee,rencontre)"
+                        disabled="{{!criteriumEditable}}">
                   <option></option>
                   <option *ngFor="let court of journee.courts" value="{{court.id}}">{{court.code}}
                   </option>
@@ -55,7 +63,6 @@
         </div>
       </div>
     </div>
-    Pour la sélection de rencontre : Dernières rencontres "supprimées" afin de faciliter les mouvements
-    d'horaire
+    </div>
   </div>
 </div>

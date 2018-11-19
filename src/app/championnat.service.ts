@@ -41,6 +41,10 @@ export class ChampionnatService {
         return this.http.put<boolean>(environment.privateApiUrl + "/championnat/cloture?championnatId=" + championnat.id, cloture, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    isCriteriumEditable(annee:string) {
+        return this.http.get<boolean>(environment.privateApiUrl + "/championnat/isCriteriumEditable?annee=" + annee, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     isCalendrierARafraichir(championnat:Championnat) {
         return this.http.get<boolean>(environment.privateApiUrl + "/championnat/isCalendrierARafraichir?championnatId=" + championnat.id, this.authenticationService.getPrivateApiHttpOptions());
     }
@@ -66,7 +70,7 @@ export class ChampionnatService {
     options["responseType"] = "blob";
     return this.http.get(environment.privateApiUrl + "/championnat/listeCapitaines?championnatId=" + championnat.id,options);
   }
-  
+
   getTableauCriterium(date:Date){
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";

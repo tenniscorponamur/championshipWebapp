@@ -6,6 +6,7 @@ import {Rencontre} from '../rencontre';
 import {Terrain,Court} from '../terrain';
 import {RencontreService} from '../rencontre.service';
 import {getCategorieChampionnatCode,CategorieChampionnat, CATEGORIES_CHAMPIONNAT, CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
+import {ChampionnatService} from '../championnat.service';
 import {TerrainService} from '../terrain.service';
 
 @Component({
@@ -19,9 +20,13 @@ export class PlanificationCriteriumComponent implements OnInit {
   rencontres:Rencontre[]=[];
   journees:Journee[]=[];
 
+  chargementRencontres:boolean=true;
+  criteriumEditable:boolean=false;
+
   constructor(
         public dialog: MatDialog,
         private terrainService:TerrainService,
+        private championnatService:ChampionnatService,
         private rencontreService:RencontreService
       ) { }
 
@@ -35,10 +40,13 @@ export class PlanificationCriteriumComponent implements OnInit {
   }
 
   refreshCalendrier(){
+    this.chargementRencontres=true;
     this.rencontreService.getRencontresCriteriumByAnnee(this.annee).subscribe(rencontres => {
       this.rencontres = rencontres;
       this.createCalendrier();
+      this.chargementRencontres=false;
     });
+    this.championnatService.isCriteriumEditable(this.annee).subscribe(editable => this.criteriumEditable = editable);
   }
 
   createCalendrier(){
@@ -110,34 +118,39 @@ export class PlanificationCriteriumComponent implements OnInit {
   }
 
   addJournee(){
-    let journeeCriteriumDialogRef = this.dialog.open(JourneeCriteriumDialog, {
-        data: {}, panelClass: "journeeCriteriumDialog", disableClose:true
-    });
+    if (this.criteriumEditable){
+      let journeeCriteriumDialogRef = this.dialog.open(JourneeCriteriumDialog, {
+          data: {}, panelClass: "journeeCriteriumDialog", disableClose:true
+      });
 
-    journeeCriteriumDialogRef.afterClosed().subscribe(journee => {
-      if (journee){
-        this.journees.push(journee);
-        this.triJournees();
-      }});
+      journeeCriteriumDialogRef.afterClosed().subscribe(journee => {
+        if (journee){
+          this.journees.push(journee);
+          this.triJournees();
+        }});
+    }
   }
 
   addHoraire(journee:Journee){
-    let horaireCriteriumDialogRef = this.dialog.open(HoraireJourneeCriteriumDialog, {
-        data: {}, panelClass: "horaireCriteriumDialog", disableClose:true
-    });
+    if (this.criteriumEditable){
+      let horaireCriteriumDialogRef = this.dialog.open(HoraireJourneeCriteriumDialog, {
+          data: {}, panelClass: "horaireCriteriumDialog", disableClose:true
+      });
 
-    horaireCriteriumDialogRef.afterClosed().subscribe(horaire => {
-      if (horaire){
-        journee.horaires.push(horaire);
-        this.triHoraires(journee);
-      }});
-
+      horaireCriteriumDialogRef.afterClosed().subscribe(horaire => {
+        if (horaire){
+          journee.horaires.push(horaire);
+          this.triHoraires(journee);
+        }});
+    }
   }
 
   choixRencontre(journee:Journee,horaire:Horaire){
-    let choixRencontreDialogRef = this.dialog.open(ChoixRencontreCriteriumDialog, {
-        data: {journee:journee,horaire:horaire,rencontres:this.rencontres}, panelClass: "choixRencontreDialog", disableClose:true
-    });
+    if (this.criteriumEditable){
+      let choixRencontreDialogRef = this.dialog.open(ChoixRencontreCriteriumDialog, {
+          data: {journee:journee,horaire:horaire,rencontres:this.rencontres}, panelClass: "choixRencontreDialog", disableClose:true
+      });
+    }
   }
 
   formatHeureMinutes(heures:number, minutes:number): string {
@@ -145,23 +158,26 @@ export class PlanificationCriteriumComponent implements OnInit {
   }
 
   changeCourt(journee:Journee,rencontre:RencontreExtended){
-    let selectedCourt = journee.courts.find(court => court.id == rencontre.courtId);
-    rencontre.rencontre.court=selectedCourt;
-    this.rencontreService.updateRencontre(rencontre.rencontre).subscribe();
+    if (this.criteriumEditable){
+      let selectedCourt = journee.courts.find(court => court.id == rencontre.courtId);
+      rencontre.rencontre.court=selectedCourt;
+      this.rencontreService.updateRencontre(rencontre.rencontre).subscribe();
+    }
   }
 
   deplanifierRencontre(horaire:Horaire,rencontre:Rencontre){
+    if (this.criteriumEditable){
+      rencontre.dateHeureRencontre=null;
+      rencontre.terrain=null;
+      rencontre.court=null;
 
-    rencontre.dateHeureRencontre=null;
-    rencontre.terrain=null;
-    rencontre.court=null;
-
-    this.rencontreService.updateRencontre(rencontre).subscribe(rencontre => {
-      let index = horaire.rencontres.findIndex(rencontreExtended => rencontreExtended.rencontre.id == rencontre.id);
-      if (index!=-1){
-          horaire.rencontres.splice(index,1);
-      }
-    });
+      this.rencontreService.updateRencontre(rencontre).subscribe(rencontre => {
+        let index = horaire.rencontres.findIndex(rencontreExtended => rencontreExtended.rencontre.id == rencontre.id);
+        if (index!=-1){
+            horaire.rencontres.splice(index,1);
+        }
+      });
+    }
   }
 
 }
