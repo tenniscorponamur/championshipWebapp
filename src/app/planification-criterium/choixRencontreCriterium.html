@@ -1,7 +1,33 @@
-<h1 mat-dialog-title>Choix d'une rencontre critérium<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
-<div mat-dialog-content >
+<h1 mat-dialog-title>Choix d'une rencontre critérium<span style="float:right;"><button class="close"
+                                                                                       (click)="cancel();">&times;</button></span>
+</h1>
+<div mat-dialog-content>
 
-  <div class="rencontreDiv" *ngFor="let rencontre of rencontres" (click)="choixRencontre(rencontre)">
+  <div class="row text-center">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <mat-select placeholder="Catégorie" [(ngModel)]="categorieCode" (selectionChange)="loadDivisions();">
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let categorie of categories" [value]="categorie.code">
+            {{categorie.libelle}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <mat-select placeholder="Division" [(ngModel)]="divisionId" (selectionChange)="filtre();">
+          <mat-option>-</mat-option>
+          <mat-option *ngFor="let division of divisions" [value]="division.id">
+            Division {{division.numero}}&nbsp;<small>({{division.pointsMinimum}}-{{division.pointsMaximum}})</small>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="rencontreDiv" *ngFor="let rencontre of filteredRencontres" (click)="choixRencontre(rencontre)">
     <div>
       <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
     </div>

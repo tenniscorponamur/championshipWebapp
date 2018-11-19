@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {compare, addLeadingZero} from '../utility';
+import {Division} from '../division';
 import {Rencontre} from '../rencontre';
 import {Terrain,Court} from '../terrain';
 import {RencontreService} from '../rencontre.service';
-import {getCategorieChampionnatCode,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
+import {getCategorieChampionnatCode,CategorieChampionnat, CATEGORIES_CHAMPIONNAT, CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
 import {TerrainService} from '../terrain.service';
 
 @Component({
@@ -231,11 +232,18 @@ export class HoraireJourneeCriteriumDialog {
     templateUrl: './choixRencontreCriterium.html',
     styleUrls: ['./choixRencontreCriterium.css']
 })
-export class ChoixRencontreCriteriumDialog {
+export class ChoixRencontreCriteriumDialog implements OnInit {
 
   journee:Journee;
   horaire:Horaire;
   rencontres:Rencontre[]=[];
+  filteredRencontres:Rencontre[]=[];
+
+  categories:CategorieChampionnat[]=[CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_MIXTES];
+  divisions:Division[]=[];
+
+  categorieCode:string;
+  divisionId:number;
 
     constructor(private rencontreService:RencontreService,
         public dialogRef: MatDialogRef<ChoixRencontreCriteriumDialog>,
@@ -243,13 +251,55 @@ export class ChoixRencontreCriteriumDialog {
           this.journee=data.journee;
           this.horaire=data.horaire;
           this.rencontres=data.rencontres.filter(rencontre => !rencontre.dateHeureRencontre);
+          this.rencontres.sort((a,b) => {
+            let compareCategorie = compare(a.division.championnat.categorie,b.division.championnat.categorie,true);
+            if (compareCategorie==0){
+              return compare(a.division.pointsMaximum,b.division.pointsMaximum,true);
+            }
+            return compareCategorie;
+          });
 
-          //TODO : tri des rencontres affichees + possibilite de filtre (par categorie et division)
+    }
 
-        }
+    ngOnInit() {
+      this.filtre();
+    }
 
     getCategorieCode(rencontre:Rencontre):string{
         return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
+    }
+
+    loadDivisions(){
+      this.divisions = [];
+      this.divisionId=null;
+
+      if (this.categorieCode){
+        this.rencontres.forEach(rencontre => {
+          if(this.categorieCode==rencontre.division.championnat.categorie){
+            let divisionFound = this.divisions.find(division => division.id==rencontre.division.id);
+            if (!divisionFound){
+              this.divisions.push(rencontre.division);
+            }
+          }
+        });
+        this.divisions.sort((a,b)=> compare(a.numero, b.numero, true));
+      }
+
+      this.filtre();
+    }
+
+    filtre(){
+      this.filteredRencontres=this.rencontres;
+
+      // Filtrer les rencontres sur base du code de la categorie et de la division
+
+      if (this.categorieCode){
+        this.filteredRencontres=this.filteredRencontres.filter(rencontre => this.categorieCode==rencontre.division.championnat.categorie);
+      }
+      if (this.divisionId){
+        this.filteredRencontres=this.filteredRencontres.filter(rencontre => this.divisionId==rencontre.division.id);
+      }
+
     }
 
     choixRencontre(rencontre:Rencontre){
