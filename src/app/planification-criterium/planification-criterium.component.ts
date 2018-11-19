@@ -243,7 +243,14 @@ export class ChoixRencontreCriteriumDialog {
           this.journee=data.journee;
           this.horaire=data.horaire;
           this.rencontres=data.rencontres.filter(rencontre => !rencontre.dateHeureRencontre);
+
+          //TODO : tri des rencontres affichees + possibilite de filtre (par categorie et division)
+
         }
+
+    getCategorieCode(rencontre:Rencontre):string{
+        return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
+    }
 
     choixRencontre(rencontre:Rencontre){
       rencontre.dateHeureRencontre=new Date(this.journee.date);

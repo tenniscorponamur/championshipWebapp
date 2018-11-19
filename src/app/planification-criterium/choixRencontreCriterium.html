@@ -2,7 +2,12 @@
 <div mat-dialog-content >
 
   <div class="rencontreDiv" *ngFor="let rencontre of rencontres" (click)="choixRencontre(rencontre)">
-    {{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}
+    <div>
+      <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
+    </div>
+    <div>
+      <small>{{getCategorieCode(rencontre)}}</small>
+    </div>
   </div>
 
 </div>
