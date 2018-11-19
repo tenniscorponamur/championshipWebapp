@@ -4,7 +4,7 @@ import {compare, addLeadingZero} from '../utility';
 import {Rencontre} from '../rencontre';
 import {Terrain,Court} from '../terrain';
 import {RencontreService} from '../rencontre.service';
-import {getCategorieChampionnatCode} from '../championnat';
+import {getCategorieChampionnatCode,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
 import {TerrainService} from '../terrain.service';
 
 @Component({
@@ -62,12 +62,7 @@ export class PlanificationCriteriumComponent implements OnInit {
           selectedHoraire.minutes = new Date(rencontre.dateHeureRencontre).getMinutes();
           selectedJournee.horaires.push(selectedHoraire);
         }
-        let rencontreExtended = new RencontreExtended();
-        rencontreExtended.rencontre=rencontre;
-        if (rencontre.court){
-          rencontreExtended.courtId=rencontre.court.id;
-        }
-        selectedHoraire.rencontres.push(rencontreExtended);
+        selectedHoraire.addRencontre(rencontre);
       }
     });
 
@@ -91,6 +86,26 @@ export class PlanificationCriteriumComponent implements OnInit {
 
   getCategorieCode(rencontre:Rencontre):string{
       return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
+  }
+
+  isRencontreDame(rencontre:Rencontre){
+    return   rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code;
+  }
+
+  isRencontreDoubleDame(rencontre:Rencontre){
+    return rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code;
+  }
+
+  isRencontreHomme(rencontre:Rencontre){
+    return   rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code;
+  }
+
+  isRencontreDoubleHomme(rencontre:Rencontre){
+    return rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code;
   }
 
   addJournee(){
@@ -213,7 +228,8 @@ export class HoraireJourneeCriteriumDialog {
 
 @Component({
     selector: 'choix-rencontre-criterium-dialog',
-    templateUrl: './choixRencontreCriterium.html'
+    templateUrl: './choixRencontreCriterium.html',
+    styleUrls: ['./choixRencontreCriterium.css']
 })
 export class ChoixRencontreCriteriumDialog {
 
@@ -236,12 +252,7 @@ export class ChoixRencontreCriteriumDialog {
       rencontre.terrain=this.journee.terrain;
 
       this.rencontreService.updateRencontre(rencontre).subscribe(rencontre => {
-          let rencontreExtended = new RencontreExtended();
-          rencontreExtended.rencontre=rencontre;
-          if (rencontre.court){
-            rencontreExtended.courtId=rencontre.court.id;
-          }
-          this.horaire.rencontres.push(rencontreExtended);
+          this.horaire.addRencontre(rencontre);
           this.dialogRef.close();
       });
 
@@ -269,6 +280,22 @@ export class Horaire {
   heures:number;
   minutes:number;
   rencontres:RencontreExtended[]=[];
+
+  addRencontre(rencontre:Rencontre){
+    let rencontreExtended = new RencontreExtended();
+    rencontreExtended.rencontre=rencontre;
+    if (rencontre.court){
+      rencontreExtended.courtId=rencontre.court.id;
+    }
+    this.rencontres.push(rencontreExtended);
+    this.rencontres.sort((a,b) => {
+      let compareCategorie = compare(a.rencontre.division.championnat.categorie,b.rencontre.division.championnat.categorie,true);
+      if (compareCategorie==0){
+        return compare(a.rencontre.division.pointsMaximum,b.rencontre.division.pointsMaximum,true);
+      }
+      return compareCategorie;
+    });
+  }
 }
 
 export class RencontreExtended{

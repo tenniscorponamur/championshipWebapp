@@ -35,6 +35,10 @@
               </div>
               <div>
                 <small>{{getCategorieCode(rencontre.rencontre)}}</small>
+                <i *ngIf="isRencontreDame(rencontre.rencontre)" class="fa fa-female" style="color:deeppink;"></i>
+                <i *ngIf="isRencontreDoubleDame(rencontre.rencontre)" class="fa fa-female" style="color:deeppink;"></i>
+                <i *ngIf="isRencontreHomme(rencontre.rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
+                <i *ngIf="isRencontreDoubleHomme(rencontre.rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
               </div>
               <div>
 
