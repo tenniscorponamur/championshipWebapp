@@ -75,8 +75,38 @@ export class MembreDetailComponent implements OnInit {
       return this.authenticationService.isAdminUserConnected();
   }
 
+  isPrivateInformationsAccessibles(){
+    // Administrateur ou responsable du club du membre
+
+    if (this.authenticationService.isAdminUserConnected()){
+      return true;
+    }
+
+    let user = this.authenticationService.getConnectedUser();
+    if (user!=null){
+      if (user.membre!=null){
+        if (user.membre.responsableClub==true){
+          if (user.membre.club!=null){
+            if (this.membre.club!=null){
+              return user.membre.club.id == this.membre.club.id;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   get boxClass(): string{
     if (this.isAdminConnected()){
+      return "myBox myBoxEditable";
+    }else{
+      return "myBox";
+    }
+  }
+
+  get privateBoxClass():string{
+    if (this.isPrivateInformationsAccessibles()){
       return "myBox myBoxEditable";
     }else{
       return "myBox";
@@ -204,7 +234,7 @@ export class MembreDetailComponent implements OnInit {
     }
 
     ouvrirCoordonnees(){
-      if (this.isAdminConnected()){
+      if (this.isPrivateInformationsAccessibles()){
           let coordonneesDialogRef = this.dialog.open(CoordonneesDialog, {
             data: { membre: this.membre }, panelClass: "coordonneesDialog", disableClose:true
           });
@@ -214,7 +244,7 @@ export class MembreDetailComponent implements OnInit {
     }
 
     ouvrirContacts(){
-      if (this.isAdminConnected()){
+      if (this.isPrivateInformationsAccessibles()){
         let contactsDialogRef = this.dialog.open(ContactsDialog, {
           data: { membre: this.membre }, panelClass: "contactsDialog", disableClose:true
         });

@@ -60,12 +60,12 @@
       </div>
     </div>
 
-    <div *ngIf="isAdminConnected()" class="row">
+    <div *ngIf="isPrivateInformationsAccessibles()" class="row">
 
       <div class="col-12">
-        <div  [ngClass]="boxClass">
+        <div  [ngClass]="privateBoxClass">
           <div class="myBoxTitle" (click)="ouvrirCoordonnees();">
-            Coordonnées<span *ngIf="isAdminConnected()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+            Coordonnées<span *ngIf="isPrivateInformationsAccessibles()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
               <span>{{membre.rue}}</span>
@@ -79,12 +79,12 @@
       </div>
     </div>
 
-    <div *ngIf="isAdminConnected()" class="row">
+    <div *ngIf="isPrivateInformationsAccessibles()" class="row">
 
       <div class="col-12">
-        <div  [ngClass]="boxClass">
+        <div  [ngClass]="privateBoxClass">
           <div class="myBoxTitle" (click)="ouvrirContacts();">
-            Contacts<span *ngIf="isAdminConnected()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+            Contacts<span *ngIf="isPrivateInformationsAccessibles()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
             <div class="row">
