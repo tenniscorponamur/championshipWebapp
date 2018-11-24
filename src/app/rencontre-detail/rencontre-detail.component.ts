@@ -374,9 +374,13 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         if (this.isResultatsRencontreModifiables){
             let club;
             if (indexEquipe == 1) {
-                club = this.rencontre.equipeVisites.club;
+                if (!this.rencontre.equipeVisites.hybride){
+                  club = this.rencontre.equipeVisites.club;
+                }
             } else {
-                club = this.rencontre.equipeVisiteurs.club;
+                if (!this.rencontre.equipeVisiteurs.hybride){
+                  club = this.rencontre.equipeVisiteurs.club;
+                }
             }
 
             let genre:string = this.getGenreChampionnat();

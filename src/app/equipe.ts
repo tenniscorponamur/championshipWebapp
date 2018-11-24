@@ -12,6 +12,7 @@ export class Equipe {
     club: Club;
     terrain:Terrain;
     capitaine:Membre;
+    hybride: boolean=false;
 }
 
 

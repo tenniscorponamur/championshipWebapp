@@ -75,6 +75,9 @@
                                     <div class="teamBoxEditable" (click)="ouvrirTerrainEquipe(equipe);" >
                                       <small>Terrain : <span *ngIf="equipe.terrain">{{equipe.terrain.nom}}</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
+                                    <div class="teamBoxEditable" (click)="changeHybrideMode(equipe);">
+                                      <small>Hybride : <input type="checkbox" readonly="true" [(ngModel)]="equipe.hybride" ></small>
+                                    </div>
                                     <div *ngIf="!selectedChampionnat.calendrierValide && getNbPoulesInDivision(division)>1" class="text-center" style="margin-top:5px">
                                         <button class="btn btn-sm btn-primary" (click)="changePoule(equipe);">Changer poule</button>
                                     </div>

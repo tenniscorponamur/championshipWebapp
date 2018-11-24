@@ -214,6 +214,13 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
       }
     }
 
+    changeHybrideMode(equipe:Equipe){
+      if (!this.selectedChampionnat.cloture){
+        equipe.hybride=!equipe.hybride;
+        this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
+      }
+    }
+
 }
 
 
