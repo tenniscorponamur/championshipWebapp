@@ -4,14 +4,15 @@ import {AuthenticationService} from './authentication.service';
 import {Observable} from 'rxjs/Observable';
 import { environment } from '../environments/environment';
 import {Trace} from './trace';
+import {EnvironmentService} from './environment.service';
 
 @Injectable()
 export class TraceService {
 
-  constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
+  constructor(private http: HttpClient, private environmentService:EnvironmentService, private authenticationService: AuthenticationService) { }
   
   getTraces(type:string, foreignKey:string): Observable<Trace[]> {
-      return this.http.get<Trace[]>(environment.privateApiUrl + "/traces?type=" + type + "&foreignKey=" + foreignKey, this.authenticationService.getPrivateApiHttpOptions());
+      return this.http.get<Trace[]>(this.environmentService.getPrivateApiUrl() + "/traces?type=" + type + "&foreignKey=" + foreignKey, this.authenticationService.getPrivateApiHttpOptions());
   }
 
 }

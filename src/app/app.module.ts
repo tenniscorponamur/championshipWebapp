@@ -38,6 +38,7 @@ import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, Club
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
+import { EnvironmentService } from './environment.service';
 import { LocalStorageService } from './local-storage.service';
 import { LocaliteService } from './localite.service';
 import { ChampionnatService } from './championnat.service';
@@ -201,6 +202,7 @@ import { PlanificationCriteriumComponent, JourneeCriteriumDialog, HoraireJournee
   ],
   providers: [
     AuthenticationService,
+    EnvironmentService,
     ChampionnatService,
     ClubService,
     DivisionService,

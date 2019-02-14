@@ -7,26 +7,27 @@ import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Match} from './match';
 import {Set} from './set';
+import {EnvironmentService} from './environment.service';
 
 @Injectable()
 export class MatchService {
 
-  constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
+  constructor(private http: HttpClient, private environmentService:EnvironmentService, private authenticationService: AuthenticationService) {}
 
     getMatchs(rencontreId: number): Observable<Match[]> {
-        return this.http.get<Match[]>(environment.publicApiUrl + "/rencontre/" + rencontreId + "/matchs");
+        return this.http.get<Match[]>(this.environmentService.getPublicApiUrl() + "/rencontre/" + rencontreId + "/matchs");
     }
 
     updateMatch(match: Match) {
-        return this.http.put<Match>(environment.privateApiUrl + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     updateMatchAndSets(match: Match, sets:Set[]):Observable<Match> {
-        return this.http.put<Match>(environment.privateApiUrl + "/match/sets?matchId="+match.id, sets, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/match/sets?matchId="+match.id, sets, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     deleteMatch(match: Match) {
-        return this.http.delete<Match>(environment.privateApiUrl + "/match?id=" + match.id, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.delete<Match>(this.environmentService.getPrivateApiUrl() + "/match?id=" + match.id, this.authenticationService.getPrivateApiHttpOptions());
     }
 
 }

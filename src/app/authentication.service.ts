@@ -6,17 +6,18 @@ import {of} from 'rxjs/observable/of';
 import { environment } from '../environments/environment';
 import {User} from './user';
 import {LocalStorageService} from './local-storage.service';
+import {EnvironmentService} from './environment.service';
 
 @Injectable()
 export class AuthenticationService {
 
   private connectedUser:User;
 
-  private tokenUrl = environment.tokenUrl;
   private clientId = environment.clientId;
   private clientPassword:string = environment.clientPassword;
 
   constructor(private http: HttpClient,
+              private environmentService:EnvironmentService,
               private localStorageService: LocalStorageService
               ) { }
 
@@ -92,7 +93,7 @@ export class AuthenticationService {
   }
 
   requestAccessToken(login:string, password:string, rememberMe:boolean) {
-    return this.http.post<any>(this.tokenUrl+ "?grant_type=password&username=" + login + "&password="+password,{}, this.getHttpOptionsForTokenRequest())
+    return this.http.post<any>(this.environmentService.getTokenUrl() + "?grant_type=password&username=" + login + "&password="+password,{}, this.getHttpOptionsForTokenRequest())
     .map(result => {
       this.storeAccessToken(result.access_token);
         if (rememberMe){
@@ -104,7 +105,7 @@ export class AuthenticationService {
 
 
   requestRefreshToken(): Observable<string> {
-      return this.http.post<any>(this.tokenUrl + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
+      return this.http.post<any>(this.environmentService.getTokenUrl() + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
       .map(result => {
           this.storeAccessToken(result.access_token);
           this.storeRefreshToken(result.refresh_token);

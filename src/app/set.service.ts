@@ -6,14 +6,15 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Set} from './set';
+import {EnvironmentService} from './environment.service';
 
 @Injectable()
 export class SetService {
 
-  constructor(private http: HttpClient, private authenticationService: AuthenticationService) {}
+  constructor(private http: HttpClient, private environmentService:EnvironmentService, private authenticationService: AuthenticationService) {}
 
     getSets(matchId: number): Observable<Set[]> {
-        return this.http.get<Set[]>(environment.publicApiUrl + "/sets?matchId=" + matchId);
+        return this.http.get<Set[]>(this.environmentService.getPublicApiUrl() + "/sets?matchId=" + matchId);
     }
 
 }

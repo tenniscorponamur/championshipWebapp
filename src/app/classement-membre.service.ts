@@ -6,45 +6,46 @@ import { environment } from '../environments/environment';
 import {ClassementAFT} from './classementAFT';
 import {ClassementCorpo} from './classementCorpo';
 import {formatDate} from './utility';
+import {EnvironmentService} from './environment.service';
 
 @Injectable()
 export class ClassementMembreService {
 
-  constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
+  constructor(private http: HttpClient, private environmentService:EnvironmentService, private authenticationService: AuthenticationService) { }
 
   getEchellesCorpo():Observable<any[]>{
-    return this.http.get<any[]>(environment.publicApiUrl + "/echellesCorpo");
+    return this.http.get<any[]>(this.environmentService.getPublicApiUrl() + "/echellesCorpo");
   }
 
   correspondanceEchelleCorpo():Observable<any>{
-    return this.http.get<any>(environment.publicApiUrl + "/echellesCorpo/correspondanceHommeFemme");
+    return this.http.get<any>(this.environmentService.getPublicApiUrl() + "/echellesCorpo/correspondanceHommeFemme");
   }
 
   getEchellesAFT():Observable<any[]>{
-    return this.http.get<any[]>(environment.publicApiUrl + "/echellesAFT");
+    return this.http.get<any[]>(this.environmentService.getPublicApiUrl() + "/echellesAFT");
   }
 
   getOfficialAFT(numAft:string):Observable<any>{
-     return this.http.get<any>(environment.privateApiUrl + "/officialAFT/" + numAft, this.authenticationService.getPrivateApiHttpOptions());
+     return this.http.get<any>(this.environmentService.getPrivateApiUrl() + "/officialAFT/" + numAft, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   getClassementsAFTByMembre(membreId:number): Observable<ClassementAFT[]> {
-    return this.http.get<ClassementAFT[]>(environment.publicApiUrl + "/membre/" + membreId + "/classementsAFT");
+    return this.http.get<ClassementAFT[]>(this.environmentService.getPublicApiUrl() + "/membre/" + membreId + "/classementsAFT");
   }
 
   getClassementsCorpoByMembre(membreId:number): Observable<ClassementCorpo[]> {
-    return this.http.get<ClassementCorpo[]>(environment.publicApiUrl + "/membre/" + membreId + "/classementsCorpo");
+    return this.http.get<ClassementCorpo[]>(this.environmentService.getPublicApiUrl() + "/membre/" + membreId + "/classementsCorpo");
   }
 
   updateClassementsCorpo(membreId: number, classementsCorpo: ClassementCorpo[]) {
-        return this.http.put<ClassementCorpo>(environment.privateApiUrl + "/membre/" + membreId + "/classementsCorpo", classementsCorpo, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<ClassementCorpo>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementsCorpo", classementsCorpo, this.authenticationService.getPrivateApiHttpOptions());
     }
 
   simulationClassementCorpo(membreId: number, startDate:Date, endDate:Date): Observable<ClassementCorpo>{
-    return this.http.get<ClassementCorpo>(environment.privateApiUrl + "/membre/" + membreId + "/classementCorpo/simulation?startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate), this.authenticationService.getPrivateApiHttpOptions());
+    return this.http.get<ClassementCorpo>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementCorpo/simulation?startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate), this.authenticationService.getPrivateApiHttpOptions());
   }
 
   updateClassementsAFT(membreId: number, classementsAFT: ClassementAFT[]) {
-        return this.http.put<ClassementAFT>(environment.privateApiUrl + "/membre/" + membreId + "/classementsAFT", classementsAFT, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<ClassementAFT>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementsAFT", classementsAFT, this.authenticationService.getPrivateApiHttpOptions());
     }
 }
