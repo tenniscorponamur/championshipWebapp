@@ -186,16 +186,39 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
     pointsDoublesVisiteurs():number{
       let pointsDoubles: number = 0;
-      this.matchs.forEach(match => {
-        if (MATCH_DOUBLE == match.match.type){
-          if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
-            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs1);
+      // Dans les cas autres que la coupe d'hiver, on somme l'ensemble des doubles
+      if (this.rencontre.division.championnat.type!=TYPE_CHAMPIONNAT_COUPE_HIVER.code){
+        this.matchs.forEach(match => {
+          if (MATCH_DOUBLE == match.match.type){
+            if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs1);
+            }
+            if (match.match.joueurVisiteurs2!=null && match.match.joueurVisiteurs2.classementCorpoActuel!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs2);
+            }
           }
-          if (match.match.joueurVisiteurs2!=null && match.match.joueurVisiteurs2.classementCorpoActuel!=null){
-            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs2);
+        });
+      }else{
+        let pointsDeuxDoubles = 0;
+        let cpt = 0;
+        // Sinon on fait deux par deux et on prend le maximum pour afficher l'alerte
+        this.matchs.forEach(match => {
+          if (MATCH_DOUBLE == match.match.type){
+            if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisiteurs1);
+            }
+            if (match.match.joueurVisiteurs2!=null && match.match.joueurVisiteurs2.classementCorpoActuel!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisiteurs2);
+            }
+            cpt++;
           }
-        }
-      });
+          pointsDoubles = Math.max(pointsDoubles, pointsDeuxDoubles);
+          if (cpt==2){
+            pointsDeuxDoubles = 0;
+            cpt = 0;
+          }
+        });
+      }
       return pointsDoubles;
 
     }
