@@ -13,6 +13,10 @@ export class EnvironmentService {
     private testBackEndUrl:string = "https://tenniscorpobackend.herokuapp.com";
     private prodBackEndUrl:string = "https://tenniscorponamurengine.herokuapp.com";
 
+    isProduction(){
+      return window.location.href.startsWith(this.prodFrontEndUrl);
+    }
+
     getBackEndUrl(){
 
       if (window.location.href.startsWith(this.prodFrontEndUrl)){

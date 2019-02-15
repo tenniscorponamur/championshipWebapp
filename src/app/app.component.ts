@@ -9,6 +9,7 @@ import {UserService} from './user.service';
 import {User} from './user';
 import {Router} from '@angular/router';
 import {MembreService} from './membre.service';
+import {EnvironmentService} from './environment.service';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
       private authenticationService: AuthenticationService,
       private userService: UserService,
       private localStorageService:LocalStorageService,
+      private environmentService:EnvironmentService,
       public dialog: MatDialog) {
 
         if (!this.cookiePref){
@@ -44,6 +46,10 @@ export class AppComponent implements OnInit {
           this.authenticationService.setConnectedUser(user);
         }
       );
+  }
+
+  isProduction(){
+    return this.environmentService.isProduction();
   }
     
   isAdminConnected(){
