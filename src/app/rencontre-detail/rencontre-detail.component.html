@@ -141,27 +141,29 @@
       </div>
     </div>
 
-    <div *ngIf="isSimpleExists()" class="row">
-      <div class="col-12">
-        <strong>Simples :</strong>
+    <div *ngIf="verificationPoints()">
+      <div *ngIf="isSimpleExists()" class="row">
+        <div class="col-12">
+          <strong>Simples :</strong>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+          {{rencontre.equipeVisites.codeAlphabetique}} : <span class="{{pointsDepassesSimplesVisites()}}">{{pointsSimplesVisites()}} points</span>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+          {{rencontre.equipeVisiteurs.codeAlphabetique}} : <span class="{{pointsDepassesSimplesVisiteurs()}}">{{pointsSimplesVisiteurs()}} points</span>
+        </div>
       </div>
-      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-        {{rencontre.equipeVisites.codeAlphabetique}} : <span class="{{pointsDepassesSimplesVisites()}}">{{pointsSimplesVisites()}} points</span>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-        {{rencontre.equipeVisiteurs.codeAlphabetique}} : <span class="{{pointsDepassesSimplesVisiteurs()}}">{{pointsSimplesVisiteurs()}} points</span>
-      </div>
-    </div>
 
-    <div *ngIf="isDoubleExists()" class="row">
-      <div class="col-12">
-        <strong>Doubles :</strong>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-        {{rencontre.equipeVisites.codeAlphabetique}} : <span class="{{pointsDepassesDoublesVisites()}}">{{pointsDoublesVisites()}} points</span>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-        {{rencontre.equipeVisiteurs.codeAlphabetique}} : <span class="{{pointsDepassesDoublesVisiteurs()}}">{{pointsDoublesVisiteurs()}} points</span>
+      <div *ngIf="isDoubleExists()" class="row">
+        <div class="col-12">
+          <strong>Doubles :</strong>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+          {{rencontre.equipeVisites.codeAlphabetique}} : <span class="{{pointsDepassesDoublesVisites()}}">{{pointsDoublesVisites()}} points</span>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+          {{rencontre.equipeVisiteurs.codeAlphabetique}} : <span class="{{pointsDepassesDoublesVisiteurs()}}">{{pointsDoublesVisiteurs()}} points</span>
+        </div>
       </div>
     </div>
 

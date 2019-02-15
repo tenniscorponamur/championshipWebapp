@@ -18,7 +18,7 @@ import {Club} from '../club';
 import {Set} from '../set';
 import {Terrain, HoraireTerrain, Court} from '../terrain';
 import {Equipe} from '../equipe';
-import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
+import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, TYPE_CHAMPIONNAT_COUPE_HIVER} from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import {Trace} from '../trace';
 import {TraceService} from '../trace.service';
@@ -85,6 +85,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }
     }
 
+    verificationPoints(){
+      return true;
+    }
+
     isSimpleExists():boolean{
       let simpleExists:boolean = false;
       this.matchs.forEach(match => {
@@ -143,16 +147,39 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     pointsDoublesVisites():number{
 
       let pointsDoubles: number = 0;
-      this.matchs.forEach(match => {
-        if (MATCH_DOUBLE == match.match.type){
-          if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
-            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites1);
+      // Dans les cas autres que la coupe d'hiver, on somme l'ensemble des doubles
+      if (this.rencontre.division.championnat.type!=TYPE_CHAMPIONNAT_COUPE_HIVER.code){
+        this.matchs.forEach(match => {
+          if (MATCH_DOUBLE == match.match.type){
+            if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites1);
+            }
+            if (match.match.joueurVisites2!=null && match.match.joueurVisites2.classementCorpoActuel!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites2);
+            }
           }
-          if (match.match.joueurVisites2!=null && match.match.joueurVisites2.classementCorpoActuel!=null){
-            pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites2);
+        });
+      }else{
+        let pointsDeuxDoubles = 0;
+        let cpt = 0;
+        // Sinon on fait deux par deux et on prend le maximum pour afficher l'alerte
+        this.matchs.forEach(match => {
+          if (MATCH_DOUBLE == match.match.type){
+            if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisites1);
+            }
+            if (match.match.joueurVisites2!=null && match.match.joueurVisites2.classementCorpoActuel!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisites2);
+            }
+            cpt++;
           }
-        }
-      });
+          pointsDoubles = Math.max(pointsDoubles, pointsDeuxDoubles);
+          if (cpt==2){
+            pointsDeuxDoubles = 0;
+            cpt = 0;
+          }
+        });
+      }
       return pointsDoubles;
 
     }
