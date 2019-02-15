@@ -21,6 +21,7 @@ import {TerrainService} from '../terrain.service';
 import {Terrain,HoraireTerrain} from '../terrain';
 
 const RENCONTRES_VALIDES="Validées"
+const RENCONTRES_A_VALIDER="A valider"
 const RENCONTRES_A_ENCODER="A encoder"
 const RENCONTRES_A_VENIR="A venir"
 const ALL_RENCONTRES="Toutes"
@@ -52,7 +53,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   poules:Poule[]=[];
   selectedPouleIds:number[]=[];
 
-  typeRencontres:string[] = [RENCONTRES_VALIDES,RENCONTRES_A_ENCODER,RENCONTRES_A_VENIR, ALL_RENCONTRES];
+  typeRencontres:string[] = [RENCONTRES_VALIDES,RENCONTRES_A_VALIDER, RENCONTRES_A_ENCODER,RENCONTRES_A_VENIR, ALL_RENCONTRES];
   selectedTypeRencontre:string=ALL_RENCONTRES;
 
   sortedRencontres:Rencontre[]=[];
@@ -238,9 +239,13 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
        if (this.selectedTypeRencontre == RENCONTRES_A_ENCODER){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-             return !rencontre.valide && rencontre.dateHeureRencontre!=null && rencontre.dateHeureRencontre < new Date();
+             return !rencontre.valide && !rencontre.resultatsEncodes && rencontre.dateHeureRencontre!=null && rencontre.dateHeureRencontre < new Date();
               });
-       } else if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
+       }else if (this.selectedTypeRencontre == RENCONTRES_A_VALIDER){
+            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
+              return !rencontre.valide && rencontre.resultatsEncodes;
+               });
+        }else if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
              return !rencontre.valide && (rencontre.dateHeureRencontre==null || rencontre.dateHeureRencontre >= new Date());
                 });
