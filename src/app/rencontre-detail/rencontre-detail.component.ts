@@ -433,16 +433,34 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
                 }
             }
 
+            let deselectionPossible:boolean = false;
+            if (indexEquipe == 1) {
+                if (indexJoueurEquipe == 1) {
+                    deselectionPossible = match.joueurVisites1 != null;
+                } else {
+                    deselectionPossible = match.joueurVisites2 != null;
+                }
+            }else{
+                if (indexJoueurEquipe == 1) {
+                    deselectionPossible = match.joueurVisiteurs1 != null;
+                } else {
+                    deselectionPossible = match.joueurVisiteurs2 != null;
+                }
+            }
+
             let genre:string = this.getGenreChampionnat();
 
             let championnatHomme:boolean = this.isChampionnatHomme();
 
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, genre:genre, championnatHomme:championnatHomme}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {
-                if (membre) {
+                console.log("Membre : " + membre);
+                console.log("Membre : " + (membre!==undefined));
+                console.log("Membre : " + (membre!==null));
+                if (membre!==undefined) {
                     if (indexEquipe == 1) {
                         if (indexJoueurEquipe == 1) {
                             match.joueurVisites1 = membre;

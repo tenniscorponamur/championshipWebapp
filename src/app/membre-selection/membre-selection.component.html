@@ -17,6 +17,10 @@
   Récupération des membres
 </div>
 
+<div *ngIf="deselectionPossible" class="text-center">
+  <button class="btn btn-danger btn-sm" (click)="unselect()">Déselectionner</button>
+</div>
+
 <div class="membreList">
   <div *ngFor="let membre of filteredMembres" class="membreDiv" (click)="select(membre);">
     <strong>{{membre.nom}}  {{membre.prenom}}</strong>

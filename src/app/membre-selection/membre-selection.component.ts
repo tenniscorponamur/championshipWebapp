@@ -26,6 +26,7 @@ export class MembreSelectionComponent implements OnInit {
     filteredMembres:Membre[]=[];
     filtreNomPrenom:string;
     filtreGenre:string;
+    deselectionPossible:boolean=false;
 
   constructor(public dialogRef: MatDialogRef<MembreSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,6 +36,7 @@ export class MembreSelectionComponent implements OnInit {
         this.capitaine = data.capitaine;
         this.filtreGenre = data.genre;
         this.championnatHomme = data.championnatHomme;
+        this.deselectionPossible = data.deselectionPossible;
       }
 
   ngOnInit() {
@@ -101,6 +103,10 @@ export class MembreSelectionComponent implements OnInit {
 
     select(membre:Membre){
         this.dialogRef.close(membre);
+    }
+
+    unselect(){
+        this.dialogRef.close(null);
     }
 
     fermerSelection(){
