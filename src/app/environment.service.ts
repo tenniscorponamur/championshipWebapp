@@ -41,4 +41,12 @@ export class EnvironmentService {
       return this.getBackEndUrl() + '/oauth/token';
     }
 
+    getRecaptchaKey(){
+      if (this.isProduction()){
+        return "6LcykZAUAAAAAMUjjsxQD1lo6F69qekxWdIRKcMR";
+      }else{
+        return "6LdAAHcUAAAAAMuhytC4gGWLu3yYFgFW9r8WH54E";
+      }
+    }
+
 }

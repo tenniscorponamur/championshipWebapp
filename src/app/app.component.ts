@@ -193,14 +193,19 @@ export class LoginFormDialog {
   templateUrl: './askPassword.html'
 })
 export class AskPasswordDialog {
-    
-  constructor(private userService: UserService,
-    public dialogRef: MatDialogRef<AskPasswordDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-    
+
     showAlert:boolean=false;
     showSuccess:boolean=false;
     showFailure:boolean=false;
+    recaptchaKey:string;
+
+  constructor(private userService: UserService,
+    private environmentService: EnvironmentService,
+    public dialogRef: MatDialogRef<AskPasswordDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.recaptchaKey = this.environmentService.getRecaptchaKey();
+     }
+
     
   numeroAft:string;
   private captchaResponse:string;
