@@ -18,7 +18,7 @@ import {EnvironmentService} from './environment.service';
 })
 export class AppComponent implements OnInit {
 
-  title = 'Tennis Corpo Namur';
+  title:string;
 
   constructor(
       private router:Router,
@@ -27,6 +27,12 @@ export class AppComponent implements OnInit {
       private localStorageService:LocalStorageService,
       private environmentService:EnvironmentService,
       public dialog: MatDialog) {
+
+        if (this.environmentService.isProduction()){
+          this.title = "Tennis Corpo Namur";
+        }else{
+          this.title = "*** TEST Corpo ***";
+        }
 
         if (!this.cookiePref){
           this.cookiePopup();
@@ -46,10 +52,6 @@ export class AppComponent implements OnInit {
           this.authenticationService.setConnectedUser(user);
         }
       );
-  }
-
-  isProduction(){
-    return this.environmentService.isProduction();
   }
     
   isAdminConnected(){
