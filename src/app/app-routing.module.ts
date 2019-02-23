@@ -6,6 +6,7 @@ import { AuthGuardService }                from './auth-guard.service';
 import { IsSecureGuardService }                from './is-secure-guard.service';
 import { ClassementsComponent }      from './classements/classements.component';
 import { HomeComponent }      from './home/home.component';
+import { HowtoComponent }      from './howto/howto.component';
 import { MembresComponent }      from './membres/membres.component';
 import { RencontresComponent }      from './rencontres/rencontres.component';
 import {ClubsComponent} from './clubs/clubs.component';
@@ -18,6 +19,7 @@ import {DocumentsComponent} from './documents/documents.component';
 const routes: Routes = [
   { path: 'classements', component: ClassementsComponent, canActivate: [IsSecureGuardService] },
   { path: 'home', component: HomeComponent, canActivate: [IsSecureGuardService] },
+  { path: 'howto', component: HowtoComponent, canActivate: [IsSecureGuardService] },
   { path: 'clubs', component: ClubsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'championnats', component: ChampionnatsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'documents', component: DocumentsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },

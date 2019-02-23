@@ -5,7 +5,7 @@
         <mat-form-field>
           <mat-select placeholder="Club" [(ngModel)]="_clubId" [formControl]="clubCtrl">
             <mat-option>Aucun club</mat-option>
-            <mat-option *ngFor="let club of clubs | async" [value]="club.id">
+            <mat-option *ngFor="let club of clubs" [value]="club.id">
               <small>{{ club.nom }}</small>
             </mat-option>
           </mat-select>

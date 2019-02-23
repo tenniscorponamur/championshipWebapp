@@ -426,7 +426,7 @@ export class InfosGeneralesMembreDialog {
 export class ClubInfosDialog {
 
   clubCtrl: FormControl=new FormControl();
-  clubs:Observable<Club[]>;
+  clubs:Club[];
 
     _clubId:number;
     _actif:boolean=true;
@@ -444,7 +444,7 @@ export class ClubInfosDialog {
     ) {
 
       this.clubCtrl = new FormControl();
-      this.clubs = this.clubService.getClubs();
+      this.clubService.getClubs().subscribe(clubs => this.clubs = clubs.sort((a,b) => compare(a.nom,b.nom,true)));
 
         this._membre = data.membre;
         this._actif = this._membre.actif;

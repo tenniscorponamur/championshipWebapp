@@ -17,6 +17,16 @@
   padding-bottom:10px;
 }
 
+.howtoLink{
+  cursor:pointer;
+  color:white;
+  text-decoration:none;
+}
+
+.howtoLink:hover{
+  color:gold;
+}
+
 .contactLink{
   cursor:pointer;
   color:white;

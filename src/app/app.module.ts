@@ -78,6 +78,7 @@ import {ClassementMembreService} from './classement-membre.service';
 import { MembreSelectionComponent } from './membre-selection/membre-selection.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { PlanificationCriteriumComponent, JourneeCriteriumDialog, HoraireJourneeCriteriumDialog, ChoixRencontreCriteriumDialog } from './planification-criterium/planification-criterium.component';
+import { HowtoComponent } from './howto/howto.component';
 
 
 @NgModule({
@@ -136,7 +137,8 @@ import { PlanificationCriteriumComponent, JourneeCriteriumDialog, HoraireJournee
     PlanificationCriteriumComponent,
     JourneeCriteriumDialog,
     HoraireJourneeCriteriumDialog,
-    ChoixRencontreCriteriumDialog
+    ChoixRencontreCriteriumDialog,
+    HowtoComponent
   ],
   imports: [
     BrowserModule,
