@@ -585,7 +585,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     refreshRencontre() {
         this.calculMatchRencontre();
         // sauver les points de la rencontre sur base des resultats des matchs
-        this.rencontreService.updateRencontre(this.rencontre).subscribe(result => this.refreshBooleansAndTracesAndAutorisations());
+        this.rencontreService.updateRencontrePoints(this.rencontre).subscribe(result => this.refreshBooleansAndTracesAndAutorisations());
     }
 
     calculMatchRencontre(){

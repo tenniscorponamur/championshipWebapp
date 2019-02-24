@@ -58,6 +58,10 @@ export class RencontreService {
         return this.http.put<Rencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    updateRencontrePoints(rencontre: Rencontre) {
+        return this.http.put<Rencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre/points", rencontre, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     updateResultatsEncodesRencontre(rencontre:Rencontre, resultatsEncodes:boolean, message:string){
         return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/resultatsEncodes?resultatsEncodes=" + resultatsEncodes, message, this.authenticationService.getPrivateApiHttpOptions());
     }

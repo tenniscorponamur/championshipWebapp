@@ -19,11 +19,11 @@ export class MatchService {
     }
 
     updateMatch(match: Match) {
-        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + match.rencontre.id + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     updateMatchAndSets(match: Match, sets:Set[]):Observable<Match> {
-        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/match/sets?matchId="+match.id, sets, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + match.rencontre.id + "/match/sets?matchId="+match.id, sets, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     deleteMatch(match: Match) {
