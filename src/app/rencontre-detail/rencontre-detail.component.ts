@@ -85,6 +85,14 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }
     }
 
+    get boxCommentsClass(): string{
+      if (this.isResultatsRencontreModifiables && !this.rencontre.division.championnat.cloture){
+        return "myBox myBoxEditable";
+      }else{
+        return "myBox";
+      }
+    }
+
     verificationPoints(){
       return true;
     }
@@ -521,7 +529,15 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
       }
     }
-    
+
+    ouvrirCommentaires(){
+      if (this.isResultatsRencontreModifiables){
+        let commentairesEncodeurDialogRef = this.dialog.open(CommentairesEncodeurDialog, {
+            data: {rencontre: this.rencontre}, panelClass: "commentairesEncodeurDialog", disableClose:true
+        });
+      }
+    }
+
     addAutorisationEncodage(){
         if (this.canAuthoriseEncodage){
             this.addAutorisation(TYPE_AUTORISATION_ENCODAGE, this.rencontre.equipeVisites.club);
@@ -761,6 +777,38 @@ export class DateTerrainDialog implements OnInit {
 
     }
 }
+
+@Component({
+    selector: 'commentaires-encodeur-dialog',
+    templateUrl: './commentairesEncodeurDialog.html'
+})
+export class CommentairesEncodeurDialog implements OnInit {
+
+    rencontre:Rencontre;
+    comments:string;
+
+    constructor(
+        private rencontreService: RencontreService,
+        private terrainService: TerrainService,
+        public dialogRef: MatDialogRef<DateTerrainDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+          this.rencontre=data.rencontre;
+          this.comments = this.rencontre.commentairesEncodeur;
+        }
+
+    ngOnInit() {
+    }
+
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
+    save(): void {
+        this.rencontre.commentairesEncodeur = this.comments;
+        this.rencontreService.updateRencontreCommentairesEncodeur(this.rencontre).subscribe(result => this.dialogRef.close());
+    }
+}
+
 
 @Component({
     selector: 'message-poursuite-dialog',

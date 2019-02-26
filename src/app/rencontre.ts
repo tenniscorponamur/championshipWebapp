@@ -16,6 +16,7 @@ export class Rencontre {
   court:Court; 
   pointsVisites:number;
   pointsVisiteurs:number;
+  commentairesEncodeur:string;
   resultatsEncodes:boolean;
   valide:boolean;
 }

@@ -50,7 +50,7 @@ import { TraceService } from './trace.service';
 import { AuthGuardService } from './auth-guard.service';
 import { IsSecureGuardService } from './is-secure-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
-import { RencontreDetailComponent, ResultatsDialog, DateTerrainDialog, MessagePoursuiteDialog, TracesRencontreDialog} from './rencontre-detail/rencontre-detail.component';
+import { RencontreDetailComponent, ResultatsDialog, DateTerrainDialog, CommentairesEncodeurDialog, MessagePoursuiteDialog, TracesRencontreDialog} from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent, RencontresDialog } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
@@ -111,6 +111,7 @@ import { SupervisionComponent, StartDateDialog } from './supervision/supervision
     RencontreDetailComponent,
     ResultatsDialog,
     DateTerrainDialog,
+    CommentairesEncodeurDialog,
     MessagePoursuiteDialog,
     TracesRencontreDialog,
     ClassementDetailComponent,
@@ -197,6 +198,7 @@ import { SupervisionComponent, StartDateDialog } from './supervision/supervision
       MembreSelectionComponent,
       ResultatsDialog,
       DateTerrainDialog,
+      CommentairesEncodeurDialog,
       MessagePoursuiteDialog,
       TracesRencontreDialog,
       InterserieDialog,
