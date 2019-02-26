@@ -72,6 +72,7 @@ import {RencontreService} from './rencontre.service';
 import { TerrainsComponent } from './terrains/terrains.component';
 import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-detail.component';
 import {MatchService} from './match.service';
+import {ClassementCorpoJobService} from './classement-corpo-job.service';
 import {SetService} from './set.service';
 import {ClassementService} from './classement.service';
 import {ClassementMembreService} from './classement-membre.service';
@@ -79,6 +80,7 @@ import { MembreSelectionComponent } from './membre-selection/membre-selection.co
 import { DocumentsComponent } from './documents/documents.component';
 import { PlanificationCriteriumComponent, JourneeCriteriumDialog, HoraireJourneeCriteriumDialog, ChoixRencontreCriteriumDialog } from './planification-criterium/planification-criterium.component';
 import { HowtoComponent } from './howto/howto.component';
+import { SupervisionComponent, StartDateDialog } from './supervision/supervision.component';
 
 
 @NgModule({
@@ -138,7 +140,9 @@ import { HowtoComponent } from './howto/howto.component';
     JourneeCriteriumDialog,
     HoraireJourneeCriteriumDialog,
     ChoixRencontreCriteriumDialog,
-    HowtoComponent
+    HowtoComponent,
+    SupervisionComponent,
+    StartDateDialog
   ],
   imports: [
     BrowserModule,
@@ -200,7 +204,8 @@ import { HowtoComponent } from './howto/howto.component';
       ImportMembresDialog,
       JourneeCriteriumDialog,
       HoraireJourneeCriteriumDialog,
-      ChoixRencontreCriteriumDialog
+      ChoixRencontreCriteriumDialog,
+      StartDateDialog
   ],
   providers: [
     AuthenticationService,
@@ -216,6 +221,7 @@ import { HowtoComponent } from './howto/howto.component';
     SetService,
     ClassementService,
     ClassementMembreService,
+    ClassementCorpoJobService,
     TerrainService,
     TraceService,
     UserService,

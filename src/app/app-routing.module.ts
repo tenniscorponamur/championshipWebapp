@@ -12,6 +12,7 @@ import { RencontresComponent }      from './rencontres/rencontres.component';
 import {ClubsComponent} from './clubs/clubs.component';
 import {UtilisateursComponent} from './utilisateurs/utilisateurs.component';
 import { TerrainsComponent } from './terrains/terrains.component';
+import { SupervisionComponent } from './supervision/supervision.component';
 import {ChampionnatsComponent} from './championnats/championnats.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {DocumentsComponent} from './documents/documents.component';
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'documents', component: DocumentsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'membres', component: MembresComponent, canActivate: [IsSecureGuardService] },
   { path: 'rencontres', component: RencontresComponent, canActivate: [IsSecureGuardService] },
+  { path: 'supervision', component: SupervisionComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'terrains', component: TerrainsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [IsSecureGuardService,AuthGuardService] },

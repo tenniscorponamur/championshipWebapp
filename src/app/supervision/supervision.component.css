@@ -1,0 +1,8 @@
+.traceArea{
+  width:100%;
+  overflow-y: scroll;
+}
+
+.tracesDiv{
+  margin:10px;
+}

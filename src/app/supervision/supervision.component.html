@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="tennisCorpoBox col-xl-6 col-lg-6 col-md-12 col-sm-12">
+    <div class="card" >
+      <h4 class="card-header">
+        Calcul des nouveaux classements
+      </h4>
+      <div class="card-body">
+        <button class="btn btn-info" (click)="calculNouveauxClassements();" [disabled]="calculImpossible">Calcul des nouveaux classements</button>
+        <div class="tracesDiv" *ngIf="traces.length>0">
+          <span>Traces d'exécution :</span><br/>
+          <textarea class="traceArea" rows="10" readonly="true">{{traces}}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button (click)='startTimer()'>Start Timer</button>
+<button (click)='pauseTimer()'>Pause</button>
+
+<p>{{timeLeft}} Seconds Left....</p>
