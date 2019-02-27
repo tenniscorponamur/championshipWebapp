@@ -34,6 +34,14 @@ export class RencontreService {
         return this.http.get<Rencontre[]>(this.environmentService.getPublicApiUrl() + "/rencontres/next?numberOfResults=" + maxNumberOfResults);
     }
 
+    getRencontresToComplete(): Observable<Rencontre[]> {
+      return this.http.get<Rencontre[]>(this.environmentService.getPrivateApiUrl() + "/rencontres/toComplete", this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    getRencontresToValidate(): Observable<Rencontre[]> {
+      return this.http.get<Rencontre[]>(this.environmentService.getPrivateApiUrl() + "/rencontres/toValidate", this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     isResultatsRencontreModifiables(rencontre:Rencontre) {
         return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isResultatsModifiables", this.authenticationService.getPrivateApiHttpOptions());
     }

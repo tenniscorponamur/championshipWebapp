@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import {MembreService} from '../membre.service';
 import { saveAs } from 'file-saver/FileSaver';
 import {Rencontre} from '../rencontre';
+import {AlertesService} from '../alertes.service';
 import {RencontreService} from '../rencontre.service';
 import {addLeadingZero} from '../utility';
 
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit {
     chargementProchainesRencontres:boolean=true;
 
   constructor(
+    private alertesService:AlertesService,
     private rencontreService:RencontreService,
     private membreService: MembreService) { }
   
@@ -31,6 +33,14 @@ export class HomeComponent implements OnInit {
             this.chargementProchainesRencontres = false;
             this.nextMeetings = nextMeetings;
         });
+    }
+
+    get countRencontresToComplete(){
+      return this.alertesService.getRencontresACompleter().length;
+    }
+
+    get countRencontresToValidate(){
+      return this.alertesService.getRencontresAValider().length;
     }
     
     formatDate(date:Date):string{

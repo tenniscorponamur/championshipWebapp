@@ -38,6 +38,7 @@ import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, Club
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
+import { AlertesService } from './alertes.service';
 import { EnvironmentService } from './environment.service';
 import { LocalStorageService } from './local-storage.service';
 import { LocaliteService } from './localite.service';
@@ -211,6 +212,7 @@ import { SupervisionComponent, StartDateDialog } from './supervision/supervision
   ],
   providers: [
     AuthenticationService,
+    AlertesService,
     EnvironmentService,
     ChampionnatService,
     ClubService,

@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import { AuthenticationService } from './authentication.service';
+import { AlertesService } from './alertes.service';
 import {LocalStorageService} from './local-storage.service';
 import {UserService} from './user.service';
 import {User} from './user';
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   constructor(
       private router:Router,
       private authenticationService: AuthenticationService,
+      private alertesService:AlertesService,
       private userService: UserService,
       private localStorageService:LocalStorageService,
       private environmentService:EnvironmentService,
@@ -70,6 +72,7 @@ export class AppComponent implements OnInit {
       }else{
         this.authenticationService.disconnect();
         this.localStorageService.clearLocalStorage();
+        this.alertesService.clear();
         this.router.navigate(['/home']);
       }
     });
@@ -102,6 +105,7 @@ export class AppComponent implements OnInit {
     compteUtilisateurDialogRef.afterClosed().subscribe(result => {
       if (result){
         this.authenticationService.disconnect();
+        this.alertesService.clear();
         this.router.navigate(['/home']);
       }else{
         //console.log('La fenetre de login a ete fermee sans deconnexion');
