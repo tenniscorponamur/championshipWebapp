@@ -91,6 +91,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
           this.alertView = true;
           this.classicView = false;
           this.criteriumView = true;
+          this.loadRencontres();
         }
       });
 
@@ -281,6 +282,8 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
         this.filteredRencontres = this.sortedRencontres;
 
+        console.log(this.filteredRencontres);
+
        if (this.selectedTypeRencontre == RENCONTRES_A_ENCODER){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
              return !rencontre.valide && !rencontre.resultatsEncodes && rencontre.dateHeureRencontre!=null && rencontre.dateHeureRencontre < new Date();
@@ -299,7 +302,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                 });
        }
 
-        if (this.classicView){
+        if (this.classicView && !this.alertView){
             if (this.selectedPouleIds  && this.selectedPouleIds.length > 0){
                  this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                      return this.selectedPouleIds.some(selectedPouleId => {
