@@ -8,7 +8,7 @@ import { AlertesService } from './alertes.service';
 import {LocalStorageService} from './local-storage.service';
 import {UserService} from './user.service';
 import {User} from './user';
-import {Router} from '@angular/router';
+import {Router, NavigationEnd } from '@angular/router';
 import {MembreService} from './membre.service';
 import {EnvironmentService} from './environment.service';
 
@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
 
      }
 
+
     get user(): User {return this.authenticationService.getConnectedUser(); }
 
     get cookiePref(): boolean {
@@ -49,6 +50,14 @@ export class AppComponent implements OnInit {
     }
 
   ngOnInit() {
+
+    this.router.events.subscribe((evt) => {
+        if (!(evt instanceof NavigationEnd)) {
+            return;
+        }
+        window.scrollTo(0, 0)
+    });
+
     this.userService.getCurrentUser().subscribe(
       user => {
           this.authenticationService.setConnectedUser(user);
