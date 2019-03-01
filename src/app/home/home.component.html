@@ -4,7 +4,7 @@
       <div class="card-body">
         <div style="background-color:lightgreen;border-radius:5px;padding:15px;margin:10px;">
           <i style="float:left;color:grey;opacity: 0.33;margin-right:10px;" class="fa fa-exclamation-triangle fa-3x"></i>
-          <a style="font-size:1.3em;">{{countRencontresToComplete}} rencontre(s) à encoder</a>
+          <a href="#" routerLink="/rencontres" [queryParams]="{mode:'alertes'}" style="font-size:1.3em;">{{countRencontresToComplete}} rencontre(s) à encoder</a>
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
       <div class="card-body">
         <div style="background-color:lightgreen;border-radius:5px;padding:15px;margin:10px;">
           <i style="float:left;color:grey;opacity: 0.33;margin-right:10px;" class="fa fa-exclamation-triangle fa-3x"></i>
-          <a style="font-size:1.3em;">{{countRencontresToValidate}} rencontre(s) à valider</a>
+          <a href="#" routerLink="/rencontres" [queryParams]="{mode:'alertes'}" style="font-size:1.3em;">{{countRencontresToValidate}} rencontre(s) à valider</a>
         </div>
       </div>
     </div>

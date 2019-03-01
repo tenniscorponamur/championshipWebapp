@@ -14,7 +14,7 @@ export class AlertesService {
     private authenticationService: AuthenticationService,
     private rencontreService: RencontreService) { }
 
-  load(){
+  refresh(){
     if (this.authenticationService.isConnected()){
       this.loaded = true;
       this.rencontreService.getRencontresToComplete().subscribe(rencontres => {
@@ -28,14 +28,14 @@ export class AlertesService {
 
   getRencontresACompleter(){
     if (!this.loaded){
-      this.load();
+      this.refresh();
     }
     return this.rencontresACompleter;
   }
 
   getRencontresAValider(){
     if (!this.loaded){
-      this.load();
+      this.refresh();
     }
     return this.rencontresAValider;
   }

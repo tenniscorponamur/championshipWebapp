@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Rencontre } from '../rencontre';
 import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
@@ -18,6 +19,7 @@ import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import { RxResponsiveService } from 'rx-responsive';
 import {TerrainService} from '../terrain.service';
+import {AlertesService} from '../alertes.service';
 import {Terrain,HoraireTerrain} from '../terrain';
 
 const RENCONTRES_VALIDES="Validées"
@@ -61,10 +63,13 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   actualSort:Sort;
   selectedRencontre:Rencontre;
   
+  alertView:boolean=false;
   classicView:boolean=true;
   criteriumView:boolean=false;
 
   constructor(public media: RxResponsiveService,
+        private route: ActivatedRoute,
+        private alertesService:AlertesService,
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,
         private pouleService: PouleService,
@@ -78,6 +83,16 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   }
 
   ngOnInit() {
+
+    this.route.queryParams
+      .filter(params => params.mode)
+      .subscribe(params => {
+        if (params.mode=='alertes') {
+          this.alertView = true;
+          this.classicView = false;
+          this.criteriumView = true;
+        }
+      });
 
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
@@ -104,10 +119,31 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         });
   }
 
-    changeView(){
-        this.classicView=!this.classicView;
-        this.criteriumView=!this.criteriumView;
+    changeToClassicView(){
+        this.classicView=true;
+        this.criteriumView=false;
+        this.alertView = false;
         this.loadRencontres();
+    }
+
+    changeToCriteriumView(){
+        this.classicView=false;
+        this.criteriumView=true;
+        this.alertView = false;
+        this.loadRencontres();
+    }
+
+    changeToAlertView(){
+        if (!this.alertView) {
+          this.alertView = true;
+          this.classicView = !this.classicView;
+          this.criteriumView = !this.criteriumView;
+          this.loadRencontres();
+        }
+    }
+
+    get countAlert(){
+      return this.alertesService.getRencontresACompleter().length + this.alertesService.getRencontresAValider().length;
     }
 
   isAdminConnected(){
@@ -148,7 +184,15 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
       this.sortedRencontres = [];
       this.filteredRencontres = [];
 
-        if (this.classicView){
+        if (this.alertView) {
+
+          let rencontresAvecAlertes = [];
+          this.alertesService.getRencontresACompleter().forEach(rencontre => rencontresAvecAlertes.push(rencontre));
+          this.alertesService.getRencontresAValider().forEach(rencontre => rencontresAvecAlertes.push(rencontre));
+          this.sortedRencontres = rencontresAvecAlertes.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
+          this.sortData(this.actualSort);
+
+        }else if (this.classicView){
             
             if (this.selectedDivision) {
               this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
