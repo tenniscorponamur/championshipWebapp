@@ -95,19 +95,10 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
           }else if (params.type=='a_valider'){
             this.selectedTypeRencontre = RENCONTRES_A_VALIDER;
           }
-
-          this.rencontreService.getRencontresToComplete().subscribe(rencontres => {
-            rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
-            this.rencontreService.getRencontresToValidate().subscribe(rencontres => {
-              rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
-              this.loadRencontres();
-            });
-          });
-
         }
       });
 
-
+      this.refreshAlertes();
 
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
@@ -132,6 +123,19 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
               }
 
         });
+  }
+
+  refreshAlertes(){
+      this.rencontreService.getRencontresToComplete().subscribe(rencontres => {
+        this.rencontresAvecAlertes = [];
+        rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
+        this.rencontreService.getRencontresToValidate().subscribe(rencontres => {
+          rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
+          if (this.alertView){
+            this.loadRencontres();
+          }
+        });
+      });
   }
 
     changeToClassicView(){
@@ -288,8 +292,6 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
    filtre(): void {
 
         this.filteredRencontres = this.sortedRencontres;
-
-        console.log(this.filteredRencontres);
 
        if (this.selectedTypeRencontre == RENCONTRES_A_ENCODER){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
