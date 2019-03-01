@@ -18,10 +18,10 @@ export class AlertesService {
     if (this.authenticationService.isConnected()){
       this.loaded = true;
       this.rencontreService.getRencontresToComplete().subscribe(rencontres => {
-        this.rencontresACompleter = rencontres
+        this.rencontresACompleter = rencontres;
       });
       this.rencontreService.getRencontresToValidate().subscribe(rencontres => {
-        this.rencontresAValider = rencontres
+        this.rencontresAValider = rencontres;
       });
     }
   }

@@ -2,9 +2,9 @@
   <div *ngIf="countRencontresToComplete!=0" class="tennisCorpoBox col-xl-6 col-lg-6 col-md-12 col-sm-12">
     <div class="card">
       <div class="card-body">
-        <div style="background-color:lightgreen;border-radius:5px;padding:15px;margin:10px;">
-          <i style="float:left;color:grey;opacity: 0.33;margin-right:10px;" class="fa fa-exclamation-triangle fa-3x"></i>
-          <a href="#" routerLink="/rencontres" [queryParams]="{mode:'alertes'}" style="font-size:1.3em;">{{countRencontresToComplete}} rencontre(s) à encoder</a>
+        <div class="tennisCorpoWarningBox">
+          <i class="tennisCorpoWarningIcon fa fa-exclamation-triangle fa-3x"></i>
+          <a href="#" routerLink="/rencontres" [queryParams]="{mode:'alertes',type:'a_encoder'}" class="tennisCorpoWarningLink">{{countRencontresToComplete}} rencontre(s) à encoder</a>
         </div>
       </div>
     </div>
@@ -12,9 +12,9 @@
   <div *ngIf="countRencontresToValidate!=0" class="tennisCorpoBox col-xl-6 col-lg-6 col-md-12 col-sm-12">
     <div class="card">
       <div class="card-body">
-        <div style="background-color:lightgreen;border-radius:5px;padding:15px;margin:10px;">
-          <i style="float:left;color:grey;opacity: 0.33;margin-right:10px;" class="fa fa-exclamation-triangle fa-3x"></i>
-          <a href="#" routerLink="/rencontres" [queryParams]="{mode:'alertes'}" style="font-size:1.3em;">{{countRencontresToValidate}} rencontre(s) à valider</a>
+        <div class="tennisCorpoWarningBox">
+          <i class="tennisCorpoWarningIcon fa fa-exclamation-triangle fa-3x"></i>
+          <a href="#" routerLink="/rencontres" [queryParams]="{mode:'alertes',type:'a_valider'}" class="tennisCorpoWarningLink" >{{countRencontresToValidate}} rencontre(s) à valider</a>
         </div>
       </div>
     </div>

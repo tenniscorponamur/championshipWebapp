@@ -19,7 +19,6 @@ import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import { RxResponsiveService } from 'rx-responsive';
 import {TerrainService} from '../terrain.service';
-import {AlertesService} from '../alertes.service';
 import {Terrain,HoraireTerrain} from '../terrain';
 
 const RENCONTRES_VALIDES="Validées"
@@ -58,6 +57,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   typeRencontres:string[] = [RENCONTRES_VALIDES,RENCONTRES_A_VALIDER, RENCONTRES_A_ENCODER,RENCONTRES_A_VENIR, ALL_RENCONTRES];
   selectedTypeRencontre:string=ALL_RENCONTRES;
 
+  rencontresAvecAlertes:Rencontre[]=[];
   sortedRencontres:Rencontre[]=[];
   filteredRencontres:Rencontre[];
   actualSort:Sort;
@@ -69,7 +69,6 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
   constructor(public media: RxResponsiveService,
         private route: ActivatedRoute,
-        private alertesService:AlertesService,
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,
         private pouleService: PouleService,
@@ -91,9 +90,24 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
           this.alertView = true;
           this.classicView = false;
           this.criteriumView = true;
-          this.loadRencontres();
+          if (params.type=='a_encoder'){
+            this.selectedTypeRencontre = RENCONTRES_A_ENCODER;
+          }else if (params.type=='a_valider'){
+            this.selectedTypeRencontre = RENCONTRES_A_VALIDER;
+          }
+
+          this.rencontreService.getRencontresToComplete().subscribe(rencontres => {
+            rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
+            this.rencontreService.getRencontresToValidate().subscribe(rencontres => {
+              rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
+              this.loadRencontres();
+            });
+          });
+
         }
       });
+
+
 
         this.championnatService.getChampionnats().subscribe(championnats => {
             this.championnats = championnats.sort(
@@ -143,10 +157,6 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         }
     }
 
-    get countAlert(){
-      return this.alertesService.getRencontresACompleter().length + this.alertesService.getRencontresAValider().length;
-    }
-
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
   }
@@ -187,13 +197,10 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
         if (this.alertView) {
 
-          let rencontresAvecAlertes = [];
-          this.alertesService.getRencontresACompleter().forEach(rencontre => rencontresAvecAlertes.push(rencontre));
-          this.alertesService.getRencontresAValider().forEach(rencontre => rencontresAvecAlertes.push(rencontre));
-          this.sortedRencontres = rencontresAvecAlertes.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
+          this.sortedRencontres = this.rencontresAvecAlertes.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
           this.sortData(this.actualSort);
 
-        }else if (this.classicView){
+        } else if (this.classicView){
             
             if (this.selectedDivision) {
               this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));

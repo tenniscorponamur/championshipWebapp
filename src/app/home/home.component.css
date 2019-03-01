@@ -7,3 +7,22 @@ a.documentLink, a.documentLink:hover{
     color:blue;
     cursor:pointer;
 }
+
+.tennisCorpoWarningBox{
+  background-color:lightgreen;
+  border-radius:5px;
+  padding:15px;
+  margin:10px;
+}
+
+.tennisCorpoWarningIcon{
+  float:left;
+  color:grey;
+  opacity: 0.33;
+  margin-right:10px;
+}
+
+a.tennisCorpoWarningLink {
+  font-size:1.3em;
+  color:grey;
+}
