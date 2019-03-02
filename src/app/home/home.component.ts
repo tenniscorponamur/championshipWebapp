@@ -33,6 +33,8 @@ export class HomeComponent implements OnInit {
             this.chargementProchainesRencontres = false;
             this.nextMeetings = nextMeetings;
         });
+
+        this.alertesService.refresh();
     }
 
     get countRencontresToComplete(){
