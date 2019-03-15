@@ -431,14 +431,13 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
         if (this.isResultatsRencontreModifiables){
             let club;
+            let anyMemberPossible:boolean=false;
             if (indexEquipe == 1) {
-                if (!this.rencontre.equipeVisites.hybride){
-                  club = this.rencontre.equipeVisites.club;
-                }
+                club = this.rencontre.equipeVisites.club;
+                anyMemberPossible = this.isAdminConnected() || this.rencontre.equipeVisites.hybride;
             } else {
-                if (!this.rencontre.equipeVisiteurs.hybride){
-                  club = this.rencontre.equipeVisiteurs.club;
-                }
+                club = this.rencontre.equipeVisiteurs.club;
+                anyMemberPossible = this.isAdminConnected() || this.rencontre.equipeVisiteurs.hybride;
             }
 
             let deselectionPossible:boolean = false;
@@ -461,7 +460,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             let championnatHomme:boolean = this.isChampionnatHomme();
 
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, anyMemberPossible:anyMemberPossible, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {

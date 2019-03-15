@@ -17,6 +17,10 @@
   Récupération des membres
 </div>
 
+<div *ngIf="anyMemberPossible" class="text-center">
+  <button class="btn btn-success btn-sm" (click)="selectAll()">Tout membre</button>
+</div>
+
 <div *ngIf="deselectionPossible" class="text-center">
   <button class="btn btn-danger btn-sm" (click)="unselect()">Déselectionner</button>
 </div>

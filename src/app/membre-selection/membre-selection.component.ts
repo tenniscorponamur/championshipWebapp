@@ -16,6 +16,7 @@ export class MembreSelectionComponent implements OnInit {
 
     genres = GENRES;
 
+    private anyMemberPossible:boolean=false;
     private club:Club;
     private capitaine: Boolean;
     private championnatHomme:Boolean;
@@ -33,6 +34,7 @@ export class MembreSelectionComponent implements OnInit {
     private membreService:MembreService,
     private classementMembreService:ClassementMembreService) {
         this.club = data.club;
+        this.anyMemberPossible=data.anyMemberPossible;
         this.capitaine = data.capitaine;
         this.filtreGenre = data.genre;
         this.championnatHomme = data.championnatHomme;
@@ -46,6 +48,12 @@ export class MembreSelectionComponent implements OnInit {
       }
       this.membreService.getMembres(clubId).subscribe(membres => {this.membres = membres; this.filtre();this.chargementMembres=false;});
       this.classementMembreService.correspondanceEchelleCorpo().subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
+  }
+
+  selectAll(){
+      this.membres=[];
+      this.chargementMembres=true;
+      this.membreService.getMembres(null).subscribe(membres => {this.membres = membres; this.filtre();this.chargementMembres=false;});
   }
 
   showEquivalence(membre:Membre):boolean{
