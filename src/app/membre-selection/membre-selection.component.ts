@@ -52,6 +52,7 @@ export class MembreSelectionComponent implements OnInit {
 
   selectAll(){
       this.membres=[];
+      this.filteredMembres=[];
       this.chargementMembres=true;
       this.membreService.getMembres(null).subscribe(membres => {this.membres = membres; this.filtre();this.chargementMembres=false;});
   }
