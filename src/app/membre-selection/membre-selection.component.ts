@@ -16,12 +16,12 @@ export class MembreSelectionComponent implements OnInit {
 
     genres = GENRES;
 
-    private anyMemberPossible:boolean=false;
     private club:Club;
     private capitaine: Boolean;
     private championnatHomme:Boolean;
     private mapEquivalence;
 
+    anyMemberPossible:boolean=false;
     chargementMembres:boolean=true;
     membres:Membre[]=[];
     filteredMembres:Membre[]=[];
