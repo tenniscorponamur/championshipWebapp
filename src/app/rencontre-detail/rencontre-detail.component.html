@@ -22,6 +22,11 @@
             ({{rencontre.division.pointsMinimum}}-{{rencontre.division.pointsMaximum}} points)
           </div>
           <div class="myBoxContent text-center">
+              <div *ngIf="rencontre.informationsInterserie" class="row">
+                <div class="col-12" >
+                  {{rencontre.informationsInterserie}}
+                </div>
+              </div>
               <div class="row">
                   <div class="col-lg-4 col-md-12" style="margin:auto;">
                     <strong>

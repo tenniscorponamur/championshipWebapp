@@ -5,13 +5,13 @@
         <div class="col-12">
             <mat-select placeholder="Division" [(ngModel)]="interserieSelected" >
               <mat-option *ngFor="let rencontre of rencontresInterseries" [value]="rencontre">
-                <small>Division {{ rencontre.division.numero}}</small>
+                <small>Division {{ rencontre.division.numero}} - {{rencontre.informationsInterserie}}</small>
               </mat-option>
             </mat-select>
         </div>
     </div>
 
-  <div class="equipeBox" *ngIf="interserieSelected text-center">
+  <div class="equipeBox text-center" *ngIf="interserieSelected">
     <div class="row" >
       <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center">
         <strong>{{interserieSelected.equipeVisites.codeAlphabetique}}</strong>

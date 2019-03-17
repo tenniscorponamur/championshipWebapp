@@ -110,6 +110,7 @@
                                 <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
                             </div>
                             <div class="myBoxContent">
+                                <span *ngIf="rencontre.informationsInterserie"><small>{{rencontre.informationsInterserie}}</small><br/></span>
                                 <span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span>
                                 &nbsp;-&nbsp;
                                 <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
@@ -150,9 +151,9 @@
                                 <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
                                     <td class="text-uppercase">{{formatDate(rencontre.dateHeureRencontre)}}</td>
                                     <td><span *ngIf="rencontre.terrain">{{rencontre.terrain.nom}}</span></td>
-                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
-                                    <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
-                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
+                                    <td><span *ngIf="rencontre.informationsInterserie"><small>{{rencontre.informationsInterserie}}</small><br/></span><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
+                                    <td><span *ngIf="rencontre.informationsInterserie"><br/></span><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
+                                    <td><span *ngIf="rencontre.informationsInterserie"><br/></span><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
                                 </tr>
                             </tbody>
                         </table>

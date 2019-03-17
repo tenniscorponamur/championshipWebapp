@@ -315,10 +315,11 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
             if (this.selectedPouleIds  && this.selectedPouleIds.length > 0){
                  this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                      return this.selectedPouleIds.some(selectedPouleId => {
+                          // Interserie -> pouleId = 0
                          if (selectedPouleId==0){
                              return rencontre.poule==null;
                          }else{
-                             return rencontre.poule.id == selectedPouleId;
+                             return rencontre.poule!=null && rencontre.poule.id == selectedPouleId;
                          }
                      })});
              }
