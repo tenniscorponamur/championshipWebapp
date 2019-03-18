@@ -442,6 +442,7 @@ export class InterserieDialog implements OnInit {
     rencontresInterseries:Rencontre[];
     private _championnat:Championnat;
 
+    calculInterseries:boolean=true;
     date:Date;
     heure:number;
     minute:number;
@@ -461,7 +462,11 @@ export class InterserieDialog implements OnInit {
     }
 
   ngOnInit() {
-    this.rencontreService.getInterseries(this._championnat.id).subscribe(rencontres => this.rencontresInterseries=rencontres);
+    this.rencontreService.getInterseries(this._championnat.id).subscribe(rencontres => {
+        this.rencontresInterseries=rencontres;
+        this.calculInterseries=false;
+      }
+    );
     this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.filter(terrain => terrain.actif));
     this.terrainService.getHorairesTerrainByTypeChampionnat(this._championnat.type).subscribe(horaires => this.horairesTerrain = horaires);
   }

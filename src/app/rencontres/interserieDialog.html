@@ -1,64 +1,70 @@
 <h1 mat-dialog-title>Rencontre intersérie<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content style="max-width:750px;">
 
-    <div class="row">
-        <div class="col-12">
-            <mat-select placeholder="Division" [(ngModel)]="interserieSelected" >
-              <mat-option *ngFor="let rencontre of rencontresInterseries" [value]="rencontre">
-                <small>Division {{ rencontre.division.numero}} - {{rencontre.informationsInterserie}}</small>
-              </mat-option>
-            </mat-select>
-        </div>
-    </div>
-
-  <div class="equipeBox text-center" *ngIf="interserieSelected">
-    <div class="row" >
-      <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center">
-        <strong>{{interserieSelected.equipeVisites.codeAlphabetique}}</strong>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center">
-        <a style="cursor:pointer" (click)="switchTeams(interserieSelected);"><i class="fa fa-exchange"></i></a>
-      </div>
-      <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center">
-        <strong>{{interserieSelected.equipeVisiteurs.codeAlphabetique}}</strong>
-      </div>
-    </div>
+  <div *ngIf="calculInterseries" class="progressDiv text-center">
+    <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+    Calcul des interséries
   </div>
 
-  <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-      <mat-form-field>
-        <input class="dateRencontrePicker" matInput size="10" [matDatepicker]="picker" placeholder="Date"
-               [(ngModel)]="date" (dateChange)="changeDate();">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker touchUi="true" #picker></mat-datepicker>
-      </mat-form-field>
-
-      <select [(ngModel)]="heure" >
-        <option>8</option>
-        <option>9</option>
-        <option>10</option>
-        <option>11</option>
-        <option>12</option>
-        <option>13</option>
-        <option>14</option>
-        <option>15</option>
-        <option>16</option>
-        <option>17</option>
-        <option>18</option>
-        <option>19</option>
-        <option>20</option>
-      </select>
-
-      <select [(ngModel)]="minute" >
-        <option value="0">00</option>
-        <option>15</option>
-        <option>30</option>
-        <option>45</option>
-      </select>
+  <div *ngIf="!calculInterseries">
+    <div class="row">
+      <div class="col-12">
+        <mat-select placeholder="Division" [(ngModel)]="interserieSelected" >
+          <mat-option *ngFor="let rencontre of rencontresInterseries" [value]="rencontre">
+            <small>Division {{ rencontre.division.numero}} - {{rencontre.informationsInterserie}}</small>
+          </mat-option>
+        </mat-select>
+      </div>
     </div>
 
-    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-center">
+    <div class="equipeBox text-center" *ngIf="interserieSelected">
+      <div class="row" >
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center">
+          <strong>{{interserieSelected.equipeVisites.codeAlphabetique}}</strong>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center">
+          <a style="cursor:pointer" (click)="switchTeams(interserieSelected);"><i class="fa fa-exchange"></i></a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-center">
+          <strong>{{interserieSelected.equipeVisiteurs.codeAlphabetique}}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <mat-form-field>
+          <input class="dateRencontrePicker" matInput size="10" [matDatepicker]="picker" placeholder="Date"
+                 [(ngModel)]="date" (dateChange)="changeDate();">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi="true" #picker></mat-datepicker>
+        </mat-form-field>
+
+        <select [(ngModel)]="heure" >
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+          <option>11</option>
+          <option>12</option>
+          <option>13</option>
+          <option>14</option>
+          <option>15</option>
+          <option>16</option>
+          <option>17</option>
+          <option>18</option>
+          <option>19</option>
+          <option>20</option>
+        </select>
+
+        <select [(ngModel)]="minute" >
+          <option value="0">00</option>
+          <option>15</option>
+          <option>30</option>
+          <option>45</option>
+        </select>
+      </div>
+
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-center">
         <mat-form-field>
           <mat-select placeholder="Terrain" [(ngModel)]="terrainId" (change)="changeTerrain()">
             <mat-option>Aucun terrain</mat-option>
@@ -67,12 +73,14 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+      </div>
     </div>
-  </div>
 
-  <div align="center">
-    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
-    <button class="btn btn-success" (click)="save();">Sauver</button>
-  </div>
+    <div align="center">
+      <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+      <button class="btn btn-success" (click)="save();">Sauver</button>
+    </div>
 
+
+  </div>
 </div>
