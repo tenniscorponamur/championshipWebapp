@@ -1,0 +1,47 @@
+.dashboardBox{
+  padding:5px;
+  border-radius:15px;
+  padding-top:20px;
+  padding-bottom:20px;
+  padding-right:30px;
+  margin:10px;
+}
+
+.dashboardIcon{
+  color:white;
+  opacity:0.5;
+}
+
+.dashboardContent{
+  margin-top:10px;
+  font-weight:bold;
+  font-size:1.4em;
+  color:white;
+}
+
+.pinkBackground{
+  background-color:pink;
+}
+
+.blueBackground{
+  background-color:cornflowerblue;
+}
+
+.redBackground{
+  background-color:crimson;
+}
+
+.greenBackground{
+  background-color:forestgreen;
+}
+
+
+.greyBackground{
+  background-color:grey;
+}
+
+.orangeBackground{
+  background-color:darkorange;
+}
+
+

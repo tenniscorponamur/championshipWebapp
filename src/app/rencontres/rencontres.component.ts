@@ -439,7 +439,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 })
 export class InterserieDialog implements OnInit {
 
-    rencontresInterseries:Rencontre[];
+    rencontresInterseries:Rencontre[]=[];
     private _championnat:Championnat;
 
     calculInterseries:boolean=true;

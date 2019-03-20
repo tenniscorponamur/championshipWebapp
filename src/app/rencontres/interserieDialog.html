@@ -6,7 +6,11 @@
     Calcul des interséries
   </div>
 
-  <div *ngIf="!calculInterseries">
+  <div *ngIf="!calculInterseries && rencontresInterseries.length==0">
+      Aucune rencontre intersérie à planifier
+  </div>
+
+  <div *ngIf="!calculInterseries && rencontresInterseries.length>0">
     <div class="row">
       <div class="col-12">
         <mat-select placeholder="Division" [(ngModel)]="interserieSelected" >
