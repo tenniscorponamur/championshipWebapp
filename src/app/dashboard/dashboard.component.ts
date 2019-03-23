@@ -15,6 +15,9 @@ export class DashboardComponent implements OnInit {
   private membres:Membre[]=[];
   private clubs:Club[]=[];
 
+  membreSansClubsActifs:Membre[]=[];
+  membreSansLocalite:Membre[]=[];
+  membreSansClassement:Membre[]=[];
   nbClubsActifs:number=0;
   nbMembresActifs:number=0;
   nbDamesActives:number=0;
@@ -22,12 +25,14 @@ export class DashboardComponent implements OnInit {
   nbMembresSansClubAFT:number=0;
   nbMembresSansLocalite:number=0;
   nbMembresSansClassement:number=0;
+  chargementCompteursMembres:boolean=true;
+  chargementCompteursClubs:boolean=true;
 
   constructor(private membreService:MembreService, private clubService:ClubService) { }
 
   ngOnInit() {
-      this.membreService.getMembres(null).subscribe(membres => {this.membres=membres;this.initCompteursMembres();});
-      this.clubService.getClubs().subscribe(clubs => {this.clubs = clubs; this.initCompteurslubs();});
+      this.membreService.getMembres(null).subscribe(membres => {this.membres=membres;this.initCompteursMembres();this.chargementCompteursMembres=false;});
+      this.clubService.getClubs().subscribe(clubs => {this.clubs = clubs; this.initCompteurslubs();this.chargementCompteursClubs=false;});
   }
 
   initCompteursMembres(){
@@ -45,14 +50,17 @@ export class DashboardComponent implements OnInit {
 
           if (membre.numeroClubAft==null || membre.onlyCorpo==true){
             this.nbMembresSansClubAFT++;
+            this.membreSansClubsActifs.push(membre);
           }
 
           if (membre.localite==null){
             this.nbMembresSansLocalite++;
+            this.membreSansLocalite.push(membre);
           }
 
           if (membre.classementCorpoActuel==null){
             this.nbMembresSansClassement++;
+            this.membreSansClassement.push(membre);
           }
 
         }
@@ -73,7 +81,7 @@ export class DashboardComponent implements OnInit {
     [28, 48, 40, 19, 86, 27, 90]
   ];
   public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChartType:string = 'line';
+  public lineChartType:string = 'bar';
   public pieChartType:string = 'pie';
   public lineChartOptions = {};
  

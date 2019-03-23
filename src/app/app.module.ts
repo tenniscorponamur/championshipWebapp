@@ -82,6 +82,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { PlanificationCriteriumComponent, JourneeCriteriumDialog, HoraireJourneeCriteriumDialog, ChoixRencontreCriteriumDialog } from './planification-criterium/planification-criterium.component';
 import { HowtoComponent } from './howto/howto.component';
 import { SupervisionComponent, StartDateDialog } from './supervision/supervision.component';
+import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 
 
 @NgModule({
@@ -144,7 +145,8 @@ import { SupervisionComponent, StartDateDialog } from './supervision/supervision
     ChoixRencontreCriteriumDialog,
     HowtoComponent,
     SupervisionComponent,
-    StartDateDialog
+    StartDateDialog,
+    ReleaseNotesComponent
   ],
   imports: [
     BrowserModule,

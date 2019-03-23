@@ -360,7 +360,8 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     let oldEquipeVisites = rencontre.rencontre.equipeVisites;
     rencontre.rencontre.equipeVisites = rencontre.rencontre.equipeVisiteurs;
     rencontre.rencontre.equipeVisiteurs = oldEquipeVisites;
-    if (rencontre.terrainId==null || rencontre.terrainId == undefined){
+    //S'il s'agit d'un championnat ETE, on va switcher les terrains
+    if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_ETE.code){
       if (rencontre.rencontre.equipeVisites.terrain){
           rencontre.rencontre.terrain = rencontre.rencontre.equipeVisites.terrain;
           rencontre.terrainId = rencontre.rencontre.equipeVisites.terrain.id;

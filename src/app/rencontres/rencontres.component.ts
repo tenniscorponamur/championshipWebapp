@@ -475,11 +475,13 @@ export class InterserieDialog implements OnInit {
     let oldEquipeVisites = rencontre.equipeVisites;
     rencontre.equipeVisites = rencontre.equipeVisiteurs;
     rencontre.equipeVisiteurs = oldEquipeVisites;
-
-    if (rencontre.equipeVisites.terrain){
-        this.terrainId = rencontre.equipeVisites.terrain.id;
-    }else{
-        this.terrainId = null;
+    //S'il s'agit d'un championnat ETE, on va switcher les terrains
+    if (this._championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+      if (rencontre.equipeVisites.terrain){
+          this.terrainId = rencontre.equipeVisites.terrain.id;
+      }else{
+          this.terrainId = null;
+      }
     }
   }
 
