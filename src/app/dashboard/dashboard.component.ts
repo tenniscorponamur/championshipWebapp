@@ -28,11 +28,32 @@ export class DashboardComponent implements OnInit {
   chargementCompteursMembres:boolean=true;
   chargementCompteursClubs:boolean=true;
 
+  public lineChartData:Array<any> = [];
+  public lineChartLabels:Array<any> = ['Eté 2018', 'Hiver 2018/2019', 'Eté 2019'];
+  public lineChartType:string = 'bar';
+  lineChartOptions = {
+      scales: {
+          yAxes: [{
+                  display: true,
+                  ticks: {
+                      beginAtZero: true,
+                      steps: 10,
+                      stepValue: 5,
+                      max: 100
+                  }
+              }]
+      }
+  };
+
   constructor(private membreService:MembreService, private clubService:ClubService) { }
 
   ngOnInit() {
       this.membreService.getMembres(null).subscribe(membres => {this.membres=membres;this.initCompteursMembres();this.chargementCompteursMembres=false;});
       this.clubService.getClubs().subscribe(clubs => {this.clubs = clubs; this.initCompteurslubs();this.chargementCompteursClubs=false;});
+
+      this.lineChartData.push({data:[34,25,35],label:'Dames'});
+      this.lineChartData.push({data:[50,44,65],label:'Messieurs'});
+
   }
 
   initCompteursMembres(){
@@ -74,26 +95,7 @@ export class DashboardComponent implements OnInit {
         }
     });
   }
-  
-  // lineChart
-  public lineChartData:Array<any> = [
-    [65, 59, 80, 81, 56, 55, 40],
-    [28, 48, 40, 19, 86, 27, 90]
-  ];
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChartType:string = 'bar';
-  public pieChartType:string = 'pie';
-  public lineChartOptions = {};
- 
-  // Pie
-  public pieChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail Sales'];
-  public pieChartData:number[] = [300, 500, 100];
- 
-  public randomizeType():void {
-    this.lineChartType = this.lineChartType === 'line' ? 'bar' : 'line';
-    this.pieChartType = this.pieChartType === 'doughnut' ? 'pie' : 'doughnut';
-  }
- 
+
   public chartClicked(e:any):void {
     console.log(e);
   }
