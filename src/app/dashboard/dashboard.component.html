@@ -136,16 +136,13 @@
 
 <div class="row">
   <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6"  style="background-color: white;padding:10px;">
-
-    <h4>Nombre d'équipes inscrites</h4>
-
     <canvas baseChart
+            *ngIf="showGraph"
             [datasets]="lineChartData"
             [labels]="lineChartLabels"
             [options]="lineChartOptions"
             [chartType]="lineChartType"
             (chartHover)="chartHovered($event)"
             (chartClick)="chartClicked($event)"></canvas>
-
   </div>
 </div>
