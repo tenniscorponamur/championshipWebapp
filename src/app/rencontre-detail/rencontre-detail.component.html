@@ -123,10 +123,10 @@
           <div class="myBoxContent">
             <div class="row">
               <div class="col-12" >
-                {{rencontre.equipeVisites.codeAlphabetique}} : <a class="captainLink" (click)="redirectToMember(rencontre.equipeVisites.capitaine);" >{{rencontre.equipeVisites.capitaine.nom}} {{rencontre.equipeVisites.capitaine.prenom}}</a>
+                {{rencontre.equipeVisites.codeAlphabetique}} : <a *ngIf="rencontre.equipeVisites.capitaine" class="captainLink" (click)="redirectToMember(rencontre.equipeVisites.capitaine);" >{{rencontre.equipeVisites.capitaine.nom}} {{rencontre.equipeVisites.capitaine.prenom}}</a>
               </div>
               <div class="col-12" >
-                {{rencontre.equipeVisiteurs.codeAlphabetique}} : <a class="captainLink" (click)="redirectToMember(rencontre.equipeVisiteurs.capitaine);" >{{rencontre.equipeVisiteurs.capitaine.nom}} {{rencontre.equipeVisiteurs.capitaine.prenom}}</a>
+                {{rencontre.equipeVisiteurs.codeAlphabetique}} : <a *ngIf="rencontre.equipeVisiteurs.capitaine" class="captainLink" (click)="redirectToMember(rencontre.equipeVisiteurs.capitaine);" >{{rencontre.equipeVisiteurs.capitaine.nom}} {{rencontre.equipeVisiteurs.capitaine.prenom}}</a>
               </div>
             </div>
           </div>
