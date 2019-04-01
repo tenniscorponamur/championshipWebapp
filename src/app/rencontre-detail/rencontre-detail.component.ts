@@ -471,9 +471,6 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {
-                console.log("Membre : " + membre);
-                console.log("Membre : " + (membre!==undefined));
-                console.log("Membre : " + (membre!==null));
                 if (membre!==undefined) {
                     if (indexEquipe == 1) {
                         if (indexJoueurEquipe == 1) {
