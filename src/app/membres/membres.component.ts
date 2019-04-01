@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgClass, DatePipe } from '@angular/common';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
@@ -69,7 +70,9 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
     chargementMembres:boolean=true;
 
-  constructor(public media: RxResponsiveService,
+  constructor(
+    private route: ActivatedRoute,
+    public media: RxResponsiveService,
     private membreService:MembreService,
     private clubService:ClubService,
     private authenticationService: AuthenticationService,
@@ -82,7 +85,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   ngOnInit() {
       this.clubService.getClubs().subscribe(clubs => this.clubs = clubs.sort((a, b) => compare(a.nom, b.nom,true)));
       this.classementMembreService.getEchellesCorpo().subscribe(echellesCorpo => this.echellesCorpo = echellesCorpo);
-      this.membreService.getMembres(null).subscribe(membres => {this.chargementMembres=false;this.sortedMembers = membres; this.sortData(this.actualSort);});
+      this.membreService.getMembres(null).subscribe(membres => {this.chargementMembres=false;this.sortedMembers = membres; this.sortData(this.actualSort); this.selectMemberFromParam();});
   }
 
   isAdminConnected(){
@@ -109,6 +112,17 @@ export class MembresComponent implements OnInit, AfterViewInit {
         });
     }
     this.filtre();
+  }
+
+  selectMemberFromParam(){
+    this.route.queryParams
+      .filter(params => params.memberId)
+      .subscribe(params => {
+        if (params.memberId!=null) {
+          console.log(params.memberId);
+          this.selectedMember = this.filteredMembers.find(membre => membre.id == params.memberId);
+        }
+      });
   }
 
     isOtherCriterias(){

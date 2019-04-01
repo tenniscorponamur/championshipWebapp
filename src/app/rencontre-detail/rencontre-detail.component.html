@@ -45,9 +45,9 @@
                   </strong>
                   </div>
                   <div class="col-lg-4 col-md-12" style="margin:auto;">
-                  <strong>
-                    <span style="font-size:1.2em;">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>
-                  </strong>
+                    <strong>
+                      <span style="font-size:1.2em;">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>
+                    </strong>
                   </div>
               </div>
               <div>
@@ -91,7 +91,7 @@
       </div>
     </div>
 
-    <div class="row">
+  <div class="row">
     <div class="col-12">
       <div [ngClass]="boxClass">
         <div class="myBoxTitle" (click)="ouvrirDateTerrain();" >
@@ -113,6 +113,26 @@
       </div>
     </div>
   </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle"  >
+            Capitaines
+          </div>
+          <div class="myBoxContent">
+            <div class="row">
+              <div class="col-12" >
+                {{rencontre.equipeVisites.codeAlphabetique}} : <a class="captainLink" (click)="redirectToMember(rencontre.equipeVisites.capitaine);" >{{rencontre.equipeVisites.capitaine.nom}} {{rencontre.equipeVisites.capitaine.prenom}}</a>
+              </div>
+              <div class="col-12" >
+                {{rencontre.equipeVisiteurs.codeAlphabetique}} : <a class="captainLink" (click)="redirectToMember(rencontre.equipeVisiteurs.capitaine);" >{{rencontre.equipeVisiteurs.capitaine.nom}} {{rencontre.equipeVisiteurs.capitaine.prenom}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="row" *ngIf="canAuthoriseEncodage || canAuthoriseValidation">
       <div class="col-12">

@@ -2,6 +2,12 @@
   font-weight:bold;
 }
 
+.captainLink{
+  cursor:pointer;
+  color:blue!important;
+  text-decoration:underline!important;
+}
+
 .joueur{
   margin:3px;
   cursor:default;

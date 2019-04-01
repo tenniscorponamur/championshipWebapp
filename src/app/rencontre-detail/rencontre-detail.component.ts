@@ -1,4 +1,5 @@
 import {Component, Inject, OnInit, Input} from '@angular/core';
+import { Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Rencontre, AutorisationRencontre, TYPE_AUTORISATION_ENCODAGE,TYPE_AUTORISATION_VALIDATION} from '../rencontre';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
@@ -36,7 +37,9 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     traces:Trace[]=[];
     private mapEquivalence;
 
-    constructor(public dialog: MatDialog,
+    constructor(
+        private router: Router,
+        public dialog: MatDialog,
         private rencontreService:RencontreService,
         private matchService: MatchService,
         private classementMembreService:ClassementMembreService,
@@ -75,6 +78,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     
     isAdminConnected(){
         return this.authenticationService.isAdminUserConnected();
+    }
+
+    redirectToMember(membre:Membre){
+        this.router.navigate(['/membres'], {queryParams : {memberId : membre.id} });
     }
 
     get boxClass(): string{
