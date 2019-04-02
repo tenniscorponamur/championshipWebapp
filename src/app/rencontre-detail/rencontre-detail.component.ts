@@ -81,7 +81,8 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     redirectToMember(membre:Membre){
-        this.router.navigate(['/membres'], {queryParams : {memberId : membre.id} });
+        window.open("./#/membres?memberId=" +membre.id);
+        //this.router.navigate(['/membres'], {queryParams : {memberId : membre.id} });
     }
 
     get boxClass(): string{
