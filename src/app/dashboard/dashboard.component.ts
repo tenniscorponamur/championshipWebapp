@@ -4,8 +4,10 @@ import { ClubService } from '../club.service';
 import { ChampionnatService } from '../championnat.service';
 import { Membre } from '../membre';
 import { Club } from '../club';
-import { Championnat } from '../championnat';
+import { Championnat, CategorieChampionnat, getTypeChampionnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES } from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
+import {DivisionService} from '../division.service';
+import {EquipeService} from '../equipe.service';
 import {compare} from '../utility';
 
 @Component({
@@ -31,12 +33,13 @@ export class DashboardComponent implements OnInit {
   chargementCompteursMembres:boolean=true;
   chargementCompteursClubs:boolean=true;
 
-  private MAX_CHAMPIONNATS = 2;
+  private MAX_CHAMPIONNATS = 4;
 
   public showGraph:boolean=false;
   public lineChartData:Array<any> = [];
   public lineChartLabels:Array<any> = [];
   public lineChartType:string = 'bar';
+
   lineChartOptions = {
       scales: {
           yAxes: [{
@@ -45,7 +48,7 @@ export class DashboardComponent implements OnInit {
                       beginAtZero: true,
                       steps: 10,
                       stepValue: 5,
-                      max: 100
+                      max: 60
                   }
               }]
       },
@@ -57,6 +60,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(private membreService:MembreService,
               private clubService:ClubService,
+              private divisionService: DivisionService,
+              private equipeService: EquipeService,
               private championnatService:ChampionnatService) { }
 
   ngOnInit() {
@@ -68,27 +73,84 @@ export class DashboardComponent implements OnInit {
 
   initTeamsChart(){
       this.championnatService.getChampionnats().subscribe(championnats => {
+
+        championnats = championnats.filter(championnat => championnat.type == TYPE_CHAMPIONNAT_HIVER.code || championnat.type == TYPE_CHAMPIONNAT_ETE.code);
+
         championnats.sort((a,b) => compare(a.id,b.id,false));
 
-        let selectedChampionnats = [];
         for (var _i = 0; _i < Math.min(championnats.length,this.MAX_CHAMPIONNATS); _i++) {
             var championnat = championnats[_i];
-            selectedChampionnats.push(championnat);
+            this.selectedChampionnats.push(championnat);
         }
-        selectedChampionnats.reverse();
-        selectedChampionnats.forEach(championnat => {
+        this.selectedChampionnats.reverse();
+
+        this.selectedChampionnats.forEach(championnat => {
+          let periode = this.lineChartLabels.find(periode => periode == (getTypeChampionnat(championnat).libelle + " " + championnat.annee));
+          if (periode==null){
+            this.lineChartLabels.push((getTypeChampionnat(championnat).libelle + " " + championnat.annee));
+          }
+        });
+
+        this.selectedChampionnats.forEach(championnat => {
           this.loadTeams(championnat);
-          this.showGraph = true;
         });
 
       });
 
   }
 
+  private selectedChampionnats:Championnat[] = [];
+  private teamsInChampionnat=new Map();
+
   loadTeams(championnat:Championnat){
-      this.lineChartLabels = ['Eté 2018', 'Hiver 2018/2019', 'Eté 2019'];
-      this.lineChartData.push({data:[34,25,35],label:'Dames'});
-      this.lineChartData.push({data:[50,44,65],label:'Messieurs'});
+      this.divisionService.getDivisions(championnat.id).subscribe(
+          divisions => {
+              divisions.forEach(division => {
+                  this.equipeService.getEquipes(division.id, null).subscribe(equipes => {
+                      let nbEquipes = this.teamsInChampionnat.get(championnat.id);
+                      if (nbEquipes==null){
+                        nbEquipes = 0;
+                      }
+                      this.teamsInChampionnat.set(championnat.id, nbEquipes + equipes.length);
+                      this.updateTeamGraph();
+                  });
+              });
+          }
+      );
+
+      //this.lineChartLabels = ['Eté 2018', 'Hiver 2018/2019', 'Eté 2019'];
+      //this.lineChartData.push({data:[34,25,35],label:'Dames'});
+      //this.lineChartData.push({data:[50,44,65],label:'Messieurs'});
+  }
+
+  updateTeamGraph(){
+      this.lineChartData = [];
+
+      // Dames
+      this.lineChartData.push({data:this.loadData(CATEGORIE_CHAMPIONNAT_DAMES),label:'Dames'});
+
+      // Messieurs
+      this.lineChartData.push({data:this.loadData(CATEGORIE_CHAMPIONNAT_MESSIEURS),label:'Messieurs'});
+
+      this.showGraph = true;
+  }
+
+  loadData(categorieChampionnat : CategorieChampionnat):number[]{
+      let data = [];
+      this.lineChartLabels.forEach(chartLabel => {
+        let selectedChampionnat = this.selectedChampionnats.find(championnat => (getTypeChampionnat(championnat).libelle + " " + championnat.annee == chartLabel) && (championnat.categorie == categorieChampionnat.code));
+        if (selectedChampionnat!=null){
+          let nbEquipes = this.teamsInChampionnat.get(selectedChampionnat.id);
+          if (nbEquipes!=null){
+            data.push(nbEquipes);
+          }else{
+            data.push(0);
+          }
+        }else{
+          data.push(0);
+        }
+      });
+      return data;
   }
 
   initCompteursMembres(){
