@@ -60,7 +60,7 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 import { ChampionnatsComponent } from './championnats/championnats.component';
 import { ChampionnatEquipesComponent, SelectionClubDialog } from './championnat-equipes/championnat-equipes.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent, MembreListingDialog } from './dashboard/dashboard.component';
 import { ChampionnatDivisionsComponent } from './championnat-divisions/championnat-divisions.component';
 import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from './championnat-division-detail/championnat-division-detail.component';
 import {DivisionService} from './division.service';
@@ -129,6 +129,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
     ChampionnatEquipesComponent,
     SelectionClubDialog,
     DashboardComponent,
+    MembreListingDialog,
     ChampionnatDivisionsComponent,
     ChampionnatDivisionDetailComponent,
     ChampionnatPoulesComponent,
@@ -195,6 +196,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
       ClubTerrainDialog,
       UserDialog,
       SelectionClubDialog,
+      MembreListingDialog,
       ChampionnatDescriptionDialog,
       ChangePouleDialog,
       EquipeTerrainDialog,

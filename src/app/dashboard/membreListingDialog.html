@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Membres concernés<span style="float:right;"><button class="close" (click)="fermerSelection();">&nbsp;&times;</button></span></h1>
+<div class="membreList">
+  <div *ngFor="let membre of membres" class="membreDiv" (click)="openMembre(membre);">
+    <strong>{{membre.nom}}  {{membre.prenom}}</strong>
+  </div>
+</div>

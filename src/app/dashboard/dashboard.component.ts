@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MembreService } from '../membre.service';
 import { ClubService } from '../club.service';
 import { ChampionnatService } from '../championnat.service';
@@ -9,6 +9,7 @@ import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import {DivisionService} from '../division.service';
 import {EquipeService} from '../equipe.service';
 import {compare} from '../utility';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-dashboard',
@@ -62,7 +63,8 @@ export class DashboardComponent implements OnInit {
               private clubService:ClubService,
               private divisionService: DivisionService,
               private equipeService: EquipeService,
-              private championnatService:ChampionnatService) { }
+              private championnatService:ChampionnatService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
       this.membreService.getMembres(null).subscribe(membres => {this.membres=membres;this.initCompteursMembres();this.chargementCompteursMembres=false;});
@@ -199,6 +201,46 @@ export class DashboardComponent implements OnInit {
  
   public chartHovered(e:any):void {
     console.log(e);
+  }
+
+  openMembres(membres:Membre[]){
+      if (membres.length>0){
+        let membreListingDialogRef = this.dialog.open(MembreListingDialog, {
+          data: { membres: this.membres }, panelClass: "membreListingDialog", disableClose:false
+        });
+      }
+  }
+
+}
+
+
+@Component({
+  selector: 'membre-listing-dialog',
+  templateUrl: './membreListingDialog.html',
+  styleUrls: ['./membreListingDialog.css']
+})
+export class MembreListingDialog implements OnInit {
+
+  membres:Membre[]=[];
+
+  constructor(
+    public dialogRef: MatDialogRef<MembreListingDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+      this.membres = data.membres;
+    }
+
+
+  ngOnInit() {
+  }
+
+    fermerSelection(){
+       this.dialogRef.close();
+    }
+
+  openMembre(membre:Membre){
+    window.open("./#/membres?memberId=" +membre.id);
+    //this.router.navigate(['/membres'], {queryParams : {memberId : membre.id} });
   }
 
 }
