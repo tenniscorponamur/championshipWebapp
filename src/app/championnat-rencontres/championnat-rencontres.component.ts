@@ -164,7 +164,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     }
 
     creerCalendrier(){
-
+        this.chargementRencontres = true;
         if (this.selectedChampionnat) {
             this.rencontreService.creerCalendrier(this.selectedChampionnat.id).subscribe(rencontres => {
                 this.divisions.forEach(divisionExtended => {
@@ -174,12 +174,14 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                   });
                 });
                 this.refreshStateBooleans();
+                this.chargementRencontres = false;
             })
         }
 
     }
 
     rafraichirCalendrier(){
+        this.chargementRencontres = true;
         if (this.selectedChampionnat) {
           this.rencontreService.refreshCalendrier(this.selectedChampionnat.id).subscribe(rencontres => {
                 this.nbRencontres=0;
@@ -192,6 +194,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
                 });
                 this.selectedChampionnat.calendrierARafraichir=false;
                 this.refreshStateBooleans();
+                this.chargementRencontres = false;
             })
         }
     }
