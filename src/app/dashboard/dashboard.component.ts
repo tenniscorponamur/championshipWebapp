@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
               public dialog: MatDialog) { }
 
   ngOnInit() {
-      this.membreService.getMembres(null).subscribe(membres => {this.membres=membres;this.initCompteursMembres();this.chargementCompteursMembres=false;});
+      this.membreService.getMembres(null).subscribe(membres => {this.membres=membres.sort((a,b) => compare(a.nom,b.nom,true));this.initCompteursMembres();this.chargementCompteursMembres=false;});
       this.clubService.getClubs().subscribe(clubs => {this.clubs = clubs; this.initCompteurslubs();this.chargementCompteursClubs=false;});
 
       this.initTeamsChart();
@@ -206,7 +206,7 @@ export class DashboardComponent implements OnInit {
   openMembres(membres:Membre[]){
       if (membres.length>0){
         let membreListingDialogRef = this.dialog.open(MembreListingDialog, {
-          data: { membres: this.membres }, panelClass: "membreListingDialog", disableClose:false
+          data: { membres: membres }, panelClass: "membreListingDialog", disableClose:false
         });
       }
   }
