@@ -71,8 +71,23 @@ export class MembreDetailComponent implements OnInit {
 
   get membre(): Membre { return this._membre; }
 
+  isUserConnected(){
+      return this.authenticationService.isConnected();
+  }
+
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
+  }
+
+  isContactsVisibles(){
+    if (this.isPrivateInformationsAccessibles()){
+      return true;
+    }else{
+      if (this.isUserConnected()){
+        return this._membre.capitaine || this._membre.responsableClub;
+      }
+    }
+
   }
 
   isPrivateInformationsAccessibles(){
