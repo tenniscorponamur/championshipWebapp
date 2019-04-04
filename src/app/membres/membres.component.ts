@@ -107,6 +107,11 @@ export class MembresComponent implements OnInit, AfterViewInit {
             case 'nom': return compare(a.nom, b.nom, isAsc);
             case 'prenom': return compare(a.prenom, b.prenom, isAsc);
             //case 'club': return compare(a.club.nom, b.club.nom, isAsc);
+            case 'pointsCorpo': {
+              let pointsA = (a.classementCorpoActuel!=null)?a.classementCorpoActuel.points:null;
+              let pointsB = (b.classementCorpoActuel!=null)?b.classementCorpoActuel.points:null;
+              return compare(pointsA, pointsB, isAsc);
+            }
             default: return 0;
           }
         });
