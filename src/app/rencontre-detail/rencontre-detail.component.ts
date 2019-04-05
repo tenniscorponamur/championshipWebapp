@@ -468,7 +468,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             let championnatHomme:boolean = this.isChampionnatHomme();
 
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, anyMemberPossible:anyMemberPossible, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, anyMemberPossible:anyMemberPossible, triParPoints:true, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {

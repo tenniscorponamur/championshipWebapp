@@ -28,6 +28,7 @@ export class MembreSelectionComponent implements OnInit {
     filtreNomPrenom:string;
     filtreGenre:string;
     deselectionPossible:boolean=false;
+    triParPoints:boolean=false;
 
   constructor(public dialogRef: MatDialogRef<MembreSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -39,6 +40,7 @@ export class MembreSelectionComponent implements OnInit {
         this.filtreGenre = data.genre;
         this.championnatHomme = data.championnatHomme;
         this.deselectionPossible = data.deselectionPossible;
+        this.triParPoints = data.triParPoints;
       }
 
   ngOnInit() {
@@ -106,7 +108,16 @@ export class MembreSelectionComponent implements OnInit {
               });
       }
 
-      this.filteredMembres = this.filteredMembres.sort((a,b) => compare(a.nom,b.nom,true));
+      if (this.triParPoints){
+        this.filteredMembres = this.filteredMembres.sort((a,b) => {
+          let pointsA = (a.classementCorpoActuel!=null)?a.classementCorpoActuel.points:null;
+          let pointsB = (b.classementCorpoActuel!=null)?b.classementCorpoActuel.points:null;
+          return compare(pointsA, pointsB, false);
+          }
+        );
+      }else{
+        this.filteredMembres = this.filteredMembres.sort((a,b) => compare(a.nom,b.nom,true));
+      }
 
   }
 
