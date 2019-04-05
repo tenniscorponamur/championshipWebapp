@@ -21,11 +21,13 @@ export class DashboardComponent implements OnInit {
   private membres:Membre[]=[];
   private clubs:Club[]=[];
 
-  membreSansClubsActifs:Membre[]=[];
-  membreSansLocalite:Membre[]=[];
-  membreSansClassement:Membre[]=[];
+  membresInactifs:Membre[]=[];
+  membresSansClubsActifs:Membre[]=[];
+  membresSansLocalite:Membre[]=[];
+  membresSansClassement:Membre[]=[];
   nbClubsActifs:number=0;
   nbMembresActifs:number=0;
+  nbMembresInactifs:number=0;
   nbDamesActives:number=0;
   nbMessieursActifs:number=0;
   nbMembresSansClubAFT:number=0;
@@ -170,19 +172,22 @@ export class DashboardComponent implements OnInit {
 
           if (membre.numeroClubAft==null || membre.onlyCorpo==true){
             this.nbMembresSansClubAFT++;
-            this.membreSansClubsActifs.push(membre);
+            this.membresSansClubsActifs.push(membre);
           }
 
           if (membre.localite==null){
             this.nbMembresSansLocalite++;
-            this.membreSansLocalite.push(membre);
+            this.membresSansLocalite.push(membre);
           }
 
           if (membre.classementCorpoActuel==null){
             this.nbMembresSansClassement++;
-            this.membreSansClassement.push(membre);
+            this.membresSansClassement.push(membre);
           }
 
+        }else{
+          this.nbMembresInactifs++;
+          this.membresInactifs.push(membre);
         }
     });
   }
