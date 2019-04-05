@@ -31,6 +31,12 @@ export class MembreService {
     return this.http.get(this.environmentService.getPublicApiUrl() + "/membres/listeForce",options);
   }
 
+  getListeForcePoints(){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(this.environmentService.getPublicApiUrl() + "/membres/listeForcePoints",options);
+  }
+
   getExportMembres(){
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";

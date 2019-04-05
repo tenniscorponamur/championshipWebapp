@@ -100,12 +100,21 @@
 
                 <div class="col-12">
                     <div>
-                        <a class="documentLink" (click)="getListeForces();">Liste de forces</a>
+                        <a class="documentLink" (click)="getListeForces();">Liste de forces (tri par nom)</a>
                     </div>
                     <div *ngIf="preparationListeForce">
                         <small>Préparation du fichier en cours...</small>
                     </div>
                 </div>
+
+              <div class="col-12">
+                <div>
+                  <a class="documentLink" (click)="getListeForcesPoints();">Liste de forces (tri par points)</a>
+                </div>
+                <div *ngIf="preparationListeForcePoints">
+                  <small>Préparation du fichier en cours...</small>
+                </div>
+              </div>
 
                 <div class="col-12">
                     <div>

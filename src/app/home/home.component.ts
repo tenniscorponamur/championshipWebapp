@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
     lastResults:Rencontre[]=[];
     nextMeetings:Rencontre[]=[];
     preparationListeForce:boolean=false;
+    preparationListeForcePoints:boolean=false;
     chargementDerniersResultats:boolean=true;
     chargementProchainesRencontres:boolean=true;
 
@@ -58,6 +59,15 @@ export class HomeComponent implements OnInit {
       this.preparationListeForce = true;
       this.membreService.getListeForce().subscribe(result => {
           this.preparationListeForce = false;
+          saveAs(result, "listeForces.pdf");
+      //var fileURL = URL.createObjectURL(result);window.open(fileURL);
+    },error => {console.log(error);});
+  }
+
+  getListeForcesPoints(){
+      this.preparationListeForcePoints = true;
+      this.membreService.getListeForcePoints().subscribe(result => {
+          this.preparationListeForcePoints = false;
           saveAs(result, "listeForces.pdf");
       //var fileURL = URL.createObjectURL(result);window.open(fileURL);
     },error => {console.log(error);});
