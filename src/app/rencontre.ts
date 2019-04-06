@@ -17,6 +17,7 @@ export class Rencontre {
   pointsVisites:number;
   pointsVisiteurs:number;
   informationsInterserie:string;
+  finaleInterserie:boolean;
   commentairesEncodeur:string;
   resultatsEncodes:boolean;
   valide:boolean;
