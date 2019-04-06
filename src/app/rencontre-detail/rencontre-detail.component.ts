@@ -61,6 +61,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     isResultatsRencontreModifiables:boolean=false;
     isResultatsCloturables:boolean=false;
     isPoursuiteEncodagePossible:boolean=false;
+    isEtatValidable:boolean=false;
     isValidable:boolean=false;
 
     @Input()
@@ -390,6 +391,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             this.rencontreService.isResultatsRencontreModifiables(this.rencontre).subscribe(result => this.isResultatsRencontreModifiables = result);
             this.rencontreService.isResultatsCloturables(this.rencontre).subscribe(result => this.isResultatsCloturables = result);
             this.rencontreService.isPoursuiteEncodagePossible(this.rencontre).subscribe(result => this.isPoursuiteEncodagePossible = result);
+            this.rencontreService.isEtatValidable(this.rencontre).subscribe(result => this.isEtatValidable = result);
             this.rencontreService.isValidable(this.rencontre).subscribe(result => this.isValidable = result);
             this.traceService.getTraces("rencontre", this.rencontre.id.toString()).subscribe(traces => this.traces = traces);
             this.rencontreService.getAutorisations(this.rencontre).subscribe(autorisations => {
@@ -422,6 +424,38 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             
         }
             
+    }
+
+    validationParAdversaire(){
+
+      let membresSelectionnables:Membre[]=[];
+
+      if (this.rencontre.equipeVisiteurs.capitaine){
+        membresSelectionnables.push(this.rencontre.equipeVisiteurs.capitaine);
+      }
+      this.getAutorisationsValidation().forEach(authorization => membresSelectionnables.push(authorization.membre));
+
+      let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+          data: { membresSelectionnables : membresSelectionnables}, panelClass: "membreSelectionDialog", disableClose: false
+      });
+
+      membreSelectionRef.afterClosed().subscribe(membre => {
+          if (membre!==undefined) {
+
+            let askPasswordToValidateRef = this.dialog.open(AskPasswordToValidateDialog, {
+                data: { rencontre:this.rencontre , membre : membre}, panelClass: "askPasswordToValidateDialog", disableClose: false
+            });
+
+
+            askPasswordToValidateRef.afterClosed().subscribe(validity => {
+              if (validity){
+                this.rencontre.valide = true; this.refreshBooleansAndTracesAndAutorisations();
+              }
+            });
+
+          }
+        });
+
     }
 
     setValidite(validite:boolean){
@@ -641,6 +675,49 @@ class MatchExtended {
 
     match: Match;
     sets: Set[] = [];
+
+}
+
+@Component({
+    selector: 'ask-password-to-validate-dialog',
+    templateUrl: './askPasswordToValidateDialog.html'
+})
+export class AskPasswordToValidateDialog implements OnInit {
+
+  private rencontre:Rencontre;
+  private membre:Membre;
+  showFailure:boolean=false;
+  password:string;
+
+  constructor(
+      private rencontreService: RencontreService,
+      public dialogRef: MatDialogRef<DateTerrainDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.rencontre=data.rencontre;
+        this.membre=data.membre;
+      }
+
+  ngOnInit() {
+  }
+
+  validate(){
+
+        this.rencontreService.updateValiditeRencontreParAdversaire(this.rencontre, this.membre, this.password).subscribe(validity => {
+            if (validity){
+              this.dialogRef.close(true);
+            }else{
+              this.showFailure=true;
+            }
+        },error=> {
+          console.log(error);
+          this.showFailure=true;
+        });
+
+  }
+
+  cancel(): void {
+      this.dialogRef.close();
+  }
 
 }
 

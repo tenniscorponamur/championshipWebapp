@@ -43,6 +43,7 @@ export class AlertesService {
   clear(){
     this.loaded = false;
     this.rencontresACompleter = [];
+    this.rencontresAValider = [];
   }
 
 }

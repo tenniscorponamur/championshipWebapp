@@ -6,6 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Rencontre, AutorisationRencontre} from './rencontre';
+import {Membre} from './membre';
 import {formatDate} from './utility';
 import {EnvironmentService} from './environment.service';
 
@@ -54,6 +55,10 @@ export class RencontreService {
         return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isPoursuiteEncodagePossible", this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    isEtatValidable(rencontre:Rencontre) {
+        return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isEtatValidable", this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     isValidable(rencontre:Rencontre) {
         return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isValidable", this.authenticationService.getPrivateApiHttpOptions());
     }
@@ -80,6 +85,10 @@ export class RencontreService {
 
     updateValiditeRencontre(rencontre:Rencontre, validite:boolean, message:string){
         return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/validite?validite=" + validite, message, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    updateValiditeRencontreParAdversaire(rencontre:Rencontre, adversaire:Membre, password:string){
+        return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/validiteParAdversaire?adversaireId=" + adversaire.id, password , this.authenticationService.getPrivateApiHttpOptions());
     }
 
     getAutorisations(rencontre:Rencontre): Observable<AutorisationRencontre[]> {

@@ -23,6 +23,7 @@ export class MembreSelectionComponent implements OnInit {
 
     anyMemberPossible:boolean=false;
     chargementMembres:boolean=true;
+    membresSelectionnables:Membre[]=[];
     membres:Membre[]=[];
     filteredMembres:Membre[]=[];
     filtreNomPrenom:string;
@@ -34,6 +35,7 @@ export class MembreSelectionComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private membreService:MembreService,
     private classementMembreService:ClassementMembreService) {
+        this.membresSelectionnables = data.membresSelectionnables;
         this.club = data.club;
         this.anyMemberPossible=data.anyMemberPossible;
         this.capitaine = data.capitaine;
@@ -48,8 +50,18 @@ export class MembreSelectionComponent implements OnInit {
       if (this.club){
         clubId = this.club.id;
       }
-      this.membreService.getMembres(clubId).subscribe(membres => {this.membres = membres; this.filtre();this.chargementMembres=false;});
       this.classementMembreService.correspondanceEchelleCorpo().subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
+      if (this.membresSelectionnables){
+        this.loadMembers(this.membresSelectionnables);
+      }else{
+        this.membreService.getMembres(clubId).subscribe(membres => this.loadMembers(membres));
+      }
+  }
+
+  loadMembers(membres:Membre[]){
+    this.membres = membres;
+    this.filtre();
+    this.chargementMembres=false;
   }
 
   selectAll(){
