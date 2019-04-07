@@ -590,35 +590,58 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     
     addAutorisation(type:string, club:Club){
         if (this.isUserConnected()){
-            let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club}, panelClass: "membreSelectionDialog", disableClose: false
+
+            let allOrOnlyOneRef = this.dialog.open(AllOrOnlyOneDialog, {
+                data: {}, panelClass: "allOrOnlyOneDialog", disableClose: false
             });
 
-            membreSelectionRef.afterClosed().subscribe(membre => {
-                if (membre) {
-                    let autorisationRencontre: AutorisationRencontre = new AutorisationRencontre();
-                    autorisationRencontre.rencontreFk = this.rencontre.id;
-                    autorisationRencontre.type=type;
-                    autorisationRencontre.membre=membre;
-                    this.rencontreService.addAutorisationRencontre(autorisationRencontre).subscribe(autorisation => {
-                        this.autorisations.push(autorisation);
-                        this.autorisations.sort((a, b) => compare(a.membre.nom, b.membre.nom,true));
-                    });
-                }
+            allOrOnlyOneRef.afterClosed().subscribe(onlyOne => {
+              if (onlyOne != undefined){
+
+                let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+                    data: {club: club}, panelClass: "membreSelectionDialog", disableClose: false
+                });
+
+                membreSelectionRef.afterClosed().subscribe(membre => {
+                    if (membre) {
+                        let autorisationRencontre: AutorisationRencontre = new AutorisationRencontre();
+                        autorisationRencontre.rencontreFk = this.rencontre.id;
+                        autorisationRencontre.type=type;
+                        autorisationRencontre.membre=membre;
+                        this.rencontreService.addAutorisationRencontre(autorisationRencontre,!onlyOne).subscribe(autorisation => {
+                            this.autorisations.push(autorisation);
+                            this.autorisations.sort((a, b) => compare(a.membre.nom, b.membre.nom,true));
+                        });
+                    }
+                });
+              }
             });
+
         }
     }
     
     deleteAutorisation(autorisationRencontre:AutorisationRencontre){
         if (this.isUserConnected()){
-            this.rencontreService.deleteAutorisationRencontre(autorisationRencontre).subscribe(result => {
-               if (result){
-                    let index = this.autorisations.findIndex(autorisation => autorisation.id == autorisationRencontre.id);
-                    if (index!=-1){
-                        this.autorisations.splice(index,1);
-                    }
-               } 
+
+            let allOrOnlyOneRef = this.dialog.open(AllOrOnlyOneDialog, {
+                data: {}, panelClass: "allOrOnlyOneDialog", disableClose: false
             });
+
+            allOrOnlyOneRef.afterClosed().subscribe(onlyOne => {
+              if (onlyOne != undefined){
+
+                this.rencontreService.deleteAutorisationRencontre(autorisationRencontre,!onlyOne).subscribe(result => {
+                   if (result){
+                        let index = this.autorisations.findIndex(autorisation => autorisation.id == autorisationRencontre.id);
+                        if (index!=-1){
+                            this.autorisations.splice(index,1);
+                        }
+                   }
+                });
+
+              }
+            });
+
         }
     }
 
@@ -691,7 +714,7 @@ export class AskPasswordToValidateDialog implements OnInit {
 
   constructor(
       private rencontreService: RencontreService,
-      public dialogRef: MatDialogRef<DateTerrainDialog>,
+      public dialogRef: MatDialogRef<AskPasswordToValidateDialog>,
       @Inject(MAT_DIALOG_DATA) public data: any) {
         this.rencontre=data.rencontre;
         this.membre=data.membre;
@@ -713,6 +736,30 @@ export class AskPasswordToValidateDialog implements OnInit {
           this.showFailure=true;
         });
 
+  }
+
+  cancel(): void {
+      this.dialogRef.close();
+  }
+
+}
+
+@Component({
+    selector: 'all-or-only-one-dialog',
+    templateUrl: './allOrOnlyOneDialog.html'
+})
+export class AllOrOnlyOneDialog implements OnInit {
+
+  constructor(
+      public dialogRef: MatDialogRef<AllOrOnlyOneDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+      }
+
+  ngOnInit() {
+  }
+
+  selectOnlyOne(onlyOny:boolean){
+      this.dialogRef.close(onlyOny);
   }
 
   cancel(): void {

@@ -103,12 +103,12 @@ export class RencontreService {
         return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/canAuthoriseValidation", this.authenticationService.getPrivateApiHttpOptions());
     }
 
-    addAutorisationRencontre(autorisationRencontre:AutorisationRencontre){
-        return this.http.post<AutorisationRencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation", autorisationRencontre, this.authenticationService.getPrivateApiHttpOptions());
+    addAutorisationRencontre(autorisationRencontre:AutorisationRencontre,allOthersOfTheTeam:boolean){
+        return this.http.post<AutorisationRencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation?allOthersOfTheTeam="+allOthersOfTheTeam, autorisationRencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
 
-    deleteAutorisationRencontre(autorisationRencontre:AutorisationRencontre){
-        return this.http.delete<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation?autorisationRencontreId=" + autorisationRencontre.id, this.authenticationService.getPrivateApiHttpOptions());
+    deleteAutorisationRencontre(autorisationRencontre:AutorisationRencontre,allOthersOfTheTeam:boolean){
+        return this.http.delete<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + autorisationRencontre.rencontreFk + "/autorisation?autorisationRencontreId=" + autorisationRencontre.id+"&allOthersOfTheTeam="+allOthersOfTheTeam, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     creerCalendrier(championnatId: number){
