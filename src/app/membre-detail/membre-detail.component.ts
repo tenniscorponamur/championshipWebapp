@@ -41,7 +41,16 @@ export class MembreDetailComponent implements OnInit {
   public lineChartData:Array<any> = [];
   public lineChartLabels:Array<any> = [];
   public lineChartType:string = 'line';
-  public lineChartOptions:any = {responsive: true};
+  public lineChartOptions:any = {scales: {
+                                   yAxes: [{
+                                           display: true,
+                                           ticks: {
+                                               beginAtZero: true,
+                                               steps: 10,
+                                               stepValue: 5
+                                           }
+                                       }]
+                               }};
 
 
   constructor(
@@ -356,7 +365,9 @@ export class InfosGeneralesMembreDialog {
         this._prenom = this._membre.prenom;
         this._nom = this._membre.nom;
         this._genre = this._membre.genre;
-        this._dateNaissance = this._membre.dateNaissance;
+        if (this._membre.dateNaissance){
+          this._dateNaissance = new Date(this._membre.dateNaissance);
+        }
 
 //        const [day, month, year]: string[] = "02/11/1982".split('/');
 //        this._dateNaissance = new Date();
@@ -470,9 +481,13 @@ export class ClubInfosDialog {
         if (this._membre.club==null){
           this._dateAffiliationCorpo = new Date();
         }else{
-          this._dateAffiliationCorpo = this._membre.dateAffiliationCorpo;
+          if (this._membre.dateAffiliationCorpo){
+            this._dateAffiliationCorpo = new Date(this._membre.dateAffiliationCorpo);
+          }
         }
-        this._dateDesaffiliationCorpo = this._membre.dateDesaffiliationCorpo;
+        if (this._membre.dateDesaffiliationCorpo){
+          this._dateDesaffiliationCorpo = new Date(this._membre.dateDesaffiliationCorpo);
+        }
         if (this._membre.club){
           this._clubId = this._membre.club.id;
         }
@@ -704,7 +719,9 @@ export class InfosAftDialog {
         this._membre = data.membre;
         this._numeroAft = this._membre.numeroAft;
         this._numeroClubAft = this._membre.numeroClubAft;
-        this._dateAffiliationAft = this._membre.dateAffiliationAft;
+        if (this._membre.dateAffiliationAft){
+          this._dateAffiliationAft = new Date(this._membre.dateAffiliationAft);
+        }
         this._onlyCorpo = this._membre.onlyCorpo;
     }
 
@@ -762,12 +779,18 @@ export class ClassementDialog implements OnInit {
   ngOnInit() {
         this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
             this.echellesCorpo = echelles;
-            this.classementMembreService.getClassementsCorpoByMembre(this.membre.id).subscribe(classementsCorpo => this.classementsCorpo = classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
+            this.classementMembreService.getClassementsCorpoByMembre(this.membre.id).subscribe(classementsCorpo => {
+              this.classementsCorpo = classementsCorpo.sort((a,b) => compare(a.dateClassement, b.dateClassement, false));
+              this.classementsCorpo.forEach(classementCorpo => classementCorpo.dateClassement = new Date(classementCorpo.dateClassement));
+            });
           });
 
         this.classementMembreService.getEchellesAFT().subscribe(echelles => {
             this.echellesAFT = echelles;
-            this.classementMembreService.getClassementsAFTByMembre(this.membre.id).subscribe(classementsAFT => this.classementsAFT = classementsAFT.sort((a,b) => compare(a.dateClassement, b.dateClassement, false)));
+            this.classementMembreService.getClassementsAFTByMembre(this.membre.id).subscribe(classementsAFT => {
+              this.classementsAFT = classementsAFT.sort((a,b) => compare(a.dateClassement, b.dateClassement, false));
+              this.classementsAFT.forEach(classementAFT => classementAFT.dateClassement = new Date(classementAFT.dateClassement));
+            });
           });
 
   }
