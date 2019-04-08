@@ -127,44 +127,15 @@
               <div class="row" *ngIf="rencontre.equipeVisites.capitaine" >
                 <div class="col-12">
                   <strong>{{rencontre.equipeVisites.codeAlphabetique}}</strong> :
-                </div>
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                      <a class="captainLink" (click)="redirectToMember(rencontre.equipeVisites.capitaine);" >{{rencontre.equipeVisites.capitaine.nom}} {{rencontre.equipeVisites.capitaine.prenom}}</a>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="isUserConnected() && rencontre.equipeVisites.capitaine.mail">
-                        <i class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{rencontre.equipeVisites.capitaine.mail}}">{{rencontre.equipeVisites.capitaine.mail}}</a>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="isUserConnected() && rencontre.equipeVisites.capitaine.gsm">
-                        <i class="fa fa-mobile"></i>&nbsp;<a href="tel:{{rencontre.equipeVisites.capitaine.gsm}}">{{rencontre.equipeVisites.capitaine.gsm}}</a>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="isUserConnected() && rencontre.equipeVisites.capitaine.telephone">
-                        <i class="fa fa-phone"></i>&nbsp;<a href="tel:{{rencontre.equipeVisites.capitaine.telephone}}">{{rencontre.equipeVisites.capitaine.telephone}}</a>
-                    </div>
-                  </div>
+                  {{rencontre.equipeVisites.capitaine.nom}} {{rencontre.equipeVisites.capitaine.prenom}}
+                  <a *ngIf="isUserConnected()" style="cursor:pointer;color:#007bff;" (click)="ouvrirInfosCapitaine(rencontre.equipeVisites.capitaine);" ><i class="fa fa-eye"></i></a>
                 </div>
               </div>
-
             <div class="row" *ngIf="rencontre.equipeVisiteurs.capitaine" >
               <div class="col-12">
                 <strong>{{rencontre.equipeVisiteurs.codeAlphabetique}}</strong> :
-              </div>
-              <div class="col-12">
-                <div class="row">
-                  <div class="col-6">
-                    <a class="captainLink" (click)="redirectToMember(rencontre.equipeVisiteurs.capitaine);" >{{rencontre.equipeVisiteurs.capitaine.nom}} {{rencontre.equipeVisiteurs.capitaine.prenom}}</a>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="isUserConnected() && rencontre.equipeVisiteurs.capitaine.mail">
-                      <i class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{rencontre.equipeVisiteurs.capitaine.mail}}">{{rencontre.equipeVisiteurs.capitaine.mail}}</a>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="isUserConnected() && rencontre.equipeVisiteurs.capitaine.gsm">
-                      <i class="fa fa-mobile"></i>&nbsp;<a href="tel:{{rencontre.equipeVisiteurs.capitaine.gsm}}">{{rencontre.equipeVisiteurs.capitaine.gsm}}</a>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="isUserConnected() && rencontre.equipeVisiteurs.capitaine.telephone">
-                      <i class="fa fa-phone"></i>&nbsp;<a href="tel:{{rencontre.equipeVisiteurs.capitaine.telephone}}">{{rencontre.equipeVisiteurs.capitaine.telephone}}</a>
-                  </div>
-                </div>
+                {{rencontre.equipeVisiteurs.capitaine.nom}} {{rencontre.equipeVisiteurs.capitaine.prenom}}
+                <a *ngIf="isUserConnected()" style="cursor:pointer;color:#007bff;" (click)="ouvrirInfosCapitaine(rencontre.equipeVisiteurs.capitaine);" ><i class="fa fa-eye"></i></a>
               </div>
             </div>
           </div>

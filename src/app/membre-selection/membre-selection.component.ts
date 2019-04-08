@@ -20,6 +20,7 @@ export class MembreSelectionComponent implements OnInit {
     private capitaine: Boolean;
     private championnatHomme:Boolean;
     private mapEquivalence;
+    private membresARetirer:Membre[]=[];
 
     anyMemberPossible:boolean=false;
     chargementMembres:boolean=true;
@@ -38,6 +39,7 @@ export class MembreSelectionComponent implements OnInit {
         this.membresSelectionnables = data.membresSelectionnables;
         this.club = data.club;
         this.anyMemberPossible=data.anyMemberPossible;
+        this.membresARetirer=data.membresARetirer;
         this.capitaine = data.capitaine;
         this.filtreGenre = data.genre;
         this.championnatHomme = data.championnatHomme;
@@ -118,6 +120,13 @@ export class MembreSelectionComponent implements OnInit {
             this.filteredMembres = this.filteredMembres.filter(membre => {
                       return membre.genre==this.filtreGenre
               });
+      }
+
+      if (this.membresARetirer){
+        this.filteredMembres = this.filteredMembres.filter(membre => {
+          let membreToRemove = this.membresARetirer.find(membreARetirer => membreARetirer.id == membre.id);
+          return membreToRemove == null;
+        });
       }
 
       if (this.triParPoints){

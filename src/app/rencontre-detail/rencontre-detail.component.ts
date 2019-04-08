@@ -470,6 +470,176 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
     }
 
+    getMembresARetirer(match:Match, indexEquipe: number, indexJoueurEquipe: number):Membre[]{
+
+      // Pour le match concerne, ne pas retirer le joueur potentiellement deja selectionne
+      let membresARetirer = [];
+
+      this.matchs.forEach(otherMatch => {
+
+        if (match.type==MATCH_SIMPLE && otherMatch.match.type == MATCH_SIMPLE){
+
+          // Pour les simples, un seul simple par rencontre par joueur. On retire tous les autres joueurs deja selectionnes dans les autres matchs
+
+          if (otherMatch.match.id != match.id){
+            // Pour les simples, on va retirer tous les joueurs deja precises de la liste
+              if (otherMatch.match.joueurVisites1){
+                membresARetirer.push(otherMatch.match.joueurVisites1);
+              }
+              if (otherMatch.match.joueurVisiteurs1){
+                membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+              }
+          }else{
+            // Retirer le joueur en face s'il existe
+            if (indexEquipe == 1) {
+              if (otherMatch.match.joueurVisiteurs1){
+                membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+              }
+            }else{
+              if (otherMatch.match.joueurVisites1){
+                membresARetirer.push(otherMatch.match.joueurVisites1);
+              }
+            }
+          }
+
+        }
+
+        if (match.type==MATCH_DOUBLE && otherMatch.match.type == MATCH_DOUBLE){
+          // Pour les doubles, ca depend du type de championnat. En coupe d'hiver, les joueurs vont jouer 2 doubles (4 matchs)
+          // S'il s'agit du championnat ete/hiver, on va retirer tous les joueurs deja selectionnes dans les autres rencontres (1 seul double par joueur)
+
+          //TODO : activer le meme principe pour la coupe d'hiver --> un peu touchy car c'est bloquant s'il y a un souci et les doubles vont par paire dans ce type de championnat
+
+          if (this.rencontre.division.championnat.type!=TYPE_CHAMPIONNAT_COUPE_HIVER.code){
+            // S'il s'agit d'un match different, on retire tous les joueurs deja precises
+            if (otherMatch.match.id != match.id){
+
+              // retrait des joueurs 1 et 2 des 2 equipes
+
+              if (otherMatch.match.joueurVisites1){
+                membresARetirer.push(otherMatch.match.joueurVisites1);
+              }
+              if (otherMatch.match.joueurVisites2){
+                membresARetirer.push(otherMatch.match.joueurVisites2);
+              }
+              if (otherMatch.match.joueurVisiteurs1){
+                membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+              }
+              if (otherMatch.match.joueurVisiteurs2){
+                membresARetirer.push(otherMatch.match.joueurVisiteurs2);
+              }
+            }else{
+
+              // S'il s'agit du match sur lequel on se trouve, on retire les autres joueurs deja precises
+              // Oui, on pourrait coder plus "propre" mais de cette maniere, il est plus facile de comprendre ce que l'on fait
+
+              if (indexEquipe == 1) {
+                if (indexJoueurEquipe == 1) {
+                  if (otherMatch.match.joueurVisites2){
+                    membresARetirer.push(otherMatch.match.joueurVisites2);
+                  }
+                  if (otherMatch.match.joueurVisiteurs1){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+                  }
+                  if (otherMatch.match.joueurVisiteurs2){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs2);
+                  }
+                }else{
+                  if (otherMatch.match.joueurVisites1){
+                    membresARetirer.push(otherMatch.match.joueurVisites1);
+                  }
+                  if (otherMatch.match.joueurVisiteurs1){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+                  }
+                  if (otherMatch.match.joueurVisiteurs2){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs2);
+                  }
+                }
+              }else{
+                if (indexJoueurEquipe == 1) {
+                  if (otherMatch.match.joueurVisites1){
+                    membresARetirer.push(otherMatch.match.joueurVisites1);
+                  }
+                  if (otherMatch.match.joueurVisites2){
+                    membresARetirer.push(otherMatch.match.joueurVisites2);
+                  }
+                  if (otherMatch.match.joueurVisiteurs2){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs2);
+                  }
+                }else{
+                  if (otherMatch.match.joueurVisites1){
+                    membresARetirer.push(otherMatch.match.joueurVisites1);
+                  }
+                  if (otherMatch.match.joueurVisites2){
+                    membresARetirer.push(otherMatch.match.joueurVisites2);
+                  }
+                  if (otherMatch.match.joueurVisiteurs1){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+                  }
+                }
+              }
+            }
+          }else{
+
+            // Pour la coupe d'hiver, on va juste regarder ce qu'il se passe sur le meme match
+
+            if (otherMatch.match.id == match.id){
+              if (indexEquipe == 1) {
+                if (indexJoueurEquipe == 1) {
+                  if (otherMatch.match.joueurVisites2){
+                    membresARetirer.push(otherMatch.match.joueurVisites2);
+                  }
+                  if (otherMatch.match.joueurVisiteurs1){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+                  }
+                  if (otherMatch.match.joueurVisiteurs2){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs2);
+                  }
+                }else{
+                  if (otherMatch.match.joueurVisites1){
+                    membresARetirer.push(otherMatch.match.joueurVisites1);
+                  }
+                  if (otherMatch.match.joueurVisiteurs1){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+                  }
+                  if (otherMatch.match.joueurVisiteurs2){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs2);
+                  }
+                }
+              }else{
+                if (indexJoueurEquipe == 1) {
+                  if (otherMatch.match.joueurVisites1){
+                    membresARetirer.push(otherMatch.match.joueurVisites1);
+                  }
+                  if (otherMatch.match.joueurVisites2){
+                    membresARetirer.push(otherMatch.match.joueurVisites2);
+                  }
+                  if (otherMatch.match.joueurVisiteurs2){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs2);
+                  }
+                }else{
+                  if (otherMatch.match.joueurVisites1){
+                    membresARetirer.push(otherMatch.match.joueurVisites1);
+                  }
+                  if (otherMatch.match.joueurVisites2){
+                    membresARetirer.push(otherMatch.match.joueurVisites2);
+                  }
+                  if (otherMatch.match.joueurVisiteurs1){
+                    membresARetirer.push(otherMatch.match.joueurVisiteurs1);
+                  }
+                }
+              }
+            }
+
+          }
+
+        }
+
+      });
+
+      return membresARetirer;
+    }
+
     selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
         if (this.isResultatsRencontreModifiables){
             let club;
@@ -501,8 +671,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
             let championnatHomme:boolean = this.isChampionnatHomme();
 
+            let membresARetirer:Membre[]=this.getMembresARetirer(match, indexEquipe, indexJoueurEquipe);
+
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, anyMemberPossible:anyMemberPossible, triParPoints:true, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, triParPoints:true, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {
@@ -692,12 +864,43 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
     }
 
+    ouvrirInfosCapitaine(capitaine:Membre){
+      if (this.isUserConnected()){
+        let capitaineDetailRef = this.dialog.open(CapitaineDetailDialog, {
+            data: {capitaine: capitaine}, panelClass: "capitaineDetailDialog", disableClose:false
+        });
+      }
+    }
+
 }
 
 class MatchExtended {
 
     match: Match;
     sets: Set[] = [];
+
+}
+
+@Component({
+    selector: 'capitaine-detail-dialog',
+    templateUrl: './capitaineDetailDialog.html'
+})
+export class CapitaineDetailDialog implements OnInit {
+
+  capitaine:Membre;
+
+  constructor(
+      public dialogRef: MatDialogRef<CapitaineDetailDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.capitaine=data.capitaine;
+      }
+
+  ngOnInit() {
+  }
+
+  cancel(){
+    this.dialogRef.close();
+  }
 
 }
 

@@ -51,7 +51,7 @@ import { TraceService } from './trace.service';
 import { AuthGuardService } from './auth-guard.service';
 import { IsSecureGuardService } from './is-secure-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
-import { RencontreDetailComponent, AskPasswordToValidateDialog, AllOrOnlyOneDialog, ResultatsDialog, DateTerrainDialog, CommentairesEncodeurDialog, MessagePoursuiteDialog, TracesRencontreDialog} from './rencontre-detail/rencontre-detail.component';
+import { RencontreDetailComponent, AskPasswordToValidateDialog, CapitaineDetailDialog, AllOrOnlyOneDialog, ResultatsDialog, DateTerrainDialog, CommentairesEncodeurDialog, MessagePoursuiteDialog, TracesRencontreDialog} from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent, RencontresDialog } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
@@ -112,6 +112,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
     EquipeTerrainDialog,
     RencontreDetailComponent,
     AskPasswordToValidateDialog,
+    CapitaineDetailDialog,
     AllOrOnlyOneDialog,
     ResultatsDialog,
     DateTerrainDialog,
@@ -209,6 +210,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
       MessagePoursuiteDialog,
       TracesRencontreDialog,
       AskPasswordToValidateDialog,
+      CapitaineDetailDialog,
       AllOrOnlyOneDialog,
       InterserieDialog,
       RencontresDialog,

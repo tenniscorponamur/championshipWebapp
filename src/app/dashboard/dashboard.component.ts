@@ -23,14 +23,17 @@ export class DashboardComponent implements OnInit {
 
   membresInactifs:Membre[]=[];
   membresSansClubsActifs:Membre[]=[];
+  membresAffiliesCorpo:Membre[]=[];
   membresSansLocalite:Membre[]=[];
   membresSansClassement:Membre[]=[];
   nbClubsActifs:number=0;
+  nbClubsInactifs:number=0;
   nbMembresActifs:number=0;
   nbMembresInactifs:number=0;
   nbDamesActives:number=0;
   nbMessieursActifs:number=0;
   nbMembresSansClubAFT:number=0;
+  nbMembresAffiliesCorpo:number=0;
   nbMembresSansLocalite:number=0;
   nbMembresSansClassement:number=0;
   chargementCompteursMembres:boolean=true;
@@ -175,6 +178,11 @@ export class DashboardComponent implements OnInit {
             this.membresSansClubsActifs.push(membre);
           }
 
+          if (membre.onlyCorpo){
+            this.nbMembresAffiliesCorpo++;
+            this.membresAffiliesCorpo.push(membre);
+          }
+
           if (membre.localite==null){
             this.nbMembresSansLocalite++;
             this.membresSansLocalite.push(membre);
@@ -196,6 +204,8 @@ export class DashboardComponent implements OnInit {
     this.clubs.forEach(club => {
         if (club.actif){
           this.nbClubsActifs++;
+        }else{
+          this.nbClubsInactifs++;
         }
     });
   }

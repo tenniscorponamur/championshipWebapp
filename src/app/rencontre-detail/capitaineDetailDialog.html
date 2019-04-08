@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Capitaine&nbsp;<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      {{capitaine.nom}} {{capitaine.prenom}}
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="capitaine.mail">
+      <i class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{capitaine.mail}}">{{capitaine.mail}}</a>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="capitaine.gsm">
+      <i class="fa fa-mobile"></i>&nbsp;<a href="tel:{{capitaine.gsm}}">{{capitaine.gsm}}</a>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngIf="capitaine.telephone">
+      <i class="fa fa-phone"></i>&nbsp;<a href="tel:{{capitaine.telephone}}">{{capitaine.telephone}}</a>
+    </div>
+  </div>
+
+
+</div>
