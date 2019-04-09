@@ -10,6 +10,8 @@
       {{genre.libelle}}
     </mat-radio-button>
   </mat-radio-group>
+  <a *ngIf="triAlpha" (click)="triParPoints();" style="cursor:pointer;"><i class="fa fa-sort-numeric-desc"></i></a>
+  <a *ngIf="triNumeric" (click)="triParNom();" style="cursor:pointer;" ><i class="fa fa-sort-alpha-asc"></i></a>
 </div>
 
 <div *ngIf="chargementMembres" class="progressDiv text-center">

@@ -674,7 +674,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             let membresARetirer:Membre[]=this.getMembresARetirer(match, indexEquipe, indexJoueurEquipe);
 
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, triParPoints:true, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {

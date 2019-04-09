@@ -22,6 +22,8 @@ export class MembreSelectionComponent implements OnInit {
     private mapEquivalence;
     private membresARetirer:Membre[]=[];
 
+    triAlpha:boolean=true;
+    triNumeric:boolean=false;
     anyMemberPossible:boolean=false;
     chargementMembres:boolean=true;
     membresSelectionnables:Membre[]=[];
@@ -30,7 +32,6 @@ export class MembreSelectionComponent implements OnInit {
     filtreNomPrenom:string;
     filtreGenre:string;
     deselectionPossible:boolean=false;
-    triParPoints:boolean=false;
 
   constructor(public dialogRef: MatDialogRef<MembreSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -44,7 +45,11 @@ export class MembreSelectionComponent implements OnInit {
         this.filtreGenre = data.genre;
         this.championnatHomme = data.championnatHomme;
         this.deselectionPossible = data.deselectionPossible;
-        this.triParPoints = data.triParPoints;
+
+        if (data.triParPoints){
+          this.triNumeric=true;
+          this.triAlpha=false;
+        }
       }
 
   ngOnInit() {
@@ -129,17 +134,34 @@ export class MembreSelectionComponent implements OnInit {
         });
       }
 
-      if (this.triParPoints){
+      this.sort();
+
+  }
+
+  sort(){
+    if (this.triAlpha){
+        this.filteredMembres = this.filteredMembres.sort((a,b) => compare(a.nom,b.nom,true));
+    }
+    if (this.triNumeric){
         this.filteredMembres = this.filteredMembres.sort((a,b) => {
           let pointsA = (a.classementCorpoActuel!=null)?a.classementCorpoActuel.points:null;
           let pointsB = (b.classementCorpoActuel!=null)?b.classementCorpoActuel.points:null;
           return compare(pointsA, pointsB, false);
           }
         );
-      }else{
-        this.filteredMembres = this.filteredMembres.sort((a,b) => compare(a.nom,b.nom,true));
-      }
+    }
+  }
 
+  triParNom(){
+    this.triAlpha=true;
+    this.triNumeric=false;
+    this.sort();
+  }
+
+  triParPoints(){
+    this.triAlpha=false;
+    this.triNumeric=true;
+    this.sort();
   }
 
     select(membre:Membre){
