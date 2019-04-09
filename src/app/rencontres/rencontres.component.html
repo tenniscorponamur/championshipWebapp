@@ -187,6 +187,24 @@
 
                 </div>
 
+                <div *ngIf="classicView" style="margin-top:10px;">
+                  <div *ngIf="poules.length>1 && selectedDivision && !selectedDivision.multiIS && !selectedDivision.withFinales" class="alert alert-info" role="alert">
+                    <small>Une rencontre intersérie sera organisée entre les premiers de chaque poule.</small>
+                  </div>
+                  <div *ngIf="poules.length>1 && selectedDivision && selectedDivision.multiIS && !selectedDivision.withFinales" class="alert alert-info" role="alert">
+                    <small>Plusieurs rencontres interséries seront organisées. Chaque équipe affronte l'équipe ayant le même classement dans l'autre poule.</small>
+                  </div>
+                  <div *ngIf="poules.length>1 && selectedDivision && !selectedDivision.multiIS && selectedDivision.withFinales" class="alert alert-info" role="alert">
+                    <small>Seules les deux premières équipes de chaque poule s'affronteront de manière croisée
+                    (1<sup>er</sup> contre 2<sup>nd</sup> et inversément) avant une petite et une grande finale.</small>
+                  </div>
+                  <div *ngIf="poules.length>1 && selectedDivision && selectedDivision.multiIS && selectedDivision.withFinales" class="alert alert-info" role="alert">
+                    <small>Plusieurs rencontres interséries seront organisées. Chaque équipe affronte l'équipe ayant le même classement
+                    dans l'autre poule à l'exception des deux premiers de chaque poule qui s'affronteront de manière croisée
+                    (1<sup>er</sup> contre 2<sup>nd</sup> et inversément) avant une petite et une grande finale.</small>
+                  </div>
+                </div>
+
                 <div *ngIf="isInterseriesPossibles()" align="right" style="margin-top:10px;">
                     <button class="btn btn-secondary" (click)="createInterserie();" ><i class="fa fa-plus-circle"></i>&nbsp;Intersérie</button>
                 </div>

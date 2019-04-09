@@ -872,6 +872,13 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }
     }
 
+    showInfosEquipeHybride(){
+
+        let capitaineDetailRef = this.dialog.open(InfoDialog, {
+            data: {title:"Equipe hybride", informations: "Possibilité de faire jouer un membre d'une autre corporation"}, panelClass: "infoDialog", disableClose:false
+        });
+    }
+
 }
 
 class MatchExtended {
@@ -945,6 +952,27 @@ export class AskPasswordToValidateDialog implements OnInit {
       this.dialogRef.close();
   }
 
+}
+
+@Component({
+    selector: 'info-dialog',
+    templateUrl: './infoDialog.html'
+})
+export class InfoDialog {
+
+  title:string;
+  informations:string;
+
+  constructor(
+      public dialogRef: MatDialogRef<InfoDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.title=data.title;
+        this.informations=data.informations;
+      }
+
+  cancel(){
+    this.dialogRef.close();
+  }
 }
 
 @Component({
