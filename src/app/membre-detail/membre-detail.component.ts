@@ -106,9 +106,14 @@ export class MembreDetailComponent implements OnInit {
       return true;
     }
 
+    // S'il s'agit de sa propre fiche, l'autorisation est egalement donnee
+
     let user = this.authenticationService.getConnectedUser();
     if (user!=null){
       if (user.membre!=null){
+        if (user.membre.id == this.membre.id){
+          return true;
+        }
         if (user.membre.responsableClub==true){
           if (user.membre.club!=null){
             if (this.membre.club!=null){
