@@ -24,8 +24,12 @@ export class ClassementCorpoJobService {
     return this.http.get<any[]>(this.environmentService.getPrivateApiUrl() + "/classementCorpo/job/" + jobId + "/traces", this.authenticationService.getPrivateApiHttpOptions());
   }
 
-  launchJob(startDate:Date){
-    return this.http.post<any>(this.environmentService.getPrivateApiUrl() + "/classementCorpo/job?startDate=" + formatDate(startDate),null, this.authenticationService.getPrivateApiHttpOptions());
+  launchJob(startDate:Date,avecSauvegarde:boolean){
+    return this.http.post<any>(this.environmentService.getPrivateApiUrl() + "/classementCorpo/job?startDate=" + formatDate(startDate) + "&avecSauvegarde=" + avecSauvegarde,null, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  deleteJob(jobId:number){
+    return this.http.delete<any>(this.environmentService.getPrivateApiUrl() + "/classementCorpo/job/" + jobId, this.authenticationService.getPrivateApiHttpOptions());
   }
 
 }

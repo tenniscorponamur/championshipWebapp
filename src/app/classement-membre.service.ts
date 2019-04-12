@@ -45,6 +45,10 @@ export class ClassementMembreService {
     return this.http.get<ClassementCorpo>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementCorpo/simulation?startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate), this.authenticationService.getPrivateApiHttpOptions());
   }
 
+  simulationClassementCorpoWithDetail(membreId: number, startDate:Date, endDate:Date): Observable<any>{
+    return this.http.get<any>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementCorpo/simulationWithDetail?startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate), this.authenticationService.getPrivateApiHttpOptions());
+  }
+
   updateClassementsAFT(membreId: number, classementsAFT: ClassementAFT[]) {
         return this.http.put<ClassementAFT>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementsAFT", classementsAFT, this.authenticationService.getPrivateApiHttpOptions());
     }

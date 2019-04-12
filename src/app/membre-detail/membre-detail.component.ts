@@ -3,6 +3,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import { Membre } from '../membre';
+import { CaracteristiqueMatch } from '../caracteristiqueMatch';
+import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
 
 import {compare} from '../utility';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -932,10 +934,15 @@ export class ClassementDialog implements OnInit {
 })
 export class SimulationClassementDialog {
 
+    simulationInProgress:boolean=false;
     showAlert:boolean=false;
+    showDetails:boolean=false;
     startDate:Date;
     endDate:Date;
+    anciensPoints:number;
     nouveauxPoints:number;
+    caracteristiquesMatchs:CaracteristiqueMatch[]=[];
+
    private _membre:Membre;
 
   constructor(
@@ -953,10 +960,27 @@ export class SimulationClassementDialog {
     this.dialogRef.close();
   }
 
+  getTypeMatch(match:Match):string{
+    return (match.type == MATCH_SIMPLE ? "Simple" : "Double");
+  }
+
+  getResultat(resultatMatch):string{
+    if (resultatMatch=="victoire"){
+      return "Victoire";
+    }else if (resultatMatch=="matchNul"){
+      return "Match nul";
+    }else if (resultatMatch=="defaite"){
+      return "Défaite";
+    }
+  }
+
   simuler():void{
 
+      this.simulationInProgress=true;
       this.showAlert=false;
+      this.showDetails=false;
       this.nouveauxPoints=null;
+      this.caracteristiquesMatchs=[];
 
       if (this.startDate==null||this.startDate==undefined||this.endDate==null||this.endDate==undefined||this.startDate >= this.endDate){
         this.showAlert=true;
@@ -968,10 +992,27 @@ export class SimulationClassementDialog {
           this.endDate = new Date(this.endDate);
           this.endDate.setHours(12);
 
-          this.classementMembreService.simulationClassementCorpo(this._membre.id, this.startDate, this.endDate).subscribe(classementCorpo => this.nouveauxPoints = classementCorpo.points);
+          this.classementMembreService.simulationClassementCorpoWithDetail(this._membre.id, this.startDate, this.endDate).subscribe(infosNouveauClassement => {
+            this.anciensPoints = infosNouveauClassement.pointsDepart;
+            this.nouveauxPoints = infosNouveauClassement.pointsFin;
+            this.caracteristiquesMatchs = infosNouveauClassement.caracteristiquesMatchList;
+            this.simulationInProgress=false;
+          });
 
       }
   }
+
+  getTotalPoints():number{
+    let totalPoints:number = 0;
+    this.caracteristiquesMatchs.forEach(caracMatch => totalPoints+=caracMatch.pointsGagnesOuPerdus);
+    return totalPoints;
+  }
+
+  showOrHideDetails(){
+    this.showDetails=!this.showDetails;
+  }
+
+
 
 }
 

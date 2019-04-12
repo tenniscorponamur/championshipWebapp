@@ -12,7 +12,10 @@ export class SupervisionComponent implements OnInit {
 
   calculImpossible:boolean=true;
   jobInProgress:any;
+  finishedJobs:any[]=[];
   traces:string="";
+  selectedFinishedJob:any;
+  finishedTraces:string="";
 
   constructor(private classementCorpoJobService:ClassementCorpoJobService, public dialog: MatDialog) {
     classementCorpoJobService.getJobs("WORK_IN_PROGRESS").subscribe(jobs => {
@@ -23,6 +26,9 @@ export class SupervisionComponent implements OnInit {
         this.refreshTraces();
         this.startRefresh();
       }
+    });
+    classementCorpoJobService.getJobs("FINISHED").subscribe(jobs => {
+      this.finishedJobs = jobs.sort((a,b) => compare(a.id,b.id,false));
     });
   }
 
@@ -46,6 +52,23 @@ export class SupervisionComponent implements OnInit {
     this.classementCorpoJobService.getTraces(this.jobInProgress.id).subscribe(jobTraces => {
       this.traces = "";
       jobTraces.sort((a,b) => compare(a.id,b.id,false)).forEach(jobTrace => this.traces += jobTrace.message + "\n");
+    });
+  }
+
+  selectFinishedJob(finishedJob:any){
+    this.selectedFinishedJob = finishedJob;
+    this.classementCorpoJobService.getTraces(finishedJob.id).subscribe(jobTraces => {
+      this.finishedTraces = "";
+      jobTraces.sort((a,b) => compare(a.id,b.id,false)).forEach(jobTrace => this.finishedTraces += jobTrace.message + "\n");
+    });
+  }
+
+  deleteFinishedJob(){
+    let index = this.finishedJobs.findIndex(job => job.id == this.selectedFinishedJob.id);
+    this.classementCorpoJobService.deleteJob(this.selectedFinishedJob.id).subscribe(deleted => {
+        this.selectedFinishedJob=null;
+        this.finishedTraces="";
+        this.finishedJobs.splice(index,1);
     });
   }
 
@@ -88,6 +111,7 @@ export class SupervisionComponent implements OnInit {
 export class StartDateDialog implements OnInit {
 
   startDate:Date;
+  avecSauvegarde:boolean=false;
 
   constructor(
     private classementCorpoJobService:ClassementCorpoJobService,
@@ -101,7 +125,9 @@ export class StartDateDialog implements OnInit {
   }
 
   launchJob(){
-    this.classementCorpoJobService.launchJob(this.startDate).subscribe(job => this.dialogRef.close(job));
+    if (this.startDate){
+      this.classementCorpoJobService.launchJob(new Date(this.startDate),this.avecSauvegarde).subscribe(job => this.dialogRef.close(job));
+    }
 
   }
 

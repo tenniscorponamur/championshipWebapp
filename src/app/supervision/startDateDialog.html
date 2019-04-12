@@ -1,12 +1,19 @@
 <h1 mat-dialog-title>Calcul Classements<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content >
 
-  <mat-form-field>
-    <input matInput size="10" [matDatepicker]="picker" placeholder="Date de début du calcul"
-           [(ngModel)]="startDate" >
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker touchUi="true" #picker></mat-datepicker>
-  </mat-form-field>
+  <div>
+    <mat-form-field>
+      <input matInput size="10" [matDatepicker]="picker" placeholder="Date de début du calcul"
+             [(ngModel)]="startDate" >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker touchUi="true" #picker></mat-datepicker>
+    </mat-form-field>
+
+
+  </div>
+  <div>
+    <mat-checkbox color="primary" [(ngModel)]="avecSauvegarde">Avec sauvegarde</mat-checkbox>
+  </div>
 
   <div align="center" style="margin:5px;">
     <button class="btn btn-success" (click)="launchJob();">Lancer le calcul</button>

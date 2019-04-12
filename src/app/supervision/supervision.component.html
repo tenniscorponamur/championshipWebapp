@@ -1,16 +1,55 @@
-<div class="row">
-  <div class="tennisCorpoBox col-xl-6 col-lg-6 col-md-12 col-sm-12">
-    <div class="card" >
-      <h4 class="card-header">
-        Calcul des nouveaux classements
-      </h4>
-      <div class="card-body">
-        <button class="btn btn-info" (click)="calculNouveauxClassements();" [disabled]="calculImpossible">Calcul des nouveaux classements</button>
-        <div class="tracesDiv" *ngIf="traces.length>0">
-          <span>Traces d'exécution :</span><br/>
-          <textarea class="traceArea" rows="10" readonly="true">{{traces}}</textarea>
+<div style="background-color:white;">
+
+  <mat-tab-group>
+    <mat-tab label="Nouveau calcul">
+      <div style="padding:10px;">
+        <div class="row">
+          <div class="tennisCorpoBox col-12">
+            <div class="card" >
+              <h4 class="card-header">
+                Calcul des nouveaux classements
+              </h4>
+              <div class="card-body">
+                <button class="btn btn-info" (click)="calculNouveauxClassements();" [disabled]="calculImpossible">Calcul des nouveaux classements</button>
+                <div *ngIf="jobInProgress">
+                  <strong>Calcul en cours : {{jobInProgress.startDate | date:'dd/MM/yyyy'}} - {{jobInProgress.endDate | date:'dd/MM/yyyy'}}&nbsp;<span *ngIf="jobInProgress.avecSauvegarde">(avec sauvegarde)</span></strong>
+                </div>
+                <div class="tracesDiv" *ngIf="traces.length>0">
+                  <span><em>Traces d'exécution</em></span>&nbsp;<i *ngIf="continueTimer" class="fa fa-spinner fa-pulse"></i><br/>
+                  <textarea class="traceArea" rows="10" readonly="true">{{traces}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </mat-tab>
+    <mat-tab label="Anciens calculs">
+      <div style="padding:10px;">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12" style="max-height:300px;overflow-y:auto;">
+            <div *ngFor="let finishedJob of finishedJobs" (click)="selectFinishedJob(finishedJob);" class="finishedJob">
+              Job n° {{finishedJob.id}} :
+              {{finishedJob.startDate | date:'dd/MM/yyyy'}} - {{finishedJob.endDate | date:'dd/MM/yyyy'}}
+              <span *ngIf="finishedJob.avecSauvegarde"><br/>(avec sauvegarde)</span>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div *ngIf="selectedFinishedJob">
+              <strong><u>Job n° {{selectedFinishedJob.id}}</u></strong>
+              <button class="deleteJobButton" (click)="deleteFinishedJob();"><i class="fa fa-trash"></i></button>
+              <span *ngIf="selectedFinishedJob.avecSauvegarde"><br/>(avec sauvegarde)</span>
+            </div>
+            <div class="tracesDiv" *ngIf="finishedTraces.length>0">
+              <span><em>Traces d'exécution :</em></span><br/>
+              <textarea class="traceArea" rows="10" readonly="true">{{finishedTraces}}</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
 </div>
+
+
