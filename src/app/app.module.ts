@@ -34,7 +34,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent, ImportMembresDialog } from './membres/membres.component';
 import { RencontresComponent, InterserieDialog } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
-import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog, SimulationClassementDialog, AnonymisationDialog } from './membre-detail/membre-detail.component';
+import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog, SimulationClassementDialog, MatchsDialog, AnonymisationDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
@@ -96,6 +96,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
     MembreDetailComponent,
     LoginFormDialog,
     AskPasswordDialog,
+    MatchsDialog,
     CompteUtilisateurDialog,
     ChangePasswordDialog,
     CookieDialog,
@@ -190,6 +191,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
       InfosAftDialog,
       SimulationClassementDialog,
       AnonymisationDialog,
+      MatchsDialog,
       InfosGeneralesMembreDialog,
       CoordonneesDialog,
       ContactsDialog,

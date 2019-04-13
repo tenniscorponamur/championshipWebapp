@@ -1,0 +1,83 @@
+<h1 mat-dialog-title>Matchs disputés<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+
+  <mat-form-field>
+    <input matInput size="10" [matDatepicker]="startPicker" placeholder="Date de début"
+           [(ngModel)]="startDate" (dateChange)="loadMatchs();">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi="true" #startPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput size="10" [matDatepicker]="endPicker" placeholder="Date de fin"
+           [(ngModel)]="endDate" (dateChange)="loadMatchs();">
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi="true" #endPicker></mat-datepicker>
+  </mat-form-field>
+
+  <div *ngIf="chargementMatchs" class="text-center">
+    <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
+    Récupération des matchs en cours...
+  </div>
+
+  <div *ngIf="!chargementMatchs" style="max-height:400px;overflow-y:auto;padding:10px;">
+    <div class="match col-12" *ngFor="let matchAvecSet of matchsAvecSets">
+      <div class="descriptionChampionnat row">
+        <small>
+          {{getDescriptionChampionnat(matchAvecSet.match)}}
+        </small>
+      </div>
+      <div class="descriptionRencontre row">
+        <small>
+          {{matchAvecSet.match.rencontre.dateHeureRencontre | date:'dd/MM/yyyy'}} :
+          {{matchAvecSet.match.rencontre.equipeVisites.codeAlphabetique}} -
+          {{matchAvecSet.match.rencontre.equipeVisiteurs.codeAlphabetique}}
+        </small>
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <small>
+          <a class="joueur {{getVisitesClass(matchAvecSet.match)}}" >
+            <span *ngIf="matchAvecSet.match.joueurVisites1" >{{matchAvecSet.match.joueurVisites1.nom}} {{matchAvecSet.match.joueurVisites1.prenom}}</span>
+          </a>
+          <span class="{{getVisitesClass(matchAvecSet.match)}}" *ngIf="isDouble(matchAvecSet.match)">/</span>
+          <span *ngIf="isDouble(matchAvecSet.match)">
+                <a class="joueur {{getVisitesClass(matchAvecSet.match)}}" >
+                  <span *ngIf="matchAvecSet.match.joueurVisites2">{{matchAvecSet.match.joueurVisites2.nom}} {{matchAvecSet.match.joueurVisites2.prenom}}</span>
+                </a>
+            </span>
+          <br />
+          <a class="joueur {{getVisiteursClass(matchAvecSet.match)}}" >
+            <span *ngIf="matchAvecSet.match.joueurVisiteurs1">{{matchAvecSet.match.joueurVisiteurs1.nom}} {{matchAvecSet.match.joueurVisiteurs1.prenom}}</span>
+          </a>
+          <span class="{{getVisiteursClass(matchAvecSet.match)}}" *ngIf="isDouble(matchAvecSet.match)">/</span>
+          <span *ngIf="isDouble(matchAvecSet.match)">
+              <a class="joueur {{getVisiteursClass(matchAvecSet.match)}}" >
+                <span *ngIf="matchAvecSet.match.joueurVisiteurs2">{{matchAvecSet.match.joueurVisiteurs2.nom}} {{matchAvecSet.match.joueurVisiteurs2.prenom}}</span>
+              </a>
+          </span>
+          </small>
+        </div>
+
+        <div class="col-4">
+          <div class="resultats row" *ngIf="matchAvecSet.sets.length>0" >
+            <div class="set" *ngFor="let set of matchAvecSet.sets">
+              <span class="{{getVisitesSetClass(set)}}">{{set.jeuxVisites}}</span>
+              <br />
+              <span class="{{getVisiteursSetClass(set)}}">{{set.jeuxVisiteurs}}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!--Liste des matchs avec sélection de date possible-->
+  <!--Radio victoire/defaite/match nul ?-->
+  <!--Filtre par corporation ?-->
+  <!--Simple/double ?-->
+  <!--filtre sur noms joueur ?-->
+
+</div>

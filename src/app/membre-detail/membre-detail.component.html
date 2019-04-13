@@ -161,6 +161,34 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle">
+            Statistiques matchs
+          </div>
+          <div class="myBoxContent">
+
+            <strong>Depuis le 12/04/2018</strong>
+
+            <canvas *ngIf="showMatchGraph"
+                    baseChart
+                    [data]="pieChartData"
+                    [labels]="pieChartLabels"
+                    [chartType]="pieChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+
+            <div class="text-center">
+              <button class="btn btn-sm btn-info" (click)="ouvrirMatchs();" >Voir les matchs disputés</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row" *ngIf="isAdminConnected()">
       <div class="col-12 text-center">
         <button class="btn btn-sm btn-info" (click)="anonymisation();" ><i class="fa fa-eye-slash" ></i>&nbsp;Anonymisation</button>

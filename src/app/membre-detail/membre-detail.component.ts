@@ -5,12 +5,16 @@ import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import { Membre } from '../membre';
 import { CaracteristiqueMatch } from '../caracteristiqueMatch';
 import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
+import {Set as MatchSet} from '../set';
+import {getCategorieChampionnat, getTypeChampionnat} from '../championnat';
 
 import {compare} from '../utility';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {MembreService} from '../membre.service';
 import {ClassementMembreService} from '../classement-membre.service';
+import {MatchService} from '../match.service';
+import {SetService} from '../set.service';
 import {AuthenticationService} from '../authentication.service';
 import {LocaliteService} from '../localite.service';
 import {Club} from '../club';
@@ -39,6 +43,7 @@ export class MembreDetailComponent implements OnInit {
   userImageClass:string = "fa fa-user fa-5x undefinedMember";
   deletable=false;
   showGraph=false;
+
   // lineChart
   public lineChartData:Array<any> = [];
   public lineChartLabels:Array<any> = [];
@@ -54,12 +59,19 @@ export class MembreDetailComponent implements OnInit {
                                        }]
                                }};
 
+    showMatchGraph:boolean=false;
+
+    // Pie
+    public pieChartType:string = 'pie';
+    public pieChartLabels:string[] = ['Victoire', 'Match nul', 'Défaite'];
+    public pieChartData:number[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private membreService: MembreService,
     private classementMembreService: ClassementMembreService,
+    private matchService:MatchService,
     private authenticationService: AuthenticationService,
     private location: Location,
     public dialog: MatDialog
@@ -78,6 +90,7 @@ export class MembreDetailComponent implements OnInit {
     this.refreshUserImage();
     this.refreshDeletable();
     this.refreshClassement();
+    this.refreshMatchsDisputes();
   }
 
   get membre(): Membre { return this._membre; }
@@ -242,6 +255,40 @@ export class MembreDetailComponent implements OnInit {
 
   }
 
+  refreshMatchsDisputes(){
+    this.showMatchGraph=false;
+    let startDate = new Date();
+    startDate.setFullYear( startDate.getFullYear() - 1 );
+    let endDate = new Date();
+    this.matchService.getMatchsValidesByCriteria(this.membre.id,startDate,endDate).subscribe(matchs => {
+      let nbVictoires:number=0;
+      let nbMatchsNuls:number=0;
+      let nbDefaites:number=0;
+      matchs.forEach(match => {
+        if (this.membre.id == match.joueurVisites1.id || (match.joueurVisites2 && this.membre.id == match.joueurVisites2.id)){
+            if (match.pointsVisites > match.pointsVisiteurs){
+              nbVictoires++;
+            }else if (match.pointsVisites < match.pointsVisiteurs){
+              nbDefaites++;
+            }else{
+              nbMatchsNuls++;
+            }
+        }else{
+            if (match.pointsVisites > match.pointsVisiteurs){
+              nbDefaites++;
+            }else if (match.pointsVisites < match.pointsVisiteurs){
+              nbVictoires++;
+            }else{
+              nbMatchsNuls++;
+            }
+        }
+      });
+      this.pieChartData = [nbVictoires, nbMatchsNuls, nbDefaites];
+      this.showMatchGraph=true;
+    });
+
+  }
+
   ouvrirInfosGenerales() {
     if (this.isAdminConnected()){
       let membreInfosGeneralesDialogRef = this.dialog.open(InfosGeneralesMembreDialog, {
@@ -304,6 +351,12 @@ export class MembreDetailComponent implements OnInit {
             this.refreshClassement();
         });
       }
+    }
+
+    ouvrirMatchs(){
+        let matchsDialogRef = this.dialog.open(MatchsDialog, {
+          data: { membre : this.membre }, panelClass: "matchsDialog", disableClose:false
+        });
     }
 
     anonymisation(){
@@ -1012,8 +1065,153 @@ export class SimulationClassementDialog {
     this.showDetails=!this.showDetails;
   }
 
+}
+
+@Component({
+  selector: 'matcs-dialog',
+  templateUrl: './matchsDialog.html',
+  styleUrls: ['./matchsDialog.css']
+})
+export class MatchsDialog implements OnInit {
+
+  private membre:Membre;
+  chargementMatchs:boolean=true;
+  startDate:Date;
+  endDate:Date;
+  matchsAvecSets:MatchAvecSets[]=[];
+
+  constructor(
+    private matchService:MatchService,
+    private setService:SetService,
+    public dialogRef: MatDialogRef<MatchsDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.membre=data.membre;
+    this.startDate = new Date();
+    this.startDate.setFullYear( this.startDate.getFullYear() - 1 );
+    this.endDate = new Date();
+  }
+
+  ngOnInit() {
+    this.loadMatchs();
+
+  // TODO : recuperer les matchs et set joues
+  // trier par ordre de rencontre (date decroissante)
+  // recuperer les sets et afficher en gras le gagnant (cfr ecran rencontre)
+
+  // TODO : Niveau affichage : afficher joueurs et sets et infos de base sur la rencontre (equipes concernees, championnat, date)
 
 
+  }
+
+  loadMatchs(){
+    this.matchsAvecSets=[];
+    if (this.startDate!=null && this.endDate!=null){
+    console.log(this.startDate);
+    console.log(this.endDate);
+      this.chargementMatchs=true;
+      this.startDate = new Date(this.startDate);
+      this.endDate = new Date(this.endDate);
+      this.matchService.getMatchsValidesByCriteria(this.membre.id,this.startDate,this.endDate).subscribe(matchs => {
+        matchs.forEach(match => {
+          let matchAvecSets = new MatchAvecSets();
+          matchAvecSets.match = match;
+
+          this.setService.getSets(match.id).subscribe(sets => {
+            matchAvecSets.sets = sets.sort((a, b) => compare(a.ordre, b.ordre, true));
+          });
+
+          this.matchsAvecSets.push(matchAvecSets);
+        });
+        this.matchsAvecSets.sort((a,b) => compare(a.match.rencontre.dateHeureRencontre, b.match.rencontre.dateHeureRencontre, false));
+        this.chargementMatchs=false;
+      });
+    }
+  }
+
+  getDescriptionChampionnat(match:Match){
+    let descriptionChampionnat = "";
+    descriptionChampionnat += getTypeChampionnat(match.rencontre.division.championnat).libelle;
+    descriptionChampionnat += " ";
+    descriptionChampionnat += match.rencontre.division.championnat.annee;
+    descriptionChampionnat += " ";
+    descriptionChampionnat += getCategorieChampionnat(match.rencontre.division.championnat).libelle;
+    descriptionChampionnat += " ";
+    descriptionChampionnat += "Division " + match.rencontre.division.numero;
+    if (match.rencontre.poule) {
+      descriptionChampionnat += " ";
+      descriptionChampionnat += "Poule " + match.rencontre.poule.numero;
+    }else{
+      descriptionChampionnat += " ";
+      descriptionChampionnat += "Interséries";
+      if (match.rencontre.informationsInterserie){
+        descriptionChampionnat += " (" + match.rencontre.informationsInterserie + ")";
+      }
+    }
+    return descriptionChampionnat;
+  }
+
+    isDouble(match: Match) {
+        return match.type == MATCH_DOUBLE;
+    }
+
+    isVisitesGagnant(match: Match): boolean {
+        return match.pointsVisites > match.pointsVisiteurs;
+    }
+
+    isVisiteursGagnant(match: Match): boolean {
+        return match.pointsVisites < match.pointsVisiteurs;
+    }
+
+    getVisitesClass(match: Match) {
+        if (this.isVisitesGagnant(match)) {
+            return "victorieux";
+        }
+        return "";
+    }
+
+    getVisiteursClass(match: Match) {
+        if (this.isVisiteursGagnant(match)) {
+            return "victorieux";
+        }
+        return "";
+    }
+
+    getVisitesSetClass(set:MatchSet) {
+        if (set.jeuxVisites > set.jeuxVisiteurs) {
+            return "victorieux";
+        } else if (set.jeuxVisites < set.jeuxVisiteurs) {
+            return "";
+        } else {
+            if (set.visitesGagnant==true) {
+                return "victorieux"
+            }
+        }
+        return "";
+    }
+
+    getVisiteursSetClass(set: MatchSet) {
+        if (set.jeuxVisites < set.jeuxVisiteurs) {
+            return "victorieux";
+        } else if (set.jeuxVisites > set.jeuxVisiteurs) {
+            return "";
+        } else {
+            if (set.visitesGagnant==false) {
+                return "victorieux"
+            }
+        }
+        return "";
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+
+}
+
+class MatchAvecSets{
+  match:Match;
+  sets:MatchSet[]=[];
 }
 
 @Component({
