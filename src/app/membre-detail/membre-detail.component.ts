@@ -265,7 +265,7 @@ export class MembreDetailComponent implements OnInit {
       let nbMatchsNuls:number=0;
       let nbDefaites:number=0;
       matchs.forEach(match => {
-        if (this.membre.id == match.joueurVisites1.id || (match.joueurVisites2 && this.membre.id == match.joueurVisites2.id)){
+        if ((match.joueurVisites1 && this.membre.id == match.joueurVisites1.id) || (match.joueurVisites2 && this.membre.id == match.joueurVisites2.id)){
             if (match.pointsVisites > match.pointsVisiteurs){
               nbVictoires++;
             }else if (match.pointsVisites < match.pointsVisiteurs){
@@ -1106,8 +1106,6 @@ export class MatchsDialog implements OnInit {
   loadMatchs(){
     this.matchsAvecSets=[];
     if (this.startDate!=null && this.endDate!=null){
-    console.log(this.startDate);
-    console.log(this.endDate);
       this.chargementMatchs=true;
       this.startDate = new Date(this.startDate);
       this.endDate = new Date(this.endDate);
