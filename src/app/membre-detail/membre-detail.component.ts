@@ -7,6 +7,7 @@ import { CaracteristiqueMatch } from '../caracteristiqueMatch';
 import {Match, MATCH_SIMPLE, MATCH_DOUBLE} from '../match';
 import {Set as MatchSet} from '../set';
 import {getCategorieChampionnat, getTypeChampionnat} from '../championnat';
+import {EnvironmentService} from '../environment.service';
 
 import {compare} from '../utility';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -61,6 +62,8 @@ export class MembreDetailComponent implements OnInit {
 
     showMatchGraph:boolean=false;
 
+    startDate:Date;
+    endDate:Date;
     // Pie
     public pieChartType:string = 'pie';
     public pieChartLabels:string[] = ['Victoire', 'Match nul', 'Défaite'];
@@ -73,9 +76,19 @@ export class MembreDetailComponent implements OnInit {
     private classementMembreService: ClassementMembreService,
     private matchService:MatchService,
     private authenticationService: AuthenticationService,
+    private environmentService:EnvironmentService,
     private location: Location,
     public dialog: MatDialog
     ) {
+      this.startDate = new Date();
+      this.startDate.setFullYear( this.startDate.getFullYear() - 1 );
+      if (this.environmentService.isProduction()){
+        let initSystemDate = new Date("2019-04-23");
+        if (this.startDate < initSystemDate){
+          this.startDate = initSystemDate;
+        }
+      }
+      this.endDate = new Date();
      }
 
   ngOnInit() {
@@ -257,10 +270,7 @@ export class MembreDetailComponent implements OnInit {
 
   refreshMatchsDisputes(){
     this.showMatchGraph=false;
-    let startDate = new Date();
-    startDate.setFullYear( startDate.getFullYear() - 1 );
-    let endDate = new Date();
-    this.matchService.getMatchsValidesByCriteria(this.membre.id,startDate,endDate).subscribe(matchs => {
+    this.matchService.getMatchsValidesByCriteria(this.membre.id,this.startDate,this.endDate).subscribe(matchs => {
       let nbVictoires:number=0;
       let nbMatchsNuls:number=0;
       let nbDefaites:number=0;
@@ -1083,23 +1093,29 @@ export class MatchsDialog implements OnInit {
   constructor(
     private matchService:MatchService,
     private setService:SetService,
+    private environmentService:EnvironmentService,
     public dialogRef: MatDialogRef<MatchsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.membre=data.membre;
     this.startDate = new Date();
     this.startDate.setFullYear( this.startDate.getFullYear() - 1 );
+    if (this.environmentService.isProduction()){
+      let initSystemDate = new Date("2019-04-23");
+      if (this.startDate < initSystemDate){
+        this.startDate = initSystemDate;
+      }
+    }
     this.endDate = new Date();
   }
 
   ngOnInit() {
     this.loadMatchs();
 
-  // TODO : recuperer les matchs et set joues
+  // Recuperer les matchs et set joues
   // trier par ordre de rencontre (date decroissante)
-  // recuperer les sets et afficher en gras le gagnant (cfr ecran rencontre)
+  // Recuperer les sets et afficher en gras le gagnant (cfr ecran rencontre)
 
-  // TODO : Niveau affichage : afficher joueurs et sets et infos de base sur la rencontre (equipes concernees, championnat, date)
-
+  // Niveau affichage : afficher joueurs et sets et infos de base sur la rencontre (equipes concernees, championnat, date)
 
   }
 
