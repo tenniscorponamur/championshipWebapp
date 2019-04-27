@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ClassementCorpoJobService} from '../classement-corpo-job.service';
+import {JobClassement} from '../jobClassement';
 import {compare} from '../utility';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-supervision',
@@ -10,11 +12,12 @@ import {compare} from '../utility';
 })
 export class SupervisionComponent implements OnInit {
 
+  exportEnCours:boolean=false;
   calculImpossible:boolean=true;
-  jobInProgress:any;
-  finishedJobs:any[]=[];
+  jobInProgress:JobClassement;
+  finishedJobs:JobClassement[]=[];
   traces:string="";
-  selectedFinishedJob:any;
+  selectedFinishedJob:JobClassement;
   finishedTraces:string="";
 
   constructor(private classementCorpoJobService:ClassementCorpoJobService, public dialog: MatDialog) {
@@ -55,7 +58,7 @@ export class SupervisionComponent implements OnInit {
     });
   }
 
-  selectFinishedJob(finishedJob:any){
+  selectFinishedJob(finishedJob:JobClassement){
     this.selectedFinishedJob = finishedJob;
     this.classementCorpoJobService.getTraces(finishedJob.id).subscribe(jobTraces => {
       this.finishedTraces = "";
@@ -100,6 +103,16 @@ export class SupervisionComponent implements OnInit {
             this.startRefresh();
           }
       });
+  }
+
+  exportTraces(job:JobClassement){
+      if (job){
+        this.exportEnCours=true;
+        this.classementCorpoJobService.exportTraces(job.id).subscribe(result => {
+            this.exportEnCours = false;
+            saveAs(result, "job" + job.id + ".xlsx");
+        },error => {console.log(error);});
+      }
   }
 
 }

@@ -21,6 +21,11 @@
   </div>
 
   <div *ngIf="!chargementMatchs" style="max-height:400px;overflow-y:auto;padding:10px;">
+
+    <div class col-12>
+      <strong>{{matchsAvecSets.length}} match(s) disputé(s)</strong>
+    </div>
+
     <div class="match col-12" *ngFor="let matchAvecSet of matchsAvecSets">
       <div class="descriptionChampionnat row">
         <small>
@@ -74,9 +79,10 @@
     </div>
   </div>
 
-  <!--Liste des matchs avec sélection de date possible-->
+  <!--TODO  : Filtres supplémentaires -->
+
   <!--Radio victoire/defaite/match nul ?-->
-  <!--Filtre par corporation ?-->
+  <!--Filtre par corporation/championnat ?-->
   <!--Simple/double ?-->
   <!--filtre sur noms joueur ?-->
 

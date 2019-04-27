@@ -15,7 +15,7 @@
                   <strong>Calcul en cours : {{jobInProgress.startDate | date:'dd/MM/yyyy'}} - {{jobInProgress.endDate | date:'dd/MM/yyyy'}}&nbsp;<span *ngIf="jobInProgress.avecSauvegarde">(avec sauvegarde)</span></strong>
                 </div>
                 <div class="tracesDiv" *ngIf="traces.length>0">
-                  <span><em>Traces d'exécution</em></span>&nbsp;<i *ngIf="continueTimer" class="fa fa-spinner fa-pulse"></i><br/>
+                  <span><em>Traces d'exécution</em></span>&nbsp;<i *ngIf="continueTimer" class="fa fa-spinner fa-pulse"></i>&nbsp;<button *ngIf="!continueTimer" class="btn btn-info btn-sm" (click)="exportTraces(jobInProgress);" [disabled]="exportEnCours" ><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Exporter</button><br/>
                   <textarea class="traceArea" rows="10" readonly="true">{{traces}}</textarea>
                 </div>
               </div>
@@ -41,7 +41,7 @@
               <span *ngIf="selectedFinishedJob.avecSauvegarde"><br/>(avec sauvegarde)</span>
             </div>
             <div class="tracesDiv" *ngIf="finishedTraces.length>0">
-              <span><em>Traces d'exécution :</em></span><br/>
+              <span><em>Traces d'exécution :</em></span>&nbsp;<button class="btn btn-info btn-sm" (click)="exportTraces(selectedFinishedJob);" [disabled]="exportEnCours" ><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Exporter</button>
               <textarea class="traceArea" rows="10" readonly="true">{{finishedTraces}}</textarea>
             </div>
           </div>
