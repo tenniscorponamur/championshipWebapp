@@ -105,6 +105,12 @@ export class SupervisionComponent implements OnInit {
       });
   }
 
+  closeJob(){
+    if (this.jobInProgress){
+      this.classementCorpoJobService.closeJob(this.jobInProgress.id).subscribe();
+    }
+  }
+
   exportTraces(job:JobClassement){
       if (job){
         this.exportEnCours=true;
