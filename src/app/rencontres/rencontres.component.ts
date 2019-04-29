@@ -268,6 +268,19 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                 }
                 case 'court':
                 {
+                  let compareTerrain = 0;
+                  if (a.terrain && !b.terrain){
+                    return (isAsc ? -1 : 1);
+                  }
+                  if (!a.terrain && b.terrain){
+                    return (isAsc ? 1 : -1);
+                  }
+                  if (a.terrain && b.terrain) {
+                    compareTerrain = compare(a.terrain.nom, b.terrain.nom, isAsc);
+                  }
+                  if (compareTerrain!=0){
+                    return compareTerrain;
+                  }
                   if (a.court && !b.court){
                     return (isAsc ? -1 : 1);
                   }
