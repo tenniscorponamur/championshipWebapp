@@ -41,6 +41,7 @@ export class MembreDetailComponent implements OnInit {
   @Output() deleteMembre = new EventEmitter<Membre>();
 
   resetPasswordOk:boolean=false;
+  newPassword:string;
   userImageClass:string = "fa fa-user fa-5x undefinedMember";
   deletable=false;
   showGraph=false;
@@ -380,6 +381,11 @@ export class MembreDetailComponent implements OnInit {
     resetPassword(){
         this.resetPasswordOk=false;
         this.membreService.resetPassword(this.membre).subscribe(result => this.resetPasswordOk=result);
+    }
+
+    setNewPassword(){
+        this.newPassword=null;
+        this.membreService.setNewPassword(this.membre).subscribe(result => this.newPassword=result.password);
     }
 
     supprimerMembre(){

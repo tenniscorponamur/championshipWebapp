@@ -79,6 +79,10 @@ export class MembreService {
       return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() +  "/membre/" + membre.id + "/resetPassword",null, this.authenticationService.getPrivateApiHttpOptions());
   }
 
+  setNewPassword(membre:Membre):Observable<any>{
+      return this.http.post<any>(this.environmentService.getPrivateApiUrl() +  "/membre/" + membre.id + "/setNewPassword",null, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
   deleteMembre(membre: Membre) {
         return this.http.delete<Membre>(this.environmentService.getPrivateApiUrl() + "/membre?membreId=" + membre.id, this.authenticationService.getPrivateApiHttpOptions());
     }

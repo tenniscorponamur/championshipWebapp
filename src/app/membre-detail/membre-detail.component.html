@@ -191,12 +191,16 @@
 
     <div class="row" *ngIf="isAdminConnected()">
       <div class="col-12 text-center">
-        <button class="btn btn-sm btn-info" (click)="anonymisation();" ><i class="fa fa-eye-slash" ></i>&nbsp;Anonymisation</button>
-        <button class="btn btn-sm btn-warning" (click)="resetPassword();" ><i class="fa fa-key" ></i>&nbsp;Reset Password</button>
+        <button class="btn btn-sm btn-warning" (click)="anonymisation();" ><i class="fa fa-eye-slash" ></i>&nbsp;Anonymisation</button>
+        <button class="btn btn-sm btn-danger" (click)="resetPassword();" ><i class="fa fa-key" ></i>&nbsp;Password (mail)</button>
+        <button class="btn btn-sm btn-danger" (click)="setNewPassword();" ><i class="fa fa-key" ></i>&nbsp;Password (autre moyen)</button>
       </div>
         <div *ngIf="resetPasswordOk" class="col-12 text-center alert alert-success" role="alert">
           Nouveau mot de passe envoyé avec succès
         </div>
+      <div *ngIf="newPassword" class="col-12 text-center alert alert-success" role="alert">
+          Mot de passe à communiquer au membre : {{newPassword}}
+      </div>
     </div>
 
     <!--<div class="row">-->
