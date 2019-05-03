@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import {MembreService} from '../membre.service';
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 import {Rencontre} from '../rencontre';
 import {AlertesService} from '../alertes.service';
 import {RencontreService} from '../rencontre.service';

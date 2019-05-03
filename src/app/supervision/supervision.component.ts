@@ -3,7 +3,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ClassementCorpoJobService} from '../classement-corpo-job.service';
 import {JobClassement} from '../jobClassement';
 import {compare} from '../utility';
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-supervision',

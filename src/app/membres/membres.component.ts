@@ -16,7 +16,7 @@ import {map} from 'rxjs/operators/map';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
 import {compare} from '../utility';
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 import {Genre, GENRES} from '../genre';
 import {ClassementCorpo} from '../classementCorpo';
 import {ClassementMembreService} from '../classement-membre.service';
