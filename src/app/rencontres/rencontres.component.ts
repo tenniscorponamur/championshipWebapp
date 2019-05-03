@@ -308,7 +308,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
        if (this.selectedTypeRencontre == RENCONTRES_A_ENCODER){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-             return !rencontre.valide && !rencontre.resultatsEncodes && rencontre.dateHeureRencontre!=null && rencontre.dateHeureRencontre < new Date();
+             return !rencontre.valide && !rencontre.resultatsEncodes && rencontre.dateHeureRencontre!=null && new Date(rencontre.dateHeureRencontre) < new Date();
               });
        }else if (this.selectedTypeRencontre == RENCONTRES_A_VALIDER){
             this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
@@ -316,7 +316,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                });
         }else if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-             return !rencontre.valide && (rencontre.dateHeureRencontre==null || rencontre.dateHeureRencontre >= new Date());
+             return !rencontre.valide && (rencontre.dateHeureRencontre==null || new Date(rencontre.dateHeureRencontre) >= new Date());
                 });
        } else if (this.selectedTypeRencontre == RENCONTRES_VALIDES){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
