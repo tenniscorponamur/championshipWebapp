@@ -17,7 +17,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { ChartsModule } from 'ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
