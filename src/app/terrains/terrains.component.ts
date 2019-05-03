@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, Sort} from '@angular/material';
-import { RxResponsiveService } from 'rx-responsive';
 import {Terrain} from '../terrain';
 import {TerrainService} from '../terrain.service';
 import {TerrainDialog} from '../terrain-detail/terrain-detail.component';
@@ -17,7 +16,7 @@ export class TerrainsComponent implements OnInit {
   sortedTerrains:Terrain[];
   selectedTerrain:Terrain;
 
-  constructor(public media: RxResponsiveService,
+  constructor(
                   private terrainService:TerrainService,
                   public dialog: MatDialog) { }
 

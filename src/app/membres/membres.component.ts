@@ -13,7 +13,6 @@ import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
-import { RxResponsiveService } from 'rx-responsive';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
 import {compare} from '../utility';
@@ -72,7 +71,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    public media: RxResponsiveService,
     private membreService:MembreService,
     private clubService:ClubService,
     private authenticationService: AuthenticationService,
@@ -293,7 +291,7 @@ export class ImportMembresDialog {
         reader.onload = () => {
           this.showFinished=false;
           this.showWorkInProgress=true;
-          let content = reader.result.split(',')[1];
+          let content = (<string> reader.result).split(',')[1];
           this.membreService.importData(content).subscribe(result => {
             this.showWorkInProgress=false;
             this.showFinished=true;

@@ -7,7 +7,6 @@ import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
-import { RxResponsiveService } from 'rx-responsive';
 import {User} from '../user';
 import {UserService} from '../user.service';
 import {UserDialog} from '../utilisateur-detail/utilisateur-detail.component';
@@ -24,7 +23,7 @@ export class UtilisateursComponent implements OnInit {
   sortedUsers:User[];
   selectedUser:User;
 
-  constructor(public media: RxResponsiveService,
+  constructor(
     private userService:UserService,
     public dialog: MatDialog) { }
 

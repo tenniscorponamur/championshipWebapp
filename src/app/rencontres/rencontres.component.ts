@@ -17,7 +17,6 @@ import {Equipe} from '../equipe';
 import {Poule} from '../poule';
 import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
-import { RxResponsiveService } from 'rx-responsive';
 import {TerrainService} from '../terrain.service';
 import {Terrain,HoraireTerrain} from '../terrain';
 
@@ -67,7 +66,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   classicView:boolean=true;
   criteriumView:boolean=false;
 
-  constructor(public media: RxResponsiveService,
+  constructor(
         private route: ActivatedRoute,
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,

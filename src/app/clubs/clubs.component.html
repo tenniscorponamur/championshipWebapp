@@ -6,7 +6,7 @@
       </h4>
       <div class="card-body text-center">
 
-        <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+        <div *responsive="{bootstrap: ['md','sm','xs'] }" style="height:300px;overflow-y:auto;">
           <div *ngFor="let club of sortedClubs" (click)="ouvrirClub(club);" class="myBox text-left" style="cursor:pointer;">
             <div class="myBoxTitle {{styleClub(club)}}">
               <span class="text-uppercase">{{club.nom}}</span>
@@ -19,7 +19,7 @@
           </div>
         </div>
 
-        <div *ngIf="media.is.lg.or.xl | async">
+        <div *responsive="{bootstrap: ['lg','xl'] }">
 
           <div class="table-responsive" style="height:300px;">
             <table class="clubTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
