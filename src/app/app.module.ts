@@ -21,7 +21,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { Angular5TimePickerModule } from 'angular5-time-picker';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { RecaptchaModule, RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
@@ -179,8 +178,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
     HttpClientModule,
     ChartsModule,
     MatTabsModule,
-    MatProgressSpinnerModule,
-    Angular5TimePickerModule
+    MatProgressSpinnerModule
   ],
   entryComponents: [
       LoginFormDialog,
