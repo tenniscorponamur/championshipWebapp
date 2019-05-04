@@ -162,6 +162,10 @@
     background-color: #5bc0de !important;
 }
 
+.timeline-badge.admin {
+    background-color: lightgrey!important;
+}
+
 .timeline-title {
     margin-top: 0;
     color: inherit;
