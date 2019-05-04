@@ -13,8 +13,8 @@
     "postinstall": "ng build --prod --env=prod && mv dist/* ."
   },
   "engines": {
-    "node": ">=10.0.0",
-    "npm": ">=6.0.0"
+    "node": "^10.13.0",
+    "npm": "^6.4.1"
   },
   "private": true,
   "dependencies": {
