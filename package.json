@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "preinstall": "npm install -g http-server",
-    "postinstall": "ng build --prod --env=prod && mv dist/* ."
+    "postinstall": "ng build --prod --configuration=production && mv dist/* ."
   },
   "engines": {
     "node": "^10.13.0",
