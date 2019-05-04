@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   membresAffiliesCorpo:Membre[]=[];
   membresSansLocalite:Membre[]=[];
   membresSansClassement:Membre[]=[];
+  membresSansEmail:Membre[]=[];
   nbClubsActifs:number=0;
   nbClubsInactifs:number=0;
   nbMembresActifs:number=0;
@@ -36,6 +37,7 @@ export class DashboardComponent implements OnInit {
   nbMembresAffiliesCorpo:number=0;
   nbMembresSansLocalite:number=0;
   nbMembresSansClassement:number=0;
+  nbMembresSansEmail:number=0;
   chargementCompteursMembres:boolean=true;
   chargementCompteursClubs:boolean=true;
 
@@ -191,6 +193,11 @@ export class DashboardComponent implements OnInit {
           if (membre.classementCorpoActuel==null){
             this.nbMembresSansClassement++;
             this.membresSansClassement.push(membre);
+          }
+
+          if (membre.mail==null){
+            this.nbMembresSansEmail++;
+            this.membresSansEmail.push(membre);
           }
 
         }else{
