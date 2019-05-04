@@ -32,7 +32,7 @@
 
         </div>
 
-        <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+        <div *responsive="{bootstrap: ['md','sm','xs'] }" style="height:300px;overflow-y:auto;">
             <div *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="myBox text-left" style="cursor:pointer;">
                 <div class="myBoxTitle">
                     {{getTypeChampionnat(championnat).libelle}}&nbsp;{{championnat.annee}}
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div *ngIf="media.is.lg.or.xl | async">
+        <div *responsive="{bootstrap: ['lg','xl'] }">
 
             <div class="table-responsive" style="height:300px;">
                 <table class="championnatTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
