@@ -12,6 +12,10 @@
     "preinstall": "npm install -g http-server",
     "postinstall": "ng build --prod --env=prod && mv dist/* ."
   },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^7.2.14",
