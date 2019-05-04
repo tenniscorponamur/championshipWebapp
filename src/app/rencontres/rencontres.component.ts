@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rencontre } from '../rencontre';
-import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
 import {DivisionService} from '../division.service';
 import {PouleService} from '../poule.service';
@@ -17,7 +16,6 @@ import {Equipe} from '../equipe';
 import {Poule} from '../poule';
 import {compare,addLeadingZero} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
-import { RxResponsiveService } from 'rx-responsive';
 import {TerrainService} from '../terrain.service';
 import {Terrain,HoraireTerrain} from '../terrain';
 
@@ -36,11 +34,6 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
   @ViewChild("rencontreDetail") rencontreDetailComponent: ElementRef;
 
-  championnatCtrl: FormControl = new FormControl();
-  divisionCtrl: FormControl = new FormControl();
-  pouleCtrl: FormControl = new FormControl();
-  teamCtrl: FormControl = new FormControl();
-    
   date:Date=new Date();
 
   selectedChampionnat: Championnat;
@@ -67,7 +60,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   classicView:boolean=true;
   criteriumView:boolean=false;
 
-  constructor(public media: RxResponsiveService,
+  constructor(
         private route: ActivatedRoute,
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,
@@ -419,6 +412,10 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 //            return "Interséries";
 //        }
 //    }
+
+    isCriterium(rencontre:Rencontre):boolean{
+      return rencontre.division.championnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code;
+    }
 
     getCategorieCode(rencontre:Rencontre):string{
         return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;

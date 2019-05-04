@@ -68,12 +68,22 @@
             Coordonnées<span *ngIf="isPrivateInformationsAccessibles()" style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
-              <span>{{membre.rue}}</span>
-              <span>{{membre.rueNumero}}</span>
-              <span *ngIf="membre.rueBoite">/{{membre.rueBoite}}</span>
+              <span>
+                {{membre.rue}}
+              </span>
+              <span>
+                {{membre.rueNumero}}
+              </span>
+              <span *ngIf="membre.rueBoite">
+                /{{membre.rueBoite}}
+              </span>
               &nbsp;
-              <span>{{membre.codePostal}}</span>
-              <span>{{membre.localite|uppercase}}</span>
+              <span>
+                {{membre.codePostal}}
+              </span>
+              <span>
+                {{membre.localite|uppercase}}
+              </span>
           </div>
         </div>
       </div>

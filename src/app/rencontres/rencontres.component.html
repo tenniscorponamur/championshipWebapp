@@ -21,7 +21,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field>
-                            <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" [formControl]="championnatCtrl" (selectionChange)="loadDivisions();" >
+                            <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" (selectionChange)="loadDivisions();" >
                                 <mat-option *ngFor="let championnat of championnats" [value]="championnat">
 
                                     <span>
@@ -43,7 +43,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field *ngIf="divisions.length>0">
-                            <mat-select placeholder="Division" [(ngModel)]="selectedDivision" [formControl]="divisionCtrl" (selectionChange)="loadRencontres();" >
+                            <mat-select placeholder="Division" [(ngModel)]="selectedDivision" (selectionChange)="loadRencontres();" >
                                 <mat-option *ngFor="let division of divisions" [value]="division">
                                     <small>
                                         Division&nbsp;{{division.numero}}
@@ -56,7 +56,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field *ngIf="poules.length>1">
-                            <mat-select #pouleSelect placeholder="Contexte" [(ngModel)]="selectedPouleIds" [formControl]="pouleCtrl" multiple (selectionChange)="filtre()">
+                            <mat-select #pouleSelect placeholder="Contexte" [(ngModel)]="selectedPouleIds" multiple (selectionChange)="filtre()">
                                 <mat-option *ngFor="let poule of poules" [value]="poule.id">
                                     <small>
                                         Poule&nbsp;{{ poule.numero }}
@@ -69,7 +69,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field *ngIf="equipes.length>0">
-                            <mat-select #teamSelect placeholder="Equipes" [(ngModel)]="selectedTeams" [formControl]="teamCtrl" multiple (selectionChange)="filtre()">
+                            <mat-select #teamSelect placeholder="Equipes" [(ngModel)]="selectedTeams" multiple (selectionChange)="filtre()">
                                 <mat-option *ngFor="let equipe of equipes" [value]="equipe">
                                     <small>{{ equipe.codeAlphabetique }}</small>
                                 </mat-option>
@@ -102,12 +102,14 @@
                     </div>
                 </div>
 
-                <div *ngIf="media.is.md.or.sm.or.xs | async" class="text-left" style="height:300px;overflow-y:auto;">
+                <div *responsive="{bootstrap: ['md','sm','xs'] }" class="text-left" style="height:300px;overflow-y:auto;">
 
                     <div *ngIf="classicView || alertView" >
                         <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                             <div class="myBoxTitle">
-                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
+                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}
+                              <span *ngIf="!isCriterium(rencontre) && rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
+                              <span *ngIf="isCriterium(rencontre) && rencontre.court"> - <em>Court {{rencontre.court.code}}</em></span>
                             </div>
                             <div class="myBoxContent">
                                 <span *ngIf="rencontre.informationsInterserie"><small>{{rencontre.informationsInterserie}}</small><br/></span>
@@ -122,7 +124,9 @@
                     <div *ngIf="criteriumView && !alertView" >
                       <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                             <div class="myBoxTitle">
-                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatHeure(rencontre.dateHeureRencontre)}}<span *ngIf="rencontre.terrain"> - {{rencontre.terrain.nom}}</span><span *ngIf="rencontre.court"> - {{rencontre.court.code}}</span> - {{getCategorieCode(rencontre)}}
+                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatHeure(rencontre.dateHeureRencontre)}}
+                                <span *ngIf="!isCriterium(rencontre) && rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
+                                <span *ngIf="isCriterium(rencontre) && rencontre.court"> - <em>Court {{rencontre.court.code}}</em></span> - {{getCategorieCode(rencontre)}}
                             </div>
                             <div class="myBoxContent">
                                 <span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span>
@@ -134,7 +138,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="media.is.lg.or.xl | async" class="text-left">
+                <div *responsive="{bootstrap: ['lg','xl'] }" class="text-left">
                     <div *ngIf="classicView || alertView" class="table-responsive" style="height:300px;">
                         <table class="rencontreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
                                <!--table-striped-->
@@ -150,7 +154,10 @@
                             <tbody>
                                 <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
                                     <td class="text-uppercase">{{formatDate(rencontre.dateHeureRencontre)}}</td>
-                                    <td><span *ngIf="rencontre.terrain">{{rencontre.terrain.nom}}</span></td>
+                                    <td>
+                                      <span *ngIf="!isCriterium(rencontre) && rencontre.terrain">{{rencontre.terrain.nom}}</span>
+                                      <span *ngIf="isCriterium(rencontre) && rencontre.court"><em>Court {{rencontre.court.code}}</em></span>
+                                    </td>
                                     <td><span *ngIf="rencontre.informationsInterserie"><small>{{rencontre.informationsInterserie}}</small><br/></span><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
                                     <td><span *ngIf="rencontre.informationsInterserie"><br/></span><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
                                     <td><span *ngIf="rencontre.informationsInterserie"><br/></span><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
@@ -176,7 +183,10 @@
                                 <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
                                     <td class="text-uppercase">{{formatHeure(rencontre.dateHeureRencontre)}}</td>
                                     <td>{{getCategorieCode(rencontre)}}</td>
-                                    <td><span *ngIf="rencontre.terrain">{{rencontre.terrain.nom}}</span><span *ngIf="rencontre.court"> - {{rencontre.court.code}}</span></td>
+                                    <td>
+                                      <span *ngIf="!isCriterium(rencontre) && rencontre.terrain">{{rencontre.terrain.nom}}</span>
+                                      <span *ngIf="isCriterium(rencontre) && rencontre.court"><em>Court {{rencontre.court.code}}</em></span>
+                                    </td>
                                     <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
                                     <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
                                     <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>

@@ -149,8 +149,7 @@ export class ClubDialog {
 })
 export class ClubTerrainDialog {
 
-  terrainCtrl: FormControl=new FormControl();
-  terrains:Observable<Terrain[]>;
+  terrains:Terrain[];
 
     _terrainId:number;
     private _club:Club;
@@ -162,8 +161,7 @@ export class ClubTerrainDialog {
     private terrainService:TerrainService
     ) {
 
-      this.terrainCtrl = new FormControl();
-      this.terrains = this.terrainService.getTerrains();
+      this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains);
 
         this._club = data.club;
         if (this._club.terrain){

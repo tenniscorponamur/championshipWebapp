@@ -1,5 +1,4 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
@@ -25,8 +24,6 @@ import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 })
 export class ChampionnatPoulesComponent extends ChampionnatDetailComponent implements OnInit {
 
-    championnatCtrl: FormControl = new FormControl();
-
     @Output() selectChampionnat = new EventEmitter<Championnat>();
 
     championnats: Championnat[];
@@ -46,7 +43,6 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         private clubService: ClubService
     ) {
         super();
-        this.championnatCtrl = new FormControl();
     }
 
 
@@ -263,7 +259,6 @@ export class ChangePouleDialog {
 })
 export class EquipeTerrainDialog {
 
-  terrainCtrl: FormControl=new FormControl();
   terrains:Terrain[];
 
     _terrainId:number;
@@ -276,7 +271,6 @@ export class EquipeTerrainDialog {
     private terrainService:TerrainService
     ) {
 
-      this.terrainCtrl = new FormControl();
       this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.sort((a,b) => compare(a.nom,b.nom,true)));
 
         this._equipe = data.equipe;

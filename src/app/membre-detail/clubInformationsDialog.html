@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <mat-form-field>
-          <mat-select placeholder="Club" [(ngModel)]="_clubId" [formControl]="clubCtrl">
+          <mat-select placeholder="Club" [(ngModel)]="_clubId" >
             <mat-option>Aucun club</mat-option>
             <mat-option *ngFor="let club of clubs" [value]="club.id">
               <small>{{ club.nom }}</small>

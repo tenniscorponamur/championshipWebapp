@@ -6,7 +6,7 @@
       </h4>
       <div class="card-body text-center">
 
-        <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+        <div *responsive="{bootstrap: ['md','sm','xs'] }" style="height:300px;overflow-y:auto;">
           <div *ngFor="let terrain of sortedTerrains" (click)="ouvrirTerrain(terrain);" class="myBox text-left" style="cursor:pointer;">
             <div class="myBoxTitle {{styleTerrain(terrain)}}">
               <span class="text-uppercase">{{terrain.nom}}</span>
@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div *ngIf="media.is.lg.or.xl | async">
+        <div *responsive="{bootstrap: ['lg','xl'] }">
 
           <div class="table-responsive" style="height:300px;">
             <table class="terrainTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">

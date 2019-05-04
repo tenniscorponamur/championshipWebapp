@@ -14,7 +14,7 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                        <mat-select #typeSelect placeholder="Type" [(ngModel)]="selectedType" [formControl]="typeCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
+                        <mat-select #typeSelect placeholder="Type" [(ngModel)]="selectedType" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)">
                             <mat-option>-</mat-option>
                             <mat-option *ngFor="let type of types" [value]="type">
                                 {{ type.libelle }}
@@ -23,7 +23,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-select #categorieSelect multiple placeholder="Catégories" [(ngModel)]="selectedCategories" [formControl]="categorieCtrl" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)" >
+                    <mat-select #categorieSelect multiple placeholder="Catégories" [(ngModel)]="selectedCategories" (selectionChange)="filtre(anneeSearch.value,typeSelect.value,categorieSelect.value)" >
                         <mat-option *ngFor="let categorie of categories" [value]="categorie">
                             {{ categorie.libelle }}
                     </mat-option>
@@ -32,7 +32,7 @@
 
         </div>
 
-        <div *ngIf="media.is.md.or.sm.or.xs | async" style="height:300px;overflow-y:auto;">
+        <div *responsive="{bootstrap: ['md','sm','xs'] }" style="height:300px;overflow-y:auto;">
             <div *ngFor="let championnat of filteredChampionnats" (click)="ouvrirChampionnat(championnat);" class="myBox text-left" style="cursor:pointer;">
                 <div class="myBoxTitle">
                     {{getTypeChampionnat(championnat).libelle}}&nbsp;{{championnat.annee}}
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div *ngIf="media.is.lg.or.xl | async">
+        <div *responsive="{bootstrap: ['lg','xl'] }">
 
             <div class="table-responsive" style="height:300px;">
                 <table class="championnatTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">

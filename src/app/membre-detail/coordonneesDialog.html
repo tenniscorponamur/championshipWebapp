@@ -17,7 +17,7 @@
       <div class="col-12">
 
         <mat-form-field class="coordonnees-full-width">
-          <input type="text" placeholder="Commune" matInput [(ngModel)]="_localite" [formControl]="localiteControl" [matAutocomplete]="autoLocalite" >
+          <input type="text" placeholder="Commune" matInput [formControl]="localiteControl" [matAutocomplete]="autoLocalite" >
           <mat-autocomplete #autoLocalite="matAutocomplete" (optionSelected)="localiteSelected();" >
             <mat-option *ngFor="let localite of filteredLocalites | async" [value]="localite.nomLocalite">
               {{localite.nomLocalite}}
@@ -33,7 +33,7 @@
       <div class="col-12">
 
         <mat-form-field class="coordonnees-full-width">
-          <input type="text" placeholder="Rue" matInput [(ngModel)]="_rue" [formControl]="rueControl" [matAutocomplete]="autoRue" >
+          <input type="text" placeholder="Rue" matInput [formControl]="rueControl" [matAutocomplete]="autoRue" >
           <mat-autocomplete #autoRue="matAutocomplete" >
             <mat-option *ngFor="let rue of filteredRues | async" [value]="rue">
               {{rue}}

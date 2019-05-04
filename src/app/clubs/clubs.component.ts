@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, Sort} from '@angular/material';
-import { RxResponsiveService } from 'rx-responsive';
 import {Club} from '../club';
 import {ClubService} from '../club.service';
 import {ClubDialog} from '../club-detail/club-detail.component';
@@ -17,7 +16,7 @@ export class ClubsComponent implements OnInit {
   sortedClubs:Club[]=[];
   selectedClub:Club;
 
-  constructor(public media: RxResponsiveService,
+  constructor(
     private clubService:ClubService,
     public dialog: MatDialog) { }
 

@@ -10,7 +10,6 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
-import { RxResponsiveModule } from 'rx-responsive';
 import { MatTableModule } from '@angular/material/table'; // <-- Material Table
 import { MatSortModule } from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -18,13 +17,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { ChartsModule } from 'ng2-charts';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { Angular5TimePickerModule } from 'angular5-time-picker';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { RecaptchaModule, RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
+import { ResponsiveModule } from 'ngx-responsive';
 
 
 /* Component */
@@ -168,7 +167,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
     MatNativeDateModule,
     MatAutocompleteModule,
     ReactiveFormsModule, // <-- #2 add to @NgModule imports
-    RxResponsiveModule.forRoot(),
+    ResponsiveModule.forRoot(),
     MatTableModule,
     MatSortModule,
     MatCheckboxModule,
@@ -179,8 +178,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
     HttpClientModule,
     ChartsModule,
     MatTabsModule,
-    MatProgressSpinnerModule,
-    Angular5TimePickerModule
+    MatProgressSpinnerModule
   ],
   entryComponents: [
       LoginFormDialog,

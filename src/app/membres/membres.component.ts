@@ -10,14 +10,12 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {of} from 'rxjs/observable/of';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
-import { RxResponsiveService } from 'rx-responsive';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
 import {compare} from '../utility';
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 import {Genre, GENRES} from '../genre';
 import {ClassementCorpo} from '../classementCorpo';
 import {ClassementMembreService} from '../classement-membre.service';
@@ -45,7 +43,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
 //      this.dataSource.sort = this.sort;
   }
 
-  clubCtrl: FormControl=new FormControl();
   clubs:Club[];
   genres:Genre[];
   echellesCorpo:any[]=[];
@@ -72,13 +69,11 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    public media: RxResponsiveService,
     private membreService:MembreService,
     private clubService:ClubService,
     private authenticationService: AuthenticationService,
     private classementMembreService: ClassementMembreService,
     public dialog: MatDialog) {
-      this.clubCtrl = new FormControl();
       this.genres = GENRES;
     }
 
@@ -293,7 +288,7 @@ export class ImportMembresDialog {
         reader.onload = () => {
           this.showFinished=false;
           this.showWorkInProgress=true;
-          let content = reader.result.split(',')[1];
+          let content = (<string> reader.result).split(',')[1];
           this.membreService.importData(content).subscribe(result => {
             this.showWorkInProgress=false;
             this.showFinished=true;

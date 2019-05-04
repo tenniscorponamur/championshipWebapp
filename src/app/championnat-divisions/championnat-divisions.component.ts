@@ -1,7 +1,5 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {Championnat, TYPES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TypeChampionnat, TYPE_CHAMPIONNAT_ETE, CATEGORIES_CHAMPIONNAT, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES,CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES, getCategorieChampionnat , getTypeChampionnat} from '../championnat';
-import {RxResponsiveService} from 'rx-responsive';
 import {MatDialog, Sort} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
 import {compare} from '../utility';
@@ -13,9 +11,6 @@ import {ChampionnatDescriptionDialog} from '../championnat-division-detail/champ
     styleUrls: ['./championnat-divisions.component.css']
 })
 export class ChampionnatDivisionsComponent implements OnInit {
-
-    typeCtrl: FormControl = new FormControl();
-    categorieCtrl: FormControl = new FormControl();
 
     @Output() selectChampionnat = new EventEmitter<Championnat>();
 
@@ -34,12 +29,8 @@ export class ChampionnatDivisionsComponent implements OnInit {
     selectedChampionnat: Championnat;
 
     constructor(
-    public media: RxResponsiveService,
     public dialog: MatDialog,
     private championnatService:ChampionnatService) {
-        this.typeCtrl = new FormControl();
-        this.categorieCtrl = new FormControl();
-
         this.annee = new Date().getFullYear().toString();
         //this.selectedType = TYPE_CHAMPIONNAT_ETE;
         this.selectedCategories = [CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES,CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES];

@@ -5,7 +5,7 @@ import {Championnat, TYPE_CHAMPIONNAT_CRITERIUM, TYPE_CHAMPIONNAT_ETE} from '../
 import {ChampionnatService} from '../championnat.service';
 import {RencontreService} from '../rencontre.service';
 import {MembreService} from '../membre.service';
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-documents',

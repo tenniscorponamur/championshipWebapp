@@ -10,7 +10,9 @@
           <span *ngIf="chargementCompteursClubs">
             <i class="fa fa-spinner fa-pulse"></i>
           </span>
-          <span *ngIf="!chargementCompteursClubs">{{nbClubsActifs}}</span>
+          <span *ngIf="!chargementCompteursClubs">
+            {{nbClubsActifs}}
+          </span>
           <span>clubs actifs</span>
         </div>
       </div>
@@ -28,7 +30,9 @@
           <span *ngIf="chargementCompteursMembres">
             <i class="fa fa-spinner fa-pulse"></i>
           </span>
-          <span *ngIf="!chargementCompteursMembres">{{nbMembresActifs}}</span>
+          <span *ngIf="!chargementCompteursMembres">
+            {{nbMembresActifs}}
+          </span>
           <span>membres actifs</span>
         </div>
       </div>
@@ -45,7 +49,9 @@
           <span *ngIf="chargementCompteursMembres">
             <i class="fa fa-spinner fa-pulse"></i>
           </span>
-          <span *ngIf="!chargementCompteursMembres">{{nbDamesActives}}</span>
+          <span *ngIf="!chargementCompteursMembres">
+            {{nbDamesActives}}
+          </span>
           <span>dames actives</span>
         </div>
       </div>
@@ -62,7 +68,9 @@
           <span *ngIf="chargementCompteursMembres">
             <i class="fa fa-spinner fa-pulse"></i>
           </span>
-          <span *ngIf="!chargementCompteursMembres">{{nbMessieursActifs}}</span>
+          <span *ngIf="!chargementCompteursMembres">
+            {{nbMessieursActifs}}
+          </span>
           <span>messieurs actifs</span>
         </div>
       </div>
@@ -121,7 +129,9 @@
           <span *ngIf="chargementCompteursMembres">
             <i class="fa fa-spinner fa-pulse"></i>
           </span>
-          <span *ngIf="!chargementCompteursMembres">{{nbMembresAffiliesCorpo}}</span>
+          <span *ngIf="!chargementCompteursMembres">
+            {{nbMembresAffiliesCorpo}}
+          </span>
           <span>membres actifs affiliés via le Corpo</span>
         </div>
       </div>
@@ -176,8 +186,29 @@
           <span *ngIf="chargementCompteursMembres">
             <i class="fa fa-spinner fa-pulse"></i>
           </span>
-          <span *ngIf="!chargementCompteursMembres">{{nbMembresSansClassement}}</span>
+          <span *ngIf="!chargementCompteursMembres">
+            {{nbMembresSansClassement}}
+          </span>
           <span>membres actifs sans classement</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" >
+    <div class="dashboardBox redBackground" >
+      <div class="row">
+        <div class="col-4 text-center">
+          <i class="fa fa-user fa-4x dashboardIcon" ></i>
+        </div>
+        <div class="col-8 dashboardContent withListingMembre" (click)="openMembres(membresSansEmail);">
+          <span *ngIf="chargementCompteursMembres">
+            <i class="fa fa-spinner fa-pulse"></i>
+          </span>
+          <span *ngIf="!chargementCompteursMembres">
+            {{nbMembresSansEmail}}
+          </span>
+          <span>membres actifs sans mail</span>
         </div>
       </div>
     </div>

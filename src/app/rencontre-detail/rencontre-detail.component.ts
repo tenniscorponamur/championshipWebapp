@@ -13,7 +13,6 @@ import {MembreService} from '../membre.service';
 import {SetService} from '../set.service';
 import {TerrainService} from '../terrain.service';
 import {Membre} from '../membre';
-import {FormControl} from '@angular/forms';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Club} from '../club';
 import {Set} from '../set';
@@ -1004,9 +1003,6 @@ export class AllOrOnlyOneDialog implements OnInit {
     templateUrl: './dateTerrainDialog.html'
 })
 export class DateTerrainDialog implements OnInit {
-
-    terrainCtrl: FormControl = new FormControl();
-    courtCtrl: FormControl = new FormControl();
 
     rencontre:Rencontre;
     date:Date;

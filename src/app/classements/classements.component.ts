@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {Championnat} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
@@ -15,8 +14,6 @@ import {ClassementClub} from '../classementClub';
   styleUrls: ['./classements.component.css']
 })
 export class ClassementsComponent extends ChampionnatDetailComponent implements OnInit {
-
-  championnatCtrl: FormControl = new FormControl();
 
   championnats: Championnat[];
 

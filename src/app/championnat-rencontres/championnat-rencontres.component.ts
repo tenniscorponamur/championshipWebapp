@@ -1,5 +1,4 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
@@ -26,8 +25,6 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
   // Configuration of the time picker (format 12H with a default date and time)
    config = { hour: 18, minute: 0, meriden: 'PM', format: 24 };
-
-    championnatCtrl: FormControl = new FormControl();
 
     @Output() selectChampionnat = new EventEmitter<Championnat>();
 
@@ -58,7 +55,6 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
         private terrainService: TerrainService
     ) {
         super();
-        this.championnatCtrl = new FormControl();
     }
 
 
