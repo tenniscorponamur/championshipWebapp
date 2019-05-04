@@ -38,7 +38,6 @@
   </div>
   <div class="row text-center">
     <div class="col-12">
-      <form>
         <mat-form-field>
           <mat-select placeholder="Terrain" [(ngModel)]="terrainId" (change)="changeTerrain()">
             <mat-option>Aucun terrain</mat-option>
@@ -47,12 +46,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </form>
     </div>
   </div>
   <div *ngIf="isCourtPrecisable()" class="row text-center">
     <div class="col-12">
-      <form>
         <mat-form-field>
           <mat-select placeholder="Court" [(ngModel)]="courtId" >
             <mat-option>Aucun court</mat-option>
@@ -61,7 +58,6 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </form>
     </div>
   </div>
 

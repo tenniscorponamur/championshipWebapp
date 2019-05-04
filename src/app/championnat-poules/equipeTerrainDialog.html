@@ -1,7 +1,6 @@
 <h1 mat-dialog-title>Terrain à domicile</h1>
 <div mat-dialog-content >
   <div class="col-12">
-    <form>
       <mat-form-field>
         <mat-select placeholder="Terrain" [(ngModel)]="_terrainId" >
           <mat-option>Aucun terrain</mat-option>
@@ -10,7 +9,6 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </form>
   </div>
   <div align="center">
     <button class="btn btn-danger" (click)="cancel();">Annuler</button>
