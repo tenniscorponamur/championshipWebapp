@@ -3,7 +3,6 @@ import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
 import {Championnat, TypeChampionnat, CategorieChampionnat, getTypeChampionnat, getCategorieChampionnat, TYPE_CHAMPIONNAT_HIVER, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
-import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
 import {Division} from '../division';
 import {DivisionService} from '../division.service';
@@ -20,8 +19,6 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
     styleUrls: ['./championnat-equipes.component.css']
 })
 export class ChampionnatEquipesComponent extends ChampionnatDetailComponent implements OnInit {
-
-    championnatCtrl: FormControl = new FormControl();
 
     @Output() selectChampionnat = new EventEmitter<Championnat>();
 
@@ -42,7 +39,6 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
         private clubService: ClubService
     ) {
         super();
-        this.championnatCtrl = new FormControl();
     }
 
     ngOnInit() {

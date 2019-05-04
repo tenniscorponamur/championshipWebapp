@@ -40,7 +40,7 @@
     <div class="col-12">
       <form>
         <mat-form-field>
-          <mat-select placeholder="Terrain" [(ngModel)]="terrainId" [formControl]="terrainCtrl" (change)="changeTerrain()">
+          <mat-select placeholder="Terrain" [(ngModel)]="terrainId" (change)="changeTerrain()">
             <mat-option>Aucun terrain</mat-option>
             <mat-option *ngFor="let terrain of terrains" [value]="terrain.id">
               <small>{{ terrain.nom }}</small>
@@ -54,7 +54,7 @@
     <div class="col-12">
       <form>
         <mat-form-field>
-          <mat-select placeholder="Court" [(ngModel)]="courtId" [formControl]="courtCtrl">
+          <mat-select placeholder="Court" [(ngModel)]="courtId" >
             <mat-option>Aucun court</mat-option>
             <mat-option *ngFor="let court of courts" [value]="court.id">
               <small>{{ court.code }}</small>

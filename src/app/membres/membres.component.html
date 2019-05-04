@@ -12,15 +12,13 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                      <form>
-                            <mat-form-field>
-                              <mat-select #clubSelect placeholder="Clubs" [(ngModel)]="filtreSelectedClubs" [formControl]="clubCtrl" multiple (selectionChange)="filtre()">
-                                  <mat-option *ngFor="let club of clubs" [value]="club">
-                                      <small>{{ club.nom }}</small>
-                                  </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                      </form>
+                        <mat-form-field>
+                          <mat-select #clubSelect placeholder="Clubs" [(ngModel)]="filtreSelectedClubs" multiple (selectionChange)="filtre()">
+                              <mat-option *ngFor="let club of clubs" [value]="club">
+                                  <small>{{ club.nom }}</small>
+                              </mat-option>
+                          </mat-select>
+                        </mat-form-field>
                     </div>
                 </div>
                 <div align="right">

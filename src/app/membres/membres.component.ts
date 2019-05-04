@@ -10,7 +10,6 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {of} from 'rxjs/observable/of';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {ClubService} from '../club.service';
@@ -44,7 +43,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
 //      this.dataSource.sort = this.sort;
   }
 
-  clubCtrl: FormControl=new FormControl();
   clubs:Club[];
   genres:Genre[];
   echellesCorpo:any[]=[];
@@ -76,7 +74,6 @@ export class MembresComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private classementMembreService: ClassementMembreService,
     public dialog: MatDialog) {
-      this.clubCtrl = new FormControl();
       this.genres = GENRES;
     }
 

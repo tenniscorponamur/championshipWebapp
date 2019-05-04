@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Rencontre } from '../rencontre';
-import {FormControl} from '@angular/forms';
 import {ChampionnatService} from '../championnat.service';
 import {DivisionService} from '../division.service';
 import {PouleService} from '../poule.service';
@@ -35,11 +34,6 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
   @ViewChild("rencontreDetail") rencontreDetailComponent: ElementRef;
 
-  championnatCtrl: FormControl = new FormControl();
-  divisionCtrl: FormControl = new FormControl();
-  pouleCtrl: FormControl = new FormControl();
-  teamCtrl: FormControl = new FormControl();
-    
   date:Date=new Date();
 
   selectedChampionnat: Championnat;

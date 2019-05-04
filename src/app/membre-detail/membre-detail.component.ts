@@ -527,7 +527,6 @@ export class InfosGeneralesMembreDialog {
 })
 export class ClubInfosDialog {
 
-  clubCtrl: FormControl=new FormControl();
   clubs:Club[];
 
     _clubId:number;
@@ -545,7 +544,6 @@ export class ClubInfosDialog {
     private clubService:ClubService
     ) {
 
-      this.clubCtrl = new FormControl();
       this.clubService.getClubs().subscribe(clubs => this.clubs = clubs.sort((a,b) => compare(a.nom,b.nom,true)));
 
         this._membre = data.membre;
@@ -631,8 +629,6 @@ export class CoordonneesDialog implements OnInit {
    private _membre:Membre;
 
    _codePostal:string;
-   _localite:string;
-   _rue:string;
    _rueNumero:string;
    _rueBoite:string;
 
@@ -650,8 +646,8 @@ export class CoordonneesDialog implements OnInit {
     ) {
         this._membre = data.membre;
         this._codePostal=this._membre.codePostal;
-        this._localite=this._membre.localite;
-        this._rue=this._membre.rue;
+        this.localiteControl.setValue(this._membre.localite);
+        this.rueControl.setValue(this._membre.rue);
         this._rueNumero=this._membre.rueNumero;
         this._rueBoite=this._membre.rueBoite;
 
@@ -662,7 +658,7 @@ export class CoordonneesDialog implements OnInit {
     }
 
     codePostalChanged(){
-        this._localite='';
+        this.localiteControl.setValue('');
         if (this._codePostal != null && this._codePostal != undefined && this._codePostal != ''){
           this.localiteService.getRuesByCodePostal(this._codePostal).subscribe(rues => {
             this.rues = rues.sort((a,b) => compare(a,b,true));
@@ -673,7 +669,7 @@ export class CoordonneesDialog implements OnInit {
 
     localiteSelected(){
         if (this._codePostal == null || this._codePostal == undefined || this._codePostal == ''){
-            let localite:Localite = this.localites.find(localite => localite.nomLocalite == this._localite);
+            let localite:Localite = this.localites.find(localite => localite.nomLocalite == this.localiteControl.value);
             if (localite!=null){
                 this._codePostal=localite.codePostal;
             }
@@ -718,8 +714,8 @@ export class CoordonneesDialog implements OnInit {
 
   save(): void {
         this._membre.codePostal=this._codePostal;
-        this._membre.localite=this._localite;
-        this._membre.rue=this._rue;
+        this._membre.localite=this.localiteControl.value;
+        this._membre.rue=this.rueControl.value;
         this._membre.rueNumero=this._rueNumero;
         this._membre.rueBoite=this._rueBoite;
 
