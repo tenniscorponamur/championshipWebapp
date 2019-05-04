@@ -413,6 +413,10 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 //        }
 //    }
 
+    isCriterium(rencontre:Rencontre):boolean{
+      return rencontre.division.championnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code;
+    }
+
     getCategorieCode(rencontre:Rencontre):string{
         return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
     }
