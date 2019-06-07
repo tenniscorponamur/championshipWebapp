@@ -68,7 +68,7 @@
                   Récupération des membres
                 </div>
                 
-                <div *responsive="{bootstrap: ['md','sm','xs'] }" style="height:300px;overflow-y:auto;">
+                <div *responsive="{bootstrap: ['sm','xs'] }" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let membre of filteredMembers" (click)="ouvrirMembreOnMobile(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle {{styleMembre(membre)}}">
                       <i class="fa fa-user"></i>&nbsp;<span class="text-uppercase"><strong>{{membre.nom}}</strong></span>&nbsp;{{membre.prenom}}
@@ -79,7 +79,7 @@
                   </div>
                 </div>
                 
-                <div *responsive="{bootstrap: ['lg','xl'] }">
+                <div *responsive="{bootstrap: ['md','lg','xl'] }">
 
                   <div class="table-responsive" style="height:300px;">
                       <table *ngIf="!chargementMembres" class="membreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">

@@ -6,7 +6,7 @@
             </h4>
             <div class="card-body text-center">
                 
-                <div *responsive="{bootstrap: ['md','sm','xs'] }" style="height:300px;overflow-y:auto;">
+                <div *responsive="{bootstrap: ['sm','xs'] }" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let utilisateur of sortedUsers" (click)="ouvrirUtilisateur(utilisateur);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle">
                         <i class="fa fa-user"></i>&nbsp;<strong>{{utilisateur.username}}</strong>&nbsp;<span class="text-uppercase">{{utilisateur.nom}}</span>&nbsp;{{utilisateur.prenom}}
@@ -14,7 +14,7 @@
                   </div>
                 </div>
                 
-                <div *responsive="{bootstrap: ['lg','xl'] }">
+                <div *responsive="{bootstrap: ['md','lg','xl'] }">
                   <div class="table-responsive" style="height:300px;">
                       <table class="utilisateurTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
                           <!--table-striped-->
