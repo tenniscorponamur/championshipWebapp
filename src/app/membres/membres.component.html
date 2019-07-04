@@ -68,7 +68,7 @@
                   Récupération des membres
                 </div>
 
-                <div class="text-left">
+                <div *ngIf="!chargementMembres" class="text-left">
                   <small><span>Après filtre : {{filteredMembers.length}} membres</span></small>
                 </div>
 
