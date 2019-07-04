@@ -47,6 +47,10 @@ export class RencontreService {
         return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isResultatsModifiables", this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    isForfaitPossible(rencontre:Rencontre) {
+        return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isForfaitPossible", this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     isResultatsCloturables(rencontre:Rencontre) {
         return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isResultatsCloturables", this.authenticationService.getPrivateApiHttpOptions());
     }
@@ -77,6 +81,10 @@ export class RencontreService {
 
     updateRencontreCommentairesEncodeur(rencontre: Rencontre) {
         return this.http.put<Rencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre/commentairesEncodeur", rencontre, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    forfaitRencontre(rencontre:Rencontre, forfaitVisiteurs:boolean){
+      return this.http.put<Rencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre/forfait?forfaitVisiteurs=" + forfaitVisiteurs, rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     updateResultatsEncodesRencontre(rencontre:Rencontre, resultatsEncodes:boolean, message:string){

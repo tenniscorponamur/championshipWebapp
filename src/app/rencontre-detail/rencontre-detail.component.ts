@@ -58,6 +58,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     canAuthoriseEncodage:boolean=false;
     canAuthoriseValidation:boolean=false;
     isResultatsRencontreModifiables:boolean=false;
+    isForfaitPossible:boolean=false;
     isResultatsCloturables:boolean=false;
     isPoursuiteEncodagePossible:boolean=false;
     isEtatValidable:boolean=false;
@@ -123,6 +124,19 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         return joueurManquant;
       }
       return false;
+    }
+
+    forfait(forfaitVisiteurs:boolean){
+
+      // Faire appel a un service pour declarer le forfait
+      // Faire ensuite un refresh de la rencontre (et de ses statuts) et un refresh des matchs
+
+      if (this.isForfaitPossible){
+        this.rencontreService.forfaitRencontre(this.rencontre,forfaitVisiteurs).subscribe(rencontre => {
+          this.rencontre = rencontre;
+        });
+      }
+
     }
 
     isSimpleExists():boolean{
@@ -408,6 +422,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             this.rencontreService.canAuthoriseEncodage(this.rencontre).subscribe(result => this.canAuthoriseEncodage = result);
             this.rencontreService.canAuthoriseValidation(this.rencontre).subscribe(result => this.canAuthoriseValidation = result);
             this.rencontreService.isResultatsRencontreModifiables(this.rencontre).subscribe(result => this.isResultatsRencontreModifiables = result);
+            this.rencontreService.isForfaitPossible(this.rencontre).subscribe(result => this.isForfaitPossible = result);
             this.rencontreService.isResultatsCloturables(this.rencontre).subscribe(result => this.isResultatsCloturables = result);
             this.rencontreService.isPoursuiteEncodagePossible(this.rencontre).subscribe(result => this.isPoursuiteEncodagePossible = result);
             this.rencontreService.isEtatValidable(this.rencontre).subscribe(result => this.isEtatValidable = result);

@@ -293,6 +293,15 @@
         </div>
     </div>
 
+    <div *ngIf="isForfaitPossible" class="row text-center">
+      <div class="col-6">
+        <button class="btn btn-sm btn-danger" (click)="forfait(false);"><i class="fa fa-power-off"></i>&nbsp;Forfait {{rencontre.equipeVisites.codeAlphabetique}}</button>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-sm btn-danger" (click)="forfait(true);"><i class="fa fa-power-off"></i>&nbsp;Forfait {{rencontre.equipeVisiteurs.codeAlphabetique}}</button>
+      </div>
+    </div>
+
   </div>
 
 </div>
