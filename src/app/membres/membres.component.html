@@ -67,7 +67,11 @@
                   <mat-spinner diameter=50 style="margin:auto"></mat-spinner>
                   Récupération des membres
                 </div>
-                
+
+                <div class="text-left">
+                  <small><span>Après filtre : {{filteredMembers.length}} membres</span></small>
+                </div>
+
                 <div *responsive="{bootstrap: ['sm','xs'] }" style="height:300px;overflow-y:auto;">
                   <div *ngFor="let membre of filteredMembers" (click)="ouvrirMembreOnMobile(membre);" class="myBox text-left" style="cursor:pointer;">
                     <div class="myBoxTitle {{styleMembre(membre)}}">

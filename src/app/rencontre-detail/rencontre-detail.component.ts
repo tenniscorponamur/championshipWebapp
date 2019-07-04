@@ -105,6 +105,26 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       return true;
     }
 
+    isJoueursManquants(){
+      if (this.isResultatsCloturables || this.isPoursuiteEncodagePossible || this.isEtatValidable || this.isValidable || this.rencontre.valide){
+        let joueurManquant:boolean = false;
+        this.matchs.forEach(match => {
+          if (MATCH_SIMPLE == match.match.type){
+              if (match.match.joueurVisites1==null || match.match.joueurVisiteurs1==null){
+                joueurManquant=true;
+              }
+          }
+          if (MATCH_DOUBLE == match.match.type){
+              if (match.match.joueurVisites1==null || match.match.joueurVisiteurs1==null || match.match.joueurVisites2==null || match.match.joueurVisiteurs2==null){
+                joueurManquant=true;
+              }
+          }
+        });
+        return joueurManquant;
+      }
+      return false;
+    }
+
     isSimpleExists():boolean{
       let simpleExists:boolean = false;
       this.matchs.forEach(match => {

@@ -78,6 +78,7 @@
                           <button class="btn btn-sm btn-success" (click)="setValidite(true);" >Valider&nbsp;<i class="fa fa-check"></i></button>
                       </div>
                   </div>
+
                   <div *ngIf="rencontre.valide">
                       <div>
                         <span style="font-weight:bold;color:darkgreen"><em>Résultats validés</em></span>
@@ -88,7 +89,9 @@
                       </div>
                   </div>
 
-
+                  <div *ngIf="isJoueursManquants();">
+                    <small style="color:red">Certains joueurs non-précisés</small>
+                  </div>
 
               </div>
             </div>
