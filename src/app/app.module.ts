@@ -54,7 +54,7 @@ import { RencontreDetailComponent, AskPasswordToValidateDialog, CapitaineDetailD
 import { ClassementDetailComponent, RencontresDialog } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
-import { ClubDetailComponent, ClubDialog, ClubTerrainDialog } from './club-detail/club-detail.component';
+import { ClubDetailComponent, ClubDialog, ClubTerrainDialog, InfosFacturationDialog } from './club-detail/club-detail.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { UtilisateurDetailComponent, UserDialog } from './utilisateur-detail/utilisateur-detail.component';
 import { ChampionnatsComponent } from './championnats/championnats.component';
@@ -142,6 +142,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
     TerrainDetailComponent,
     TerrainDialog,
     ClubTerrainDialog,
+    InfosFacturationDialog,
     MembreSelectionComponent,
     DocumentsComponent,
     PlanificationCriteriumComponent,
@@ -198,6 +199,7 @@ import { ReleaseNotesComponent } from './release-notes/release-notes.component';
       ClubDialog,
       TerrainDialog,
       ClubTerrainDialog,
+      InfosFacturationDialog,
       UserDialog,
       SelectionClubDialog,
       MembreListingDialog,

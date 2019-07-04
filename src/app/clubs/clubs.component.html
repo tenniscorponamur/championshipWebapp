@@ -9,17 +9,17 @@
         <div *responsive="{bootstrap: ['sm','xs'] }" style="height:300px;overflow-y:auto;">
           <div *ngFor="let club of sortedClubs" (click)="ouvrirClub(club);" class="myBox text-left" style="cursor:pointer;">
             <div class="myBoxTitle {{styleClub(club)}}">
-              <span class="text-uppercase">{{club.nom}}</span>
+              <span class="text-uppercase">{{club.numero}} - {{club.nom}}</span>
             </div>
             <div class="myBoxContent">
-              {{club.numero}}
-              <br/>
-              {{club.description}}
+              <span *ngIf="club.description">{{club.description}}<br/></span>
+              <span *ngIf="club.numeroTVA">{{club.numeroTVA}}<br/></span>
+              <span *ngIf="club.adresse">{{club.adresse}}</span>
             </div>
           </div>
         </div>
 
-        <div *responsive="{bootstrap: ['md','lg','xl'] }">
+        <div *responsive="{bootstrap: ['md','lg','xl'] }" class="text-left">
 
           <div class="table-responsive" style="height:300px;">
             <table class="clubTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
@@ -28,12 +28,16 @@
               <tr>
                 <th scope="col" mat-sort-header="numero">Numéro</th>
                 <th scope="col" mat-sort-header="nom">Nom</th>
+                <th scope="col" >Numéro TVA</th>
+                <th scope="col" >Adresse</th>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let club of sortedClubs" (click)="ouvrirClub(club);" class="text-left">
                 <td class="{{styleClub(club)}}">{{club.numero}}</td>
                 <td class="{{styleClub(club)}} text-uppercase">{{club.nom}}</td>
+                <td class="{{styleClub(club)}}">{{club.numeroTVA}}</td>
+                <td class="{{styleClub(club)}}">{{club.adresse}}</td>
               </tr>
               </tbody>
             </table>

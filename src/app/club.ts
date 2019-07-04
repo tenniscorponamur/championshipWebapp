@@ -5,6 +5,8 @@ export class Club {
     numero:string;
     nom: string;
     description: string;
+    numeroTVA: string;
+    adresse: string;
     terrain:Terrain;
     actif: boolean=true;
 }

@@ -57,6 +57,14 @@ export class ClubDetailComponent implements OnInit {
         clubTerrainDialogRef.afterClosed().subscribe();
     }
 
+    ouvrirInfosFacturation(){
+        let infosFacturationDialogRef = this.dialog.open(InfosFacturationDialog, {
+          data: { club: this.club}, panelClass: "infosFacturationDialog", disableClose:true
+        });
+
+        infosFacturationDialogRef.afterClosed().subscribe();
+    }
+
     supprimerClub(){
         if (this.deletable){
           this.deleteClub.emit(this._club);
@@ -193,5 +201,42 @@ export class ClubTerrainDialog {
         result => {
             this.dialogRef.close(this._club);
      });
+  }
+}
+
+@Component({
+  selector: 'informations-facturation-dialog',
+  templateUrl: './infosFacturationDialog.html',
+})
+export class InfosFacturationDialog {
+
+    _numeroTVA:string;
+    _adresse:string;
+
+    private _club:Club;
+
+  constructor(
+    public dialogRef: MatDialogRef<InfosFacturationDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private clubService: ClubService) {
+
+        this._club = data.club;
+        this._numeroTVA = this._club.numeroTVA;
+        this._adresse = this._club.adresse;
+
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+      this._club.numeroTVA=this._numeroTVA;
+      this._club.adresse=this._adresse;
+
+      this.clubService.updateClub(this._club).subscribe(
+          result => {
+              this.dialogRef.close(this._club);
+       });
   }
 }
