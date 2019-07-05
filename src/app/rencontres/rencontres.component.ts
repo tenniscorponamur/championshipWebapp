@@ -57,8 +57,11 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   selectedRencontre:Rencontre;
   
   alertView:boolean=false;
-  classicView:boolean=true;
-  criteriumView:boolean=false;
+  divisionView:boolean=true;
+  clubView:boolean=false;
+  dateView:boolean=false;
+
+  //TODO : conserver la corporation par defaut comme pour la division afin de l'utiliser dans la vue clubView
 
   constructor(
         private route: ActivatedRoute,
@@ -81,8 +84,9 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
       .subscribe(params => {
         if (params.mode=='alertes') {
           this.alertView = true;
-          this.classicView = false;
-          this.criteriumView = true;
+          this.divisionView = false;
+          this.clubView = false;
+          this.dateView = false;
           if (params.type=='a_encoder'){
             this.selectedTypeRencontre = RENCONTRES_A_ENCODER;
           }else if (params.type=='a_valider'){
@@ -131,27 +135,48 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
       });
   }
 
-    changeToClassicView(){
-        this.classicView=true;
-        this.criteriumView=false;
+    changeToDivisionView(){
+      if (!this.divisionView){
+        this.divisionView=true;
+        this.clubView=false;
+        this.dateView=false;
         this.alertView = false;
         this.loadRencontres();
+      }
     }
 
-    changeToCriteriumView(){
-        this.classicView=false;
-        this.criteriumView=true;
+    changeToClubView(){
+      if (!this.clubView){
+        this.divisionView=false;
+        this.clubView=true;
+        this.dateView=false;
         this.alertView = false;
         this.loadRencontres();
+      }
+    }
+
+    changeToDateView(){
+      if (!this.dateView){
+        this.divisionView=false;
+        this.clubView=false;
+        this.dateView=true;
+        this.alertView = false;
+        this.loadRencontres();
+      }
     }
 
     changeToAlertView(){
         if (!this.alertView) {
+          this.divisionView=false;
+          this.clubView=false;
+          this.dateView=false;
           this.alertView = true;
-          this.classicView = !this.classicView;
-          this.criteriumView = !this.criteriumView;
-          this.loadRencontres();
+          this.refreshAlertes();
         }
+    }
+
+    getSelectedViewClass(selectedView){
+      return selectedView?"selectedView":"";
     }
 
   isAdminConnected(){
@@ -197,7 +222,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
           this.sortedRencontres = this.rencontresAvecAlertes.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
           this.sortData(this.actualSort);
 
-        } else if (this.classicView){
+        } else if (this.divisionView){
             
             if (this.selectedDivision) {
               this.localStorageService.storeChampionshipDivisionKey(JSON.stringify(this.selectedDivision));
@@ -216,7 +241,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
               });
 
             }
-        } else if (this.criteriumView){
+        } else if (this.dateView){
             
             if (this.date){
                 
@@ -317,7 +342,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                 });
        }
 
-        if (this.classicView && !this.alertView){
+        if (this.divisionView){
             if (this.selectedPouleIds  && this.selectedPouleIds.length > 0){
                  this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                      return this.selectedPouleIds.some(selectedPouleId => {
