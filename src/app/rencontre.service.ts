@@ -19,6 +19,10 @@ export class RencontreService {
         return this.http.get<Rencontre[]>(this.environmentService.getPublicApiUrl() + "/rencontres?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):"")+(equipeId!=null?("&equipeId="+equipeId):""));
     }
 
+    getRencontresByClub(championnatId: number,clubId:number): Observable<Rencontre[]> {
+        return this.http.get<Rencontre[]>(this.environmentService.getPublicApiUrl() + "/rencontresByClub?championnatId=" + championnatId + "&clubId="+clubId);
+    }
+
     getRencontresByDate(date:Date): Observable<Rencontre[]> {
         return this.http.get<Rencontre[]>(this.environmentService.getPublicApiUrl() + "/rencontres/byDate?date=" + formatDate(date));
     }

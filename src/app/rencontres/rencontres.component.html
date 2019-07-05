@@ -35,7 +35,7 @@
             </div>
             <div class="card-body text-center">
 
-                <div *ngIf="divisionView" class="row">
+                <div *ngIf="divisionView || clubView" class="row">
 
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field>
@@ -59,7 +59,19 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  <div *ngIf="clubView" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                    <mat-form-field *ngIf="clubs.length>0">
+                      <mat-select placeholder="Club" [(ngModel)]="selectedClub" (selectionChange)="loadRencontres();" >
+                        <mat-option *ngFor="let club of clubs" [value]="club">
+                          <small>
+                            {{club.nom}}
+                          </small>
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                    <div *ngIf="divisionView" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field *ngIf="divisions.length>0">
                             <mat-select placeholder="Division" [(ngModel)]="selectedDivision" (selectionChange)="loadRencontres();" >
                                 <mat-option *ngFor="let division of divisions" [value]="division">
@@ -72,7 +84,7 @@
 
                     </div>
 
-                    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                    <div *ngIf="divisionView" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field *ngIf="poules.length>1">
                             <mat-select #pouleSelect placeholder="Contexte" [(ngModel)]="selectedPouleIds" multiple (selectionChange)="filtre()">
                                 <mat-option *ngFor="let poule of poules" [value]="poule.id">
@@ -84,6 +96,9 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+
+                  <div *ngIf="clubView" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  </div>
 
                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                         <mat-form-field *ngIf="equipes.length>0">
@@ -122,7 +137,7 @@
 
                 <div *responsive="{bootstrap: ['sm','xs'] }" class="text-left" style="height:300px;overflow-y:auto;">
 
-                    <div *ngIf="divisionView || alertView" >
+                    <div *ngIf="divisionView || clubView || alertView" >
                         <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                             <div class="myBoxTitle">
                                 <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}
@@ -157,7 +172,7 @@
                 </div>
 
                 <div *responsive="{bootstrap: ['md','lg','xl'] }" class="text-left">
-                    <div *ngIf="divisionView || alertView" class="table-responsive" style="height:300px;">
+                    <div *ngIf="divisionView || clubView || alertView" class="table-responsive" style="height:300px;">
                         <table class="rencontreTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
                                <!--table-striped-->
                                <thead class="bg-info" >

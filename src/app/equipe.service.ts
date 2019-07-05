@@ -18,6 +18,10 @@ export class EquipeService {
         return this.http.get<Equipe[]>(this.environmentService.getPublicApiUrl() + "/equipes?divisionId=" + divisionId+(pouleId!=null?("&pouleId="+pouleId):""));
     }
 
+    getEquipesByClub(championnatId: number,clubId:number): Observable<Equipe[]> {
+        return this.http.get<Equipe[]>(this.environmentService.getPublicApiUrl() + "/equipesByClub?championnatId=" + championnatId + "&clubId=" + clubId);
+    }
+
     ajoutEquipe(divisionId: number, equipe: Equipe) {
         return this.http.post<Equipe>(this.environmentService.getPrivateApiUrl() + "/equipe?divisionId=" + divisionId, equipe, this.authenticationService.getPrivateApiHttpOptions());
     }

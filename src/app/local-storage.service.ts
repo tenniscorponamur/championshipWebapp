@@ -8,6 +8,7 @@ const TENNIS_CORPO_REFRESH_TOKEN_KEY = "tennisCorpoRefreshToken";
 const TENNIS_CORPO_CHAMPIONSHIP_KEY = "tennisCorpoChampionship";
 const TENNIS_CORPO_CHAMPIONSHIP_INDEX_KEY = "tennisCorpoChampionshipIndex";
 const TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY = "tennisCorpoChampionshipDivision";
+const TENNIS_CORPO_CLUB_KEY = "tennisCorpoClub";
 
 @Injectable()
 export class LocalStorageService {
@@ -85,6 +86,16 @@ export class LocalStorageService {
 
   getChampionshipDivisionKey(){
     return localStorage.getItem(TENNIS_CORPO_CHAMPIONSHIP_DIVISION_KEY);
+  }
+
+  storeClubKey(clubKey:string){
+    if (this.isCookieAuthorized()){
+      localStorage.setItem(TENNIS_CORPO_CLUB_KEY,clubKey);
+    }
+  }
+
+  getClubKey(){
+    return localStorage.getItem(TENNIS_CORPO_CLUB_KEY);
   }
 
   clearLocalStorage(){

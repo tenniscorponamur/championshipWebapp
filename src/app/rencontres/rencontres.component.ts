@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router';
 import { Rencontre } from '../rencontre';
 import {ChampionnatService} from '../championnat.service';
+import {ClubService} from '../club.service';
 import {DivisionService} from '../division.service';
 import {PouleService} from '../poule.service';
 import {EquipeService} from '../equipe.service';
@@ -38,7 +39,9 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
   selectedChampionnat: Championnat;
   championnats: Championnat[];
+  clubs:Club[];
   divisions: Division[]=[];
+  selectedClub:Club;
   selectedDivision: Division;
 
   equipes:Equipe[]=[];
@@ -61,11 +64,10 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   clubView:boolean=false;
   dateView:boolean=false;
 
-  //TODO : conserver la corporation par defaut comme pour la division afin de l'utiliser dans la vue clubView
-
   constructor(
         private route: ActivatedRoute,
         private championnatService: ChampionnatService,
+        private clubService: ClubService,
         private divisionService: DivisionService,
         private pouleService: PouleService,
         private equipeService: EquipeService,
@@ -97,29 +99,35 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
       this.refreshAlertes();
 
-        this.championnatService.getChampionnats().subscribe(championnats => {
-            this.championnats = championnats.sort(
-                (a, b) => {
-                    let comparaisonAnnee = compare(a.annee, b.annee, false);
-                    if (comparaisonAnnee != 0) {
-                        return comparaisonAnnee;
-                    } else {
-                        let comparaisonType = compare(a.type, b.type, true);
-                        if (comparaisonType != 0) {
-                            return comparaisonType;
-                        } else {
-                            return compare(a.categorie, b.categorie, true);
-                        }
-                    }
-                });
+      this.clubService.getClubs().subscribe(clubs => {
+        this.clubs = clubs.sort((a,b) => compare(a.nom,b.nom,true));
+        let clubInLocalStorage = this.localStorageService.getClubKey();
+        this.selectedClub = this.clubs.find(club => club.id == JSON.parse(clubInLocalStorage).id);
+      });
 
-              let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
-              if (championnatInLocalStorage) {
-                this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
-                this.loadDivisions();
-              }
+      this.championnatService.getChampionnats().subscribe(championnats => {
+          this.championnats = championnats.sort(
+              (a, b) => {
+                  let comparaisonAnnee = compare(a.annee, b.annee, false);
+                  if (comparaisonAnnee != 0) {
+                      return comparaisonAnnee;
+                  } else {
+                      let comparaisonType = compare(a.type, b.type, true);
+                      if (comparaisonType != 0) {
+                          return comparaisonType;
+                      } else {
+                          return compare(a.categorie, b.categorie, true);
+                      }
+                  }
+              });
 
-        });
+            let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
+            if (championnatInLocalStorage) {
+              this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
+              this.loadDivisions();
+            }
+
+      });
   }
 
   refreshAlertes(){
@@ -241,6 +249,23 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
               });
 
             }
+        } else if (this.clubView){
+
+              if (this.selectedChampionnat && this.selectedClub) {
+                this.localStorageService.storeClubKey(JSON.stringify(this.selectedClub));
+
+                // Charger les equipes et les rencontres par corporation
+
+                this.equipeService.getEquipesByClub(this.selectedChampionnat.id, this.selectedClub.id).subscribe(equipes => {
+                    this.equipes = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true));
+                });
+
+                this.rencontreService.getRencontresByClub(this.selectedChampionnat.id, this.selectedClub.id).subscribe(rencontresClub => {
+                    this.sortedRencontres = rencontresClub.sort((a, b) => compare(a.dateHeureRencontre, b.dateHeureRencontre,true));
+                    this.sortData(this.actualSort);
+                });
+
+              }
         } else if (this.dateView){
             
             if (this.date){
@@ -354,7 +379,9 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                          }
                      })});
              }
+        }
 
+        if (this.divisionView || this.clubView) {
             if (this.selectedTeams && this.selectedTeams.length > 0){
                  this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
                      return this.selectedTeams.some(selectedTeam => {
