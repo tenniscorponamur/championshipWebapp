@@ -142,7 +142,7 @@
                             <div class="myBoxTitle">
                                 <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}
                               <span *ngIf="!isCriterium(rencontre) && rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
-                              <span *ngIf="isCriterium(rencontre) && rencontre.court"> - <em>Court {{rencontre.court.code}}</em></span>
+                              <span *ngIf="isCriterium(rencontre) && rencontre.court"> - <em>Court {{rencontre.court.code}}</em></span> - {{getCategorieCode(rencontre)}}
                             </div>
                             <div class="myBoxContent">
                                 <span *ngIf="rencontre.informationsInterserie"><small>{{rencontre.informationsInterserie}}</small><br/></span>
@@ -150,6 +150,7 @@
                                 &nbsp;-&nbsp;
                                 <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
                                 <span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span>&nbsp;-&nbsp;<span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span>
+                                <span *ngIf="rencontre.commentairesEncodeur">&nbsp;<i class="fa fa-commenting-o"></i></span>
                             </div>
                         </div>
                     </div>
@@ -166,6 +167,7 @@
                                 &nbsp;-&nbsp;
                                 <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span>&nbsp;:&nbsp;
                                 <span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span>&nbsp;-&nbsp;<span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span>
+                                <span *ngIf="rencontre.commentairesEncodeur">&nbsp;<i class="fa fa-commenting-o"></i></span>
                             </div>
                         </div>
                     </div>
@@ -224,7 +226,7 @@
                                     </td>
                                     <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.equipeVisites.codeAlphabetique}}</span></td>
                                     <td><span class="{{getVisiteursClass(rencontre)}}">{{rencontre.equipeVisiteurs.codeAlphabetique}}</span></td>
-                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span></td>
+                                    <td><span class="{{getVisitesClass(rencontre)}}">{{rencontre.pointsVisites}}</span> - <span class="{{getVisiteursClass(rencontre)}}">{{rencontre.pointsVisiteurs}}</span><span *ngIf="rencontre.commentairesEncodeur">&nbsp;<i class="fa fa-commenting-o"></i></span></td>
                                 </tr>
                             </tbody>
                         </table>
