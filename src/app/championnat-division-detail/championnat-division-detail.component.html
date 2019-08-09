@@ -67,8 +67,8 @@
 
                                     <tr *ngFor="let division of divisions" class="text-left">
                                         <td>{{division.numero}}</td>
-                                        <td><input type="number" [(ngModel)]="division.pointsMinimum" step="5" disabled="{{championnat.calendrierValide}}" style="width:5em" (keyup.enter)="pointsMinChanged(division);" (blur)="pointsMinChanged(division);" ></td>
-                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" step="5" disabled="{{championnat.calendrierValide}}" style="width:5em" (keyup.enter)="pointsMaxChanged(division);" (blur)="pointsMaxChanged(division);"></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMinimum" step="5" disabled="{{championnat.calendrierValide}}" style="width:5em" (change)="pointsMinChanged(division);" (keyup.enter)="pointsMinChanged(division);" (blur)="pointsMinChanged(division);" ></td>
+                                        <td><input type="number" [(ngModel)]="division.pointsMaximum" step="5" disabled="{{championnat.calendrierValide}}" style="width:5em" (change)="pointsMaxChanged(division);" (keyup.enter)="pointsMaxChanged(division);" (blur)="pointsMaxChanged(division);"></td>
                                         <td class="text-center"><input type="checkbox" [(ngModel)]="division.multiIS" disabled="{{championnat.calendrierValide}}" (change)="multiISChanged(division);" /></td>
                                         <td class="text-center"><input type="checkbox" [(ngModel)]="division.withFinales" disabled="{{championnat.calendrierValide}}" (change)="withFinalesChanged(division);" /></td>
                                         <td *ngIf="!championnat.calendrierValide"><button (click)="supprimerDivision(division);" class="deleteDivisionButton"><i class="fa fa-trash" ></i></button></td>
