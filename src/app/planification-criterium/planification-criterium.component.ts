@@ -199,7 +199,14 @@ export class JourneeCriteriumDialog implements OnInit {
         }
 
     ngOnInit() {
-        this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.sort((a, b) => compare(a.nom,b.nom,true)));
+        this.terrainService.getTerrains().subscribe(terrains => {
+          this.terrains = terrains.sort((a, b) => compare(a.nom,b.nom,true));
+          this.terrains.forEach(terrain => {
+            if (terrain.terrainCriteriumParDefaut){
+              this.terrainId = terrain.id;
+            }
+          });
+        });
     }
 
     save(): void {

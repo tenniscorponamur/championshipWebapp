@@ -5,6 +5,7 @@ export class Terrain {
   nom:string;
   description: string;
   adresse:string;
+  terrainCriteriumParDefaut:boolean=false;
   actif: boolean=true;
 }
 

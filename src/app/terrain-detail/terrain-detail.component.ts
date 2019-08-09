@@ -149,6 +149,7 @@ export class TerrainDialog {
     _nom:string;
     _description:string;
     _adresse:string;
+    _terrainCriteriumParDefaut:boolean;
     _actif:boolean;
 
     showAlert:boolean=false;
@@ -164,6 +165,7 @@ export class TerrainDialog {
         this._nom = this._terrain.nom;
         this._description = this._terrain.description;
         this._adresse = this._terrain.adresse;
+        this._terrainCriteriumParDefaut=this._terrain.terrainCriteriumParDefaut;
         this._actif = this._terrain.actif;
 
     }
@@ -188,6 +190,7 @@ export class TerrainDialog {
         this._terrain.nom=this._nom;
         this._terrain.description=this._description;
         this._terrain.adresse=this._adresse;
+        this._terrain.terrainCriteriumParDefaut=this._terrainCriteriumParDefaut;
         this._terrain.actif=this._actif;
 
         if (!this._terrain.id){
