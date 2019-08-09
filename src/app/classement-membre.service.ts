@@ -37,6 +37,10 @@ export class ClassementMembreService {
     return this.http.get<ClassementCorpo[]>(this.environmentService.getPublicApiUrl() + "/membre/" + membreId + "/classementsCorpo");
   }
 
+  getPointsCorpoByMembreAndDate(membreId:number, date:Date): Observable<number> {
+    return this.http.get<number>(this.environmentService.getPublicApiUrl() + "/membre/" + membreId + "/pointsCorpoByDate?date=" + formatDate(new Date(date)));
+  }
+
   updateClassementsCorpo(membreId: number, classementsCorpo: ClassementCorpo[]) {
         return this.http.put<ClassementCorpo>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementsCorpo", classementsCorpo, this.authenticationService.getPrivateApiHttpOptions());
     }

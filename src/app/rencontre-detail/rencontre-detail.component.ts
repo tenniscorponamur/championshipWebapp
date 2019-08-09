@@ -159,23 +159,50 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       return doubleExists;
     }
 
-  getPointsCorpo(membre:Membre):number{
-    if (membre.classementCorpoActuel){
+  getPointsCorpo(match:MatchExtended,indexEquipe: number, indexJoueurEquipe: number):number{
+
+    // Recuperer le classement du membre a la date de la rencontre
+    // Information connue dans le matchExtended au chargement de ce dernier
+    // Recuperer l'information lors de la selection d'un joueur egalement, ou reinitialiser le cas echeant
+
+    let points = null;
+    let membre = null;
+
+    if (indexEquipe == 1) {
+        if (indexJoueurEquipe == 1) {
+            points = match.pointsJoueurVisites1;
+            membre = match.match.joueurVisites1;
+        } else {
+            points = match.pointsJoueurVisites2;
+            membre = match.match.joueurVisites2;
+        }
+    } else {
+        if (indexJoueurEquipe == 1) {
+            points = match.pointsJoueurVisiteurs1;
+            membre = match.match.joueurVisiteurs1;
+        } else {
+            points = match.pointsJoueurVisiteurs2;
+            membre = match.match.joueurVisiteurs2;
+        }
+    }
+
+    if (membre!=null && points != null){
       if (this.isChampionnatHomme() && this.mapEquivalence!=null && membre.genre == GENRE_FEMME.code){
-        return this.mapEquivalence[membre.classementCorpoActuel.points];
+        return this.mapEquivalence[points];
       }else{
-        return membre.classementCorpoActuel.points;
+        return points;
       }
     }
     return null;
   }
 
     pointsSimplesVisites():number{
+
       let pointsSimples: number = 0;
       this.matchs.forEach(match => {
         if (MATCH_SIMPLE == match.match.type){
-          if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
-            pointsSimples = pointsSimples + this.getPointsCorpo(match.match.joueurVisites1);
+          if (match.match.joueurVisites1!=null){
+            pointsSimples = pointsSimples + this.getPointsCorpo(match,1,1);
           }
         }
       });
@@ -186,8 +213,8 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       let pointsSimples: number = 0;
       this.matchs.forEach(match => {
         if (MATCH_SIMPLE == match.match.type){
-          if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
-            pointsSimples = pointsSimples + this.getPointsCorpo(match.match.joueurVisiteurs1);
+          if (match.match.joueurVisiteurs1!=null){
+            pointsSimples = pointsSimples + this.getPointsCorpo(match,2,1);
           }
         }
       });
@@ -201,11 +228,11 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       if (this.rencontre.division.championnat.type!=TYPE_CHAMPIONNAT_COUPE_HIVER.code){
         this.matchs.forEach(match => {
           if (MATCH_DOUBLE == match.match.type){
-            if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
-              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites1);
+            if (match.match.joueurVisites1!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match,1,1);
             }
-            if (match.match.joueurVisites2!=null && match.match.joueurVisites2.classementCorpoActuel!=null){
-              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisites2);
+            if (match.match.joueurVisites2!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match,1,2);
             }
           }
         });
@@ -215,11 +242,11 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         // Sinon on fait deux par deux et on prend le maximum pour afficher l'alerte
         this.matchs.forEach(match => {
           if (MATCH_DOUBLE == match.match.type){
-            if (match.match.joueurVisites1!=null && match.match.joueurVisites1.classementCorpoActuel!=null){
-              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisites1);
+            if (match.match.joueurVisites1!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match,1,1);
             }
-            if (match.match.joueurVisites2!=null && match.match.joueurVisites2.classementCorpoActuel!=null){
-              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisites2);
+            if (match.match.joueurVisites2!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match,1,2);
             }
             cpt++;
           }
@@ -240,11 +267,11 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       if (this.rencontre.division.championnat.type!=TYPE_CHAMPIONNAT_COUPE_HIVER.code){
         this.matchs.forEach(match => {
           if (MATCH_DOUBLE == match.match.type){
-            if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
-              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs1);
+            if (match.match.joueurVisiteurs1!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match,2,1);
             }
-            if (match.match.joueurVisiteurs2!=null && match.match.joueurVisiteurs2.classementCorpoActuel!=null){
-              pointsDoubles = pointsDoubles + this.getPointsCorpo(match.match.joueurVisiteurs2);
+            if (match.match.joueurVisiteurs2!=null){
+              pointsDoubles = pointsDoubles + this.getPointsCorpo(match,2,2);
             }
           }
         });
@@ -254,11 +281,11 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         // Sinon on fait deux par deux et on prend le maximum pour afficher l'alerte
         this.matchs.forEach(match => {
           if (MATCH_DOUBLE == match.match.type){
-            if (match.match.joueurVisiteurs1!=null && match.match.joueurVisiteurs1.classementCorpoActuel!=null){
-              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisiteurs1);
+            if (match.match.joueurVisiteurs1!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match,2,1);
             }
-            if (match.match.joueurVisiteurs2!=null && match.match.joueurVisiteurs2.classementCorpoActuel!=null){
-              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match.match.joueurVisiteurs2);
+            if (match.match.joueurVisiteurs2!=null){
+              pointsDeuxDoubles = pointsDeuxDoubles + this.getPointsCorpo(match,2,2);
             }
             cpt++;
           }
@@ -326,6 +353,8 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
                     this.matchs.push(matchExtended);
 
+                    this.initPointsJoueurs(matchExtended);
+
                     this.setService.getSets(match.id).subscribe(sets => {
                         matchExtended.sets = sets.sort((a, b) => compare(a.ordre, b.ordre, true));
 
@@ -352,6 +381,34 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
         }
         );
+    }
+
+    initPointsJoueurs(matchExtended:MatchExtended){
+
+        // Pour chaque joueur du match defini, recuperer les points
+        if (matchExtended.match.joueurVisites1 != null){
+          this.classementMembreService.getPointsCorpoByMembreAndDate(matchExtended.match.joueurVisites1.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+            matchExtended.pointsJoueurVisites1 = pointsCorpo;
+          });
+        }
+
+        if (matchExtended.match.joueurVisites2 != null){
+          this.classementMembreService.getPointsCorpoByMembreAndDate(matchExtended.match.joueurVisites2.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+            matchExtended.pointsJoueurVisites2 = pointsCorpo;
+          });
+        }
+
+        if (matchExtended.match.joueurVisiteurs1 != null){
+          this.classementMembreService.getPointsCorpoByMembreAndDate(matchExtended.match.joueurVisiteurs1.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+            matchExtended.pointsJoueurVisiteurs1 = pointsCorpo;
+          });
+        }
+
+        if (matchExtended.match.joueurVisiteurs2 != null){
+          this.classementMembreService.getPointsCorpoByMembreAndDate(matchExtended.match.joueurVisiteurs2.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+            matchExtended.pointsJoueurVisiteurs2 = pointsCorpo;
+          });
+        }
     }
 
     getMatchIdent(match: Match): string {
@@ -674,7 +731,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       return membresARetirer;
     }
 
-    selectionnerJoueur(match: Match, indexEquipe: number, indexJoueurEquipe: number): void {
+    selectionnerJoueur(match: MatchExtended, indexEquipe: number, indexJoueurEquipe: number): void {
         if (this.isResultatsRencontreModifiables){
             let club;
             let anyMemberPossible:boolean=false;
@@ -689,15 +746,15 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             let deselectionPossible:boolean = false;
             if (indexEquipe == 1) {
                 if (indexJoueurEquipe == 1) {
-                    deselectionPossible = match.joueurVisites1 != null;
+                    deselectionPossible = match.match.joueurVisites1 != null;
                 } else {
-                    deselectionPossible = match.joueurVisites2 != null;
+                    deselectionPossible = match.match.joueurVisites2 != null;
                 }
             }else{
                 if (indexJoueurEquipe == 1) {
-                    deselectionPossible = match.joueurVisiteurs1 != null;
+                    deselectionPossible = match.match.joueurVisiteurs1 != null;
                 } else {
-                    deselectionPossible = match.joueurVisiteurs2 != null;
+                    deselectionPossible = match.match.joueurVisiteurs2 != null;
                 }
             }
 
@@ -705,7 +762,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
             let championnatHomme:boolean = this.isChampionnatHomme();
 
-            let membresARetirer:Membre[]=this.getMembresARetirer(match, indexEquipe, indexJoueurEquipe);
+            let membresARetirer:Membre[]=this.getMembresARetirer(match.match, indexEquipe, indexJoueurEquipe);
 
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
                 data: {club: club, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
@@ -713,21 +770,53 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
             membreSelectionRef.afterClosed().subscribe(membre => {
                 if (membre!==undefined) {
+
+                    // Charger les classements a la date de la rencontre dans le matchExtended pour chaque joueur
+                    // Attention car le membre peut être null --> adapter les points en consequence
+
                     if (indexEquipe == 1) {
                         if (indexJoueurEquipe == 1) {
-                            match.joueurVisites1 = membre;
+                            match.match.joueurVisites1 = membre;
+                            if (membre!=null && this.rencontre.dateHeureRencontre!=null){
+                              this.classementMembreService.getPointsCorpoByMembreAndDate(membre.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+                                match.pointsJoueurVisites1 = pointsCorpo;
+                              });
+                            }else{
+                              match.pointsJoueurVisites1 = null;
+                            }
                         } else {
-                            match.joueurVisites2 = membre;
+                            match.match.joueurVisites2 = membre;
+                            if (membre!=null && this.rencontre.dateHeureRencontre!=null){
+                              this.classementMembreService.getPointsCorpoByMembreAndDate(membre.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+                                match.pointsJoueurVisites2 = pointsCorpo;
+                              });
+                            }else{
+                              match.pointsJoueurVisites2 = null;
+                            }
                         }
                     } else {
                         if (indexJoueurEquipe == 1) {
-                            match.joueurVisiteurs1 = membre;
+                            match.match.joueurVisiteurs1 = membre;
+                            if (membre!=null && this.rencontre.dateHeureRencontre!=null){
+                              this.classementMembreService.getPointsCorpoByMembreAndDate(membre.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+                                match.pointsJoueurVisiteurs1 = pointsCorpo;
+                              });
+                            }else{
+                              match.pointsJoueurVisiteurs1 = null;
+                            }
                         } else {
-                            match.joueurVisiteurs2 = membre;
+                            match.match.joueurVisiteurs2 = membre;
+                            if (membre!=null && this.rencontre.dateHeureRencontre!=null){
+                              this.classementMembreService.getPointsCorpoByMembreAndDate(membre.id,this.rencontre.dateHeureRencontre).subscribe(pointsCorpo => {
+                                match.pointsJoueurVisiteurs2 = pointsCorpo;
+                              });
+                            }else{
+                              match.pointsJoueurVisiteurs2 = null;
+                            }
                         }
                     }
 
-                    this.sauverMatch(match);
+                    this.sauverMatch(match.match);
 
                 }
             });
@@ -770,6 +859,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       if (this.isAdminConnected() && !this.rencontre.division.championnat.cloture){
         let dateTerrainDialogRef = this.dialog.open(DateTerrainDialog, {
             data: {rencontre: this.rencontre}, panelClass: "dateTerrainDialog", disableClose:true
+        });
+
+        dateTerrainDialogRef.afterClosed().subscribe(result => {
+            this.matchs.forEach(matchExtended => this.initPointsJoueurs(matchExtended));
         });
       }
     }
@@ -918,6 +1011,10 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 class MatchExtended {
 
     match: Match;
+    pointsJoueurVisites1:number;
+    pointsJoueurVisites2:number;
+    pointsJoueurVisiteurs1:number;
+    pointsJoueurVisiteurs2:number;
     sets: Set[] = [];
 
 }
@@ -1159,7 +1256,7 @@ export class DateTerrainDialog implements OnInit {
 
         this.rencontreService.updateRencontre(this.rencontre).subscribe(
         result => {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
          },
         error => {
             console.log("erreur save rencontre : " + error);
