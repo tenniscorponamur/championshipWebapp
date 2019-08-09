@@ -345,7 +345,9 @@ export class Journee {
   constructor(private terrainService:TerrainService, date:Date, terrain:Terrain){
     this.date=date;
     this.terrain=terrain;
-    this.terrainService.getCourtsTerrain(terrain.id).subscribe(courts => this.courts = courts.sort((a,b)=> compare(a.code,b.code,true)));
+    if (terrain){
+      this.terrainService.getCourtsTerrain(terrain.id).subscribe(courts => this.courts = courts.sort((a,b)=> compare(a.code,b.code,true)));
+    }
   }
 }
 

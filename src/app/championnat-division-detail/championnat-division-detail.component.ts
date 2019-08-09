@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Inject, Output, EventEmitter} from '@angular/core';
 import {Championnat, TypeChampionnat, getTypeChampionnat, getCategorieChampionnat, CategorieChampionnat, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES, TYPES_CHAMPIONNAT, CATEGORIES_CHAMPIONNAT, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, TYPE_CHAMPIONNAT_COUPE_HIVER} from '../championnat';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {Observable} from 'rxjs/Observable';
 import {ChampionnatService} from '../championnat.service';
 import {Division} from '../division';
 import {DivisionService} from '../division.service';
@@ -322,24 +323,24 @@ export class ChampionnatDescriptionDialog {
                 // Ajout d'un nouveal utilisateur
                 this.championnatService.ajoutChampionnat(this._championnat).subscribe(
                     newChampionnat => {
-                        this._championnat.id = newChampionnat.id;
-                        this.dialogRef.close(newChampionnat);
-                    },
-                    error => {
-                        this.showAlertDoublon = true;
-                        console.log("Erreur lors de la sauvegarde --> doublon championnat par exemple");
-                        console.log(error);
+                        if (newChampionnat != null){
+                          this._championnat.id = newChampionnat.id;
+                          this.dialogRef.close(newChampionnat);
+                        }else{
+                          this.showAlertDoublon = true;
+                          console.log("Erreur lors de la sauvegarde --> doublon championnat par exemple");
+                        }
                     });
             } else {
                 //Mise a jour de l'utilisateur
                 this.championnatService.updateChampionnat(this._championnat).subscribe(
                     championnatUpdated => {
-                        this.dialogRef.close(championnatUpdated);
-                    },
-                    error => {
-                        this.showAlertDoublon = true;
-                        console.log("Erreur lors de la sauvegarde --> doublon championnat par exemple");
-                        console.log(error);
+                        if (championnatUpdated != null){
+                          this.dialogRef.close(championnatUpdated);
+                        }else{
+                          this.showAlertDoublon = true;
+                          console.log("Erreur lors de la sauvegarde --> doublon championnat par exemple");
+                        }
                     });
             }
 
