@@ -267,6 +267,7 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
 
   categorieCode:string;
   divisionId:number;
+  numeroJournee:number;
 
     constructor(private rencontreService:RencontreService,
         public dialogRef: MatDialogRef<ChoixRencontreCriteriumDialog>,
@@ -277,7 +278,18 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
           this.rencontres.sort((a,b) => {
             let compareCategorie = compare(a.division.championnat.categorie,b.division.championnat.categorie,true);
             if (compareCategorie==0){
-              return compare(a.division.pointsMaximum,b.division.pointsMaximum,true);
+              let compareDivision = compare(a.division.pointsMaximum,b.division.pointsMaximum,true);
+              if (compareDivision==0){
+                let comparePoule = 0;
+                if (a.poule!=null && b.poule!=null){
+                  comparePoule = compare(a.poule.numero,b.poule.numero,true);
+                }
+                if (comparePoule==0){
+                  return compare(a.numeroJournee,b.numeroJournee,true);
+                }
+                return comparePoule;
+              }
+              return compareDivision;
             }
             return compareCategorie;
           });
@@ -321,6 +333,9 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
       }
       if (this.divisionId){
         this.filteredRencontres=this.filteredRencontres.filter(rencontre => this.divisionId==rencontre.division.id);
+      }
+      if (this.numeroJournee){
+        this.filteredRencontres=this.filteredRencontres.filter(rencontre => this.numeroJournee==rencontre.numeroJournee);
       }
 
     }

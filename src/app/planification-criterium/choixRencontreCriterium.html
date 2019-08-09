@@ -4,7 +4,7 @@
 <div mat-dialog-content>
 
   <div class="row text-center">
-    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
       <mat-form-field>
         <mat-select placeholder="Catégorie" [(ngModel)]="categorieCode" (selectionChange)="loadDivisions();">
           <mat-option>-</mat-option>
@@ -15,7 +15,7 @@
       </mat-form-field>
     </div>
 
-    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
       <mat-form-field>
         <mat-select placeholder="Division" [(ngModel)]="divisionId" (selectionChange)="filtre();">
           <mat-option>-</mat-option>
@@ -25,6 +25,13 @@
         </mat-select>
       </mat-form-field>
     </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+      <mat-form-field>
+        <input matInput type="number" placeholder="Journée" [(ngModel)]="numeroJournee" (change)="filtre();" (keyup.enter)="filtre();" (blur)="filtre();" >
+      </mat-form-field>
+    </div>
+
   </div>
 
   <div class="rencontreDiv" *ngFor="let rencontre of filteredRencontres" (click)="choixRencontre(rencontre)">
@@ -32,7 +39,7 @@
       <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
     </div>
     <div>
-      <small>{{getCategorieCode(rencontre)}}</small>
+      <small>{{getCategorieCode(rencontre)}}<span *ngIf="rencontre.poule">&nbsp;- Poule {{rencontre.poule.numero}}</span>&nbsp;- Journée {{rencontre.numeroJournee}}</small>
     </div>
   </div>
 
