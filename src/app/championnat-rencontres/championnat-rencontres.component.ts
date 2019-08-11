@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {Championnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
-import {compare} from '../utility';
+import {compare,getDate} from '../utility';
 import {ChampionnatService} from '../championnat.service';
 import {MatDialog, MatDatepickerInputEvent} from '@angular/material';
 import {DivisionService} from '../division.service';
@@ -270,7 +270,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     initHoraireFromDate(rencontre:RencontreExtended){
         if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_HIVER.code || this.selectedChampionnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code){
           if (rencontre.date!=null){
-            let newDate = new Date(rencontre.date);
+            let newDate = getDate(rencontre.date);
             let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));
             if (horaire!=null){
               rencontre.terrainId = horaire.terrain.id;
@@ -280,7 +280,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
           }
         }else if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_ETE.code){
           if (rencontre.date!=null && rencontre.terrainId!=null){
-            let newDate = new Date(rencontre.date);
+            let newDate = getDate(rencontre.date);
             let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == rencontre.terrainId));
             if (horaire!=null){
               rencontre.heure=horaire.heures;
@@ -311,7 +311,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     initHoraireFromTerrain(rencontre:RencontreExtended){
       if (this.selectedChampionnat.type==TYPE_CHAMPIONNAT_ETE.code){
         if (rencontre.date!=null && rencontre.terrainId!=null){
-          let newDate = new Date(rencontre.date);
+          let newDate = getDate(rencontre.date);
           let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == rencontre.terrainId));
           if (horaire!=null){
             rencontre.heure=horaire.heures;
@@ -324,7 +324,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
     formatDateAndTerrain(rencontre:RencontreExtended){
 
       if (rencontre.date!=null && rencontre.heure!=null && rencontre.minute!=null){
-        rencontre.rencontre.dateHeureRencontre = new Date(rencontre.date);
+        rencontre.rencontre.dateHeureRencontre = getDate(rencontre.date);
         rencontre.rencontre.dateHeureRencontre.setHours(rencontre.heure);
         rencontre.rencontre.dateHeureRencontre.setMinutes(rencontre.minute);
       }else{
@@ -399,7 +399,7 @@ class RencontreExtended {
     constructor(rencontre:Rencontre){
         this.rencontre=rencontre;
           if (rencontre.dateHeureRencontre){
-              this.date=new Date(rencontre.dateHeureRencontre);
+              this.date=getDate(rencontre.dateHeureRencontre);
               this.heure=this.date.getHours();
               this.minute = this.date.getMinutes();
           }

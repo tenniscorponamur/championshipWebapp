@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {compare, addLeadingZero} from '../utility';
+import {compare, addLeadingZero, getDate} from '../utility';
 import {Division} from '../division';
 import {Rencontre} from '../rencontre';
 import {Terrain,Court} from '../terrain';
@@ -54,21 +54,24 @@ export class PlanificationCriteriumComponent implements OnInit {
     this.rencontres.forEach(rencontre => {
       if (rencontre.dateHeureRencontre){
         let selectedJournee = this.journees.find(journee => {
-          return new Date(journee.date).getFullYear() == new Date(rencontre.dateHeureRencontre).getFullYear() &&
-          new Date(journee.date).getMonth() == new Date(rencontre.dateHeureRencontre).getMonth() &&
-          new Date(journee.date).getDate() == new Date(rencontre.dateHeureRencontre).getDate();
+          let dateJournee = getDate(journee.date);
+          let dateRencontre = getDate(rencontre.dateHeureRencontre);
+          return dateJournee.getFullYear() == dateRencontre.getFullYear() &&
+          dateJournee.getMonth() == dateRencontre.getMonth() &&
+          dateJournee.getDate() == dateRencontre.getDate();
         });
         if (selectedJournee==null){
           selectedJournee = new Journee(this.terrainService, rencontre.dateHeureRencontre,rencontre.terrain);
           this.journees.push(selectedJournee);
         }
         let selectedHoraire = selectedJournee.horaires.find(horaire => {
-          return horaire.heures == new Date(rencontre.dateHeureRencontre).getHours() && horaire.minutes == new Date(rencontre.dateHeureRencontre).getMinutes();
+          let dateRencontre = getDate(rencontre.dateHeureRencontre);
+          return horaire.heures == dateRencontre.getHours() && horaire.minutes == dateRencontre.getMinutes();
         });
         if (selectedHoraire==null){
           selectedHoraire = new Horaire();
-          selectedHoraire.heures = new Date(rencontre.dateHeureRencontre).getHours();
-          selectedHoraire.minutes = new Date(rencontre.dateHeureRencontre).getMinutes();
+          selectedHoraire.heures = getDate(rencontre.dateHeureRencontre).getHours();
+          selectedHoraire.minutes = getDate(rencontre.dateHeureRencontre).getMinutes();
           selectedJournee.horaires.push(selectedHoraire);
         }
         selectedHoraire.addRencontre(rencontre);
@@ -341,7 +344,7 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
     }
 
     choixRencontre(rencontre:Rencontre){
-      rencontre.dateHeureRencontre=new Date(this.journee.date);
+      rencontre.dateHeureRencontre=getDate(this.journee.date);
       rencontre.dateHeureRencontre.setHours(this.horaire.heures);
       rencontre.dateHeureRencontre.setMinutes(this.horaire.minutes);
       rencontre.terrain=this.journee.terrain;
