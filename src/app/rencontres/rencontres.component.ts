@@ -15,7 +15,7 @@ import {Division} from '../division';
 import {Club} from '../club';
 import {Equipe} from '../equipe';
 import {Poule} from '../poule';
-import {compare,addLeadingZero} from '../utility';
+import {compare,getDate} from '../utility';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import {TerrainService} from '../terrain.service';
 import {Terrain,HoraireTerrain} from '../terrain';
@@ -357,7 +357,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 
        if (this.selectedTypeRencontre == RENCONTRES_A_ENCODER){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-             return !rencontre.valide && !rencontre.resultatsEncodes && rencontre.dateHeureRencontre!=null && new Date(rencontre.dateHeureRencontre) < new Date();
+             return !rencontre.valide && !rencontre.resultatsEncodes && rencontre.dateHeureRencontre!=null && getDate(rencontre.dateHeureRencontre) < new Date();
               });
        }else if (this.selectedTypeRencontre == RENCONTRES_A_VALIDER){
             this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
@@ -365,7 +365,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
                });
         }else if (this.selectedTypeRencontre == RENCONTRES_A_VENIR){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {
-             return !rencontre.valide && (rencontre.dateHeureRencontre==null || new Date(rencontre.dateHeureRencontre) >= new Date());
+             return !rencontre.valide && (rencontre.dateHeureRencontre==null || getDate(rencontre.dateHeureRencontre) >= new Date());
                 });
        } else if (this.selectedTypeRencontre == RENCONTRES_VALIDES){
            this.filteredRencontres = this.filteredRencontres.filter(rencontre => {

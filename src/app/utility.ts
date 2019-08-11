@@ -11,7 +11,6 @@ export function compare(a, b, isAsc):number {
 
 export function getDate(value:any):Date{
   let dateStr = formatDate(value,'dd/MM/yyyy HH:mm','fr-BE');
-  console.log(dateStr);
   let newDate = new Date();
   newDate.setFullYear(new Number(formatDate(value,'yyyy','fr-BE')).valueOf());
   newDate.setMonth(new Number(formatDate(value,'MM','fr-BE')).valueOf() - 1);
