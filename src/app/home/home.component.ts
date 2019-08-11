@@ -46,15 +46,6 @@ export class HomeComponent implements OnInit {
       return this.alertesService.getRencontresAValider().length;
     }
     
-    formatDate(date:Date):string{
-        if (date){
-            let dateToFormat=new Date(date);
-            return addLeadingZero(dateToFormat.getDate()) + "/" + addLeadingZero(dateToFormat.getMonth()+1) + "/" + dateToFormat.getFullYear() + " " + addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
-        }else{
-            return "";
-        }
-    }
-    
   getListeForces(){
       this.preparationListeForce = true;
       this.membreService.getListeForce().subscribe(result => {

@@ -477,24 +477,6 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
     }
 
-    formatDate(date:Date):string{
-        if (date){
-            let dateToFormat=new Date(date);
-            return addLeadingZero(dateToFormat.getDate()) + "/" + addLeadingZero(dateToFormat.getMonth()+1) + "/" + dateToFormat.getFullYear() + " " + addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
-        }else{
-            return "";
-        }
-    }
-    
-    formatHeure(date:Date):string{
-        if (date){
-            let dateToFormat=new Date(date);
-            return addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
-        }else{
-            return "";
-        }
-    }
-
 }
 
 

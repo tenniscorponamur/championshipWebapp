@@ -140,7 +140,7 @@
                     <div *ngIf="divisionView || clubView || alertView" >
                         <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                             <div class="myBoxTitle">
-                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatDate(rencontre.dateHeureRencontre)}}
+                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy HH:mm'}}
                               <span *ngIf="!isCriterium(rencontre) && rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
                               <span *ngIf="isCriterium(rencontre) && rencontre.court"> - <em>Court {{rencontre.court.code}}</em></span> - {{getCategorieCode(rencontre)}}
                             </div>
@@ -158,7 +158,7 @@
                     <div *ngIf="dateView" >
                       <div *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontreOnMobile(rencontre);" class="myBox text-left" style="cursor:pointer;">
                             <div class="myBoxTitle">
-                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{formatHeure(rencontre.dateHeureRencontre)}}
+                                <i class="fa fa-windows fa-rotate-90"></i>&nbsp;{{rencontre.dateHeureRencontre| date:'HH:mm'}}
                                 <span *ngIf="!isCriterium(rencontre) && rencontre.terrain"> - {{rencontre.terrain.nom}}</span>
                                 <span *ngIf="isCriterium(rencontre) && rencontre.court"> - <em>Court {{rencontre.court.code}}</em></span> - {{getCategorieCode(rencontre)}}
                             </div>
@@ -189,7 +189,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
-                                    <td class="text-uppercase">{{formatDate(rencontre.dateHeureRencontre)}}</td>
+                                    <td class="text-uppercase">{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy HH:mm'}}</td>
                                     <td *ngIf="clubView || alertView">{{getCategorieCode(rencontre)}}</td>
                                     <td>
                                       <span *ngIf="!isCriterium(rencontre) && rencontre.terrain">{{rencontre.terrain.nom}}</span>
@@ -218,7 +218,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let rencontre of filteredRencontres" (click)="ouvrirRencontre(rencontre);" class="text-left">
-                                    <td class="text-uppercase">{{formatHeure(rencontre.dateHeureRencontre)}}</td>
+                                    <td class="text-uppercase">{{rencontre.dateHeureRencontre| date:'HH:mm'}}</td>
                                     <td>{{getCategorieCode(rencontre)}}</td>
                                     <td>
                                       <span *ngIf="!isCriterium(rencontre) && rencontre.terrain">{{rencontre.terrain.nom}}</span>
