@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import { environment } from '../environments/environment';
 import {ClassementAFT} from './classementAFT';
 import {ClassementCorpo} from './classementCorpo';
-import {formatDate} from './utility';
+import {formatDateInString} from './utility';
 import {EnvironmentService} from './environment.service';
 
 @Injectable()
@@ -38,7 +38,7 @@ export class ClassementMembreService {
   }
 
   getPointsCorpoByMembreAndDate(membreId:number, date:Date): Observable<number> {
-    return this.http.get<number>(this.environmentService.getPublicApiUrl() + "/membre/" + membreId + "/pointsCorpoByDate?date=" + formatDate(new Date(date)));
+    return this.http.get<number>(this.environmentService.getPublicApiUrl() + "/membre/" + membreId + "/pointsCorpoByDate?date=" + formatDateInString(date));
   }
 
   updateClassementsCorpo(membreId: number, classementsCorpo: ClassementCorpo[]) {
@@ -46,11 +46,11 @@ export class ClassementMembreService {
     }
 
   simulationClassementCorpo(membreId: number, startDate:Date, endDate:Date): Observable<ClassementCorpo>{
-    return this.http.get<ClassementCorpo>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementCorpo/simulation?startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate), this.authenticationService.getPrivateApiHttpOptions());
+    return this.http.get<ClassementCorpo>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementCorpo/simulation?startDate=" + formatDateInString(startDate) + "&endDate=" + formatDateInString(endDate), this.authenticationService.getPrivateApiHttpOptions());
   }
 
   simulationClassementCorpoWithDetail(membreId: number, startDate:Date, endDate:Date): Observable<any>{
-    return this.http.get<any>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementCorpo/simulationWithDetail?startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate), this.authenticationService.getPrivateApiHttpOptions());
+    return this.http.get<any>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/classementCorpo/simulationWithDetail?startDate=" + formatDateInString(startDate) + "&endDate=" + formatDateInString(endDate), this.authenticationService.getPrivateApiHttpOptions());
   }
 
   updateClassementsAFT(membreId: number, classementsAFT: ClassementAFT[]) {

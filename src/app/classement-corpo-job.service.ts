@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import {Observable} from 'rxjs/Observable';
 import { environment } from '../environments/environment';
-import {formatDate} from './utility';
+import {formatDateInString} from './utility';
 import {EnvironmentService} from './environment.service';
 
 
@@ -31,7 +31,7 @@ export class ClassementCorpoJobService {
   }
 
   launchJob(startDate:Date,avecSauvegarde:boolean){
-    return this.http.post<any>(this.environmentService.getPrivateApiUrl() + "/classementCorpo/job?startDate=" + formatDate(startDate) + "&avecSauvegarde=" + avecSauvegarde,null, this.authenticationService.getPrivateApiHttpOptions());
+    return this.http.post<any>(this.environmentService.getPrivateApiUrl() + "/classementCorpo/job?startDate=" + formatDateInString(startDate) + "&avecSauvegarde=" + avecSauvegarde,null, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   closeJob(jobId:number){

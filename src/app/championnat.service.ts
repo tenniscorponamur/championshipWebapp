@@ -7,7 +7,7 @@ import {environment} from '../environments/environment';
 import {Championnat} from './championnat';
 import {AuthenticationService} from './authentication.service';
 import {EnvironmentService} from './environment.service';
-import {formatDate} from './utility';
+import {formatDateInString} from './utility';
 
 @Injectable()
 export class ChampionnatService {
@@ -75,7 +75,7 @@ export class ChampionnatService {
   getTableauCriterium(date:Date){
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";
-    return this.http.get(this.environmentService.getPrivateApiUrl() + "/championnat/tableauCriterium?date=" + formatDate(date),options);
+    return this.http.get(this.environmentService.getPrivateApiUrl() + "/championnat/tableauCriterium?date=" + formatDateInString(date),options);
   }
 
 }

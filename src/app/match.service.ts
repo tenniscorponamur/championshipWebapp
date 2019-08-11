@@ -7,7 +7,7 @@ import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Match} from './match';
 import {Set} from './set';
-import {formatDate} from './utility';
+import {formatDateInString} from './utility';
 import {EnvironmentService} from './environment.service';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class MatchService {
     }
 
     getMatchsValidesByCriteria(membreId: number,startDate:Date, endDate:Date): Observable<Match[]> {
-        return this.http.get<Match[]>(this.environmentService.getPublicApiUrl() + "/matchs/validesByCriteria?membreId=" + membreId + "&startDate=" + formatDate(startDate) + "&endDate=" + formatDate(endDate));
+        return this.http.get<Match[]>(this.environmentService.getPublicApiUrl() + "/matchs/validesByCriteria?membreId=" + membreId + "&startDate=" + formatDateInString(startDate) + "&endDate=" + formatDateInString(endDate));
     }
 
     updateMatch(match: Match) {

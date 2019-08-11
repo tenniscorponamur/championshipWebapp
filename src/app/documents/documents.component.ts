@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
-import {compare, formatDate} from '../utility';
+import {compare, formatDateInString} from '../utility';
 import {Championnat, TYPE_CHAMPIONNAT_CRITERIUM, TYPE_CHAMPIONNAT_ETE} from '../championnat';
 import {ChampionnatService} from '../championnat.service';
 import {RencontreService} from '../rencontre.service';
@@ -68,7 +68,7 @@ export class DocumentsComponent extends ChampionnatDetailComponent implements On
       this.date.setHours(12);
       this.championnatService.getTableauCriterium(this.date).subscribe(result => {
           this.preparationTableauCriterium = false;
-          saveAs(result, "tableauCriterium_" + formatDate(this.date) + ".pdf");
+          saveAs(result, "tableauCriterium_" + formatDateInString(this.date) + ".pdf");
       },error => {console.log(error);});
     }
   }

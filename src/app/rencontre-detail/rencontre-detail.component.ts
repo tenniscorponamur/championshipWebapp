@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit, Input} from '@angular/core';
+import {formatDate} from '@angular/common';
 import { Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Rencontre, AutorisationRencontre, TYPE_AUTORISATION_ENCODAGE,TYPE_AUTORISATION_VALIDATION} from '../rencontre';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
-import {compare, addLeadingZero} from '../utility';
+import {compare, addLeadingZero, getDate} from '../utility';
 import {MatchService} from '../match.service';
 import {RencontreService} from '../rencontre.service';
 import {ClassementMembreService} from '../classement-membre.service';
@@ -846,15 +847,6 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         this.matchService.updateMatch(match).subscribe();
     }
 
-    formatDate(date: Date): string {
-        if (date) {
-            let dateToFormat = new Date(date);
-            return addLeadingZero(dateToFormat.getDate()) + "/" + addLeadingZero(dateToFormat.getMonth() + 1) + "/" + dateToFormat.getFullYear() + " " + addLeadingZero(dateToFormat.getHours()) + ":" + addLeadingZero(dateToFormat.getMinutes());
-        } else {
-            return "";
-        }
-    }
-
     ouvrirDateTerrain(){
       if (this.isAdminConnected() && !this.rencontre.division.championnat.cloture){
         let dateTerrainDialogRef = this.dialog.open(DateTerrainDialog, {
@@ -1154,7 +1146,10 @@ export class DateTerrainDialog implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
           this.rencontre=data.rencontre;
           if (this.rencontre.dateHeureRencontre){
-              this.date=new Date(this.rencontre.dateHeureRencontre);
+              //console.log(this.rencontre.dateHeureRencontre);
+              //console.log(new Date(this.rencontre.dateHeureRencontre));
+              //console.log(getDate(this.rencontre.dateHeureRencontre));
+              this.date=getDate(this.rencontre.dateHeureRencontre);
               this.heure=this.date.getHours();
               this.minute = this.date.getMinutes();
           }

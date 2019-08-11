@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; // <-- Http Client lives here
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatInputModule, MatNativeDateModule } from '@angular/material'; // <-- Dialog lives here
@@ -83,6 +83,10 @@ import { HowtoComponent } from './howto/howto.component';
 import { SupervisionComponent, StartDateDialog } from './supervision/supervision.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 
+import localeFr from '@angular/common/locales/fr';
+
+// the second parameter 'fr' is optional
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [

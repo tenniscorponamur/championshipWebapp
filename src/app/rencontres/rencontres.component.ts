@@ -102,7 +102,9 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
       this.clubService.getClubs().subscribe(clubs => {
         this.clubs = clubs.sort((a,b) => compare(a.nom,b.nom,true));
         let clubInLocalStorage = this.localStorageService.getClubKey();
-        this.selectedClub = this.clubs.find(club => club.id == JSON.parse(clubInLocalStorage).id);
+        if (clubInLocalStorage){
+          this.selectedClub = this.clubs.find(club => club.id == JSON.parse(clubInLocalStorage).id);
+        }
       });
 
       this.championnatService.getChampionnats().subscribe(championnats => {

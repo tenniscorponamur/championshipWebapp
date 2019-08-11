@@ -7,7 +7,7 @@ import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Rencontre, AutorisationRencontre} from './rencontre';
 import {Membre} from './membre';
-import {formatDate} from './utility';
+import {formatDateInString} from './utility';
 import {EnvironmentService} from './environment.service';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class RencontreService {
     }
 
     getRencontresByDate(date:Date): Observable<Rencontre[]> {
-        return this.http.get<Rencontre[]>(this.environmentService.getPublicApiUrl() + "/rencontres/byDate?date=" + formatDate(date));
+        return this.http.get<Rencontre[]>(this.environmentService.getPublicApiUrl() + "/rencontres/byDate?date=" + formatDateInString(date));
     }
 
     getRencontresCriteriumByAnnee(annee:string): Observable<Rencontre[]> {
