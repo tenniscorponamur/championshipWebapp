@@ -131,16 +131,20 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
   }
 
   refreshAlertes(){
-      this.rencontreService.getRencontresToComplete().subscribe(rencontres => {
-        this.rencontresAvecAlertes = [];
-        rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
-        this.rencontreService.getRencontresToValidate().subscribe(rencontres => {
+    if (this.authenticationService.isConnected()){
+        this.rencontreService.getRencontresToComplete().subscribe(rencontres => {
+          this.rencontresAvecAlertes = [];
           rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
-          if (this.alertView){
-            this.loadRencontres();
-          }
+          this.rencontreService.getRencontresToValidate().subscribe(rencontres => {
+            rencontres.forEach(rencontre => this.rencontresAvecAlertes.push(rencontre));
+            if (this.alertView){
+              this.loadRencontres();
+            }
+          });
         });
-      });
+      }else{
+        this.loadRencontres();
+      }
   }
 
     changeToDivisionView(){
