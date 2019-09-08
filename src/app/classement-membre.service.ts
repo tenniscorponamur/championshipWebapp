@@ -17,8 +17,8 @@ export class ClassementMembreService {
     return this.http.get<any[]>(this.environmentService.getPublicApiUrl() + "/echellesCorpo");
   }
 
-  correspondanceEchelleCorpo():Observable<any>{
-    return this.http.get<any>(this.environmentService.getPublicApiUrl() + "/echellesCorpo/correspondanceHommeFemme");
+  correspondanceEchelleCorpo(date:Date):Observable<any>{
+    return this.http.get<any>(this.environmentService.getPublicApiUrl() + "/echellesCorpo/correspondanceHommeFemme" + (date!=null?("?date=" + formatDateInString(date)):""));
   }
 
   getEchellesAFT():Observable<any[]>{

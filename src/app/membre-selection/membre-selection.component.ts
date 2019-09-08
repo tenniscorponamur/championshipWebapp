@@ -18,6 +18,7 @@ export class MembreSelectionComponent implements OnInit {
 
     private club:Club;
     private capitaine: Boolean;
+    private dateRencontre: Date;
     private championnatHomme:Boolean;
     private mapEquivalence;
     private membresARetirer:Membre[]=[];
@@ -43,6 +44,7 @@ export class MembreSelectionComponent implements OnInit {
         this.membresARetirer=data.membresARetirer;
         this.capitaine = data.capitaine;
         this.filtreGenre = data.genre;
+        this.dateRencontre = data.dateRencontre;
         this.championnatHomme = data.championnatHomme;
         this.deselectionPossible = data.deselectionPossible;
 
@@ -57,7 +59,7 @@ export class MembreSelectionComponent implements OnInit {
       if (this.club){
         clubId = this.club.id;
       }
-      this.classementMembreService.correspondanceEchelleCorpo().subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
+      this.classementMembreService.correspondanceEchelleCorpo(this.dateRencontre).subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
       if (this.membresSelectionnables){
         this.loadMembers(this.membresSelectionnables);
       }else{

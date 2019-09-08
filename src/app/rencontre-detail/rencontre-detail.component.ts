@@ -50,7 +50,6 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     }
 
     ngOnInit() {
-      this.classementMembreService.correspondanceEchelleCorpo().subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
     }
 
     private _rencontre: Rencontre;
@@ -69,6 +68,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     set rencontre(rencontre: Rencontre) {
         this._rencontre = rencontre;
         this.refreshBooleansAndTracesAndAutorisations();
+        this.initMapEquivalence();
         this.getMatchs();
     } 
 
@@ -382,6 +382,11 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
         }
         );
+    }
+
+
+    initMapEquivalence(){
+      this.classementMembreService.correspondanceEchelleCorpo(this.rencontre.dateHeureRencontre).subscribe(mapEquivalence => this.mapEquivalence = mapEquivalence);
     }
 
     initPointsJoueurs(matchExtended:MatchExtended){
@@ -766,7 +771,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             let membresARetirer:Membre[]=this.getMembresARetirer(match.match, indexEquipe, indexJoueurEquipe);
 
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, genre:genre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, genre:genre, dateRencontre: this.rencontre.dateHeureRencontre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {
@@ -854,6 +859,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
 
         dateTerrainDialogRef.afterClosed().subscribe(result => {
+            this.initMapEquivalence();
             this.matchs.forEach(matchExtended => this.initPointsJoueurs(matchExtended));
         });
       }
