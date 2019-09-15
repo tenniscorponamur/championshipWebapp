@@ -1180,7 +1180,10 @@ export class DateTerrainDialog implements OnInit {
     }
 
     changeDate(){
-      if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_HIVER.code || this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code){
+
+      /*** Retrait du choix du terrain sur base de la date dans le championnat hiver car plusieurs terrains dispos le meme jour
+
+      if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code){
         if (this.date!=null){
           let newDate = new Date(this.date);
           let horaire = this.horairesTerrain.find(horaire => horaire.jourSemaine == (newDate.getDay()+1));
@@ -1191,7 +1194,10 @@ export class DateTerrainDialog implements OnInit {
             this.minute=horaire.minutes;
           }
         }
-      }else if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+      }else
+      */
+
+      if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_HIVER.code || this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_ETE.code){
         if (this.date!=null && this.terrainId!=null){
           let newDate = new Date(this.date);
           let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == this.terrainId));
@@ -1204,7 +1210,7 @@ export class DateTerrainDialog implements OnInit {
     }
 
     changeTerrain(){
-      if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+      if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_HIVER.code || this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_ETE.code){
         if (this.date!=null && this.terrainId!=null){
           let newDate = new Date(this.date);
           let horaire = this.horairesTerrain.find(horaire => (horaire.jourSemaine == (newDate.getDay()+1) && horaire.terrain.id == this.terrainId));
