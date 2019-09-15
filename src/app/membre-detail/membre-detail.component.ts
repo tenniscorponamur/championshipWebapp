@@ -567,6 +567,14 @@ export class ClubInfosDialog {
         }
     }
 
+    etatChanged(){
+      if (this._actif==false){
+        if (this._dateDesaffiliationCorpo==null){
+          this._dateDesaffiliationCorpo = new Date();
+        }
+      }
+    }
+
   cancel(): void {
     this.dialogRef.close();
   }

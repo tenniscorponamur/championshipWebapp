@@ -40,7 +40,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-      <mat-checkbox color="primary" [(ngModel)]="_actif">Actif</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="_actif" (change)="etatChanged();" >Actif</mat-checkbox>
     </div>
   </div>
   <div align="center">
