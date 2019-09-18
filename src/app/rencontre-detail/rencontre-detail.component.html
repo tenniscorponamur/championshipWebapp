@@ -253,6 +253,7 @@
                           <br />
                           <span class="{{getVisiteursSetClass(set)}}">{{set.jeuxVisiteurs}}</span>
                     </div>
+                    <span *ngIf="matchExtended.match.setUnique">*</span>
                 </div>
 
                 <div class="resultats {{getEditableClass(matchExtended.match)}} row" *ngIf="matchExtended.sets.length==0" (click)="ouvrirResultats(matchExtended);">
