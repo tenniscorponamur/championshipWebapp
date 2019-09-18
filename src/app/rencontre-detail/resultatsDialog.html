@@ -32,7 +32,7 @@
                             </td>
                             <td>
                                 <!--DROWDOWN - SELECT-->
-                                <select [(ngModel)]="set1JeuxVisites">
+                                <select [(ngModel)]="set1JeuxVisites" (change)="set1Changed();">
                                     <option></option>
                                     <option>0</option>
                                     <option>1</option>
@@ -40,16 +40,16 @@
                                     <option>3</option>
                                     <option>4</option>
                                     <option>5</option>
-                                    <option>6</option>
+                                    <option *ngIf="showNumber(6);">6</option>
                                 </select>
                                 <span *ngIf="set1JeuxVisites!=null && set1JeuxVisiteurs!=null && (''+set1JeuxVisites)!='' && (''+set1JeuxVisiteurs)!='' && set1JeuxVisites==set1JeuxVisiteurs">
                                     <i class="fa fa-angellist" aria-hidden="true"></i>
-                                    <input type="checkbox" [(ngModel)]="set1GagnantVisites">
+                                    <input type="checkbox" [(ngModel)]="set1GagnantVisites" (change)="set1Changed();">
                                 </span>
                             </td>
                             <td>
                                 <!--DROWDOWN - SELECT-->
-                                <select [(ngModel)]="set2JeuxVisites">
+                                <select [(ngModel)]="set2JeuxVisites" disabled="{{_setUnique}}">
                                     <option></option>
                                     <option>0</option>
                                     <option>1</option>
@@ -57,11 +57,11 @@
                                     <option>3</option>
                                     <option>4</option>
                                     <option>5</option>
-                                    <option>6</option>
+                                    <option *ngIf="showNumber(6);">6</option>
                                 </select>
                                 <span *ngIf="set2JeuxVisites!=null && set2JeuxVisiteurs!=null && (''+set2JeuxVisites)!='' && (''+set2JeuxVisiteurs)!='' && set2JeuxVisites==set2JeuxVisiteurs">
                                     <i class="fa fa-angellist" aria-hidden="true"></i>
-                                    <input type="checkbox" [(ngModel)]="set2GagnantVisites">
+                                    <input type="checkbox" [(ngModel)]="set2GagnantVisites" disabled="{{_setUnique}}">
                                 </span>
                             </td>
                             <!--<td>-->
@@ -95,7 +95,7 @@
                     </td>
                     <td>
                         <!--DROWDOWN - SELECT-->
-                        <select [(ngModel)]="set1JeuxVisiteurs">
+                        <select [(ngModel)]="set1JeuxVisiteurs" (change)="set1Changed();">
                             <option></option>
                             <option>0</option>
                             <option>1</option>
@@ -103,16 +103,16 @@
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
-                            <option>6</option>
+                            <option *ngIf="showNumber(6);">6</option>
                         </select>
                         <span *ngIf="set1JeuxVisites!=null && set1JeuxVisiteurs!=null && (''+set1JeuxVisites)!='' && (''+set1JeuxVisiteurs)!='' && set1JeuxVisites==set1JeuxVisiteurs">
                             <i class="fa fa-angellist" aria-hidden="true"></i>
-                            <input type="checkbox" [(ngModel)]="set1GagnantVisiteurs">
+                            <input type="checkbox" [(ngModel)]="set1GagnantVisiteurs" (change)="set1Changed();">
                         </span>
                     </td>
                     <td>
                         <!--DROWDOWN - SELECT-->
-                        <select [(ngModel)]="set2JeuxVisiteurs">
+                        <select [(ngModel)]="set2JeuxVisiteurs" disabled="{{_setUnique}}">
                             <option></option>
                             <option>0</option>
                             <option>1</option>
@@ -120,11 +120,11 @@
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
-                            <option>6</option>
+                            <option *ngIf="showNumber(6);">6</option>
                         </select>
                         <span *ngIf="set2JeuxVisites!=null && set2JeuxVisiteurs!=null && (''+set2JeuxVisites)!='' && (''+set2JeuxVisiteurs)!='' && set2JeuxVisites==set2JeuxVisiteurs">
                             <i class="fa fa-angellist" aria-hidden="true"></i>
-                            <input type="checkbox" [(ngModel)]="set2GagnantVisiteurs">
+                            <input type="checkbox" [(ngModel)]="set2GagnantVisiteurs" disabled="{{_setUnique}}">
                         </span>
                     </td>
                     <!--<td>-->
@@ -149,6 +149,9 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div *ngIf="showSetUniqueCheckbox()" class="col-12">
+      <small><mat-checkbox color="primary" [(ngModel)]="_setUnique" (change)="setUniqueChanged();" >Un seul set joué</mat-checkbox></small>
     </div>
     <div align="center">
         <button class="btn btn-danger" (click)="cancel();">Annuler</button>

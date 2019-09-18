@@ -14,6 +14,7 @@ export class Match {
   joueurVisiteurs2:Membre;
   pointsVisites:number;
   pointsVisiteurs:number;
+  setUnique:boolean;
   rencontre:Rencontre;
 }
 

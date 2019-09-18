@@ -1357,9 +1357,11 @@ export class TracesRencontreDialog implements OnInit {
     templateUrl: './resultatsDialog.html',
     styleUrls: ['./resultatsDialog.css']
 })
-export class ResultatsDialog {
+export class ResultatsDialog implements OnInit {
 
     matchExtended: MatchExtended;
+
+    _setUnique: boolean = false;
 
     set1JeuxVisites: number;
     set1JeuxVisiteurs: number;
@@ -1376,6 +1378,8 @@ export class ResultatsDialog {
     set3GagnantVisites: boolean = false;
     set3GagnantVisiteurs: boolean = false;
 
+
+    nbJeuxMax:number=6;
     showAlert: boolean = false;
 
     constructor(
@@ -1384,6 +1388,8 @@ export class ResultatsDialog {
         @Inject(MAT_DIALOG_DATA) public data: any) {
 
         this.matchExtended = data.matchExtended;
+
+        this._setUnique = this.matchExtended.match.setUnique;
 
         let set1 = this.matchExtended.sets.find(set => set.ordre == 1);
         if (set1) {
@@ -1414,6 +1420,45 @@ export class ResultatsDialog {
             }
         }
 
+    }
+
+    ngOnInit(): void {
+        this.matchService.getNbJeuxMax(this.matchExtended.match).subscribe(nbJeux => {
+          this.nbJeuxMax = nbJeux;
+        });
+
+    }
+
+    showNumber(value:number){
+      return value<=this.nbJeuxMax;
+    }
+
+    showSetUniqueCheckbox(){
+      //return this.matchExtended.match.rencontre.division.championnat.type!=TYPE_CHAMPIONNAT_ETE.code;
+      return true;
+    }
+
+    set1Changed(){
+      if (this._setUnique){
+        this.set2JeuxVisites=this.set1JeuxVisites;
+        this.set2JeuxVisiteurs=this.set1JeuxVisiteurs;
+        this.set2GagnantVisites=this.set1GagnantVisites;
+        this.set2GagnantVisiteurs=this.set1GagnantVisiteurs;
+      }
+    }
+
+    setUniqueChanged(){
+      if (this._setUnique){
+        this.set2JeuxVisites=this.set1JeuxVisites;
+        this.set2JeuxVisiteurs=this.set1JeuxVisiteurs;
+        this.set2GagnantVisites=this.set1GagnantVisites;
+        this.set2GagnantVisiteurs=this.set1GagnantVisiteurs;
+      }else{
+        this.set2JeuxVisites=null;
+        this.set2JeuxVisiteurs=null;
+        this.set2GagnantVisites=false;
+        this.set2GagnantVisiteurs=false;
+      }
     }
 
     cancel(): void {
@@ -1526,6 +1571,8 @@ export class ResultatsDialog {
         }
 
         if (!this.showAlert) {
+
+            this.matchExtended.match.setUnique=this._setUnique;
 
             let newSets:Set[] =[];
 

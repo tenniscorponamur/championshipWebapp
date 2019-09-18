@@ -23,12 +23,16 @@ export class MatchService {
         return this.http.get<Match[]>(this.environmentService.getPublicApiUrl() + "/matchs/validesByCriteria?membreId=" + membreId + "&startDate=" + formatDateInString(startDate) + "&endDate=" + formatDateInString(endDate));
     }
 
+    getNbJeuxMax(match:Match){
+      return this.http.get<number>(this.environmentService.getPublicApiUrl() + "/match/" + match.id + "/nbJeuxMax");
+    }
+
     updateMatch(match: Match) {
         return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + match.rencontre.id + "/match", match, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     updateMatchAndSets(match: Match, sets:Set[]):Observable<Match> {
-        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + match.rencontre.id + "/match/sets?matchId="+match.id, sets, this.authenticationService.getPrivateApiHttpOptions());
+        return this.http.put<Match>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + match.rencontre.id + "/match/sets?matchId="+match.id + "&setUnique="+match.setUnique, sets, this.authenticationService.getPrivateApiHttpOptions());
     }
 
     deleteMatch(match: Match) {
