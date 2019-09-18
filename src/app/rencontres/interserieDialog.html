@@ -70,7 +70,7 @@
 
       <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-center">
         <mat-form-field>
-          <mat-select placeholder="Terrain" [(ngModel)]="terrainId" (change)="changeTerrain()">
+          <mat-select placeholder="Terrain" [(ngModel)]="terrainId" (selectionChange)="changeTerrain()">
             <mat-option>Aucun terrain</mat-option>
             <mat-option *ngFor="let terrain of terrains" [value]="terrain.id">
               <small>{{ terrain.nom }}</small>
