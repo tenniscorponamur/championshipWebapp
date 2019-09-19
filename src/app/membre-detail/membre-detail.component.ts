@@ -67,7 +67,7 @@ export class MembreDetailComponent implements OnInit {
     endDate:Date;
     // Pie
     public pieChartType:string = 'pie';
-    public pieChartLabels:string[] = ['Victoire', 'Match nul', 'Défaite'];
+    public pieChartLabels:string[] = ['Victoire', 'Match nul', 'Défaite','Assimilé match nul'];
     public pieChartData:number[] = [];
 
   constructor(
@@ -275,10 +275,15 @@ export class MembreDetailComponent implements OnInit {
       let nbVictoires:number=0;
       let nbMatchsNuls:number=0;
       let nbDefaites:number=0;
+      let nbAssimileMatchsNuls:number=0;
       matchs.forEach(match => {
         if ((match.joueurVisites1 && this.membre.id == match.joueurVisites1.id) || (match.joueurVisites2 && this.membre.id == match.joueurVisites2.id)){
             if (match.pointsVisites > match.pointsVisiteurs){
-              nbVictoires++;
+              if (match.setUnique){
+                nbAssimileMatchsNuls++;
+              }else{
+                nbVictoires++;
+              }
             }else if (match.pointsVisites < match.pointsVisiteurs){
               nbDefaites++;
             }else{
@@ -288,13 +293,17 @@ export class MembreDetailComponent implements OnInit {
             if (match.pointsVisites > match.pointsVisiteurs){
               nbDefaites++;
             }else if (match.pointsVisites < match.pointsVisiteurs){
-              nbVictoires++;
+              if (match.setUnique){
+                nbAssimileMatchsNuls++;
+              }else{
+                nbVictoires++;
+              }
             }else{
               nbMatchsNuls++;
             }
         }
       });
-      this.pieChartData = [nbVictoires, nbMatchsNuls, nbDefaites];
+      this.pieChartData = [nbVictoires, nbMatchsNuls, nbDefaites, nbAssimileMatchsNuls];
       this.showMatchGraph=true;
     });
 
@@ -1040,6 +1049,8 @@ export class SimulationClassementDialog {
   getResultat(resultatMatch):string{
     if (resultatMatch=="victoire"){
       return "Victoire";
+    }else if (resultatMatch=="assimileMatchNul"){
+      return "Assimilé à un match nul";
     }else if (resultatMatch=="matchNul"){
       return "Match nul";
     }else if (resultatMatch=="defaite"){
