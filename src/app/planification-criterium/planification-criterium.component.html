@@ -41,11 +41,15 @@
                 <strong>{{rencontre.rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
               </div>
               <div>
-                <small>{{getCategorieCode(rencontre.rencontre)}}</small>
+                <small>{{getCategorieCode(rencontre.rencontre)}}</small>&nbsp;
                 <i *ngIf="isRencontreDame(rencontre.rencontre)" class="fa fa-female" style="color:deeppink;"></i>
                 <i *ngIf="isRencontreDoubleDame(rencontre.rencontre)" class="fa fa-female" style="color:deeppink;"></i>
                 <i *ngIf="isRencontreHomme(rencontre.rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
                 <i *ngIf="isRencontreDoubleHomme(rencontre.rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
+              </div>
+              <div>
+                <span><small>Journée {{rencontre.rencontre.numeroJournee}}</small></span>&nbsp;
+                <span><small>Poule {{rencontre.rencontre.poule.numero}}</small></span>
               </div>
               <div>
 
