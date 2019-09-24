@@ -170,11 +170,13 @@ export class PlanificationCriteriumComponent implements OnInit {
 
   deplanifierRencontre(horaire:Horaire,rencontre:Rencontre){
     if (this.criteriumEditable){
-      rencontre.dateHeureRencontre=null;
-      rencontre.terrain=null;
-      rencontre.court=null;
 
-      this.rencontreService.updateRencontre(rencontre).subscribe(rencontre => {
+      let _rencontre = this.rencontres.find(meeting => meeting.id == rencontre.id);
+      _rencontre.dateHeureRencontre=null;
+      _rencontre.terrain=null;
+      _rencontre.court=null;
+
+      this.rencontreService.updateRencontre(_rencontre).subscribe(rencontre => {
         let index = horaire.rencontres.findIndex(rencontreExtended => rencontreExtended.rencontre.id == rencontre.id);
         if (index!=-1){
             horaire.rencontres.splice(index,1);
