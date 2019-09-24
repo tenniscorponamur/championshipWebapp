@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
 
     lastResults:Rencontre[]=[];
     nextMeetings:Rencontre[]=[];
+    preparationTemplateMembre:boolean=false;
     preparationListeForce:boolean=false;
     preparationListeForcePoints:boolean=false;
     chargementDerniersResultats:boolean=true;
@@ -45,7 +46,16 @@ export class HomeComponent implements OnInit {
     get countRencontresToValidate(){
       return this.alertesService.getRencontresAValider().length;
     }
-    
+
+  getTemplateMembre(){
+      this.preparationTemplateMembre = true;
+      this.membreService.getTemplateImportMembres().subscribe(result => {
+        this.preparationTemplateMembre = false;
+        saveAs(result, "template.xls");
+        //var fileURL = URL.createObjectURL(result);window.open(fileURL);
+      },error => {console.log(error);});
+  }
+
   getListeForces(){
       this.preparationListeForce = true;
       this.membreService.getListeForce().subscribe(result => {

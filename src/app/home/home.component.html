@@ -121,6 +121,15 @@
                         <a class="documentLink" href="/assets/files/feuilleResultats.pdf" target="_blank">Feuille de résultats</a>
                     </div>
                 </div>
+
+              <div class="col-12">
+                <div>
+                  <a class="documentLink" (click)="getTemplateMembre();">Inscription nouveau membre</a>
+                </div>
+                <div *ngIf="preparationTemplateMembre">
+                  <small>Préparation du fichier en cours...</small>
+                </div>
+              </div>
 <!--                <div class="col-12">
                     <a>Calendriers</a>
                 </div>-->
