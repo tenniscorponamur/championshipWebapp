@@ -83,7 +83,7 @@ export class PlanificationCriteriumComponent implements OnInit {
   }
 
   triJournees(){
-    this.journees.sort((a,b) => compare(a.date,b.date,true));
+    this.journees.sort((a,b) => compare(new Date(a.date),new Date(b.date),true));
   }
 
   triHoraires(journee:Journee){
