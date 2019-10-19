@@ -17,6 +17,8 @@ export function getDate(value:any):Date{
   newDate.setDate(new Number(formatDate(value,'dd','fr-BE')).valueOf());
   newDate.setHours(new Number(formatDate(value,'HH','fr-BE')).valueOf());
   newDate.setMinutes(new Number(formatDate(value,'mm','fr-BE')).valueOf());
+  newDate.setSeconds(0);
+  newDate.setMilliseconds(0);
   return newDate;
 }
 

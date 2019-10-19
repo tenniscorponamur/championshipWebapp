@@ -301,7 +301,7 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
         this.sortedRencontres = data.sort((a, b) => {
           let isAsc = sort.direction == 'asc';
           switch (sort.active) {
-            case 'dateHeureRencontre': return compare(a.dateHeureRencontre, b.dateHeureRencontre, isAsc);
+            case 'dateHeureRencontre': return compare(getDate(a.dateHeureRencontre), getDate(b.dateHeureRencontre), isAsc);
             case 'terrain':
                 {
                   if (a.terrain && !b.terrain){
