@@ -4,7 +4,14 @@ import { ClubService } from '../club.service';
 import { ChampionnatService } from '../championnat.service';
 import { Membre } from '../membre';
 import { Club } from '../club';
-import { Championnat, CategorieChampionnat, getTypeChampionnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES } from '../championnat';
+import { Equipe } from '../equipe';
+import { Championnat, CategorieChampionnat, getTypeChampionnat, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE,
+TYPE_CHAMPIONNAT_CRITERIUM, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES,
+ CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS,
+    CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS,
+    CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES,
+    CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES,
+    CATEGORIE_CHAMPIONNAT_MIXTES } from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import {DivisionService} from '../division.service';
 import {EquipeService} from '../equipe.service';
@@ -46,6 +53,11 @@ export class DashboardComponent implements OnInit {
   public showGraph:boolean=false;
   public lineChartData:Array<any> = [];
   public lineChartLabels:Array<any> = [];
+
+  public showCriteriumGraph:boolean=false;
+  public lineChartCriteriumData:Array<any> = [];
+  public lineChartCriteriumLabels:Array<any> = [];
+
   public lineChartType:string = 'bar';
 
   lineChartOptions = {
@@ -66,6 +78,29 @@ export class DashboardComponent implements OnInit {
        }
   };
 
+  lineChartCriteriumOptions = {
+      scales: {
+          xAxes: [{
+              //stacked: true
+          }],
+          yAxes: [{
+                  display: true,
+                  //stacked: true,
+                  ticks: {
+                      beginAtZero: true,
+                      steps: 10,
+                      stepValue: 5,
+                      max: 100
+                  }
+              }]
+      },
+       title: {
+           display: true,
+           text: "Nombre d'équipes inscrites au critérium"
+       }
+  };
+
+
   constructor(private membreService:MembreService,
               private clubService:ClubService,
               private divisionService: DivisionService,
@@ -78,6 +113,7 @@ export class DashboardComponent implements OnInit {
       this.clubService.getClubs().subscribe(clubs => {this.clubs = clubs; this.initCompteurslubs();this.chargementCompteursClubs=false;});
 
       this.initTeamsChart();
+      this.initCriteriumChart();
   }
 
   initTeamsChart(){
@@ -158,6 +194,71 @@ export class DashboardComponent implements OnInit {
         }else{
           data.push(0);
         }
+      });
+      return data;
+  }
+
+  private nbAnnees:number = 2;
+  private thisYear:number = new Date().getFullYear();
+  private equipesByYear=new Map();
+
+  initCriteriumChart(){
+
+      for (var _i = 0; _i < this.nbAnnees; _i++) {
+
+        let annee = this.thisYear - this.nbAnnees + _i + 1;
+
+        this.lineChartCriteriumLabels.push(annee);
+
+        this.equipeService.getEquipesCriteriumByAnnee(annee).subscribe(equipes => {
+            this.equipesByYear.set(annee,equipes);
+            this.updateCriteriumGraph();
+          }
+        );
+
+      }
+
+  }
+
+  updateCriteriumGraph(){
+      this.lineChartCriteriumData = [];
+
+      // Differentes categories et le total
+      this.lineChartCriteriumData.push({data:this.loadCriteriumData(CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS),label:'SM'});
+      this.lineChartCriteriumData.push({data:this.loadCriteriumData(CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES),label:'SD'});
+      this.lineChartCriteriumData.push({data:this.loadCriteriumData(CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS),label:'DM'});
+      this.lineChartCriteriumData.push({data:this.loadCriteriumData(CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES),label:'DD'});
+      this.lineChartCriteriumData.push({data:this.loadCriteriumData(CATEGORIE_CHAMPIONNAT_MIXTES),label:'DMX'});
+      this.lineChartCriteriumData.push({data:this.loadCriteriumData(null),label:'Total'});
+
+
+      //this.lineChartCriteriumData.push({data:[3,4],label:'Total'});
+      //this.lineChartCriteriumData.push({data:[3,4,5],label:'Simples Messieurs'});
+      //this.lineChartCriteriumData.find(data => data.label == 'Total').data.push(5);
+
+      this.showCriteriumGraph = true;
+  }
+
+
+  loadCriteriumData(categorieChampionnat : CategorieChampionnat):number[]{
+      let data = [];
+      this.lineChartCriteriumLabels.forEach(chartLabel => {
+          let equipes = this.equipesByYear.get(chartLabel);
+          if (equipes){
+            data.push(equipes.filter(equipe => {
+              if (equipe.division.championnat.annee == chartLabel){
+                if (categorieChampionnat!=null){
+                  return equipe.division.championnat.categorie == categorieChampionnat.code;
+                }else{
+                  return true;
+                }
+              }
+              return false;
+            }).length);
+          }else{
+            data.push(0);
+          }
+
       });
       return data;
   }

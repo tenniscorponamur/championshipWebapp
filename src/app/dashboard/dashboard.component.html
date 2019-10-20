@@ -217,14 +217,28 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6"  style="background-color: white;padding:10px;">
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
+    <div style="background-color: white;padding:10px;margin:10px;">
+      <canvas baseChart
+              *ngIf="showGraph"
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [chartType]="lineChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div style="background-color: white;padding:10px;margin:10px;">
     <canvas baseChart
-            *ngIf="showGraph"
-            [datasets]="lineChartData"
-            [labels]="lineChartLabels"
-            [options]="lineChartOptions"
+            *ngIf="showCriteriumGraph"
+            [datasets]="lineChartCriteriumData"
+            [labels]="lineChartCriteriumLabels"
+            [options]="lineChartCriteriumOptions"
             [chartType]="lineChartType"
             (chartHover)="chartHovered($event)"
             (chartClick)="chartClicked($event)"></canvas>
+    </div>
   </div>
 </div>
