@@ -78,4 +78,10 @@ export class ChampionnatService {
     return this.http.get(this.environmentService.getPrivateApiUrl() + "/championnat/tableauCriterium?date=" + formatDateInString(date),options);
   }
 
+  getTableauCriteriumWithPlayers(date:Date){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(this.environmentService.getPrivateApiUrl() + "/championnat/tableauCriteriumWithPlayers?date=" + formatDateInString(date),options);
+  }
+
 }

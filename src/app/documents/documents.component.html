@@ -35,6 +35,7 @@
 
         <div class="exportButtonDiv">
             <button class="btn btn-info btn-sm" (click)="getTableauCriterium();">Tableau critérium</button>
+            <button class="btn btn-info btn-sm" (click)="getTableauCriteriumWithPlayers();">Tableau critérium avec joueurs</button>
             <mat-form-field>
               <input matInput [matDatepicker]="picker" placeholder="Jour des rencontres" [(ngModel)]="date">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -43,7 +44,8 @@
         </div>
           
           <div *ngIf="preparationTableauCriterium"><span><small>Préparation du fichier en cours...</small></span></div>
-          
+          <div *ngIf="preparationTableauCriteriumWithPlayers"><span><small>Préparation du fichier en cours...</small></span></div>
+
         </div>
 
       </div>

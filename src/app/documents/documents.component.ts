@@ -20,6 +20,7 @@ export class DocumentsComponent extends ChampionnatDetailComponent implements On
 
     preparationListeCapitaines:boolean=false;
     preparationTableauCriterium:boolean=false;
+    preparationTableauCriteriumWithPlayers:boolean=false;
     preparationCalendrierPdf:boolean=false;
     preparationCalendrierExcel:boolean=false;
     preparationExportMembres:boolean=false;
@@ -69,6 +70,18 @@ export class DocumentsComponent extends ChampionnatDetailComponent implements On
       this.championnatService.getTableauCriterium(this.date).subscribe(result => {
           this.preparationTableauCriterium = false;
           saveAs(result, "tableauCriterium_" + formatDateInString(this.date) + ".pdf");
+      },error => {console.log(error);});
+    }
+  }
+
+  getTableauCriteriumWithPlayers(){
+    if (this.date){
+      this.preparationTableauCriteriumWithPlayers=true;
+      this.date = new Date(this.date);
+      this.date.setHours(12);
+      this.championnatService.getTableauCriteriumWithPlayers(this.date).subscribe(result => {
+          this.preparationTableauCriteriumWithPlayers = false;
+          saveAs(result, "tableauCriteriumWithPlayers_" + formatDateInString(this.date) + ".pdf");
       },error => {console.log(error);});
     }
   }
