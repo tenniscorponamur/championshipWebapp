@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Inject, Input, Output } from '@angular/core';
 import {Club} from '../club';
 import {Terrain} from '../terrain';
+import { saveAs } from 'file-saver';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {ClubService} from '../club.service';
 import {TerrainService} from '../terrain.service';
@@ -13,6 +14,8 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./club-detail.component.css']
 })
 export class ClubDetailComponent implements OnInit {
+
+  preparationExport:boolean=false;
 
   @Output() deleteClub = new EventEmitter<Club>();
 
@@ -70,6 +73,15 @@ export class ClubDetailComponent implements OnInit {
           this.deleteClub.emit(this._club);
         }
     }
+
+  exportInformations(){
+      this.preparationExport = true;
+      this.clubService.exportClubInformations(this.club).subscribe(result => {
+          this.preparationExport = false;
+          saveAs(result, "club_" + this.club.nom + ".xls");
+      //var fileURL = URL.createObjectURL(result);window.open(fileURL);
+    },error => {console.log(error);});
+  }
 
 }
 

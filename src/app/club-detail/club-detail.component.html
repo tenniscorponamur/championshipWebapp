@@ -63,6 +63,13 @@
       </div>
     </div>
 
+    <div class="row">
+      <button class="btn btn-info btn-sm" (click)="exportInformations();">Export des informations</button>
+      &nbsp;
+      <div *ngIf="preparationExport">
+        <small>Préparation du fichier en cours...</small>
+      </div>
+    </div>
 
 </div>
 
