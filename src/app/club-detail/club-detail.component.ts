@@ -83,6 +83,7 @@ export class ClubDialog {
     _numero:string;
     _nom:string;
     _description:string;
+    _dateCreation:Date;
     _actif:boolean;
 
     showAlert:boolean=false;
@@ -99,6 +100,9 @@ export class ClubDialog {
         this._nom = this._club.nom;
         this._description = this._club.description;
         this._actif = this._club.actif;
+        if (this._club.dateCreation){
+          this._dateCreation = new Date(this._club.dateCreation);
+        }
 
     }
 
@@ -131,15 +135,24 @@ export class ClubDialog {
         this._club.description=this._description;
         this._club.actif=this._actif;
 
+        if (this._dateCreation!=null){
+          this._club.dateCreation = new Date(this._dateCreation);
+        }else{
+          this._club.dateCreation = null;
+        }
+        if (this._club.dateCreation!=null){
+          this._club.dateCreation.setHours(12);
+        }
+
         if (!this._club.id){
-            // Ajout d'un nouveal utilisateur
+            // Ajout d'un nouveau club
             this.clubService.ajoutClub(this._club).subscribe(
                 newClub => {
                     this._club.id=newClub.id;
                     this.dialogRef.close(this._club);
              });
         }else{
-            //Mise a jour de l'utilisateur
+            //Mise a jour du club
             this.clubService.updateClub(this._club).subscribe(
                 result => {
                     this.dialogRef.close(this._club);

@@ -25,6 +25,8 @@
               {{club.numero}}
               <br/>
               {{club.description}}
+              <br/>
+              <span *ngIf="club.dateCreation">Date de création : {{club.dateCreation| date:'dd/MM/yyyy'}}</span>
           </div>
         </div>
       </div>
