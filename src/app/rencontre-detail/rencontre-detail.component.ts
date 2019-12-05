@@ -103,6 +103,12 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }
     }
 
+    ouvrirGoogleAgenda(){
+        this.rencontreService.getLienGoogleCalendar(this.rencontre).subscribe(googleCalendar => {
+          window.open(googleCalendar.link);
+        });
+    }
+
     verificationPoints(){
       return true;
     }

@@ -47,6 +47,10 @@ export class RencontreService {
       return this.http.get<Rencontre[]>(this.environmentService.getPrivateApiUrl() + "/rencontres/toValidate", this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    getLienGoogleCalendar(rencontre:Rencontre):Observable<any> {
+        return this.http.get<any>(this.environmentService.getPublicApiUrl() + "/rencontre/" + rencontre.id + "/lienGoogleCalendar");
+    }
+
     isResultatsRencontreModifiables(rencontre:Rencontre) {
         return this.http.get<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/isResultatsModifiables", this.authenticationService.getPrivateApiHttpOptions());
     }

@@ -107,8 +107,11 @@
         </div>
         <div class="myBoxContent">
             <div class="row">
-                <div class="col-12" *ngIf="rencontre.dateHeureRencontre">
+                <div class="col-6" *ngIf="rencontre.dateHeureRencontre">
                     {{rencontre.dateHeureRencontre| date:'dd/MM/yyyy HH:mm'}}
+                </div>
+                <div class="col-6" *ngIf="rencontre.dateHeureRencontre">
+                  <button class="btn btn-sm btn-info" (click)="ouvrirGoogleAgenda();"><i class="fa fa-calendar"></i>&nbsp;Google Agenda</button>
                 </div>
                 <div class="col-6">
                     Terrain : <span *ngIf="rencontre.terrain"><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span>
