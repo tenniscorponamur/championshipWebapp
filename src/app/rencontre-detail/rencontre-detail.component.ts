@@ -109,6 +109,39 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
     }
 
+    echangeEquipePossible(){
+      return this.isAdminConnected() && ((this.rencontre.pointsVisites==null || this.rencontre.pointsVisites==0) && (this.rencontre.pointsVisiteurs==null || this.rencontre.pointsVisiteurs==0));
+    }
+
+    switchTeams(){
+        if (this.rencontre){
+          if (this.echangeEquipePossible()){
+            this.inverserEquipes();
+            this.rencontreService.updateRencontre(this.rencontre).subscribe(
+            result => {
+             },
+            error => {
+              this.inverserEquipes();
+             });
+          }
+        }
+    }
+
+  inverserEquipes(){
+
+    let oldEquipeVisites = this.rencontre.equipeVisites;
+    this.rencontre.equipeVisites = this.rencontre.equipeVisiteurs;
+    this.rencontre.equipeVisiteurs = oldEquipeVisites;
+    //S'il s'agit d'un championnat ETE, on va switcher les terrains
+    if (this.rencontre.division.championnat.type==TYPE_CHAMPIONNAT_ETE.code){
+      if (this.rencontre.equipeVisites.terrain){
+          this.rencontre.terrain = this.rencontre.equipeVisites.terrain;
+      }else{
+          this.rencontre.terrain = null;
+      }
+    }
+  }
+
     verificationPoints(){
       return true;
     }

@@ -39,7 +39,8 @@
                       <span style="font-size:2em;">
                           <span *ngIf="rencontre.pointsVisites!=null">{{rencontre.pointsVisites}}</span>
                           &nbsp;
-                          -
+                          <span *ngIf="!echangeEquipePossible();">-</span>
+                          <span *ngIf="echangeEquipePossible();"><a (click)="switchTeams();"><i class="fa fa-exchange" style="cursor:pointer"></i></a></span>
                           &nbsp;
                           <span *ngIf="rencontre.pointsVisiteurs!=null">{{rencontre.pointsVisiteurs}}</span>
                       </span>
