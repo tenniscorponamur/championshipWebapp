@@ -4,6 +4,7 @@ import {compare, formatDateInString} from '../utility';
 import {Championnat, TYPE_CHAMPIONNAT_CRITERIUM, TYPE_CHAMPIONNAT_ETE} from '../championnat';
 import {ChampionnatService} from '../championnat.service';
 import {RencontreService} from '../rencontre.service';
+import {ClubService} from '../club.service';
 import {MembreService} from '../membre.service';
 import { saveAs } from 'file-saver';
 
@@ -23,10 +24,12 @@ export class DocumentsComponent extends ChampionnatDetailComponent implements On
     preparationTableauCriteriumWithPlayers:boolean=false;
     preparationCalendrierPdf:boolean=false;
     preparationCalendrierExcel:boolean=false;
+    preparationSituationClubs:boolean=false;
     preparationExportMembres:boolean=false;
 
   constructor(
         private championnatService: ChampionnatService,
+        private clubService: ClubService,
         private membreService: MembreService,
         private rencontreService: RencontreService
         ) {
@@ -109,6 +112,14 @@ export class DocumentsComponent extends ChampionnatDetailComponent implements On
           saveAs(result, "calendrier.xlsx");
       },error => {console.log(error);});
     }
+  }
+
+  getSituationClubs(){
+    this.preparationSituationClubs=true;
+    this.clubService.getSituationClubs().subscribe(result => {
+        this.preparationSituationClubs = false;
+        saveAs(result, "situationClubs.xlsx");
+    },error => {console.log(error);});
   }
 
   getExportMembres(){

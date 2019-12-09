@@ -25,6 +25,12 @@ export class ClubService {
     return this.http.get(this.environmentService.getPrivateApiUrl() + "/club/" + club.id + "/export",options);
   }
 
+  getSituationClubs(){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(this.environmentService.getPrivateApiUrl() + "/clubs/export",options);
+  }
+
   ajoutClub(club:Club){
     return this.http.post<Club>(this.environmentService.getPrivateApiUrl() + "/club",club, this.authenticationService.getPrivateApiHttpOptions());
   }
