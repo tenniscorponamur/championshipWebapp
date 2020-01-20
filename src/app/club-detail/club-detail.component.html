@@ -64,10 +64,20 @@
     </div>
 
     <div class="row">
-      <button class="btn btn-info btn-sm" (click)="exportInformations();">Export des informations</button>
-      &nbsp;
-      <div *ngIf="preparationExport">
-        <small>Préparation du fichier en cours...</small>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" style="margin-top:5px;">
+        <button class="btn btn-info btn-sm" (click)="exportInformations();">Export des informations</button>
+        &nbsp;
+        <div *ngIf="preparationExport">
+          <small>Préparation du fichier en cours...</small>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" style="margin-top:5px;">
+        <button class="btn btn-info btn-sm" (click)="exportMembres();">Export des membres</button>
+        &nbsp;
+        <div *ngIf="preparationExportMembres">
+          <small>Préparation du fichier en cours...</small>
+        </div>
       </div>
     </div>
 

@@ -8,6 +8,7 @@ import {AuthenticationService} from './authentication.service';
 import {EnvironmentService} from './environment.service';
 
 import { Membre } from './membre';
+import { Club } from './club';
 import { MEMBRES } from './mock-members';
 
 @Injectable()
@@ -35,6 +36,12 @@ export class MembreService {
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";
     return this.http.get(this.environmentService.getPublicApiUrl() + "/membres/listeForcePoints",options);
+  }
+
+  getExportMembresByClub(club:Club){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(this.environmentService.getPrivateApiUrl() + "/membres/exportByClub?clubId=" + club.id,options);
   }
 
   getExportMembres(){

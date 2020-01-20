@@ -4,6 +4,7 @@ import {Terrain} from '../terrain';
 import { saveAs } from 'file-saver';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {ClubService} from '../club.service';
+import {MembreService} from '../membre.service';
 import {TerrainService} from '../terrain.service';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
@@ -16,6 +17,7 @@ import {Observable} from 'rxjs/Observable';
 export class ClubDetailComponent implements OnInit {
 
   preparationExport:boolean=false;
+  preparationExportMembres:boolean=false;
 
   @Output() deleteClub = new EventEmitter<Club>();
 
@@ -33,7 +35,8 @@ export class ClubDetailComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private clubService: ClubService
+    private clubService: ClubService,
+    private membreService: MembreService
     ) { }
 
   ngOnInit() {
@@ -79,6 +82,15 @@ export class ClubDetailComponent implements OnInit {
       this.clubService.exportClubInformations(this.club).subscribe(result => {
           this.preparationExport = false;
           saveAs(result, "club_" + this.club.nom + ".xls");
+      //var fileURL = URL.createObjectURL(result);window.open(fileURL);
+    },error => {console.log(error);});
+  }
+
+  exportMembres(){
+      this.preparationExportMembres = true;
+      this.membreService.getExportMembresByClub(this.club).subscribe(result => {
+          this.preparationExportMembres = false;
+          saveAs(result, "membres_club_" + this.club.nom + ".xlsx");
       //var fileURL = URL.createObjectURL(result);window.open(fileURL);
     },error => {console.log(error);});
   }
