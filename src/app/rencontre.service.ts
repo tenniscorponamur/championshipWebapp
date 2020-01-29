@@ -107,6 +107,10 @@ export class RencontreService {
         return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/validiteParAdversaire?adversaireId=" + adversaire.id, password , this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    forceValidation(rencontre:Rencontre){
+        return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/forceValidite", null, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     getAutorisations(rencontre:Rencontre): Observable<AutorisationRencontre[]> {
         return this.http.get<AutorisationRencontre[]>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id + "/autorisations", this.authenticationService.getPrivateApiHttpOptions());
     }

@@ -67,6 +67,8 @@ export class RencontresDialog implements OnInit {
           }else{
             return "matchNul";
           }
+      }else{
+        return "matchNul";
       }
     }
     return "";
@@ -82,6 +84,8 @@ export class RencontresDialog implements OnInit {
           }else{
             return "Match nul"
           }
+      }else{
+        return "Match annulé"
       }
     }
     return "";

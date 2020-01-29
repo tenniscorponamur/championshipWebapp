@@ -179,6 +179,20 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
     }
 
+    forceValidation(){
+
+      // Faire appel a un service pour forcer une validation d'administrateur (match annule et aucun point attribue aux equipes)
+
+      if (this.isForfaitPossible){
+          this.rencontreService.forceValidation(this.rencontre).subscribe(validity => {
+              this.rencontre.resultatsEncodes = validity;
+              this.rencontre.valide = validity;
+              this.refreshBooleansAndTracesAndAutorisations();
+          },error=> console.log(error));
+      }
+
+    }
+
     isSimpleExists():boolean{
       let simpleExists:boolean = false;
       this.matchs.forEach(match => {
