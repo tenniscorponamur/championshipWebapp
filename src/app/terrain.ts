@@ -6,6 +6,8 @@ export class Terrain {
   description: string;
   adresse:string;
   terrainCriteriumParDefaut:boolean=false;
+  presenceBuvette:boolean=false;
+  presenceBancontact:boolean=false;
   actif: boolean=true;
 }
 

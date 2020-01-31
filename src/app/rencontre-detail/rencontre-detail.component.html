@@ -115,7 +115,11 @@
                   <button class="btn btn-sm btn-info" (click)="ouvrirGoogleAgenda();"><i class="fa fa-calendar"></i>&nbsp;Google Agenda</button>
                 </div>
                 <div class="col-6">
-                    Terrain : <span *ngIf="rencontre.terrain"><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span>
+                    Terrain : <span *ngIf="rencontre.terrain">
+                      <a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a>
+                      &nbsp;<span *ngIf="rencontre.terrain.presenceBuvette"><i class="fa fa-beer"></i></span>
+                      &nbsp;<span *ngIf="rencontre.terrain.presenceBancontact"><i class="fa fa-credit-card"></i></span>
+                    </span>
                 </div>
                 <div class="col-6" *ngIf="rencontre.court">
                     Court : {{rencontre.court.code}}

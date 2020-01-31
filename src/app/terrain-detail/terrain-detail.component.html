@@ -21,8 +21,16 @@
             Informations du terrain<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
           </div>
           <div class="myBoxContent">
-            <span><strong>{{terrain.nom|uppercase}}</strong>&nbsp;</span><span *ngIf="terrain.terrainCriteriumParDefaut"><i class="fa fa-star " style="color:goldenrod;"></i></span><br/>
-            {{terrain.description}}<br/>
+            <span>
+              <strong>{{terrain.nom|uppercase}}</strong>
+            </span>
+            &nbsp;<span *ngIf="terrain.terrainCriteriumParDefaut"><i class="fa fa-star " style="color:goldenrod;"></i></span>
+            <br/>
+            &nbsp;<span *ngIf="terrain.presenceBuvette"><i class="fa fa-beer"></i></span>
+            &nbsp;<span *ngIf="terrain.presenceBancontact"><i class="fa fa-credit-card"></i></span>
+            <br/>
+            {{terrain.description}}
+            <br/>
             <a href="https://maps.google.com/?q={{terrain.adresse}}" target="_blank">{{terrain.adresse}}</a>
           </div>
         </div>
