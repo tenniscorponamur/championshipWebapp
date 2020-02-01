@@ -24,10 +24,17 @@
             <span>
               <strong>{{terrain.nom|uppercase}}</strong>
             </span>
-            &nbsp;<span *ngIf="terrain.terrainCriteriumParDefaut"><i class="fa fa-star " style="color:goldenrod;"></i></span>
+            &nbsp;
+            <span *ngIf="terrain.terrainCriteriumParDefaut"><i class="fa fa-star " style="color:goldenrod;"></i></span>
             <br/>
-            &nbsp;<span *ngIf="terrain.presenceBuvette"><i class="fa fa-beer"></i></span>
-            &nbsp;<span *ngIf="terrain.presenceBancontact"><i class="fa fa-credit-card"></i></span>
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-beer fa-stack-1x text-warning"></i>
+              <i *ngIf="!terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+            </span>
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-credit-card fa-stack-1x text-info"></i>
+              <i *ngIf="!terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+            </span>
             <br/>
             {{terrain.description}}
             <br/>
