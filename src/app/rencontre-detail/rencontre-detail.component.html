@@ -117,14 +117,14 @@
                 <div class="col-6">
                     Terrain : <span *ngIf="rencontre.terrain">
                       <a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a>
-                      <span class="fa-stack fa-lg">
-                        <i class="fa fa-beer fa-stack-1x text-warning"></i>
-                        <i *ngIf="!rencontre.terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>
-                      </span>
-                      <span class="fa-stack fa-lg">
-                        <i class="fa fa-credit-card fa-stack-1x text-info"></i>
-                        <i *ngIf="!rencontre.terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>
-                      </span>
+                      <!--<span class="fa-stack fa-lg">-->
+                        <!--<i class="fa fa-beer fa-stack-1x text-warning"></i>-->
+                        <!--<i *ngIf="!rencontre.terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>-->
+                      <!--</span>-->
+                      <!--<span class="fa-stack fa-lg">-->
+                        <!--<i class="fa fa-credit-card fa-stack-1x text-info"></i>-->
+                        <!--<i *ngIf="!rencontre.terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>-->
+                      <!--</span>-->
                     </span>
                 </div>
                 <div class="col-6" *ngIf="rencontre.court">
