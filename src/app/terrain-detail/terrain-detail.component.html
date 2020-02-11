@@ -35,6 +35,10 @@
               <i class="fa fa-credit-card fa-stack-1x text-info"></i>
               <i *ngIf="!terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>
             </span>
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-qrcode fa-lg fa-stack-1x text-primary"></i>
+              <i *ngIf="!terrain.presencePayconiq" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+            </span>
             <br/>
             {{terrain.description}}
             <br/>

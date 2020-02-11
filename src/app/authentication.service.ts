@@ -93,6 +93,8 @@ export class AuthenticationService {
   }
 
   requestAccessToken(login:string, password:string, rememberMe:boolean) {
+    this.localStorageService.removeAccessToken();
+    this.localStorageService.removeRefreshToken();
     return this.http.post<any>(this.environmentService.getTokenUrl() + "?grant_type=password&username=" + login + "&password="+password,{}, this.getHttpOptionsForTokenRequest())
     .map(result => {
       this.storeAccessToken(result.access_token);
@@ -105,6 +107,8 @@ export class AuthenticationService {
 
 
   requestRefreshToken(): Observable<string> {
+      this.localStorageService.removeAccessToken();
+      this.localStorageService.removeRefreshToken();
       return this.http.post<any>(this.environmentService.getTokenUrl() + "?grant_type=refresh_token&refresh_token=" + this.getRefreshToken(), {}, this.getHttpOptionsForTokenRequest())
       .map(result => {
           this.storeAccessToken(result.access_token);

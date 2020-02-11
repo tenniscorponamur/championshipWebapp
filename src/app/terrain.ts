@@ -8,6 +8,7 @@ export class Terrain {
   terrainCriteriumParDefaut:boolean=false;
   presenceBuvette:boolean=false;
   presenceBancontact:boolean=false;
+  presencePayconiq:boolean=false;
   actif: boolean=true;
 }
 
