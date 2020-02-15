@@ -19,7 +19,7 @@ import {Club} from '../club';
 import {Set} from '../set';
 import {Terrain, HoraireTerrain, Court} from '../terrain';
 import {Equipe} from '../equipe';
-import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, TYPE_CHAMPIONNAT_COUPE_HIVER} from '../championnat';
+import {Championnat,getCategorieChampionnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, TYPE_CHAMPIONNAT_COUPE_HIVER} from '../championnat';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import {Trace} from '../trace';
 import {TraceService} from '../trace.service';
@@ -101,6 +101,21 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       }else{
         return "myBox";
       }
+    }
+
+    getSocialMediaText(rencontre:Rencontre){
+      let date = getDate(this.rencontre.dateHeureRencontre);
+      return "Rencontre " + getCategorieChampionnat(rencontre.division.championnat).libelle
+            + " : "
+            + rencontre.equipeVisites.codeAlphabetique
+            + "- "
+            + rencontre.equipeVisiteurs.codeAlphabetique
+            + " ce "
+            + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear()
+            + " à "
+            + date.getHours() + "h" + date.getMinutes()
+            + " au "
+            + (rencontre.terrain!=null?rencontre.terrain.nom:"")
     }
 
     ouvrirGoogleAgenda(){
