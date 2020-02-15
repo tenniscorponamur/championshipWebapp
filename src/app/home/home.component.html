@@ -32,25 +32,46 @@
             </div>
 
             <div *ngIf="!chargementProchainesRencontres" class="card-body">
+              <div *responsive="{bootstrap: ['sm','xs'] }">
+                <div *ngFor="let rencontre of nextMeetings" class="myBox text-left" >
+                  <div class="myBoxTitle">
+                      {{rencontre.dateHeureRencontre| date:'dd/MM/yyyy HH:mm'}} - {{getCategorieCode(rencontre)}}
+                  </div>
+                  <div class="myBoxContent">
+                    <i *ngIf="showMan(rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
+                    <i *ngIf="showWoman(rencontre)" class="fa fa-female" style="color:deeppink;"></i>
+                    {{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}
+                    <span *ngIf="rencontre.terrain" ><br/><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span>
+                  </div>
+                </div>
+              </div>
+
+              <div *responsive="{bootstrap: ['md','lg','xl'] }">
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <thead class="bg-info">
-                            <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Visités</th>
-                                <th scope="col">Visiteurs</th>
-                                <th scope="col">Terrain</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let rencontre of nextMeetings">
-                                <td>{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy HH:mm'}}</td>
-                                <td>{{rencontre.equipeVisites.codeAlphabetique}}</td>
-                                <td>{{rencontre.equipeVisiteurs.codeAlphabetique}}</td>
-                                <td><span *ngIf="rencontre.terrain" ><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                      <table class="table table-striped table-sm">
+                          <thead class="bg-info">
+                              <tr>
+                                  <th scope="col">Date</th>
+                                  <th scope="col"></th>
+                                  <th scope="col">Visités</th>
+                                  <th scope="col">Visiteurs</th>
+                                  <th scope="col">Terrain</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let rencontre of nextMeetings">
+                                  <td>{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy HH:mm'}}</td>
+                                  <td>
+                                    <i *ngIf="showMan(rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
+                                    <i *ngIf="showWoman(rencontre)" class="fa fa-female" style="color:deeppink;"></i>
+                                  </td>
+                                  <td>{{rencontre.equipeVisites.codeAlphabetique}}</td>
+                                  <td>{{rencontre.equipeVisiteurs.codeAlphabetique}}</td>
+                                  <td><span *ngIf="rencontre.terrain" ><a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a></span></td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
                 </div>
                 <a href="#" class="btn btn-primary" routerLink="/rencontres" >Voir plus</a>
             </div>
@@ -67,25 +88,47 @@
             </div>
 
             <div *ngIf="!chargementDerniersResultats" class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <thead class="bg-info">
-                            <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Visités</th>
-                                <th scope="col">Visiteurs</th>
-                                <th scope="col">Résultats</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let rencontre of lastResults">
-                                <td>{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy'}}</td>
-                                <td>{{rencontre.equipeVisites.codeAlphabetique}}</td>
-                                <td>{{rencontre.equipeVisiteurs.codeAlphabetique}}</td>
-                                <td>{{rencontre.pointsVisites}} - {{rencontre.pointsVisiteurs}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+              <div *responsive="{bootstrap: ['sm','xs'] }">
+                <div *ngFor="let rencontre of lastResults" class="myBox text-left" >
+                  <div class="myBoxTitle">
+                    {{rencontre.dateHeureRencontre| date:'dd/MM/yyyy HH:mm'}} - {{getCategorieCode(rencontre)}}
+                  </div>
+                  <div class="myBoxContent">
+                    <i *ngIf="showMan(rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
+                    <i *ngIf="showWoman(rencontre)" class="fa fa-female" style="color:deeppink;"></i>
+                    {{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}} :
+                    {{rencontre.pointsVisites}} - {{rencontre.pointsVisiteurs}}
+                  </div>
+                </div>
+              </div>
+
+              <div *responsive="{bootstrap: ['md','lg','xl'] }">
+                  <div class="table-responsive">
+                      <table class="table table-striped table-sm">
+                          <thead class="bg-info">
+                              <tr>
+                                  <th scope="col">Date</th>
+                                  <th scope="col"></th>
+                                  <th scope="col">Visités</th>
+                                  <th scope="col">Visiteurs</th>
+                                  <th scope="col">Résultats</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let rencontre of lastResults">
+                                  <td>{{rencontre.dateHeureRencontre| date:'dd/MM/yyyy'}}</td>
+                                  <td>
+                                    <i *ngIf="showMan(rencontre)" class="fa fa-male" style="color:midnightblue;"></i>
+                                    <i *ngIf="showWoman(rencontre)" class="fa fa-female" style="color:deeppink;"></i>
+                                  </td>
+                                  <td>{{rencontre.equipeVisites.codeAlphabetique}}</td>
+                                  <td>{{rencontre.equipeVisiteurs.codeAlphabetique}}</td>
+                                  <td>{{rencontre.pointsVisites}} - {{rencontre.pointsVisiteurs}}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
                 </div>
                 <a href="#" class="btn btn-primary" routerLink="/rencontres" >Voir plus</a>
             </div>

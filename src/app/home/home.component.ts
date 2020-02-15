@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import {Rencontre} from '../rencontre';
 import {AlertesService} from '../alertes.service';
 import {RencontreService} from '../rencontre.service';
+import {getCategorieChampionnatCode, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
 import {addLeadingZero} from '../utility';
 
 @Component({
@@ -46,6 +47,25 @@ export class HomeComponent implements OnInit {
     get countRencontresToValidate(){
       return this.alertesService.getRencontresAValider().length;
     }
+
+
+  getCategorieCode(rencontre:Rencontre):string{
+      return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
+  }
+
+  showMan(rencontre:Rencontre){
+    return  rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_MESSIEURS.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code;
+  }
+
+  showWoman(rencontre:Rencontre){
+    return  rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DAMES.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code
+          || rencontre.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code;
+  }
 
   getTemplateMembre(){
       this.preparationTemplateMembre = true;
