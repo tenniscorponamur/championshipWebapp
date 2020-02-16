@@ -149,6 +149,7 @@ export class TerrainDialog {
     _nom:string;
     _description:string;
     _adresse:string;
+    _showDrinkDetails:boolean;
     _presenceBuvette:boolean;
     _presenceBancontact:boolean;
     _presencePayconiq:boolean;
@@ -168,6 +169,7 @@ export class TerrainDialog {
         this._nom = this._terrain.nom;
         this._description = this._terrain.description;
         this._adresse = this._terrain.adresse;
+        this._showDrinkDetails = this._terrain.showDrinkDetails;
         this._presenceBuvette = this._terrain.presenceBuvette;
         this._presenceBancontact = this._terrain.presenceBancontact;
         this._presencePayconiq = this._terrain.presencePayconiq;
@@ -196,6 +198,7 @@ export class TerrainDialog {
         this._terrain.nom=this._nom;
         this._terrain.description=this._description;
         this._terrain.adresse=this._adresse;
+        this._terrain.showDrinkDetails = this._showDrinkDetails;
         this._terrain.presenceBuvette=this._presenceBuvette;
         this._terrain.presenceBancontact=this._presenceBancontact;
         this._terrain.presencePayconiq=this._presencePayconiq;

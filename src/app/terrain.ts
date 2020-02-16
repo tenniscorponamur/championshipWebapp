@@ -6,6 +6,7 @@ export class Terrain {
   description: string;
   adresse:string;
   terrainCriteriumParDefaut:boolean=false;
+  showDrinkDetails:boolean=false;
   presenceBuvette:boolean=false;
   presenceBancontact:boolean=false;
   presencePayconiq:boolean=false;

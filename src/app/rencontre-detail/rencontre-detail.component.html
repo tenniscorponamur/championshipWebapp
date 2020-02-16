@@ -94,9 +94,11 @@
                     <small style="color:red">Certains joueurs non-précisés</small>
                   </div>
 
+                  <span *ngIf="rencontre.dateHeureRencontre">
                   <a class="btn btn-sm" style="background-color:#3b5998;color:white;" href="https://www.facebook.com/sharer/sharer.php?u=https://tenniscorponamur.herokuapp.com&quote={{getSocialMediaText(rencontre)}}" target="_blank"><i class="fa fa-facebook"></i></a>
                   &nbsp;<a class="btn btn-sm" style="background-color:#25D366;color:white;" href="https://api.whatsapp.com/send?text={{getSocialMediaText(rencontre)}}" target="_blank"><i class="fa fa-whatsapp"></i></a>
                   &nbsp;<a class="btn btn-sm" style="background-color:#1DA1F2;color:white;" href="https://twitter.com/intent/tweet?url=https://tenniscorponamur.herokuapp.com&text={{getSocialMediaText(rencontre)}}&hashtags=tenniscorponamur" target="_blank"><i class="fa fa-twitter"></i></a>
+                  </span>
 
               </div>
             </div>
@@ -121,18 +123,20 @@
                 <div class="col-6">
                     Terrain : <span *ngIf="rencontre.terrain">
                       <a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a>
-                      <!--<span class="fa-stack fa-lg">-->
-                        <!--<i class="fa fa-beer fa-stack-1x text-warning"></i>-->
-                        <!--<i *ngIf="!rencontre.terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>-->
-                      <!--</span>-->
-                      <!--<span class="fa-stack fa-lg">-->
-                        <!--<i class="fa fa-credit-card fa-stack-1x text-info"></i>-->
-                        <!--<i *ngIf="!rencontre.terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>-->
-                      <!--</span>-->
-                      <!--<span class="fa-stack fa-lg">-->
-                      <!--<i class="fa fa-qrcode fa-lg fa-stack-1x text-primary"></i>-->
-                      <!--<i *ngIf="!rencontre.terrain.presencePayconiq" class="fa fa-ban fa-stack-2x text-secondary" ></i>-->
-                      <!--</span>-->
+                      <span *ngIf="rencontre.terrain.showDrinkDetails">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-beer fa-stack-1x text-warning"></i>
+                          <i *ngIf="!rencontre.terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+                        </span>
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-credit-card fa-stack-1x text-info"></i>
+                          <i *ngIf="!rencontre.terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+                        </span>
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-qrcode fa-lg fa-stack-1x text-primary"></i>
+                          <i *ngIf="!rencontre.terrain.presencePayconiq" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+                        </span>
+                      </span>
                     </span>
                 </div>
                 <div class="col-6" *ngIf="rencontre.court">

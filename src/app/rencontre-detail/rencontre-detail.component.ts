@@ -108,7 +108,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
       return "Rencontre " + getCategorieChampionnat(rencontre.division.championnat).libelle
             + " : "
             + rencontre.equipeVisites.codeAlphabetique
-            + "- "
+            + " - "
             + rencontre.equipeVisiteurs.codeAlphabetique
             + " ce "
             + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear()
