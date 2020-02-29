@@ -41,7 +41,7 @@
 
           <div class="col-12 text-right">
             <mat-form-field>
-              <input matInput type="number" placeholder="Numéro d'ordre" [(ngModel)]="championnat.ordre" (change)="ordreChanged(championnat);" (keyup.enter)="ordreChanged(championnat);" (blur)="ordreChanged(championnat);"/>
+              <input matInput type="number" placeholder="Numéro d'ordre" [(ngModel)]="championnat.ordre" (change)="ordreChanged();" (keyup.enter)="ordreChanged();" (blur)="ordreChanged();"/>
             </mat-form-field>
           </div>
 
