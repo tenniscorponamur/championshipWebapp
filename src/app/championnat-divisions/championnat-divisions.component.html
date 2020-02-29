@@ -38,7 +38,7 @@
                     {{getTypeChampionnat(championnat).libelle}}&nbsp;{{championnat.annee}}
                 </div>
                 <div class="myBoxContent">
-                    {{getCategorieChampionnat(championnat).libelle}}
+                  {{getCategorieChampionnat(championnat).libelle}}<span *ngIf="championnat.ordre">&nbsp;(n° {{championnat.ordre}})</span>
                 </div>
             </div>
         </div>
@@ -53,6 +53,7 @@
                             <th scope="col" mat-sort-header="annee">Année</th>
                             <th scope="col" mat-sort-header="type">Type</th>
                             <th scope="col" mat-sort-header="categorie">Catégorie</th>
+                            <th scope="col" mat-sort-header="ordre">Ordre</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,7 @@
                             <td>{{championnat.annee}}</td>
                             <td>{{getTypeChampionnat(championnat).libelle}}</td>
                             <td>{{getCategorieChampionnat(championnat).libelle}}</td>
+                            <td>{{championnat.ordre}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -39,6 +39,13 @@
             </div>
 
 
+          <div class="col-12 text-right">
+            <mat-form-field>
+              <input matInput type="number" placeholder="Numéro d'ordre" [(ngModel)]="championnat.ordre" (change)="ordreChanged(championnat);" (keyup.enter)="ordreChanged(championnat);" (blur)="ordreChanged(championnat);"/>
+            </mat-form-field>
+          </div>
+
+
             <div class="tennisCorpoBox col-12">
                 <div class="card">
                     <h6 [ngClass]="divisionHeaderClass">

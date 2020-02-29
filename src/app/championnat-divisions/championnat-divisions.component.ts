@@ -70,6 +70,7 @@ export class ChampionnatDivisionsComponent implements OnInit {
             case 'annee': return compare(a.annee, b.annee, isAsc);
             case 'type': return compare(a.type, b.type, isAsc);
             case 'categorie': return compare(a.categorie, b.categorie, isAsc);
+            case 'ordre': return compare(a.ordre, b.ordre, isAsc);
             default: return 0;
           }
         });

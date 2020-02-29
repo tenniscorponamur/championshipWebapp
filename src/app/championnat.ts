@@ -6,10 +6,7 @@ export class Championnat {
     calendrierARafraichir:boolean;
     calendrierValide:boolean;
     cloture:boolean;
-
-//    get categorieChampionnat():CategorieChampionnat{
-//        return CATEGORIE_CHAMPIONNAT_MESSIEURS;
-//    }
+    ordre:number;
 
 }
 

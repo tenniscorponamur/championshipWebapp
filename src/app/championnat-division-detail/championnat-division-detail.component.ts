@@ -99,6 +99,12 @@ export class ChampionnatDivisionDetailComponent implements OnInit {
         return getCategorieChampionnat(championnat);
     }
 
+    ordreChanged(){
+      this.championnatService.updateOrdreChampionnat(this._championnat).subscribe(
+          championnatUpdated => {
+          });
+    }
+
     ouvrirChampionnat() {
         if (!this._championnat.calendrierValide){
           let championnatDescriptionDialogRef = this.dialog.open(ChampionnatDescriptionDialog, {
@@ -320,7 +326,7 @@ export class ChampionnatDescriptionDialog {
             this._championnat.categorie = this._categorie;
 
             if (!this._championnat.id) {
-                // Ajout d'un nouveal utilisateur
+                // Ajout d'un nouveau championnat
                 this.championnatService.ajoutChampionnat(this._championnat).subscribe(
                     newChampionnat => {
                         if (newChampionnat != null){
@@ -332,7 +338,7 @@ export class ChampionnatDescriptionDialog {
                         }
                     });
             } else {
-                //Mise a jour de l'utilisateur
+                //Mise a jour du championnat
                 this.championnatService.updateChampionnat(this._championnat).subscribe(
                     championnatUpdated => {
                         if (championnatUpdated != null){

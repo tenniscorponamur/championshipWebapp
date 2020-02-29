@@ -30,6 +30,10 @@ export class ChampionnatService {
         return this.http.delete<Championnat>(this.environmentService.getPrivateApiUrl() + "/championnat?id=" + championnat.id, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    updateOrdreChampionnat(championnat:Championnat){
+        return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/championnat/ordre?championnatId=" + championnat.id, championnat.ordre, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     updateCalendrierARafraichirChampionnat(championnat:Championnat, calendrierARafraichir:boolean){
         return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/championnat/calendrierARafraichir?championnatId=" + championnat.id, calendrierARafraichir, this.authenticationService.getPrivateApiHttpOptions());
     }
