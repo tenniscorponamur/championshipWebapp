@@ -133,21 +133,7 @@ export class ChampionnatRencontresComponent extends ChampionnatDetailComponent i
 
     refresh(championnat: Championnat,flush:boolean) {
         this.championnatService.getChampionnats().subscribe(championnats => {
-            this.championnats = championnats.sort(
-                (a, b) => {
-                    let comparaisonAnnee = compare(a.annee, b.annee, false);
-                    if (comparaisonAnnee != 0) {
-                        return comparaisonAnnee;
-                    } else {
-                        let comparaisonType = compare(a.type, b.type, true);
-                        if (comparaisonType != 0) {
-                            return comparaisonType;
-                        } else {
-                            return compare(a.categorie, b.categorie, true);
-                        }
-                    }
-                });
-
+            this.championnats = championnats.sort((a, b) => compare(a.ordre, b.ordre, false));
             if (championnat) {
                 this.selectedChampionnat = this.championnats.filter(championnatInList => championnatInList.id == championnat.id)[0];
                 this.loadCalendar();

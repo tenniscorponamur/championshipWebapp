@@ -121,7 +121,7 @@ export class DashboardComponent implements OnInit {
 
         championnats = championnats.filter(championnat => championnat.type == TYPE_CHAMPIONNAT_HIVER.code || championnat.type == TYPE_CHAMPIONNAT_ETE.code);
 
-        championnats.sort((a,b) => compare(a.id,b.id,false));
+        championnats.sort((a, b) => compare(a.ordre, b.ordre, false));
 
         for (var _i = 0; _i < Math.min(championnats.length,this.MAX_CHAMPIONNATS); _i++) {
             var championnat = championnats[_i];
