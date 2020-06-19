@@ -36,6 +36,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
     autorisations:AutorisationRencontre[]=[];
     traces:Trace[]=[];
     private mapEquivalence;
+    rappelEnvoye:boolean=true;
 
     constructor(
         private router: Router,
@@ -206,6 +207,16 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
           },error=> console.log(error));
       }
 
+    }
+
+    envoiRappel() {
+        if (this.isAdminConnected() && !this.rencontre.resultatsEncodes){
+           this.rencontreService.envoiRappel(this.rencontre).subscribe(dateRappel => {
+                      if (dateRappel!=null){
+                        this.rencontre.dateRappel = dateRappel;
+                      }
+                  },error=> console.log(error));
+        }
     }
 
     isSimpleExists():boolean{

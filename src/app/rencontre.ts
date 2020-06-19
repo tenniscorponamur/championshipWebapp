@@ -21,6 +21,7 @@ export class Rencontre {
   commentairesEncodeur:string;
   resultatsEncodes:boolean;
   valide:boolean;
+  dateRappel:Date;
 }
 
 export class AutorisationRencontre {
