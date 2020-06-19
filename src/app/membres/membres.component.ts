@@ -46,6 +46,7 @@ export class MembresComponent implements OnInit, AfterViewInit {
   clubs:Club[];
   genres:Genre[];
   echellesCorpo:any[]=[];
+  preparationExportMembres:boolean=false;
 
     componentName:string="membresComponent";
     @ViewChild("membreDetail") membreDetailComponent: ElementRef;
@@ -85,6 +86,32 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
+  }
+
+  isResponsableClubConnected(){
+    let user = this.authenticationService.getConnectedUser();
+    if (user!=null){
+      if (user.membre!=null){
+        if (user.membre.responsableClub==true){
+            return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  exportMembresByResponsableClub(){
+    let user = this.authenticationService.getConnectedUser();
+      if (this.isResponsableClubConnected()){
+        if (user.membre.club!=null){
+            this.preparationExportMembres = true;
+            this.membreService.getExportMembresByClub(user.membre.club).subscribe(result => {
+                this.preparationExportMembres = false;
+                saveAs(result, "membres_club_" + user.membre.club.nom + ".xlsx");
+            //var fileURL = URL.createObjectURL(result);window.open(fileURL);
+          },error => {console.log(error);});
+        }
+      }
   }
 
   sortData(sort: Sort) {
