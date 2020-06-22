@@ -65,7 +65,7 @@ import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from
 import {DivisionService} from './division.service';
 import {EquipeService} from './equipe.service';
 import {PouleService} from './poule.service';
-import { ChampionnatPoulesComponent, ChangePouleDialog, EquipeTerrainDialog } from './championnat-poules/championnat-poules.component';
+import { ChampionnatPoulesComponent, ChangePouleDialog, CompositionEquipeDialog, EquipeTerrainDialog } from './championnat-poules/championnat-poules.component';
 import {ChampionnatDetailComponent} from './championnats/championnat-detail.component';
 import { ChampionnatRencontresComponent } from './championnat-rencontres/championnat-rencontres.component';
 import {RencontreService} from './rencontre.service';
@@ -113,6 +113,7 @@ registerLocaleData(localeFr, 'fr');
     ContactsDialog,
     ChampionnatDescriptionDialog,
     ChangePouleDialog,
+    CompositionEquipeDialog,
     EquipeTerrainDialog,
     RencontreDetailComponent,
     AskPasswordToValidateDialog,
@@ -209,6 +210,7 @@ registerLocaleData(localeFr, 'fr');
       MembreListingDialog,
       ChampionnatDescriptionDialog,
       ChangePouleDialog,
+      CompositionEquipeDialog,
       EquipeTerrainDialog,
       MembreSelectionComponent,
       ResultatsDialog,

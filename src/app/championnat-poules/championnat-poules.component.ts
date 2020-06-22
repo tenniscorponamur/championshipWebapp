@@ -14,6 +14,7 @@ import {ChampionnatDetailComponent} from '../championnats/championnat-detail.com
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Observable} from 'rxjs/Observable';
 import {Terrain} from '../terrain';
+import {Membre} from '../membre';
 import {TerrainService} from '../terrain.service';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 
@@ -32,7 +33,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     selectedChampionnat: Championnat;
     divisions: Division[];
     poules: Poule[] = [];
-    equipes: Equipe[] = [];
+    equipes: EquipeExtended[] = [];
 
     constructor(
         public dialog: MatDialog,
@@ -62,7 +63,12 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
                     this.divisions = divisions.sort((a, b) => {return compare(a.numero, b.numero, true)});
                     this.divisions.forEach(division => {
                         this.equipeService.getEquipes(division.id, null).subscribe(equipes => {
-                            equipes.forEach(equipe => this.equipes.push(equipe));
+                            equipes.forEach(equipe => {
+                              let equipeExtended=new EquipeExtended();
+                              equipeExtended.equipe=equipe;
+                              this.equipes.push(equipeExtended);
+                              this.loadMembresEquipe(equipeExtended);
+                            });
                         });
                         this.pouleService.getPoules(division.id).subscribe(poules => {
                             poules.forEach(poule => this.poules.push(poule));
@@ -71,6 +77,10 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
                 }
             );
         }
+    }
+
+    loadMembresEquipe(equipeExtended:EquipeExtended){
+      //TODO : chargement des membres de l'equipe
     }
 
     refresh(championnat: Championnat, flush:boolean) {
@@ -122,11 +132,11 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
 
     getEquipesByDivision(division: Division) {
-        return this.equipes.filter(equipe => equipe.division.id == division.id);
+        return this.equipes.filter(equipe => equipe.equipe.division.id == division.id);
     }
 
     getEquipesByPoule(poule: Poule) {
-        return this.equipes.filter(equipe => equipe.poule.id == poule.id).sort((a,b) => compare(a.codeAlphabetique, b.codeAlphabetique, true));
+        return this.equipes.filter(equipe => equipe.equipe.poule.id == poule.id).sort((a,b) => compare(a.equipe.codeAlphabetique, b.equipe.codeAlphabetique, true));
     }
 
     getNbEquipesByPoule(poule: Poule) {
@@ -141,14 +151,19 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         return this.getPoulesByDivision(division).length;
     }
 
-    editTeam(equipe:Equipe){
-        console.log("edit team");
-    }
-
     changePoule(equipe:Equipe){
       if (!this.selectedChampionnat.calendrierValide){
         let changePouleDialogRef = this.dialog.open(ChangePouleDialog, {
             data: {equipe: equipe, poulesPossibles: this.getPoulesByDivision(equipe.division)}, panelClass: "changePouleDialog", disableClose:true
+        });
+      }
+    }
+
+    ouvrirCompositionEquipe(equipeExtended:EquipeExtended){
+      if (!this.selectedChampionnat.cloture){
+        let genre:string = this.getGenreChampionnat();
+        let compoEquipeRef = this.dialog.open(CompositionEquipeDialog, {
+            data: {equipeExtended: equipeExtended, genre:genre}, panelClass: "compositionEquipeDialog", disableClose: false
         });
       }
     }
@@ -159,14 +174,12 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         let genre:string = this.getGenreChampionnat();
 
         let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-            data: {club: equipe.club, capitaine: true, genre:genre}, panelClass: "membreSelectionDialog", disableClose: false
+            data: {club: equipe.club, capitaine: true, genre:genre, deselectionPossible:(equipe.capitaine!=null)}, panelClass: "membreSelectionDialog", disableClose: false
         });
 
         membreSelectionRef.afterClosed().subscribe(membre => {
-            if (membre) {
-                equipe.capitaine=membre;
-                this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
-            }
+              equipe.capitaine=membre;
+              this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
         });
       }
     }
@@ -205,6 +218,49 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
 
 }
 
+@Component({
+    selector: 'composition-equipe-dialog',
+    templateUrl: './compositionEquipeDialog.html',
+})
+export class CompositionEquipeDialog {
+
+    private genre:string;
+    private equipeExtended: EquipeExtended;
+    membresEquipe:Membre[]=[];
+
+    constructor(
+        public dialog: MatDialog,
+        private equipeService:EquipeService,
+        public dialogRef: MatDialogRef<CompositionEquipeDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+
+        this.equipeExtended = data.equipeExtended;
+        this.genre = data.genre;
+        this.membresEquipe= this.equipeExtended.membresEquipe;
+
+    }
+
+    //TODO : ajout membre equipe
+    //TODO : deselection membre
+    //TODO : equipe hybride
+    //TODO : joueur homme/femme
+
+    ajouterMembre(){
+      let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+          data: {club: this.equipeExtended.equipe.club, genre:this.genre, deselectionPossible:false, anyMemberPossible: this.equipeExtended.equipe.hybride, membresARetirer:this.membresEquipe}, panelClass: "membreSelectionDialog", disableClose: false
+      });
+      membreSelectionRef.afterClosed().subscribe(membre => {
+          if (membre!==undefined) {
+            this.membresEquipe.push(membre);
+          }
+      });
+    }
+
+    fermerSelection() {
+        this.dialogRef.close();
+    }
+
+}
 
 @Component({
     selector: 'change-poule-dialog',
@@ -290,5 +346,10 @@ export class EquipeTerrainDialog {
             this.dialogRef.close(this._equipe);
      });
   }
+}
+
+export class EquipeExtended{
+  equipe:Equipe;
+  membresEquipe:Membre[]=[];
 }
 

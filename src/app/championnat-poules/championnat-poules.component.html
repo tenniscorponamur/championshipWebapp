@@ -63,25 +63,33 @@
                     </div>
 
                     <div class="row">
-                        <div *ngFor="let equipe of getEquipesByPoule(poule)">
+                        <div *ngFor="let equipeExtended of getEquipesByPoule(poule)">
 
                             <div class="teamBox" >
                                 <div style="float:right">
 
                                 </div>
                                 <div>
-                                    <strong>{{equipe.codeAlphabetique}}</strong><br/>
-                                    <div class="teamBoxEditable" (click)="ouvrirCapitaineEquipe(equipe);">
-                                        <small>Capitaine : <span *ngIf="equipe.capitaine">{{equipe.capitaine.nom}} {{equipe.capitaine.prenom.substring(0,1)}}.</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
+                                    <strong>{{equipeExtended.equipe.codeAlphabetique}}</strong><br/>
+                                    <div class="teamBoxEditable" (click)="ouvrirCapitaineEquipe(equipeExtended.equipe);">
+                                        <small>Capitaine : <span *ngIf="equipeExtended.equipe.capitaine">{{equipeExtended.equipe.capitaine.nom}} {{equipeExtended.equipe.capitaine.prenom.substring(0,1)}}.</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
                                     </div>
-                                    <div class="teamBoxEditable" (click)="ouvrirTerrainEquipe(equipe);" >
-                                      <small>Terrain : <span *ngIf="equipe.terrain">{{equipe.terrain.nom}}</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
+                                    <div class="teamBoxEditable" (click)="ouvrirCompositionEquipe(equipeExtended);">
+                                      <small>
+                                        <div>Composition : &nbsp;&nbsp;<i class="fa fa-pencil"></i></div>
+                                        <div *ngFor="let membre of equipeExtended.membresEquipe">
+                                          {{membre.nom}} {{membre.prenom.substring(0,1)}}.
+                                        </div>
+                                      </small>
                                     </div>
-                                    <div class="teamBoxEditable" (click)="changeHybrideMode(equipe);">
-                                      <small>Hybride : <input type="checkbox" readonly="true" [(ngModel)]="equipe.hybride" ></small>
+                                    <div class="teamBoxEditable" (click)="ouvrirTerrainEquipe(equipeExtended.equipe);" >
+                                      <small>Terrain : <span *ngIf="equipeExtended.equipe.terrain">{{equipeExtended.equipe.terrain.nom}}</span>&nbsp;&nbsp;<i class="fa fa-pencil"></i></small>
+                                    </div>
+                                    <div class="teamBoxEditable" (click)="changeHybrideMode(equipeExtended.equipe);">
+                                      <small>Hybride : <input type="checkbox" readonly="true" [(ngModel)]="equipeExtended.equipe.hybride" ></small>
                                     </div>
                                     <div *ngIf="!selectedChampionnat.calendrierValide && getNbPoulesInDivision(division)>1" class="text-center" style="margin-top:5px">
-                                        <button class="btn btn-sm btn-primary" (click)="changePoule(equipe);">Changer poule</button>
+                                        <button class="btn btn-sm btn-primary" (click)="changePoule(equipeExtended.equipe);">Changer poule</button>
                                     </div>
                                 </div>
 

@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Composition de l'équipe<span style="float:right;margin-left:20px;"><button class="close" (click)="fermerSelection();">&times;</button></span></h1>
+<div mat-dialog-content >
+  <div class="col-12">
+      <button (click)="ajouterMembre();">Ajouter</button>
+  </div>
+  <div *ngFor="let membre of membresEquipe">
+    {{membre.nom}}
+  </div>
+  <div align="center">
+    <button class="btn btn-success" (click)="fermerSelection();">Fermer</button>
+  </div>
+</div>
