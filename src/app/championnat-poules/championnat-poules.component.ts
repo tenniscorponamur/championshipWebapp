@@ -80,7 +80,9 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     }
 
     loadMembresEquipe(equipeExtended:EquipeExtended){
-      //TODO : chargement des membres de l'equipe
+      this.equipeService.getMembresEquipe(equipeExtended.equipe).subscribe(membres => {
+        membres.forEach(membre => equipeExtended.membresEquipe.push(membre));
+      });
     }
 
     refresh(championnat: Championnat, flush:boolean) {
@@ -247,18 +249,26 @@ export class CompositionEquipeDialog {
       });
       membreSelectionRef.afterClosed().subscribe(membre => {
           if (membre!==undefined) {
-            //TODO : sauvegarder le membre de l'equipe
-            this.membresEquipe.push(membre);
+            this.equipeService.addMembreEquipe(this.equipeExtended.equipe, membre).subscribe(
+              membreAdded => {
+                 if (membreAdded) {
+                    this.membresEquipe.push(membre);
+                  }
+              });
           }
       });
     }
 
     retirerMembre(membreARetirer:Membre){
-        let index = this.membresEquipe.findIndex(membre => membre.id == membreARetirer.id);
-        if (index!=-1){
-            //TODO : retirer le membre de l'equipe
-            this.membresEquipe.splice(index,1);
-        }
+      this.equipeService.deleteMembreEquipe(this.equipeExtended.equipe, membreARetirer).subscribe(
+        membreDeleted => {
+           if (membreDeleted) {
+              let index = this.membresEquipe.findIndex(membre => membre.id == membreARetirer.id);
+              if (index!=-1){
+                  this.membresEquipe.splice(index,1);
+              }
+            }
+        });
     }
 
     getPointsEquipe():number{

@@ -7,6 +7,7 @@ import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
 import {Equipe} from './equipe';
 import {Poule} from './poule';
+import {Membre} from './membre';
 import {EnvironmentService} from './environment.service';
 
 @Injectable()
@@ -44,6 +45,18 @@ export class EquipeService {
     
     updatePouleEquipe(equipe:Equipe,poule:Poule){
         return this.http.put<Equipe>(this.environmentService.getPrivateApiUrl() + "/equipe/poule?equipeId="+equipe.id, poule, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    getMembresEquipe(equipe:Equipe){
+        return this.http.get<Membre[]>(this.environmentService.getPrivateApiUrl() + "/equipe/" + equipe.id + "/membres", this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    addMembreEquipe(equipe:Equipe,membre:Membre){
+      return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() + "/equipe/" + equipe.id + "/membre/" + membre.id, null, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    deleteMembreEquipe(equipe:Equipe,membre:Membre){
+        return this.http.delete<boolean>(this.environmentService.getPrivateApiUrl() + "/equipe/" + equipe.id + "/membre/" + membre.id, this.authenticationService.getPrivateApiHttpOptions());
     }
 
 }
