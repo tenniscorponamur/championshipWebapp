@@ -236,14 +236,9 @@ export class CompositionEquipeDialog {
 
         this.equipeExtended = data.equipeExtended;
         this.genre = data.genre;
-        this.membresEquipe= this.equipeExtended.membresEquipe;
+        this.membresEquipe = this.equipeExtended.membresEquipe;
 
     }
-
-    //TODO : ajout membre equipe
-    //TODO : deselection membre
-    //TODO : equipe hybride
-    //TODO : joueur homme/femme
 
     ajouterMembre(){
       let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
@@ -251,9 +246,18 @@ export class CompositionEquipeDialog {
       });
       membreSelectionRef.afterClosed().subscribe(membre => {
           if (membre!==undefined) {
+            //TODO : sauvegarder le membre de l'equipe
             this.membresEquipe.push(membre);
           }
       });
+    }
+
+    retirerMembre(membreARetirer:Membre){
+        let index = this.membresEquipe.findIndex(membre => membre.id == membreARetirer.id);
+        if (index!=-1){
+            //TODO : retirer le membre de l'equipe
+            this.membresEquipe.splice(index,1);
+        }
     }
 
     fermerSelection() {

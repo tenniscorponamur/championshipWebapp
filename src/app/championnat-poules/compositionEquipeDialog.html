@@ -4,7 +4,7 @@
       <button (click)="ajouterMembre();">Ajouter</button>
   </div>
   <div *ngFor="let membre of membresEquipe">
-    {{membre.nom}}
+    {{membre.nom}} <button class="btn btn-sm" (click)="retirerMembre(membre);" >Delete</button>
   </div>
   <div align="center">
     <button class="btn btn-success" (click)="fermerSelection();">Fermer</button>
