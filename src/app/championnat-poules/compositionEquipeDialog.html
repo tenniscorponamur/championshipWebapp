@@ -1,12 +1,15 @@
 <h1 mat-dialog-title>Composition de l'équipe<span style="float:right;margin-left:20px;"><button class="close" (click)="fermerSelection();">&times;</button></span></h1>
 <div mat-dialog-content >
   <div class="col-12">
-      <button (click)="ajouterMembre();">Ajouter</button>
+      <button class="btn btn-sm btn-info" (click)="ajouterMembre();">Ajouter un membre</button>
   </div>
-  <div *ngFor="let membre of membresEquipe">
-    {{membre.nom}} <button class="btn btn-sm" (click)="retirerMembre(membre);" >Delete</button>
+  <div *ngFor="let membre of membresEquipe" class="membreDiv" >
+    <strong>{{membre.nom}} {{membre.prenom.substring(0,1)}}.</strong>
+    &nbsp;<span *ngIf="membre.classementCorpoActuel">({{membre.classementCorpoActuel.points}} points)&nbsp;</span>
+    <button style="float:right;" class="btn btn-sm btn-danger" (click)="retirerMembre(membre);" >Retirer de l'équipe</button>
   </div>
-  <div align="center">
+  <div><strong>Points de l'équipe : {{getPointsEquipe()}} points</strong></div>
+  <div align="center" style="margin-top:5px;">
     <button class="btn btn-success" (click)="fermerSelection();">Fermer</button>
   </div>
 </div>

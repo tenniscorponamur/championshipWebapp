@@ -221,6 +221,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
 @Component({
     selector: 'composition-equipe-dialog',
     templateUrl: './compositionEquipeDialog.html',
+    styleUrls: ['./compositionEquipeDialog.css']
 })
 export class CompositionEquipeDialog {
 
@@ -258,6 +259,16 @@ export class CompositionEquipeDialog {
             //TODO : retirer le membre de l'equipe
             this.membresEquipe.splice(index,1);
         }
+    }
+
+    getPointsEquipe():number{
+      let points:number = 0;
+      this.membresEquipe.forEach(membre => {
+        if (membre.classementCorpoActuel){
+          points=points+membre.classementCorpoActuel.points;
+        }
+      });
+      return points;
     }
 
     fermerSelection() {
