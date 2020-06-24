@@ -8,6 +8,7 @@ import { ClassementsComponent }      from './classements/classements.component';
 import { HomeComponent }      from './home/home.component';
 import { HowtoComponent }      from './howto/howto.component';
 import { MembresComponent }      from './membres/membres.component';
+import { EquipesComponent }      from './equipes/equipes.component';
 import { RencontresComponent }      from './rencontres/rencontres.component';
 import {ClubsComponent} from './clubs/clubs.component';
 import {UtilisateursComponent} from './utilisateurs/utilisateurs.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'championnats', component: ChampionnatsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'documents', component: DocumentsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'membres', component: MembresComponent, canActivate: [IsSecureGuardService] },
+  { path: 'equipes', component: EquipesComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'rencontres', component: RencontresComponent, canActivate: [IsSecureGuardService] },
   { path: 'supervision', component: SupervisionComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'terrains', component: TerrainsComponent, canActivate: [IsSecureGuardService,AuthGuardService] },

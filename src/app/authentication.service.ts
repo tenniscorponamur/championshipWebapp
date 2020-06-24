@@ -45,6 +45,16 @@ export class AuthenticationService {
     return false;
   }
 
+  isResponsableClubUserConnected(){
+    if (this.connectedUser!=null){
+      let adminRole = this.connectedUser.roles.find(role => role=="RESPONSABLE_CLUB");
+      if (adminRole!=null){
+        return true;
+      }
+    }
+    return false;
+  }
+
   getPublicApiHttpOptions(){
       return {
       headers: new HttpHeaders(

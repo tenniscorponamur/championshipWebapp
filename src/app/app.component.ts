@@ -69,6 +69,10 @@ export class AppComponent implements OnInit {
       return this.authenticationService.isAdminUserConnected();
   }
 
+  isResponsableClubConnected(){
+      return this.authenticationService.isResponsableClubUserConnected();
+  }
+
   cookiePopup(){
 
     let cookieDialogRef = this.dialog.open(CookieDialog, {

@@ -29,6 +29,9 @@
             <li class="nav-item">
                 <a class="nav-link" routerLink="/membres" >Membres</a>
             </li>
+            <li class="nav-item" *ngIf="isResponsableClubConnected()">
+              <a class="nav-link" routerLink="/equipes" >Equipes</a>
+            </li>
             <li *ngIf="isAdminConnected()" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Administration

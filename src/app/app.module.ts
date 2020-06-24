@@ -84,6 +84,7 @@ import { SupervisionComponent, StartDateDialog } from './supervision/supervision
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 
 import localeFr from '@angular/common/locales/fr';
+import { EquipesComponent } from './equipes/equipes.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -157,7 +158,8 @@ registerLocaleData(localeFr, 'fr');
     HowtoComponent,
     SupervisionComponent,
     StartDateDialog,
-    ReleaseNotesComponent
+    ReleaseNotesComponent,
+    EquipesComponent
   ],
   imports: [
     BrowserModule,
