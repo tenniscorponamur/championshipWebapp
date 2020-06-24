@@ -4,6 +4,9 @@
     <input matInput placeholder="Filtrer" [(ngModel)]="filtreNomPrenom" (keyup)="filtre()">
   </mat-form-field>
 </div>
+<div *ngIf="showTeamBox" class="row">
+  <mat-checkbox color="primary" [(ngModel)]="onlyTeam" (change)="filtre();" ><i class="fa fa-users"></i>&nbsp;<small>Limiter à l'équipe</small></mat-checkbox>
+</div>
 <div class="row">
   <mat-radio-group required [(ngModel)]="filtreGenre" (change)="filtre()">
     <mat-radio-button color="primary" *ngFor="let genre of genres" [value]="genre.code" style="margin-right:10px">

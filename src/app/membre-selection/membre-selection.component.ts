@@ -3,7 +3,9 @@ import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {Membre} from '../membre';
 import {MembreService} from '../membre.service';
 import {ClassementMembreService} from '../classement-membre.service';
+import {EquipeService} from '../equipe.service';
 import {Club} from '../club';
+import {Equipe} from '../equipe';
 import {compare} from '../utility';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 
@@ -17,12 +19,16 @@ export class MembreSelectionComponent implements OnInit {
     genres = GENRES;
 
     private club:Club;
+    private equipe:Equipe;
     private capitaine: Boolean;
     private dateRencontre: Date;
     private championnatHomme:Boolean;
     private mapEquivalence;
     private membresARetirer:Membre[]=[];
+    private membresEquipe:Membre[]=[];
 
+    showTeamBox:boolean=false;
+    onlyTeam:boolean=false;
     triAlpha:boolean=true;
     triNumeric:boolean=false;
     anyMemberPossible:boolean=false;
@@ -37,9 +43,11 @@ export class MembreSelectionComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<MembreSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private membreService:MembreService,
+    private equipeService:EquipeService,
     private classementMembreService:ClassementMembreService) {
         this.membresSelectionnables = data.membresSelectionnables;
         this.club = data.club;
+        this.equipe = data.equipe;
         this.anyMemberPossible=data.anyMemberPossible;
         this.membresARetirer=data.membresARetirer;
         this.capitaine = data.capitaine;
@@ -52,6 +60,17 @@ export class MembreSelectionComponent implements OnInit {
           this.triNumeric=true;
           this.triAlpha=false;
         }
+
+        // On va analyser si une equipe et une composition pour cette derniere existe pour activer la checkbox correspondante
+        if (this.equipe != null){
+          equipeService.getMembresEquipe(this.equipe).subscribe(membres => {
+            if (membres!=null && membres.length > 0){
+              this.membresEquipe = membres;
+              this.showTeamBox=true;
+            }
+          });
+        }
+
       }
 
   ngOnInit() {
@@ -109,6 +128,14 @@ export class MembreSelectionComponent implements OnInit {
       // On ne va consirer que les membres actifs
 
       this.filteredMembres = this.filteredMembres.filter(membre => membre.actif);
+
+      // Utilisation du parametre onlyTeam s'il est exploite
+      if (this.onlyTeam){
+        this.filteredMembres = this.filteredMembres.filter(membre => {
+          let membreAConserver = this.membresEquipe.find(membreEquipe => membre.id == membreEquipe.id);
+          return membreAConserver!=null;
+        });
+      }
 
       // Si le parametre capitaine est passe, on va filtrer selon sa valeur
 

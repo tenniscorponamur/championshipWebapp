@@ -818,12 +818,15 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
 
     selectionnerJoueur(match: MatchExtended, indexEquipe: number, indexJoueurEquipe: number): void {
         if (this.isResultatsRencontreModifiables){
+            let equipe;
             let club;
             let anyMemberPossible:boolean=false;
             if (indexEquipe == 1) {
+                equipe = this.rencontre.equipeVisites;
                 club = this.rencontre.equipeVisites.club;
                 anyMemberPossible = this.isAdminConnected() || this.rencontre.equipeVisites.hybride;
             } else {
+                equipe = this.rencontre.equipeVisiteurs;
                 club = this.rencontre.equipeVisiteurs.club;
                 anyMemberPossible = this.isAdminConnected() || this.rencontre.equipeVisiteurs.hybride;
             }
@@ -850,7 +853,7 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
             let membresARetirer:Membre[]=this.getMembresARetirer(match.match, indexEquipe, indexJoueurEquipe);
 
             let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-                data: {club: club, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, genre:genre, dateRencontre: this.rencontre.dateHeureRencontre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
+                data: {club: club, equipe:equipe, anyMemberPossible:anyMemberPossible, membresARetirer:membresARetirer, genre:genre, dateRencontre: this.rencontre.dateHeureRencontre, championnatHomme:championnatHomme, deselectionPossible:deselectionPossible}, panelClass: "membreSelectionDialog", disableClose: false
             });
 
             membreSelectionRef.afterClosed().subscribe(membre => {
