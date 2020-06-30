@@ -1,0 +1,13 @@
+.equipeComponent{
+  background-color:white;
+  padding:10px;
+}
+
+.pieChartBox{
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+.equipeTable:hover td{
+  cursor:pointer;
+}

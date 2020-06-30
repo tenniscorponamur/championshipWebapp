@@ -1,3 +1,136 @@
-<p>
-  equipes works!
-</p>
+<div class="col-12" class="equipeComponent">
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field>
+        <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" (selectionChange)="loadChampionship();" >
+          <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+            <span>
+                <i class="{{getTrophyClass(championnat)}}"></i>
+                <i class="{{getTypeClass(championnat)}}" ></i>
+            </span>
+            <small>
+              {{getTypeChampionnat(championnat).libelle}}
+              {{championnat.annee}}
+              {{getCategorieChampionnat(championnat).libelle}}
+            </small>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" class="pieChartBox">
+      <h6 class="text-center">Division 1 (200 points)</h6>
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" class="pieChartBox">
+      <h6 class="text-center">Division 2 (150 points)</h6>
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" class="pieChartBox">
+      <h6 class="text-center">Division 3 (100 points)</h6>
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" class="pieChartBox">
+      <h6 class="text-center">Division 4 (80 points)</h6>
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <div class="card text-center">
+        <div class="card-header">
+          <h4>Mes équipes</h4>
+        </div>
+        <div class="card-body text-center">
+
+          <div *responsive="{bootstrap: ['sm','xs'] }" class="text-left" style="height:300px;overflow-y:auto;">
+            <div *ngFor="let equipe of equipes" (click)="ouvrirEquipe(equipe);" class="myBox text-left" style="cursor:pointer;">
+              <div class="myBoxTitle">
+                <i class="fa fa-users"></i>&nbsp;Equipe UNAMUR A
+              </div>
+              <div class="myBoxContent">
+                Detail de l'equipe
+              </div>
+            </div>
+          </div>
+
+            <div *responsive="{bootstrap: ['md','lg','xl'] }" class="text-left">
+              <div class="table-responsive" style="height:300px;">
+                <table class="equipeTable table table-sm table-hover" matSort (matSortChange)="sortData($event)">
+                  <!--table-striped-->
+                  <thead class="bg-info" >
+                  <tr>
+                    <th scope="col" mat-sort-header="division">Division</th>
+                    <th scope="col" mat-sort-header="equipe">Equipe</th>
+                    <th scope="col" >Résultat</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let equipe of equipes" (click)="ouvrirEquipe(equipe);" class="text-left">
+                    <td>{{equipe.division.numero}}</td>
+                    <td>{{equipe.codeAlphabetique}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+          Championnat:
+          Listing selon championnat et division - pouvoir modifier chaque équipe
+          Vue du nombre d'équipes (et quelles corporations idéalement) par division/par championnat afin de savoir combien d'équipes il y a dans la division supérieure
+          graphique camembert par division avec légende pour nom de la corporation ?
+          --> attention maintenabilité ! il faut idéalement plus simple/lisible quitte à ajouter ce petit plus visuel à côté
+
+          Vue globale par championnat
+          Mes équipes
+          Detail equipe
+            </div>
+
+          <div align="right" style="margin-top:10px;">
+            <button class="btn btn-secondary"  ><i class="fa fa-plus-circle"></i>&nbsp;Inscrire équipe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <div class="card text-center">
+        <div class="card-header">
+          <h4>Equipe UNAMUR A</h4>
+        </div>
+        <div class="card-body text-center">
+          Visibilité : championnat/division /(poule ?)
+          Capitaine et composition
+          Aspect hybride ?
+          Terrain ?
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
