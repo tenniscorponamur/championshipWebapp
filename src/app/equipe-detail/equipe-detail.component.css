@@ -1,0 +1,21 @@
+.deleteEquipeButton{
+    cursor:pointer;
+}
+
+.capitaineLink{
+  cursor:pointer;
+}
+
+.capitaineLink:hover{
+  cursor:pointer;
+  background-color:lightblue;
+}
+
+.terrainLink{
+  cursor:pointer;
+}
+
+.terrainLink:hover{
+  cursor:pointer;
+  background-color:lightblue;
+}

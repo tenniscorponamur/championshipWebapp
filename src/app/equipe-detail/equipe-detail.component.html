@@ -1,0 +1,81 @@
+<div class="card tennisCorpoBox">
+  <div class="card-header">
+    <h4>Equipe {{equipe.codeAlphabetique}}
+      <span *ngIf="deletable" style="float:right">
+        <a (click)="supprimerEquipe();" class="deleteEquipeButton"><i class="fa fa-trash" ></i></a>
+    </span>
+    </h4>
+  </div>
+  <div class="card-body text-left">
+
+    <div class="row">
+
+      <div class="col-2">
+        <div style="text-align:right;">
+          <i style="color:darkgoldenrod;" class="fa fa-users fa-4x"></i>
+        </div>
+      </div>
+
+      <div class="col-10">
+        <div>
+          Championnat {{equipe.division.championnat.annee}}
+        </div>
+        <div>
+          Division {{equipe.division.numero}}
+        </div>
+        <div>
+          Poule {{equipe.poule.numero}}
+        </div>
+        <div *ngIf="equipe.hybride">
+          <em>Equipe hybride</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+          <div class="myBox">
+            <div class="myBoxTitle" >
+              Capitaine
+            </div>
+            <div class="myBoxContent">
+              <a class="capitaineLink" (click)="selectCapitaine();">
+                <span *ngIf="equipe.capitaine">{{equipe.capitaine.prenom}} {{equipe.capitaine.nom}}</span>
+                <span *ngIf="!equipe.capitaine"><em>Aucun capitaine précisé</em></span>
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle" >
+            Terrain à domicile
+          </div>
+          <div class="myBoxContent">
+            <a class="terrainLink" (click)="selectTerrain();">
+              <span *ngIf="equipe.terrain">{{equipe.terrain.nom}}</span>
+              <span *ngIf="!equipe.terrain"><em>Aucun terrain précisé</em></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="myBox">
+          <div class="myBoxTitle" >
+            Composition
+          </div>
+          <div class="myBoxContent">
+            Préciser la composition uniquement quand calendrier etabli (pour eviter les changements de division)
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
