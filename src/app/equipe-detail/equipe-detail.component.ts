@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Championnat} from '../championnat';
 import {Equipe} from '../equipe';
 
 @Component({
@@ -13,10 +14,12 @@ export class EquipeDetailComponent implements OnInit {
   deletable=false;
 
   private _equipe: Equipe;
+  selectedChampionnat:Championnat;
 
   @Input()
   set equipe(equipe: Equipe) {
     this._equipe = equipe;
+    this.selectedChampionnat = this._equipe.division.championnat;
     this.refreshDeletable();
   }
 
@@ -28,8 +31,8 @@ export class EquipeDetailComponent implements OnInit {
   }
 
   refreshDeletable(){
-    //TODO : faire le test sur base de l'etat du championnat
-    this.deletable = true;
+    // Faire le test sur base de l'etat du championnat
+    this.deletable = !this.selectedChampionnat.calendrierValide;
   }
 
   selectCapitaine(){

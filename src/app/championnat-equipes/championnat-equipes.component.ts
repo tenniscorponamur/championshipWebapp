@@ -184,7 +184,7 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
     }
 
     nommageEquipe(club: Club) {
-        //TODO : idealement positionner ce renommage cote server
+        //TODO : idealement positionner ce renommage cote server (necessite un rechargement complet de l'ecran --> pas effectue a ce stade)
         let equipesClub = this.equipes.filter(equipe => equipe.club.id == club.id).sort((a, b) => {return compare(a.division.numero, b.division.numero, true);});
         equipesClub.forEach((equipe, index) => {
             equipe.codeAlphabetique = club.nom + " " + String.fromCharCode(97 + index).toUpperCase();

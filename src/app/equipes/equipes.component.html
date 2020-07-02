@@ -1,4 +1,6 @@
 <div class="col-12" class="equipesComponent">
+
+
   <div class="row">
     <div class="col-12">
       <mat-form-field>
@@ -19,6 +21,15 @@
     </div>
   </div>
 
+  <div>
+    <small>
+      <em>
+        Si plus de 7 équipes inscrites dans une division <i class="fa fa-arrow-right"></i> 2 poules et interséries simples<br />
+        Moins de 4 équipes <i class="fa fa-arrow-right"></i> Analyse avec les capitaines et possibilité d'aller-retour
+      </em>
+    </small>
+  </div>
+
   <div class="row">
     <div *ngFor="let division of divisions" class="col-sm-12 col-md-6 col-lg-4 col-xl-3" class="pieChartBox">
       <canvas *ngIf="showGraph[division.id]"
@@ -30,7 +41,7 @@
               (chartHover)="chartHovered($event)"
               (chartClick)="chartClicked($event)"></canvas>
       <h6 class="text-center">{{getNbEquipesByDivision(division)}} équipes</h6>
-      <div class="text-center" ><a (click)="addTeam(division);" style="cursor:pointer;text-decoration:underline;"><small>Nouvelle équipe en Division {{division.numero}}</small></a></div>
+      <div class="text-center" *ngIf="addable" ><a (click)="addTeam(division);" style="cursor:pointer;text-decoration:underline;"><small>Nouvelle équipe en Division {{division.numero}}</small></a></div>
     </div>
   </div>
 
@@ -43,7 +54,7 @@
         <div class="card-body text-center">
 
           <div *responsive="{bootstrap: ['sm','xs'] }" class="text-left" style="height:300px;overflow-y:auto;">
-            <div *ngFor="let equipe of mesEquipes" (click)="ouvrirEquipeOnMobile(equipe);" class="myBox text-left" style="cursor:pointer;">
+            <div *ngFor="let equipe of sortedTeams" (click)="ouvrirEquipeOnMobile(equipe);" class="myBox text-left" style="cursor:pointer;">
               <div class="myBoxTitle">
                 <i class="fa fa-users"></i>&nbsp;{{equipe.codeAlphabetique}} - Division {{equipe.division.numero}}
               </div>
@@ -65,7 +76,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let equipe of mesEquipes" (click)="ouvrirEquipe(equipe);" class="text-left">
+                  <tr *ngFor="let equipe of sortedTeams" (click)="ouvrirEquipe(equipe);" class="text-left">
                     <td>Division {{equipe.division.numero}}</td>
                     <td>{{equipe.codeAlphabetique}}</td>
                     <td><span *ngIf="equipe.capitaine">{{equipe.capitaine.nom}} {{equipe.capitaine.prenom.substring(0,1)}}.</span></td>

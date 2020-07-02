@@ -23,15 +23,16 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
     @ViewChild("equipeDetail") equipeDetailComponent: ElementRef;
     @ViewChild("equipeList") equipeListComponent: ElementRef;
 
-    @Output() selectChampionnat = new EventEmitter<Championnat>();
     championnats: Championnat[];
     selectedChampionnat: Championnat;
     selectedTeam:Equipe;
+    addable:boolean=false;
 
     divisions:Division[]=[];
     equipes:Equipe[]=[];
 
-    mesEquipes:Equipe[]=[];
+    actualSort:Sort;
+    sortedTeams:Equipe[]=[];
 
     showGraph=new Map();
     pieOptionsByDivision=new Map();
@@ -72,15 +73,20 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
               this.loadChampionship();
           }
       });
+
   }
 
   loadChampionship(){
-      this.selectChampionnat.emit(this.selectedChampionnat);
-
       if (this.selectedChampionnat) {
+          this.localStorageService.storeChampionshipKey(JSON.stringify(this.selectedChampionnat));
+          this.refreshAddable();
           this.refreshGraphs();
       }
-      this.loadTeams();
+      this.loadTeams(null);
+  }
+
+  refreshAddable(){
+    this.addable = !this.selectedChampionnat.calendrierValide;
   }
 
   refreshGraphs(){
@@ -133,30 +139,69 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
   }
 
   addTeam(division:Division){
-    console.log("ajout d'une equipe dans une division");
+    if (this.addable){
+      // TODO : ajout et suppression uniquement possible lorsque l'administrateur en donne l'autorisation pour le championnat
 
-    //TODO : nouvelle equipe -> selection capitaine et terrain par defaut (division fixee par le bouton utilise)
+      let newEquipe = new Equipe();
+      newEquipe.club = this.getClub();
+      newEquipe.division = division;
+      this.equipeService.ajoutEquipe(division.id, newEquipe).subscribe(equipeSaved => {
+              //Si equipe ajoutee, declenchement du renommage et refresh des graphes
+              // Renommer equipes de ce club
+              this.renommageEquipes(equipeSaved);
+              this.refreshGraphs();
+      });
 
-    //TODO : lors de l'ajout ou suppression d'une equipe --> refreshGraphs et refreshTeams car renommage necessaire
+    }
+
+    //TODO : selectionner l'equipe dans l'ecran et basculer dessus si ecran mobile afin d'avoir le visuel adequat en rapport avec l'ajout effectue
 
   }
 
-  loadTeams(){
-    this.mesEquipes=[];
-    this.selectedTeam=null;
-    if (this.selectedChampionnat){
+  getClub():Club{
       if (this.authenticationService.getConnectedUser()!=null){
         let user = this.authenticationService.getConnectedUser();
         if (user!=null && user.membre!=null && user.membre.club!=null){
-          this.equipeService.getEquipesByClub(this.selectedChampionnat.id, user.membre.club.id).subscribe(equipes => this.mesEquipes = equipes);
+          return user.membre.club;
         }
+      }
+  }
+
+  loadTeams(equipeToSelect:Equipe){
+    this.sortedTeams=[];
+    this.selectedTeam=null;
+    if (this.selectedChampionnat){
+      let club = this.getClub();
+      if (club) {
+          this.equipeService.getEquipesByClub(this.selectedChampionnat.id, club.id).subscribe(equipes => {
+            this.sortedTeams = equipes.sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique,true)); this.sortData(this.actualSort);
+            if (equipeToSelect){
+              this.selectedTeam = equipes.find(equipe => equipe.id == equipeToSelect.id);
+            }
+          });
       }
     }
   }
 
-
   sortData(sort: Sort) {
-  //TODO : sort table equipes (voir clubs)
+    this.actualSort=sort;
+    const data = this.sortedTeams.slice();
+    if (sort){
+        if (!sort.active || sort.direction == '') {
+          this.sortedTeams = data;
+          return;
+        }
+
+        this.sortedTeams = data.sort((a, b) => {
+          let isAsc = sort.direction == 'asc';
+          switch (sort.active) {
+            case 'division': return compare(a.division.numero, b.division.numero, isAsc);
+            case 'equipe': return compare(a.codeAlphabetique, b.codeAlphabetique, isAsc);
+            default: return 0;
+          }
+        });
+
+    }
   }
 
     ouvrirEquipe(equipe:Equipe):void{
@@ -169,18 +214,30 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
     }
 
     deleteEquipe(equipeToDelete:Equipe){
-        //TODO : suppression de l'equipe, renommage eventuel (cfr admin) et refresh des graphes
-        /*
-        this.clubService.deleteClub(clubToDelete).subscribe(result => {
-            this.selectedClub = null;
+        this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => {
+            this.selectedTeam = null;
 
-            let indexInSorted = this.sortedClubs.findIndex(club => club.id == clubToDelete.id);
+            let indexInSorted = this.sortedTeams.findIndex(equipe => equipe.id == equipeToDelete.id);
             if (indexInSorted!=-1){
-                this.sortedClubs.splice(indexInSorted,1);
+                this.sortedTeams.splice(indexInSorted,1);
             }
+            //Si equipe supprimee, declenchement du renommage et refresh des graphes
+            // Renommer equipes de ce club
+            this.renommageEquipes(null);
+            this.refreshGraphs();
 
         });
-        */
+    }
+
+
+    renommageEquipes(equipeToSelect:Equipe) {
+        let club = this.getClub();
+        if (this.selectedChampionnat && club){
+          this.equipeService.setAndUpdateEquipeNames(this.selectedChampionnat, club).subscribe(equipes => {
+             this.loadTeams(equipeToSelect);
+            }
+          );
+        }
     }
 
   public chartClicked(e:any):void {

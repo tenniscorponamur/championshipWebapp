@@ -7,15 +7,12 @@
     </h4>
   </div>
   <div class="card-body text-left">
-
     <div class="row">
-
       <div class="col-2">
         <div style="text-align:right;">
-          <i style="color:darkgoldenrod;" class="fa fa-users fa-4x"></i>
+          <i style="color:gray;" class="fa fa-users fa-4x"></i>
         </div>
       </div>
-
       <div class="col-10">
         <div>
           Championnat {{equipe.division.championnat.annee}}
@@ -71,11 +68,15 @@
             Composition
           </div>
           <div class="myBoxContent">
-            Préciser la composition uniquement quand calendrier etabli (pour eviter les changements de division)
+            <div *ngIf="!selectedChampionnat.calendrierValide">
+              <small><em>La gestion des compositions d'équipe n'est accessible qu'une fois le calendrier validé.</em></small>
+            </div>
+            <div *ngIf="selectedChampionnat.calendrierValide">
+              Gestion de la compo d'équipe
+            </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>

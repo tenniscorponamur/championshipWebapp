@@ -5,6 +5,8 @@ import {of} from 'rxjs/observable/of';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
 import {AuthenticationService} from './authentication.service';
+import {Championnat} from './championnat';
+import {Club} from './club';
 import {Equipe} from './equipe';
 import {Poule} from './poule';
 import {Membre} from './membre';
@@ -41,6 +43,10 @@ export class EquipeService {
     
     updateEquipeNames(equipes: Equipe[]) {
         return this.http.put<Equipe>(this.environmentService.getPrivateApiUrl() + "/equipes/names", equipes, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
+    setAndUpdateEquipeNames(championnat:Championnat, club:Club){
+        return this.http.put<Equipe>(this.environmentService.getPrivateApiUrl() + "/equipes/changeNames?championnatId="+championnat.id + "&clubId="+ club.id, null, this.authenticationService.getPrivateApiHttpOptions());
     }
     
     updatePouleEquipe(equipe:Equipe,poule:Poule){
