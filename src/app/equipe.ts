@@ -15,4 +15,10 @@ export class Equipe {
     hybride: boolean=false;
 }
 
+export class EquipeExtended{
+  equipe:Equipe;
+  membresEquipe:Membre[]=[];
+}
+
+
 

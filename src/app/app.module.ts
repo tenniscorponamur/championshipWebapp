@@ -65,7 +65,7 @@ import { ChampionnatDivisionDetailComponent, ChampionnatDescriptionDialog } from
 import {DivisionService} from './division.service';
 import {EquipeService} from './equipe.service';
 import {PouleService} from './poule.service';
-import { ChampionnatPoulesComponent, ChangePouleDialog, CompositionEquipeDialog, EquipeTerrainDialog } from './championnat-poules/championnat-poules.component';
+import { ChampionnatPoulesComponent, ChangePouleDialog } from './championnat-poules/championnat-poules.component';
 import {ChampionnatDetailComponent} from './championnats/championnat-detail.component';
 import { ChampionnatRencontresComponent } from './championnat-rencontres/championnat-rencontres.component';
 import {RencontreService} from './rencontre.service';
@@ -83,9 +83,11 @@ import { HowtoComponent } from './howto/howto.component';
 import { SupervisionComponent, StartDateDialog } from './supervision/supervision.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { EquipesComponent } from './equipes/equipes.component';
-import { EquipeDetailComponent, SelectTerrainDialog } from './equipe-detail/equipe-detail.component';
+import { EquipeDetailComponent } from './equipe-detail/equipe-detail.component';
 
 import localeFr from '@angular/common/locales/fr';
+import { CompositionEquipeDialogComponent } from './composition-equipe-dialog/composition-equipe-dialog.component';
+import { SelectTerrainDialogComponent } from './select-terrain-dialog/select-terrain-dialog.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -115,8 +117,6 @@ registerLocaleData(localeFr, 'fr');
     ContactsDialog,
     ChampionnatDescriptionDialog,
     ChangePouleDialog,
-    CompositionEquipeDialog,
-    EquipeTerrainDialog,
     RencontreDetailComponent,
     AskPasswordToValidateDialog,
     CapitaineDetailDialog,
@@ -162,7 +162,8 @@ registerLocaleData(localeFr, 'fr');
     ReleaseNotesComponent,
     EquipesComponent,
     EquipeDetailComponent,
-    SelectTerrainDialog
+    CompositionEquipeDialogComponent,
+    SelectTerrainDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -215,9 +216,8 @@ registerLocaleData(localeFr, 'fr');
       MembreListingDialog,
       ChampionnatDescriptionDialog,
       ChangePouleDialog,
-      CompositionEquipeDialog,
-      EquipeTerrainDialog,
-      SelectTerrainDialog,
+      CompositionEquipeDialogComponent,
+      SelectTerrainDialogComponent,
       MembreSelectionComponent,
       ResultatsDialog,
       DateTerrainDialog,

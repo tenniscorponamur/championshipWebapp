@@ -7,11 +7,13 @@ import {DivisionService} from '../division.service';
 import {EquipeService} from '../equipe.service';
 import {PouleService} from '../poule.service';
 import {ClubService} from '../club.service';
-import {Equipe} from '../equipe';
+import {Equipe, EquipeExtended} from '../equipe';
 import {Poule} from '../poule';
 import {Division} from '../division';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
+import {SelectTerrainDialogComponent} from '../select-terrain-dialog/select-terrain-dialog.component';
+import { CompositionEquipeDialogComponent } from '../composition-equipe-dialog/composition-equipe-dialog.component';
 import {Observable} from 'rxjs/Observable';
 import {Terrain} from '../terrain';
 import {Membre} from '../membre';
@@ -164,7 +166,7 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
     ouvrirCompositionEquipe(equipeExtended:EquipeExtended){
       if (!this.selectedChampionnat.cloture){
         let genre:string = this.getGenreChampionnat();
-        let compoEquipeRef = this.dialog.open(CompositionEquipeDialog, {
+        let compoEquipeRef = this.dialog.open(CompositionEquipeDialogComponent, {
             data: {equipeExtended: equipeExtended, genre:genre}, panelClass: "compositionEquipeDialog", disableClose: false
         });
       }
@@ -203,11 +205,11 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
 
     ouvrirTerrainEquipe(equipe:Equipe) {
       if (!this.selectedChampionnat.cloture){
-        let equipeTerrainDialogRef = this.dialog.open(EquipeTerrainDialog, {
-          data: { equipe: equipe}, panelClass: "equipeTerrainDialog", disableClose:true
+        let selectTerrainDialogRef = this.dialog.open(SelectTerrainDialogComponent, {
+          data: { equipe: equipe}, panelClass: "selectTerrainDialog", disableClose:true
         });
 
-        equipeTerrainDialogRef.afterClosed().subscribe();
+        selectTerrainDialogRef.afterClosed().subscribe();
       }
     }
 
@@ -216,73 +218,6 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         equipe.hybride=!equipe.hybride;
         this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
       }
-    }
-
-}
-
-@Component({
-    selector: 'composition-equipe-dialog',
-    templateUrl: './compositionEquipeDialog.html',
-    styleUrls: ['./compositionEquipeDialog.css']
-})
-export class CompositionEquipeDialog {
-
-    private genre:string;
-    private equipeExtended: EquipeExtended;
-    membresEquipe:Membre[]=[];
-
-    constructor(
-        public dialog: MatDialog,
-        private equipeService:EquipeService,
-        public dialogRef: MatDialogRef<CompositionEquipeDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
-
-        this.equipeExtended = data.equipeExtended;
-        this.genre = data.genre;
-        this.membresEquipe = this.equipeExtended.membresEquipe;
-
-    }
-
-    ajouterMembre(){
-      let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-          data: {club: this.equipeExtended.equipe.club, genre:this.genre, deselectionPossible:false, anyMemberPossible: this.equipeExtended.equipe.hybride, membresARetirer:this.membresEquipe}, panelClass: "membreSelectionDialog", disableClose: false
-      });
-      membreSelectionRef.afterClosed().subscribe(membre => {
-          if (membre!==undefined) {
-            this.equipeService.addMembreEquipe(this.equipeExtended.equipe, membre).subscribe(
-              membreAdded => {
-                 if (membreAdded) {
-                    this.membresEquipe.push(membre);
-                  }
-              });
-          }
-      });
-    }
-
-    retirerMembre(membreARetirer:Membre){
-      this.equipeService.deleteMembreEquipe(this.equipeExtended.equipe, membreARetirer).subscribe(
-        membreDeleted => {
-           if (membreDeleted) {
-              let index = this.membresEquipe.findIndex(membre => membre.id == membreARetirer.id);
-              if (index!=-1){
-                  this.membresEquipe.splice(index,1);
-              }
-            }
-        });
-    }
-
-    getPointsEquipe():number{
-      let points:number = 0;
-      this.membresEquipe.forEach(membre => {
-        if (membre.classementCorpoActuel){
-          points=points+membre.classementCorpoActuel.points;
-        }
-      });
-      return points;
-    }
-
-    fermerSelection() {
-        this.dialogRef.close();
     }
 
 }
@@ -317,64 +252,5 @@ export class ChangePouleDialog {
         this.dialogRef.close();
     }
 
-}
-
-
-@Component({
-  selector: 'equipe-terrain-dialog',
-  templateUrl: './equipeTerrainDialog.html',
-})
-export class EquipeTerrainDialog {
-
-  terrains:Terrain[];
-
-    _terrainId:number;
-    private _equipe:Equipe;
-
-  constructor(
-    public dialogRef: MatDialogRef<EquipeTerrainDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private equipeService: EquipeService,
-    private terrainService:TerrainService
-    ) {
-
-      this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.sort((a,b) => compare(a.nom,b.nom,true)));
-
-        this._equipe = data.equipe;
-        if (this._equipe.terrain){
-          this._terrainId = this._equipe.terrain.id;
-        }
-    }
-
-  cancel(): void {
-    this.dialogRef.close();
-  }
-
-  save(): void {
-      if (this._equipe.id){
-          if (this._terrainId){
-            this.terrainService.getTerrain(this._terrainId).subscribe(terrain => {
-                this._equipe.terrain=terrain;
-                this.updateTerrainEquipeAndCloseDialog();
-            });
-          }else{
-              this._equipe.terrain=null;
-              this.updateTerrainEquipeAndCloseDialog();
-          }
-      }
-  }
-
-  updateTerrainEquipeAndCloseDialog(){
-    //Mise a jour du terrain de l'equipe
-      this.equipeService.updateEquipe(this._equipe.division.id,this._equipe).subscribe(
-        result => {
-            this.dialogRef.close(this._equipe);
-     });
-  }
-}
-
-export class EquipeExtended{
-  equipe:Equipe;
-  membresEquipe:Membre[]=[];
 }
 

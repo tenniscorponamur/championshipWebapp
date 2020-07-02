@@ -8,6 +8,7 @@ import {Terrain} from '../terrain';
 import {EquipeService} from '../equipe.service';
 import {TerrainService} from '../terrain.service';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
+import {SelectTerrainDialogComponent} from '../select-terrain-dialog/select-terrain-dialog.component';
 import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 
 @Component({
@@ -39,6 +40,9 @@ export class EquipeDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    //TODO : charger les compositions d'equipe
+
+
   }
 
   refreshDeletable(){
@@ -65,11 +69,11 @@ export class EquipeDetailComponent implements OnInit {
 
   selectTerrain(){
       if (!this.selectedChampionnat.cloture){
-        let equipeTerrainDialogRef = this.dialog.open(SelectTerrainDialog, {
+        let selectTerrainDialogRef = this.dialog.open(SelectTerrainDialogComponent, {
           data: { equipe: this.equipe}, panelClass: "selectTerrainDialog", disableClose:true
         });
 
-        equipeTerrainDialogRef.afterClosed().subscribe();
+        selectTerrainDialogRef.afterClosed().subscribe();
       }
     }
   supprimerEquipe(){
@@ -94,58 +98,3 @@ export class EquipeDetailComponent implements OnInit {
     }
 
 }
-
-
-@Component({
-  selector: 'select-terrain-dialog',
-  templateUrl: './select-terrain-dialog.html',
-})
-export class SelectTerrainDialog {
-
-  terrains:Terrain[];
-
-    _terrainId:number;
-    private _equipe:Equipe;
-
-  constructor(
-    public dialogRef: MatDialogRef<SelectTerrainDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private equipeService: EquipeService,
-    private terrainService:TerrainService
-    ) {
-
-      this.terrainService.getTerrains().subscribe(terrains => this.terrains = terrains.sort((a,b) => compare(a.nom,b.nom,true)));
-
-        this._equipe = data.equipe;
-        if (this._equipe.terrain){
-          this._terrainId = this._equipe.terrain.id;
-        }
-    }
-
-  cancel(): void {
-    this.dialogRef.close();
-  }
-
-  save(): void {
-      if (this._equipe.id){
-          if (this._terrainId){
-            this.terrainService.getTerrain(this._terrainId).subscribe(terrain => {
-                this._equipe.terrain=terrain;
-                this.updateTerrainEquipeAndCloseDialog();
-            });
-          }else{
-              this._equipe.terrain=null;
-              this.updateTerrainEquipeAndCloseDialog();
-          }
-      }
-  }
-
-  updateTerrainEquipeAndCloseDialog(){
-    //Mise a jour du terrain de l'equipe
-      this.equipeService.updateEquipe(this._equipe.division.id,this._equipe).subscribe(
-        result => {
-            this.dialogRef.close(this._equipe);
-     });
-  }
-}
-
