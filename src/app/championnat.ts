@@ -4,6 +4,7 @@ export class Championnat {
     type: string;
     categorie: string;
     calendrierARafraichir:boolean;
+    autoriserResponsables:boolean;
     calendrierValide:boolean;
     cloture:boolean;
     ordre:number;

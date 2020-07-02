@@ -48,8 +48,7 @@ export class EquipeDetailComponent implements OnInit {
   }
 
   refreshDeletable(){
-    // Faire le test sur base de l'etat du championnat
-    this.deletable = !this.selectedChampionnat.calendrierValide;
+    this.deletable = this.selectedChampionnat.autoriserResponsables && !this.selectedChampionnat.calendrierValide;
   }
 
   refreshComposition(){

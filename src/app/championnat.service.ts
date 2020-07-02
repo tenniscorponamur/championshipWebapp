@@ -38,6 +38,10 @@ export class ChampionnatService {
         return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/championnat/calendrierARafraichir?championnatId=" + championnat.id, calendrierARafraichir, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    updateAutorisationResponsables(championnat:Championnat, autorisationResponsables:boolean){
+        return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/championnat/autoriserResponsables?championnatId=" + championnat.id, autorisationResponsables, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     updateValiditeChampionnat(championnat:Championnat, calendrierValidite:boolean){
         return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/championnat/calendrierValide?championnatId=" + championnat.id, calendrierValidite, this.authenticationService.getPrivateApiHttpOptions());
     }

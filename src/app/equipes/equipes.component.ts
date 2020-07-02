@@ -86,7 +86,7 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
   }
 
   refreshAddable(){
-    this.addable = !this.selectedChampionnat.calendrierValide;
+    this.addable = this.selectedChampionnat.autoriserResponsables && !this.selectedChampionnat.calendrierValide;
   }
 
   refreshGraphs(){

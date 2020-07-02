@@ -86,6 +86,16 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
         });
     }
 
+    saveAutorisationResponsables(){
+        if (this.selectedChampionnat) {
+            this.championnatService.updateAutorisationResponsables(this.selectedChampionnat,this.selectedChampionnat.autoriserResponsables).subscribe(result => {
+              if (result){
+                  this.selectedChampionnat.autoriserResponsables=result;
+              }
+            });
+        }
+    }
+
     selectionClubs() {
         let clubDialogRef = this.dialog.open(SelectionClubDialog, {
             data: {augmentedClubs: this.augmentedClubs}, panelClass: "selectionClubDialog", disableClose: false

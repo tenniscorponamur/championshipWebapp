@@ -26,9 +26,9 @@
         </div>
 
         <div  *ngIf="selectedChampionnat && !selectedChampionnat.calendrierValide" class="col-6 text-right">
-
+            <mat-checkbox color="primary" [(ngModel)]="selectedChampionnat.autoriserResponsables" (change)="saveAutorisationResponsables();" ><small>Autoriser les responsables</small></mat-checkbox>
+            &nbsp;
             <button class="btn btn-primary btn-sm" (click)="selectionClubs()" >Sélection des clubs</button>
-
         </div>
     </div>
 </div>
