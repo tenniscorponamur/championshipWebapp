@@ -82,10 +82,10 @@ import { PlanificationCriteriumComponent, JourneeCriteriumDialog, HoraireJournee
 import { HowtoComponent } from './howto/howto.component';
 import { SupervisionComponent, StartDateDialog } from './supervision/supervision.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
+import { EquipesComponent } from './equipes/equipes.component';
+import { EquipeDetailComponent, SelectTerrainDialog } from './equipe-detail/equipe-detail.component';
 
 import localeFr from '@angular/common/locales/fr';
-import { EquipesComponent } from './equipes/equipes.component';
-import { EquipeDetailComponent } from './equipe-detail/equipe-detail.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -161,7 +161,8 @@ registerLocaleData(localeFr, 'fr');
     StartDateDialog,
     ReleaseNotesComponent,
     EquipesComponent,
-    EquipeDetailComponent
+    EquipeDetailComponent,
+    SelectTerrainDialog
   ],
   imports: [
     BrowserModule,
@@ -216,6 +217,7 @@ registerLocaleData(localeFr, 'fr');
       ChangePouleDialog,
       CompositionEquipeDialog,
       EquipeTerrainDialog,
+      SelectTerrainDialog,
       MembreSelectionComponent,
       ResultatsDialog,
       DateTerrainDialog,
