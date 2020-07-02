@@ -8,24 +8,24 @@
   </div>
   <div class="card-body text-left">
     <div class="row">
-      <div class="col-2">
-        <div style="text-align:right;">
+      <div class="col-4">
+        <div class="text-center">
           <i style="color:gray;" class="fa fa-users fa-4x"></i>
         </div>
       </div>
-      <div class="col-10">
-        <div>
-          Championnat {{equipe.division.championnat.annee}}
-        </div>
-        <div>
-          Division {{equipe.division.numero}}
-        </div>
-        <div>
-          Poule {{equipe.poule.numero}}
-        </div>
-        <div *ngIf="equipe.hybride">
-          <em>Equipe hybride</em>
-        </div>
+      <div class="col-8 text-left">
+            <div>
+              Championnat {{equipe.division.championnat.annee}}
+            </div>
+            <div>
+              Division {{equipe.division.numero}}
+            </div>
+            <div>
+              Poule {{equipe.poule.numero}}
+            </div>
+            <div *ngIf="equipe.hybride">
+              <em>Equipe hybride</em>
+            </div>
       </div>
     </div>
 
