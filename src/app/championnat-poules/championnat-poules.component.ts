@@ -182,8 +182,10 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
         });
 
         membreSelectionRef.afterClosed().subscribe(membre => {
-              equipe.capitaine=membre;
-              this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
+              if (membre!== undefined){
+                equipe.capitaine=membre;
+                this.equipeService.updateEquipe(equipe.division.id,equipe).subscribe();
+              }
         });
       }
     }

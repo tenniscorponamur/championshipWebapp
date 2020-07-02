@@ -63,16 +63,30 @@
 
     <div class="row">
       <div class="col-12">
-        <div class="myBox">
+        <div class="myBox" *ngIf="!selectedChampionnat.calendrierValide">
           <div class="myBoxTitle" >
             Composition
           </div>
           <div class="myBoxContent">
-            <div *ngIf="!selectedChampionnat.calendrierValide">
-              <small><em>La gestion des compositions d'équipe n'est accessible qu'une fois le calendrier validé.</em></small>
-            </div>
+            <small><em>La gestion des compositions d'équipe n'est accessible qu'une fois le calendrier validé.</em></small>
+          </div>
+        </div>
+
+        <div class="myBox myBoxEditable" *ngIf="selectedChampionnat.calendrierValide">
+          <div class="myBoxTitle" (click)="ouvrirCompositionEquipe();">
+            Composition<span style="float:right;"><a><i class="fa fa-pencil fa-2"></i></a></span>
+          </div>
+          <div class="myBoxContent">
             <div *ngIf="selectedChampionnat.calendrierValide">
-              Gestion de la compo d'équipe
+              <div *ngFor="let membre of equipeExtended.membresEquipe">
+                <small>
+                  {{membre.nom}} {{membre.prenom.substring(0,1)}}.
+                  &nbsp;
+                  <span *ngIf="membre.classementAFTActuel"><strong>AFT :</strong> {{membre.classementAFTActuel.codeClassement}} - {{membre.classementAFTActuel.points}} points</span>
+                  &nbsp;
+                  <span *ngIf="membre.classementCorpoActuel"><strong>Corpo :</strong> {{membre.classementCorpoActuel.points}} points</span>
+                </small>
+              </div>
             </div>
           </div>
         </div>
