@@ -18,6 +18,15 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      &nbsp;
+      <mat-form-field *ngIf="isAdminConnected();">
+        <mat-select placeholder="Club" [(ngModel)]="selectedClub" (selectionChange)="changeClub();" >
+          <mat-option>Aucun club</mat-option>
+          <mat-option *ngFor="let club of clubs" [value]="club">
+            <small>{{ club.nom }}</small>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div *ngIf="selectedChampionnat" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">

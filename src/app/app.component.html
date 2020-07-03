@@ -29,7 +29,7 @@
             <li class="nav-item">
                 <a class="nav-link" routerLink="/membres" >Membres</a>
             </li>
-            <li class="nav-item" *ngIf="isResponsableClubConnected()">
+            <li class="nav-item" *ngIf="isResponsableClubConnected() || isAdminConnected()">
               <a class="nav-link" routerLink="/equipes" >Equipes</a>
             </li>
             <li *ngIf="isAdminConnected()" class="nav-item dropdown">

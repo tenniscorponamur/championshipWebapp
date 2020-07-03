@@ -7,6 +7,7 @@ import {compare} from '../utility';
 import {MatDialog, Sort} from '@angular/material';
 import {ChampionnatService} from '../championnat.service';
 import {DivisionService} from '../division.service';
+import {ClubService} from '../club.service';
 import {EquipeService} from '../equipe.service';
 import {LocalStorageService} from '../local-storage.service';
 import {AuthenticationService} from '../authentication.service';
@@ -23,10 +24,12 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
     @ViewChild("equipeDetail") equipeDetailComponent: ElementRef;
     @ViewChild("equipeList") equipeListComponent: ElementRef;
 
-    championnats: Championnat[];
+    championnats: Championnat[]=[];
+    clubs:Club[]=[];
     selectedChampionnat: Championnat;
     selectedTeam:Equipe;
     addable:boolean=false;
+    selectedClub:Club;
 
     divisions:Division[]=[];
     equipes:Equipe[]=[];
@@ -57,6 +60,7 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
         public dialog: MatDialog,
         private championnatService: ChampionnatService,
         private divisionService: DivisionService,
+        private clubService: ClubService,
         private equipeService: EquipeService,
         private authenticationService: AuthenticationService,
         private localStorageService:LocalStorageService
@@ -65,6 +69,17 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
   }
 
   ngOnInit() {
+
+      this.clubService.getClubs().subscribe(clubs => {
+        this.clubs = clubs;
+        if (this.isAdminConnected()){
+            let clubInLocalStorage = this.localStorageService.getClubKey();
+            if (clubInLocalStorage) {
+              this.selectedClub = this.clubs.find(club => club.id == JSON.parse(clubInLocalStorage).id);
+          }
+        }
+      });
+
       this.championnatService.getChampionnats().subscribe(championnats => {
           this.championnats = championnats.sort((a, b) => compare(a.ordre, b.ordre, false));
           let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
@@ -76,13 +91,24 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
 
   }
 
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
+  }
+
+  changeClub(){
+    if (this.isAdminConnected()){
+      this.localStorageService.storeClubKey(JSON.stringify(this.selectedClub));
+      this.loadTeams(null);
+    }
+  }
+
   loadChampionship(){
       if (this.selectedChampionnat) {
           this.localStorageService.storeChampionshipKey(JSON.stringify(this.selectedChampionnat));
           this.refreshAddable();
           this.refreshGraphs();
+          this.loadTeams(null);
       }
-      this.loadTeams(null);
   }
 
   refreshAddable(){
@@ -140,18 +166,19 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
 
   addTeam(division:Division){
     if (this.addable){
-      // TODO : ajout et suppression uniquement possible lorsque l'administrateur en donne l'autorisation pour le championnat
-
-      let newEquipe = new Equipe();
-      newEquipe.club = this.getClub();
-      newEquipe.division = division;
-      this.equipeService.ajoutEquipe(division.id, newEquipe).subscribe(equipeSaved => {
-              //Si equipe ajoutee, declenchement du renommage et refresh des graphes
-              // Renommer equipes de ce club
-              this.renommageEquipes(equipeSaved);
-              this.refreshGraphs();
-      });
-
+      // Ajout et suppression uniquement possible lorsque l'administrateur en donne l'autorisation pour le championnat
+      let club = this.getClub();
+      if (club){
+        let newEquipe = new Equipe();
+        newEquipe.club = club;
+        newEquipe.division = division;
+        this.equipeService.ajoutEquipe(division.id, newEquipe).subscribe(equipeSaved => {
+                //Si equipe ajoutee, declenchement du renommage et refresh des graphes
+                // Renommer equipes de ce club
+                this.renommageEquipes(equipeSaved);
+                this.refreshGraphs();
+        });
+      }
     }
 
     //TODO : selectionner l'equipe dans l'ecran et basculer dessus si ecran mobile afin d'avoir le visuel adequat en rapport avec l'ajout effectue
@@ -159,12 +186,16 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
   }
 
   getClub():Club{
+    if (this.isAdminConnected()){
+      return this.selectedClub;
+    }else{
       if (this.authenticationService.getConnectedUser()!=null){
         let user = this.authenticationService.getConnectedUser();
         if (user!=null && user.membre!=null && user.membre.club!=null){
           return user.membre.club;
         }
       }
+    }
   }
 
   loadTeams(equipeToSelect:Equipe){
