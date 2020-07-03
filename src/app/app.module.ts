@@ -83,7 +83,7 @@ import { HowtoComponent } from './howto/howto.component';
 import { SupervisionComponent, StartDateDialog } from './supervision/supervision.component';
 import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { EquipesComponent } from './equipes/equipes.component';
-import { EquipeDetailComponent } from './equipe-detail/equipe-detail.component';
+import { EquipeDetailComponent, SelectDivisionDialogComponent } from './equipe-detail/equipe-detail.component';
 
 import localeFr from '@angular/common/locales/fr';
 import { CompositionEquipeDialogComponent } from './composition-equipe-dialog/composition-equipe-dialog.component';
@@ -165,7 +165,8 @@ registerLocaleData(localeFr, 'fr');
     EquipeDetailComponent,
     CompositionEquipeDialogComponent,
     SelectTerrainDialogComponent,
-    AvertissementComponent
+    AvertissementComponent,
+    SelectDivisionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -237,6 +238,7 @@ registerLocaleData(localeFr, 'fr');
       HoraireJourneeCriteriumDialog,
       ChoixRencontreCriteriumDialog,
       AvertissementComponent,
+      SelectDivisionDialogComponent,
       StartDateDialog
   ],
   providers: [

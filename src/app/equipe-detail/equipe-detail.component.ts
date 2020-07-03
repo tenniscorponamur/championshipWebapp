@@ -4,7 +4,9 @@ import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,
 import {compare} from '../utility';
 import {Equipe, EquipeExtended} from '../equipe';
 import {Membre} from '../membre';
+import {Division} from '../division';
 import {Terrain} from '../terrain';
+import {DivisionService} from '../division.service';
 import {EquipeService} from '../equipe.service';
 import {TerrainService} from '../terrain.service';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
@@ -20,6 +22,7 @@ import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 export class EquipeDetailComponent implements OnInit {
 
   @Output() deleteEquipe = new EventEmitter<Equipe>();
+  @Output() updatedDivisionEquipe = new EventEmitter<Equipe>();
 
   deletable=false;
 
@@ -78,6 +81,25 @@ export class EquipeDetailComponent implements OnInit {
     this.equipeService.getMembresEquipe(this.equipeExtended.equipe).subscribe(membres => {
       membres.forEach(membre => this.equipeExtended.membresEquipe.push(membre));
     });
+  }
+
+  changeDivision(){
+    if (this.deletable){
+
+        let changeDivisionRef = this.dialog.open(SelectDivisionDialogComponent, {
+            data: {equipe: this.equipe}, panelClass: "divisionSelectionDialog", disableClose: true
+        });
+
+        changeDivisionRef.afterClosed().subscribe(updatedEquipe => {
+              if (updatedEquipe!== undefined){
+                this.updatedDivisionEquipe.emit(updatedEquipe);
+              }
+        });
+
+      // TODO : Choix de la division
+      // TODO : si nouvelle division, appel au service pour changement
+      // TODO : si retour ok, emit event (rechargement des graphiques et des equipes chez le parent (+ selection updatedTeam))
+    }
   }
 
   selectCapitaine(){
@@ -140,3 +162,43 @@ export class EquipeDetailComponent implements OnInit {
     }
 
 }
+
+@Component({
+  selector: 'app-select-division-dialog',
+  templateUrl: './select-division-dialog.component.html'
+})
+export class SelectDivisionDialogComponent {
+
+  divisions:Division[]=[];
+    _division:Division;
+    private _equipe:Equipe;
+
+  constructor(
+    public dialogRef: MatDialogRef<SelectDivisionDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) public data: any,
+      private divisionService: DivisionService,
+      private equipeService: EquipeService
+    ) {
+
+      this._equipe = data.equipe;
+      this.divisionService.getDivisions(this._equipe.division.championnat.id).subscribe(divisions =>
+      {
+        this.divisions = divisions.sort((a,b) => compare(a.numero,b.numero,true));
+        this._division = this.divisions.find(division => division.id == this._equipe.division.id);
+      });
+
+    }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+      this.equipeService.updateDivisionEquipe(this._equipe,this._division).subscribe(
+        result => {
+            this.dialogRef.close(this._equipe);
+      });
+  }
+
+}
+

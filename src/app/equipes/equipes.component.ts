@@ -244,6 +244,11 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
       this.equipeDetailComponent.nativeElement.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     }
 
+    updatedDivisionEquipe(updatedEquipe:Equipe){
+        this.renommageEquipes(updatedEquipe);
+        this.refreshGraphs();
+    }
+
     deleteEquipe(equipeToDelete:Equipe){
         this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => {
             this.selectedTeam = null;

@@ -116,7 +116,7 @@
     </div>
 
     <div #equipeDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
-      <app-equipe-detail *ngIf="selectedTeam" [equipe]="selectedTeam" [master]="componentName" (deleteEquipe)="deleteEquipe($event)" ></app-equipe-detail>
+      <app-equipe-detail *ngIf="selectedTeam" [equipe]="selectedTeam" [master]="componentName" (deleteEquipe)="deleteEquipe($event)" (updatedDivisionEquipe)="updatedDivisionEquipe($event)" ></app-equipe-detail>
     </div>
 
   </div>

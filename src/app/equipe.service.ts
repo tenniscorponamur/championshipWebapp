@@ -8,6 +8,7 @@ import {AuthenticationService} from './authentication.service';
 import {Championnat} from './championnat';
 import {Club} from './club';
 import {Equipe} from './equipe';
+import {Division} from './division';
 import {Poule} from './poule';
 import {Membre} from './membre';
 import {EnvironmentService} from './environment.service';
@@ -48,7 +49,11 @@ export class EquipeService {
     setAndUpdateEquipeNames(championnat:Championnat, club:Club){
         return this.http.put<Equipe>(this.environmentService.getPrivateApiUrl() + "/equipes/changeNames?championnatId="+championnat.id + "&clubId="+ club.id, null, this.authenticationService.getPrivateApiHttpOptions());
     }
-    
+
+    updateDivisionEquipe(equipe:Equipe,division:Division){
+        return this.http.put<Equipe>(this.environmentService.getPrivateApiUrl() + "/equipe/division?equipeId="+equipe.id, division, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     updatePouleEquipe(equipe:Equipe,poule:Poule){
         return this.http.put<Equipe>(this.environmentService.getPrivateApiUrl() + "/equipe/poule?equipeId="+equipe.id, poule, this.authenticationService.getPrivateApiHttpOptions());
     }
