@@ -47,6 +47,27 @@ export class EquipeDetailComponent implements OnInit {
   ngOnInit() {
   }
 
+  get boxClass(): string{
+    if (this.deletable){
+      return "myBox myBoxEditable";
+    }else{
+      return "myBox";
+    }
+  }
+
+  get teamImageClass(){
+    let genre = this.getGenreChampionnat();
+    if (genre!=null){
+      if (genre == GENRE_HOMME.code){
+        return "fa fa-users fa-4x maleTeam";
+      }
+      if (genre == GENRE_FEMME.code){
+        return "fa fa-users fa-4x femaleTeam";
+      }
+    }
+    return "fa fa-users fa-4x undefinedTeam";
+  }
+
   refreshDeletable(){
     this.deletable = this.selectedChampionnat.autoriserResponsables && !this.selectedChampionnat.calendrierValide;
   }

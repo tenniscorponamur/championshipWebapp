@@ -1,3 +1,15 @@
+.maleTeam{
+    color:cornflowerblue;
+}
+
+.femaleTeam{
+    color:pink;
+}
+
+.undefinedTeam{
+    color:lightgrey;
+}
+
 .deleteEquipeButton{
     cursor:pointer;
 }
