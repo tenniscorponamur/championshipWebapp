@@ -245,8 +245,8 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
     }
 
     updatedDivisionEquipe(updatedEquipe:Equipe){
-        this.renommageEquipes(updatedEquipe);
         this.refreshGraphs();
+        this.loadTeams(updatedEquipe);
     }
 
     deleteEquipe(equipeToDelete:Equipe){
