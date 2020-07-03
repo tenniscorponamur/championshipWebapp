@@ -2,7 +2,7 @@
 
 
   <div class="row">
-    <div class="col-12">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
       <mat-form-field>
         <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" (selectionChange)="loadChampionship();" >
           <mat-option *ngFor="let championnat of championnats" [value]="championnat">
@@ -19,15 +19,32 @@
         </mat-select>
       </mat-form-field>
     </div>
+
+    <div *ngIf="selectedChampionnat" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <div class="text-white text-center championshipHeader {{getChampionshipHeader(selectedChampionnat)}}" >
+        <i class="fa fa-trophy"></i>
+        {{getTypeChampionnat(selectedChampionnat).libelle}} {{selectedChampionnat.annee}}
+        <i class="{{getTypeIcon(selectedChampionnat)}}"></i>
+        - {{getCategorieChampionnat(selectedChampionnat).libelle}}
+      </div>
+    </div>
+
   </div>
 
-  <div>
-    <small>
-      <em>
-        Si plus de 7 équipes inscrites dans une division <i class="fa fa-arrow-right"></i> 2 poules et interséries simples<br />
-        Moins de 4 équipes <i class="fa fa-arrow-right"></i> Analyse avec les capitaines et possibilité d'aller-retour
-      </em>
-    </small>
+  <div class="row">
+    <div *ngIf="!addable" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <div class="alert alert-danger" role="alert">
+        <small>Les inscriptions ne sont pas/plus autorisées pour ce championnat</small>
+      </div>
+    </div>
+    <div class="col-12">
+      <small>
+        <em>
+          Si plus de 7 équipes inscrites dans une division <i class="fa fa-arrow-right"></i> 2 poules et interséries simples<br />
+          Moins de 4 équipes <i class="fa fa-arrow-right"></i> Analyse avec les capitaines et possibilité d'aller-retour
+        </em>
+      </small>
+    </div>
   </div>
 
   <div class="row">

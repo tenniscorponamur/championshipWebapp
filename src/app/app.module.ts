@@ -88,6 +88,7 @@ import { EquipeDetailComponent } from './equipe-detail/equipe-detail.component';
 import localeFr from '@angular/common/locales/fr';
 import { CompositionEquipeDialogComponent } from './composition-equipe-dialog/composition-equipe-dialog.component';
 import { SelectTerrainDialogComponent } from './select-terrain-dialog/select-terrain-dialog.component';
+import { AvertissementComponent } from './avertissement/avertissement.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -163,7 +164,8 @@ registerLocaleData(localeFr, 'fr');
     EquipesComponent,
     EquipeDetailComponent,
     CompositionEquipeDialogComponent,
-    SelectTerrainDialogComponent
+    SelectTerrainDialogComponent,
+    AvertissementComponent
   ],
   imports: [
     BrowserModule,
@@ -234,6 +236,7 @@ registerLocaleData(localeFr, 'fr');
       JourneeCriteriumDialog,
       HoraireJourneeCriteriumDialog,
       ChoixRencontreCriteriumDialog,
+      AvertissementComponent,
       StartDateDialog
   ],
   providers: [

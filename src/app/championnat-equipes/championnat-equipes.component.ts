@@ -12,6 +12,7 @@ import {Equipe} from '../equipe';
 import {PouleService} from '../poule.service';
 import {Poule} from '../poule';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
+import {AvertissementComponent} from '../avertissement/avertissement.component';
 
 @Component({
     selector: 'app-championnat-equipes',
@@ -168,27 +169,39 @@ export class ChampionnatEquipesComponent extends ChampionnatDetailComponent impl
               let sortedTeams = this.getEquipesByClubAndDivision(club, division).sort((a, b) => compare(a.codeAlphabetique, b.codeAlphabetique, false));
 
               let equipeToDelete = sortedTeams[0];
-              this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => {
-                  let indexOfTeam = this.equipes.findIndex(equipe => equipe.id == equipeToDelete.id);
-                  this.equipes.splice(indexOfTeam, 1);
-                  // Renommage des equipes car le nom depend de la division a laquelle elle appartient
-                  this.nommageEquipe(club);
 
-                  // On regarde s'il reste des equipes dans la division
-                  // S'il n'y en a plus, on va supprimer les poules existantes
+              // Suppression possible uniquement si aucune composition precisee
 
-                  let nbEquipesInDivision = this.getNbEquipesByDivision(division);
-                  if (nbEquipesInDivision == 0) {
+              this.equipeService.getMembresEquipe(equipeToDelete).subscribe(membres => {
+                if (membres.length==0){
+                    this.equipeService.deleteEquipe(equipeToDelete).subscribe(result => {
+                        let indexOfTeam = this.equipes.findIndex(equipe => equipe.id == equipeToDelete.id);
+                        this.equipes.splice(indexOfTeam, 1);
+                        // Renommage des equipes car le nom depend de la division a laquelle elle appartient
+                        this.nommageEquipe(club);
 
-                      this.getPoulesByDivision(division).forEach(pouleInDivision => {
-                          this.pouleService.deletePoule(pouleInDivision).subscribe(result => {
-                              let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleInDivision.id);
-                              this.poules.splice(indexOfPoule, 1);
-                          });
-                      });
-                  }
+                        // On regarde s'il reste des equipes dans la division
+                        // S'il n'y en a plus, on va supprimer les poules existantes
+
+                        let nbEquipesInDivision = this.getNbEquipesByDivision(division);
+                        if (nbEquipesInDivision == 0) {
+
+                            this.getPoulesByDivision(division).forEach(pouleInDivision => {
+                                this.pouleService.deletePoule(pouleInDivision).subscribe(result => {
+                                    let indexOfPoule = this.poules.findIndex(poule => poule.id == pouleInDivision.id);
+                                    this.poules.splice(indexOfPoule, 1);
+                                });
+                            });
+                        }
+                    });
+                }else{
+                    this.dialog.open(AvertissementComponent, {
+                        data: {title: "Avertissement", message:"Composition d'équipe précisée. Veuillez utiliser le menu Equipes."}, panelClass: "avertissementDialog", disableClose: false
+                    });
+                }
               });
           }
+
         }
 
     }
