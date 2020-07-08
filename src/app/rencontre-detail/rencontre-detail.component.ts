@@ -1366,7 +1366,7 @@ export class CommentairesEncodeurDialog implements OnInit {
     constructor(
         private rencontreService: RencontreService,
         private terrainService: TerrainService,
-        public dialogRef: MatDialogRef<DateTerrainDialog>,
+        public dialogRef: MatDialogRef<CommentairesEncodeurDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
           this.rencontre=data.rencontre;
           this.comments = this.rencontre.commentairesEncodeur;

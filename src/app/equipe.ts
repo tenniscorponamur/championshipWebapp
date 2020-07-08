@@ -13,6 +13,7 @@ export class Equipe {
     terrain:Terrain;
     capitaine:Membre;
     hybride: boolean=false;
+    commentaires:string;
 }
 
 export class EquipeExtended{

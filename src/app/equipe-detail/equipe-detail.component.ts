@@ -96,9 +96,6 @@ export class EquipeDetailComponent implements OnInit {
               }
         });
 
-      // TODO : Choix de la division
-      // TODO : si nouvelle division, appel au service pour changement
-      // TODO : si retour ok, emit event (rechargement des graphiques et des equipes chez le parent (+ selection updatedTeam))
     }
   }
 
@@ -136,6 +133,14 @@ export class EquipeDetailComponent implements OnInit {
         let genre:string = this.getGenreChampionnat();
         let compoEquipeRef = this.dialog.open(CompositionEquipeDialogComponent, {
             data: {equipeExtended: this.equipeExtended, genre:genre}, panelClass: "compositionEquipeDialog", disableClose: false
+        });
+      }
+    }
+
+    ouvrirCommentairesEquipe(){
+      if (this.deletable){
+        let commentairesEquipeDialogRef = this.dialog.open(CommentairesEquipeDialog, {
+            data: {equipe: this.equipe}, panelClass: "commentairesEquipeDialog", disableClose:true
         });
       }
     }
@@ -200,5 +205,35 @@ export class SelectDivisionDialogComponent {
       });
   }
 
+}
+
+@Component({
+    selector: 'commentaires-equipe-dialog',
+    templateUrl: './commentairesEquipeDialog.html'
+})
+export class CommentairesEquipeDialog implements OnInit {
+
+    private equipe:Equipe;
+    _commentaires:string;
+
+    constructor(
+        private equipeService: EquipeService,
+        public dialogRef: MatDialogRef<CommentairesEquipeDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+          this.equipe=data.equipe;
+          this._commentaires = this.equipe.commentaires;
+        }
+
+    ngOnInit() {
+    }
+
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
+    save(): void {
+        this.equipe.commentaires = this._commentaires;
+        this.equipeService.updateEquipe(this.equipe.division.id,this.equipe).subscribe(result => this.dialogRef.close());
+    }
 }
 
