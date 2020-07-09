@@ -106,7 +106,7 @@ export class EquipeDetailComponent implements OnInit {
         let genre:string = this.getGenreChampionnat();
 
         let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
-            data: {club: this.equipe.club, capitaine: true, genre:genre, deselectionPossible:(this.equipe.capitaine!=null)}, panelClass: "membreSelectionDialog", disableClose: false
+            data: {club: this.equipe.club, genre:genre, deselectionPossible:(this.equipe.capitaine!=null)}, panelClass: "membreSelectionDialog", disableClose: false
         });
 
         membreSelectionRef.afterClosed().subscribe(membre => {
