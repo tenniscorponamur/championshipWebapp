@@ -80,6 +80,12 @@ export class ChampionnatService {
     return this.http.get(this.environmentService.getPrivateApiUrl() + "/championnat/listeCapitaines?championnatId=" + championnat.id,options);
   }
 
+  getListeEquipes(championnat:Championnat){
+    let options = this.authenticationService.getPrivateApiHttpOptions();
+    options["responseType"] = "blob";
+    return this.http.get(this.environmentService.getPrivateApiUrl() + "/championnat/listeEquipes?championnatId=" + championnat.id,options);
+  }
+
   getTableauCriterium(date:Date){
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";

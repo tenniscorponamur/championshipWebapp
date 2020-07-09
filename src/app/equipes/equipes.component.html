@@ -46,13 +46,20 @@
         <small>Les inscriptions ne sont pas/plus autorisées pour ce championnat</small>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
       <small>
         <em>
           Si plus de 7 équipes inscrites dans une division <i class="fa fa-arrow-right"></i> 2 poules et interséries simples<br />
           Moins de 4 équipes <i class="fa fa-arrow-right"></i> Analyse avec les capitaines et possibilité d'aller-retour
         </em>
       </small>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <div>
+        <button style="margin:5px" class="btn btn-info btn-sm" (click)="getListeCapitaines();">Liste des capitaines</button>
+        <button *ngIf="isAdminConnected();"  style="margin:5px" (click)="getListeEquipes();" class="btn btn-sm btn-info">Liste des équipes</button>
+      </div>
+      <div *ngIf="preparationListe"><span><small>Préparation du fichier en cours...</small></span></div>
     </div>
   </div>
 

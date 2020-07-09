@@ -12,6 +12,7 @@ import {EquipeService} from '../equipe.service';
 import {LocalStorageService} from '../local-storage.service';
 import {AuthenticationService} from '../authentication.service';
 import {ChampionnatDetailComponent} from '../championnats/championnat-detail.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-equipes',
@@ -55,6 +56,8 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
              display: false
          }
     };
+
+    preparationListe:boolean=false;
 
   constructor(
         public dialog: MatDialog,
@@ -275,6 +278,29 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
           );
         }
     }
+
+
+  getListeCapitaines(){
+    if (this.selectedChampionnat){
+      this.preparationListe=true;
+      this.championnatService.getListeCapitaines(this.selectedChampionnat).subscribe(result => {
+          this.preparationListe = false;
+          saveAs(result, "capitaines.pdf");
+      },error => {console.log(error);});
+    }
+  }
+
+  getListeEquipes(){
+   if (this.isAdminConnected()){
+      if (this.selectedChampionnat){
+        this.preparationListe=true;
+        this.championnatService.getListeEquipes(this.selectedChampionnat).subscribe(result => {
+            this.preparationListe = false;
+            saveAs(result, "equipes.pdf");
+        },error => {console.log(error);});
+      }
+    }
+  }
 
   public chartClicked(e:any):void {
     //console.log(e);
