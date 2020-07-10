@@ -202,6 +202,18 @@ export class PlanificationCriteriumComponent implements OnInit {
     });
   }
 
+    getNbRencontresProgrammees(equipe:Equipe){
+      let count = 0;
+      this.rencontres.forEach(rencontre => {
+        if (rencontre.dateHeureRencontre!=null){
+          if (rencontre.equipeVisites.id == equipe.id || rencontre.equipeVisiteurs.id == equipe.id){
+            count++;
+          }
+        }
+      });
+      return count;
+    }
+
   getCompoEquipe(equipe:Equipe){
     let equipeExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == equipe.id);
     if (equipeExtended!=null){
@@ -296,6 +308,7 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
 
   journee:Journee;
   horaire:Horaire;
+  private allRencontres:Rencontre[]=[];
   rencontres:Rencontre[]=[];
   filteredRencontres:Rencontre[]=[];
   private equipesAvecCompo:EquipeExtended[]=[];
@@ -313,6 +326,7 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
           this.journee=data.journee;
           this.horaire=data.horaire;
           this.equipesAvecCompo=data.equipesAvecCompo;
+          this.allRencontres=data.rencontres;
           this.rencontres=data.rencontres.filter(rencontre => !rencontre.dateHeureRencontre);
           this.rencontres.sort((a,b) => {
             let compareCategorie = compare(a.division.championnat.categorie,b.division.championnat.categorie,true);
@@ -343,6 +357,17 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
         return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
     }
 
+    getNbRencontresProgrammees(equipe:Equipe){
+      let count = 0;
+      this.allRencontres.forEach(rencontre => {
+        if (rencontre.dateHeureRencontre!=null){
+          if (rencontre.equipeVisites.id == equipe.id || rencontre.equipeVisiteurs.id == equipe.id){
+            count++;
+          }
+        }
+      });
+      return count;
+    }
     getCompoEquipe(equipe:Equipe){
       let equipeExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == equipe.id);
       if (equipeExtended!=null){

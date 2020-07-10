@@ -36,7 +36,12 @@
 
   <div class="rencontreDiv" *ngFor="let rencontre of filteredRencontres" (click)="choixRencontre(rencontre)">
     <div>
-      <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
+      <strong>
+        {{rencontre.equipeVisites.codeAlphabetique}}
+        <small><em>({{getNbRencontresProgrammees(rencontre.equipeVisites)}})</em></small>
+        - {{rencontre.equipeVisiteurs.codeAlphabetique}}
+        <small><em>({{getNbRencontresProgrammees(rencontre.equipeVisiteurs)}})</em></small>
+      </strong>
     </div>
     <div>
       <small><em>{{getCompoEquipe(rencontre.equipeVisites)}} - {{getCompoEquipe(rencontre.equipeVisiteurs)}}</em></small>
