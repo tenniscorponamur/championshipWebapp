@@ -89,6 +89,7 @@ import localeFr from '@angular/common/locales/fr';
 import { CompositionEquipeDialogComponent } from './composition-equipe-dialog/composition-equipe-dialog.component';
 import { SelectTerrainDialogComponent } from './select-terrain-dialog/select-terrain-dialog.component';
 import { AvertissementComponent } from './avertissement/avertissement.component';
+import { TaskBoardComponent } from './task-board/task-board.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -167,7 +168,8 @@ registerLocaleData(localeFr, 'fr');
     CompositionEquipeDialogComponent,
     SelectTerrainDialogComponent,
     AvertissementComponent,
-    SelectDivisionDialogComponent
+    SelectDivisionDialogComponent,
+    TaskBoardComponent
   ],
   imports: [
     BrowserModule,

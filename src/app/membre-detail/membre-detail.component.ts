@@ -351,6 +351,11 @@ export class MembreDetailComponent implements OnInit {
       }
     }
 
+    ouvrirInfosAccessiblesAft(){
+
+
+    }
+
     ouvrirInfosAft(){
       if (this.isAdminConnected()){
         let infosAftDialogRef = this.dialog.open(InfosAftDialog, {
@@ -358,6 +363,14 @@ export class MembreDetailComponent implements OnInit {
         });
 
         infosAftDialogRef.afterClosed().subscribe();
+      }else if (this.isPrivateInformationsAccessibles()){
+
+          alert("pouvoir modifier club et classement");
+
+          // TODO : a rendre accessible par membre et responsable
+          // modification classement AFT
+          // modification infos AFT (uniquement numeroClub/affiliation corpo)
+
       }
     }
 
