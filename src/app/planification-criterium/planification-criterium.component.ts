@@ -2,8 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {compare, addLeadingZero, getDate} from '../utility';
 import {Division} from '../division';
+import {Equipe, EquipeExtended} from '../equipe';
 import {Rencontre} from '../rencontre';
 import {Terrain,Court} from '../terrain';
+import {EquipeService} from '../equipe.service';
 import {RencontreService} from '../rencontre.service';
 import {getCategorieChampionnatCode,CategorieChampionnat, CATEGORIES_CHAMPIONNAT, CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
 import {ChampionnatService} from '../championnat.service';
@@ -22,9 +24,11 @@ export class PlanificationCriteriumComponent implements OnInit {
 
   chargementRencontres:boolean=true;
   criteriumEditable:boolean=false;
+  private equipesAvecCompo:EquipeExtended[]=[];
 
   constructor(
         public dialog: MatDialog,
+        private equipeService:EquipeService,
         private terrainService:TerrainService,
         private championnatService:ChampionnatService,
         private rencontreService:RencontreService
@@ -40,6 +44,7 @@ export class PlanificationCriteriumComponent implements OnInit {
   }
 
   refreshCalendrier(){
+    this.loadCompoEquipes();
     this.chargementRencontres=true;
     this.rencontreService.getRencontresCriteriumByAnnee(this.annee).subscribe(rencontres => {
       this.rencontres = rencontres;
@@ -151,7 +156,7 @@ export class PlanificationCriteriumComponent implements OnInit {
   choixRencontre(journee:Journee,horaire:Horaire){
     if (this.criteriumEditable){
       let choixRencontreDialogRef = this.dialog.open(ChoixRencontreCriteriumDialog, {
-          data: {journee:journee,horaire:horaire,rencontres:this.rencontres}, panelClass: "choixRencontreDialog", disableClose:true
+          data: {journee:journee,horaire:horaire,rencontres:this.rencontres,equipesAvecCompo:this.equipesAvecCompo}, panelClass: "choixRencontreDialog", disableClose:true
       });
     }
   }
@@ -183,6 +188,33 @@ export class PlanificationCriteriumComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadCompoEquipes(){
+    this.equipesAvecCompo=[];
+    this.equipeService.getEquipesCriteriumByAnnee(+this.annee).subscribe(equipes => {
+      equipes.forEach(equipe => {
+        let equipeExtended = new EquipeExtended();
+        equipeExtended.equipe = equipe;
+        this.equipesAvecCompo.push(equipeExtended);
+        this.equipeService.getMembresEquipe(equipe).subscribe(membres => equipeExtended.membresEquipe = membres);
+      });
+    });
+  }
+
+  getCompoEquipe(equipe:Equipe){
+    let equipeExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == equipe.id);
+    if (equipeExtended!=null){
+      let compoEquipe = "";
+        equipeExtended.membresEquipe.forEach(membre =>{
+          compoEquipe += membre.nom + " " + membre.prenom.substring(0,1) + ". / ";
+        });
+        if (compoEquipe.length>0){
+          compoEquipe=compoEquipe.substring(0,compoEquipe.length-2);
+        }
+        return compoEquipe;
+    }
+    return "";
   }
 
 }
@@ -266,6 +298,7 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
   horaire:Horaire;
   rencontres:Rencontre[]=[];
   filteredRencontres:Rencontre[]=[];
+  private equipesAvecCompo:EquipeExtended[]=[];
 
   categories:CategorieChampionnat[]=[CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_MIXTES];
   divisions:Division[]=[];
@@ -279,6 +312,7 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any) {
           this.journee=data.journee;
           this.horaire=data.horaire;
+          this.equipesAvecCompo=data.equipesAvecCompo;
           this.rencontres=data.rencontres.filter(rencontre => !rencontre.dateHeureRencontre);
           this.rencontres.sort((a,b) => {
             let compareCategorie = compare(a.division.championnat.categorie,b.division.championnat.categorie,true);
@@ -307,6 +341,21 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
 
     getCategorieCode(rencontre:Rencontre):string{
         return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;
+    }
+
+    getCompoEquipe(equipe:Equipe){
+      let equipeExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == equipe.id);
+      if (equipeExtended!=null){
+        let compoEquipe = "";
+        equipeExtended.membresEquipe.forEach(membre =>{
+          compoEquipe += membre.nom + " " + membre.prenom.substring(0,1) + ". / ";
+        });
+        if (compoEquipe.length>0){
+          compoEquipe=compoEquipe.substring(0,compoEquipe.length-2);
+        }
+        return compoEquipe;
+      }
+      return "";
     }
 
     loadDivisions(){

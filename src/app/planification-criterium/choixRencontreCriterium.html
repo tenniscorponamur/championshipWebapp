@@ -39,6 +39,9 @@
       <strong>{{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
     </div>
     <div>
+      <small><em>{{getCompoEquipe(rencontre.equipeVisites)}} - {{getCompoEquipe(rencontre.equipeVisiteurs)}}</em></small>
+    </div>
+    <div>
       <small>{{getCategorieCode(rencontre)}}<span *ngIf="rencontre.poule">&nbsp;- Poule {{rencontre.poule.numero}}</span>&nbsp;- Journée {{rencontre.numeroJournee}}</small>
     </div>
   </div>

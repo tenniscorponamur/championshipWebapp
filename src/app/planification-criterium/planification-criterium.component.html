@@ -5,7 +5,7 @@
     Planification des rencontres Critérium
   </h6>
   <div class="card-body">
-    <input placeholder="Saison" [(ngModel)]="annee" (change)="refreshCalendrier()" />
+    <input placeholder="Saison" [(ngModel)]="annee" type="number" (change)="refreshCalendrier()" />
     <button *ngIf="criteriumEditable" class="btn btn-info btn-sm" (click)="addJournee();" >Ajouter journée</button>
     <span *ngIf="getRemainingSize()>0" style="color:red;"><strong>Reste {{getRemainingSize()}} rencontre(s) à planifier</strong></span>
     <span *ngIf="getRemainingSize()==0" ><strong>Aucune rencontre à planifier</strong></span>
@@ -36,9 +36,11 @@
             <div style="margin-right:20px;">
               <div>
                 <strong>{{rencontre.rencontre.equipeVisites.codeAlphabetique}}</strong>
+                &nbsp;<small><em>{{getCompoEquipe(rencontre.rencontre.equipeVisites)}}</em></small>
               </div>
               <div>
                 <strong>{{rencontre.rencontre.equipeVisiteurs.codeAlphabetique}}</strong>
+                &nbsp;<small><em>{{getCompoEquipe(rencontre.rencontre.equipeVisiteurs)}}</em></small>
               </div>
               <div>
                 <small>{{getCategorieCode(rencontre.rencontre)}}</small>&nbsp;
