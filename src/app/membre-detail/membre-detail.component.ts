@@ -365,11 +365,15 @@ export class MembreDetailComponent implements OnInit {
         infosAftDialogRef.afterClosed().subscribe();
       }else if (this.isPrivateInformationsAccessibles()){
 
-          alert("pouvoir modifier club et classement");
+          let infosLimiteesAftDialogRef = this.dialog.open(InfosLimiteesAftDialog, {
+            data: { membre: this.membre }, panelClass: "infosLimiteesAftDialog", disableClose:true
+          });
 
-          // TODO : a rendre accessible par membre et responsable
-          // modification classement AFT
-          // modification infos AFT (uniquement numeroClub/affiliation corpo)
+          infosLimiteesAftDialogRef.afterClosed().subscribe(result => {
+              if (result !== undefined){
+                this.refreshClassement();
+              }
+          });
 
       }
     }
@@ -851,6 +855,91 @@ export class InfosAftDialog {
             result => {
                 this.dialogRef.close(this._membre);
          });
+
+  }
+
+}
+
+
+@Component({
+  selector: 'infos-limitees-aft-dialog',
+  templateUrl: './infosLimiteesAftDialog.html',
+})
+export class InfosLimiteesAftDialog implements OnInit {
+
+
+   private _membre:Membre;
+   _numeroAft: string;
+   _numeroClubAft: string;
+   _onlyCorpo: boolean;
+   _codeClassement:string;
+
+   echellesAFT:any[]=[];
+
+  constructor(
+    public dialogRef: MatDialogRef<InfosLimiteesAftDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private classementMembreService: ClassementMembreService,
+    private membreService: MembreService
+    ) {
+        this._membre = data.membre;
+        this._numeroAft = this._membre.numeroAft;
+        this._numeroClubAft = this._membre.numeroClubAft;
+        this._onlyCorpo = this._membre.onlyCorpo;
+        if (this._membre.classementAFTActuel!=null){
+            this._codeClassement = this._membre.classementAFTActuel.codeClassement;
+        }
+    }
+
+  ngOnInit() {
+        this.classementMembreService.getEchellesAFT().subscribe(echelles => {
+          this.echellesAFT = echelles;
+        });
+
+  }
+
+    changeOnlyCorpo(){
+      if (this._onlyCorpo){
+        this._numeroClubAft = "6045";
+      }else{
+        this._numeroClubAft = "";
+      }
+    }
+
+  getEchellesAugmented(){
+    return this.echellesAFT.filter(echelleAFT => {
+        if (echelleAFT.actif){
+          return true;
+        } else if (this._membre.classementAFTActuel!=null){
+          return echelleAFT.code==this._membre.classementAFTActuel.codeClassement;
+        }
+        return false;
+      });
+  }
+
+  classeEchelleAFT(echelleAFT){
+    if (echelleAFT.actif==false){
+      return "echelleAFTInactive";
+    }
+    return "";
+  }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+
+      //Mise a jour des infos AFT du membre
+      this.membreService.updateInfosLimiteesAft(this._membre.id, this._numeroClubAft,this._onlyCorpo, this._codeClassement).subscribe(
+          result => {
+
+              this._membre.numeroClubAft=this._numeroClubAft;
+              this._membre.onlyCorpo=this._onlyCorpo;
+              this._membre.classementAFTActuel=result;
+
+              this.dialogRef.close(this._membre);
+       });
 
   }
 

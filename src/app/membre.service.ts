@@ -8,6 +8,7 @@ import {AuthenticationService} from './authentication.service';
 import {EnvironmentService} from './environment.service';
 
 import { Membre } from './membre';
+import { ClassementAFT } from './classementAFT';
 import { Club } from './club';
 import { MEMBRES } from './mock-members';
 
@@ -76,6 +77,10 @@ export class MembreService {
 
   updateInfosAft(membre:Membre){
       return this.http.put<Membre>(this.environmentService.getPrivateApiUrl() + "/membre/" + membre.id + "/infosAft",membre, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  updateInfosLimiteesAft(membreId:number,numeroClubAft:string, onlyCorpo:boolean, codeClassementAft:string){
+      return this.http.put<ClassementAFT>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/infosLimiteesAft?numeroClubAft="+numeroClubAft+"&onlyCorpo="+onlyCorpo+"&codeClassementAft="+codeClassementAft,null, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   anonymisation(membre:Membre){

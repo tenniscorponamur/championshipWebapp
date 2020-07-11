@@ -33,7 +33,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MembresComponent, ImportMembresDialog } from './membres/membres.component';
 import { RencontresComponent, InterserieDialog } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
-import { MembreDetailComponent, InfosAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog, SimulationClassementDialog, MatchsDialog, AnonymisationDialog } from './membre-detail/membre-detail.component';
+import { MembreDetailComponent, InfosAftDialog, InfosLimiteesAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog, SimulationClassementDialog, MatchsDialog, AnonymisationDialog } from './membre-detail/membre-detail.component';
 
 /* Services */
 import { AuthenticationService } from './authentication.service';
@@ -110,6 +110,7 @@ registerLocaleData(localeFr, 'fr');
     ChangePasswordDialog,
     CookieDialog,
     InfosAftDialog,
+    InfosLimiteesAftDialog,
     SimulationClassementDialog,
     AnonymisationDialog,
     InfosGeneralesMembreDialog,
@@ -205,6 +206,7 @@ registerLocaleData(localeFr, 'fr');
       ChangePasswordDialog,
       CookieDialog,
       InfosAftDialog,
+      InfosLimiteesAftDialog,
       SimulationClassementDialog,
       AnonymisationDialog,
       MatchsDialog,
