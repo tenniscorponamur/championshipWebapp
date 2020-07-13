@@ -18,7 +18,7 @@
   <div class="col-12">
     <mat-form-field>
       <mat-select placeholder="Classement AFT" [(ngModel)]="_codeClassement" >
-        <mat-option *ngFor="let echelleAFT of getEchellesAugmented(_classementAFT)" [value]="echelleAFT.code">
+        <mat-option *ngFor="let echelleAFT of getEchellesAugmented()" [value]="echelleAFT.code">
           <span class="{{classeEchelleAFT(echelleAFT)}}">{{ echelleAFT.code }} - {{ echelleAFT.points }} points</span>
         </mat-option>
       </mat-select>

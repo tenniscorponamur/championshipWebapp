@@ -80,7 +80,7 @@ export class MembreService {
   }
 
   updateInfosLimiteesAft(membreId:number,numeroClubAft:string, onlyCorpo:boolean, codeClassementAft:string){
-      return this.http.put<ClassementAFT>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/infosLimiteesAft?numeroClubAft="+numeroClubAft+"&onlyCorpo="+onlyCorpo+"&codeClassementAft="+codeClassementAft,null, this.authenticationService.getPrivateApiHttpOptions());
+      return this.http.put<ClassementAFT>(this.environmentService.getPrivateApiUrl() + "/membre/" + membreId + "/infosLimiteesAft?onlyCorpo=" + onlyCorpo + (numeroClubAft!=null?("&numeroClubAft="+numeroClubAft):"") + (codeClassementAft!=null?("&codeClassementAft="+codeClassementAft):"") ,null, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   anonymisation(membre:Membre){
