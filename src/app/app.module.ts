@@ -74,6 +74,7 @@ import { TerrainDetailComponent, TerrainDialog } from './terrain-detail/terrain-
 import {MatchService} from './match.service';
 import {ClassementCorpoJobService} from './classement-corpo-job.service';
 import {SetService} from './set.service';
+import {TacheService} from './tache.service';
 import {ClassementService} from './classement.service';
 import {ClassementMembreService} from './classement-membre.service';
 import { MembreSelectionComponent } from './membre-selection/membre-selection.component';
@@ -265,6 +266,7 @@ registerLocaleData(localeFr, 'fr');
     ClassementCorpoJobService,
     TerrainService,
     TraceService,
+    TacheService,
     UserService,
     AuthGuardService,
     IsSecureGuardService,

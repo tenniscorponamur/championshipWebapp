@@ -26,3 +26,11 @@ a.tennisCorpoWarningLink {
   font-size:1.3em;
   color:grey;
 }
+
+.myBox.myBoxEditable .readLink{
+  visibility:hidden;
+}
+
+.myBox.myBoxEditable:hover .readLink{
+  visibility:visible;
+}

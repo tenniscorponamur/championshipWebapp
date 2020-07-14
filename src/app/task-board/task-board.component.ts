@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {TacheService} from '../tache.service';
+import {Tache, getTypeTacheAsString} from '../tache';
 
 @Component({
   selector: 'app-task-board',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskBoardComponent implements OnInit {
 
-  constructor() { }
+  tachesOuvertes:Tache[]=[];
+  tachesTraitees:Tache[]=[];
+
+  constructor(
+    private tacheService:TacheService
+  ) { }
 
   ngOnInit() {
+    this.tacheService.getTachesOuvertes().subscribe(taches => this.tachesOuvertes = taches);
+    this.tacheService.getTachesTraitees().subscribe(taches => this.tachesTraitees = taches);
+  }
+
+  getTypeTache(tache:Tache){
+    return getTypeTacheAsString(tache);
   }
 
   ouvrirTache(){

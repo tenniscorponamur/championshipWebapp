@@ -2,8 +2,10 @@ import { Component, OnInit} from '@angular/core';
 import {MembreService} from '../membre.service';
 import { saveAs } from 'file-saver';
 import {Rencontre} from '../rencontre';
+import {Tache, getTypeTacheAsString} from '../tache';
 import {AlertesService} from '../alertes.service';
 import {RencontreService} from '../rencontre.service';
+import {AuthenticationService} from '../authentication.service';
 import {getCategorieChampionnatCode, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
 import {addLeadingZero} from '../utility';
 
@@ -23,6 +25,7 @@ export class HomeComponent implements OnInit {
     chargementProchainesRencontres:boolean=true;
 
   constructor(
+    private authenticationService: AuthenticationService,
     private alertesService:AlertesService,
     private rencontreService:RencontreService,
     private membreService: MembreService) { }
@@ -40,6 +43,10 @@ export class HomeComponent implements OnInit {
         this.alertesService.refresh();
     }
 
+    isResponsableClubConnected(){
+        return this.authenticationService.isResponsableClubUserConnected();
+    }
+
     get countRencontresToComplete(){
       return this.alertesService.getRencontresACompleter().length;
     }
@@ -48,6 +55,13 @@ export class HomeComponent implements OnInit {
       return this.alertesService.getRencontresAValider().length;
     }
 
+    get taches(){
+      return this.alertesService.getTaches();
+    }
+
+  getTypeTache(tache:Tache){
+    return getTypeTacheAsString(tache);
+  }
 
   getCategorieCode(rencontre:Rencontre):string{
       return getCategorieChampionnatCode(rencontre.division.championnat) + rencontre.division.pointsMaximum;

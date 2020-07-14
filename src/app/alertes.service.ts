@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Rencontre} from './rencontre';
+import {Tache} from './tache';
 import {RencontreService} from './rencontre.service';
+import {TacheService} from './tache.service';
 import {AuthenticationService} from './authentication.service';
 
 @Injectable()
@@ -9,9 +11,11 @@ export class AlertesService {
   private loaded:boolean=false;
   private rencontresACompleter:Rencontre[]=[];
   private rencontresAValider:Rencontre[]=[];
+  private taches:Tache[]=[];
 
   constructor(
     private authenticationService: AuthenticationService,
+    private tacheService:TacheService,
     private rencontreService: RencontreService) { }
 
   refresh(){
@@ -23,6 +27,9 @@ export class AlertesService {
       this.rencontreService.getRencontresToValidate().subscribe(rencontres => {
         this.rencontresAValider = rencontres;
       });
+      if (this.authenticationService.isResponsableClubUserConnected()){
+        this.tacheService.getTaches().subscribe(taches => this.taches = taches);
+      }
     }
   }
 
@@ -40,10 +47,18 @@ export class AlertesService {
     return this.rencontresAValider;
   }
 
+  getTaches(){
+    if (!this.loaded){
+      this.refresh();
+    }
+    return this.taches;
+  }
+
   clear(){
     this.loaded = false;
     this.rencontresACompleter = [];
     this.rencontresAValider = [];
+    this.taches = [];
   }
 
 }

@@ -20,6 +20,34 @@
     </div>
   </div>
 </div>
+
+<div class="row" *ngIf="false && isResponsableClubConnected()">
+  <div class="tennisCorpoBox col-xl-6 col-lg-6 col-md-12 col-sm-12">
+    <div class="card text-center">
+      <h4 class="card-header">
+        Demandes
+      </h4>
+      <div class="card-body">
+        <div>
+          <div *ngFor="let tache of taches" class="myBox myBoxEditable text-left" >
+            <div class="myBoxTitle">
+              <i class="fa fa-tasks"></i>&nbsp;<strong>{{getTypeTache(tache)}}</strong> : <span class="text-uppercase">{{tache.membre.nom}}</span>&nbsp;{{tache.membre.prenom}}
+              <span class="readLink" style="float:right;"><a><i class="fa fa-envelope-open-o fa-2"></i></a></span>
+            </div>
+            <div class="myBoxContent">
+              <div>Demande introduite le {{tache.dateDemande | date:'dd/MM/yyyy'}} à {{tache.dateDemande | date:'HH:mm'}} par {{tache.demandeur.prenom}} {{tache.demandeur.nom}}</div>
+              <div><span *ngIf="tache.validationTraitement" style="color:green;">Demande traitée</span></div>
+              <div><span *ngIf="tache.refusTraitement" style="color:red;">Demande refusée</span></div>
+              <div><span *ngIf="tache.refusTraitement && tache.commentairesRefus" style="color:red;"><small><em>{{tache.commentairesRefus}}</em></small></span></div>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-link" routerLink="/demandes" >Voir toutes mes demandes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
     <div class="tennisCorpoBox col-xl-6 col-lg-6 col-md-12 col-sm-12">
         <div class="card text-center">
@@ -73,7 +101,7 @@
                       </table>
                   </div>
                 </div>
-                <a href="#" class="btn btn-primary" routerLink="/rencontres" >Voir plus</a>
+                <a href="#" class="btn btn-link" routerLink="/rencontres" >Voir plus</a>
             </div>
         </div>
     </div>
@@ -130,7 +158,7 @@
                       </table>
                   </div>
                 </div>
-                <a href="#" class="btn btn-primary" routerLink="/rencontres" >Voir plus</a>
+                <a href="#" class="btn btn-link" routerLink="/rencontres" >Voir plus</a>
             </div>
         </div>
     </div>
