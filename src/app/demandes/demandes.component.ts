@@ -13,4 +13,8 @@ export class DemandesComponent implements OnInit {
   ngOnInit() {
   }
 
+  ouvrirTache(){
+    alert("ouvrir tache");
+  }
+
 }

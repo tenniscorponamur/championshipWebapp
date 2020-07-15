@@ -21,18 +21,6 @@
             </div>
           </div>
 
-          <div *ngFor="let tache of tachesTraitees" (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
-            <div class="myBoxTitle">
-              <i class="fa fa-tasks"></i>&nbsp;<strong>{{getTypeTache(tache)}}</strong> : <span class="text-uppercase">{{tache.membre.nom}}</span>&nbsp;{{tache.membre.prenom}}
-            </div>
-            <div class="myBoxContent">
-              <div>Demande introduite le {{tache.dateDemande | date:'dd/MM/yyyy'}} à {{tache.dateDemande | date:'HH:mm'}} par {{tache.demandeur.prenom}} {{tache.demandeur.nom}}</div>
-              <div><span *ngIf="tache.validationTraitement" style="color:green;">Demande traitée</span></div>
-              <div><span *ngIf="tache.refusTraitement" style="color:red;">Demande refusée</span></div>
-              <div><span *ngIf="tache.refusTraitement && tache.commentairesRefus" style="color:red;"><small><em>{{tache.commentairesRefus}}</em></small></span></div>
-            </div>
-          </div>
-
           <div (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
             <div class="myBoxTitle">
               <i class="fa fa-tasks"></i>&nbsp;<strong>NOUVEAU MEMBRE</strong> : <span class="text-uppercase">calay</span>&nbsp;Damien
