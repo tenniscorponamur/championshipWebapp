@@ -8,6 +8,22 @@
       <div class="card-body text-center">
         <div>
 
+          <div class="row">
+            <div class="col-12">
+              <small><em>Tri par date décroissante</em></small>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+              <mat-form-field>
+                <input matInput placeholder="Demandeur" >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+              <mat-form-field>
+                <input matInput placeholder="Concerne" >
+              </mat-form-field>
+            </div>
+          </div>
+
           <mat-tab-group>
             <mat-tab label="Demandes en cours">
               <div *ngFor="let tache of tachesOuvertes" (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
@@ -20,12 +36,6 @@
               </div>
             </mat-tab>
             <mat-tab label="Demandes traitées">
-
-              <em>Tri par date décroissante</em>
-              <mat-form-field>
-                <input matInput placeholder="Demandeur" >
-              </mat-form-field>
-
               <div *ngFor="let tache of tachesTraitees" (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
                 <div class="myBoxTitle">
                   <i class="fa fa-tasks"></i>&nbsp;<strong>{{getTypeTache(tache)}}</strong> : <span class="text-uppercase">{{tache.membre.nom}}</span>&nbsp;{{tache.membre.prenom}}

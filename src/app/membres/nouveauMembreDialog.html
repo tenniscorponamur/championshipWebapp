@@ -1,0 +1,183 @@
+<h1 mat-dialog-title>Nouveau membre pour {{_club.nom}}<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content style="min-width:300px;max-width:500px;">
+
+  <div *ngIf="showAlert" class="col-12">
+    <div class="alert alert-danger" role="alert">
+      Remplissez les champs obligatoires
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input matInput required placeholder="Nom" [(ngModel)]="_nom">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input matInput required placeholder="Prénom" [(ngModel)]="_prenom">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" style="margin-top:20px;">
+      <mat-radio-group required [(ngModel)]="_genre">
+        <mat-radio-button color="primary" *ngFor="let genre of genres" [value]="genre.code" style="margin-right:10px">
+          {{genre.libelle}}
+        </mat-radio-button>
+      </mat-radio-group>
+      &nbsp;*
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Date de naissance (dd/mm/yyyy)" [(ngModel)]="_dateNaissance">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi="true" #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <h6>Coordonnées</h6>
+  <div class="coordonnees-form" >
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <mat-form-field>
+          <input type="text" placeholder="Code postal" matInput [(ngModel)]="_codePostal" (keyup.enter)="codePostalChanged();" (blur)="codePostalChanged();">
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <mat-form-field class="coordonnees-full-width">
+          <input type="text" placeholder="Commune" matInput [formControl]="localiteControl" [matAutocomplete]="autoLocalite" >
+          <mat-autocomplete #autoLocalite="matAutocomplete" (optionSelected)="localiteSelected();" >
+            <mat-option *ngFor="let localite of filteredLocalites | async" [value]="localite.nomLocalite">
+              {{localite.nomLocalite}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field class="coordonnees-full-width">
+        <input type="text" placeholder="Rue" matInput [formControl]="rueControl" [matAutocomplete]="autoRue" >
+        <mat-autocomplete #autoRue="matAutocomplete" >
+          <mat-option *ngFor="let rue of filteredRues | async" [value]="rue">
+            {{rue}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input type="text" placeholder="Numéro" matInput [(ngModel)]="_rueNumero" >
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input type="text" placeholder="Boite" matInput [(ngModel)]="_rueBoite" >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <h6>Contacts</h6>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input type="text" placeholder="Téléphone" matInput [(ngModel)]="_telephone">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input type="text" placeholder="GSM" matInput [(ngModel)]="_gsm">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input type="text" placeholder="Mail" matInput [(ngModel)]="_mail">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <h6>Informations tennistiques</h6>
+  <div class="row" >
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
+      <mat-form-field>
+        <input matInput placeholder="Numéro AFT" [(ngModel)]="_numeroAft" >
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <input matInput placeholder="Numéro Club AFT" [(ngModel)]="_numeroClubAft" disabled="{{_onlyCorpo}}">
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-checkbox color="primary" [(ngModel)]="_onlyCorpo" (change)="changeOnlyCorpo();" >Affilier au Corpo</mat-checkbox>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-warning" role="alert">
+        Les points proposés pour le classement Corpo peuvent faire l'objet d'une révision par le Comité après étude du niveau du nouveau membre.
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <mat-select placeholder="Classement AFT" [(ngModel)]="_codeClassement" >
+          <mat-option *ngFor="let echelleAFT of echellesAFT" [value]="echelleAFT.code">
+            <span>{{ echelleAFT.code }} - {{ echelleAFT.points }} points</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <mat-form-field>
+        <mat-select placeholder="Points Corpo" [(ngModel)]="_points" >
+          <mat-option *ngFor="let echelleCorpo of echellesCorpo" [value]="echelleCorpo.points">
+            {{ echelleCorpo.points }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <h6>Commentaires</h6>
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field style="width:100%;">
+        <textarea matInput placeholder="Commentaires" rows=3 [(ngModel)]="_comments"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-warning" role="alert">
+        <mat-checkbox color="primary" [(ngModel)]="_adhesionPolitique" ></mat-checkbox>
+        En remplissant ce formulaire, je confirme que j'ai pris connaissance de la politique de confidentialité et en avoir fait part au nouveau membre de ma corporation.<br/>
+        <a href="/assets/files/Politique_de_confidentialite.pdf" target="_blank" style="color:blue;cursor:pointer;">Politique de confidentialité</a>
+        <span *ngIf="showAlertPolitique && !_adhesionPolitique" style="color:red"><br/><small><em>Veuillez adhérer à la politique de confidentialité pour inscrire un nouveau membre.</em></small></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <span *ngIf="!showAlert" >&nbsp;</span>
+      <span *ngIf="showAlert" style="color:red"><small><em>Remplissez les champs obligatoires</em></small></span>
+    </div>
+  </div>
+
+  <div align="center">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    <button class="btn btn-success" (click)="save();">Sauver</button>
+  </div>
+
+</div>

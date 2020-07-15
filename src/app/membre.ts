@@ -28,4 +28,5 @@ export class Membre {
   telephone:string;
   gsm:string;
   mail:string;
+  adhesionPolitique:boolean;
 }

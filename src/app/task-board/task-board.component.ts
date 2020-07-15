@@ -33,6 +33,7 @@ export class TaskBoardComponent implements OnInit {
     //TODO : desactivation membre : tache -> membre actif existant
     //TODO : reactivation membre : tache -> membre inactif existant
     //TODO : nouveau classement corpo : tache -> classementCorpo et membre actif existant
+    //TODO : politique confidentialité --> pris connaissance et transmis au nouveau membre -> adhesion
 
 
     //TODO : Conserver infos demandeur : tache -> membre_demandeur

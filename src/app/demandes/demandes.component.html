@@ -1,0 +1,93 @@
+
+<div class="row">
+  <div class="tennisCorpoBox col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div class="card text-center">
+      <h4 class="card-header">
+        Mes demandes
+      </h4>
+      <div class="card-body text-center">
+        <div>
+          <div class="row">
+            <div class="col-12">
+              <small><em>Tri par date décroissante</em></small>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+              <mat-form-field>
+                <input matInput placeholder="Concerne" >
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" style="margin-top:20px;" >
+                <mat-checkbox color="primary" >Voir les archives&nbsp;<i class="fa fa-archive"></i></mat-checkbox>
+            </div>
+          </div>
+
+          <div *ngFor="let tache of tachesTraitees" (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
+            <div class="myBoxTitle">
+              <i class="fa fa-tasks"></i>&nbsp;<strong>{{getTypeTache(tache)}}</strong> : <span class="text-uppercase">{{tache.membre.nom}}</span>&nbsp;{{tache.membre.prenom}}
+            </div>
+            <div class="myBoxContent">
+              <div>Demande introduite le {{tache.dateDemande | date:'dd/MM/yyyy'}} à {{tache.dateDemande | date:'HH:mm'}} par {{tache.demandeur.prenom}} {{tache.demandeur.nom}}</div>
+              <div><span *ngIf="tache.validationTraitement" style="color:green;">Demande traitée</span></div>
+              <div><span *ngIf="tache.refusTraitement" style="color:red;">Demande refusée</span></div>
+              <div><span *ngIf="tache.refusTraitement && tache.commentairesRefus" style="color:red;"><small><em>{{tache.commentairesRefus}}</em></small></span></div>
+            </div>
+          </div>
+
+          <div (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
+            <div class="myBoxTitle">
+              <i class="fa fa-tasks"></i>&nbsp;<strong>NOUVEAU MEMBRE</strong> : <span class="text-uppercase">calay</span>&nbsp;Damien
+            </div>
+            <div class="myBoxContent">
+              <div>Demande introduite le 08/04/2019 à 15:15 par François Heynen</div>
+              <div>
+                Infos de base (nom, prenom, date de naissance, genre, club)
+              </div>
+              <div>
+                Coordonnées
+              </div>
+              <div>
+                Numero AFT si club AFT sinon affiliation corpo
+              </div>
+              <div>
+                Proposition de points Corpo
+              </div>
+            </div>
+          </div>
+
+          <div (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
+            <div class="myBoxTitle">
+              <i class="fa fa-tasks"></i>&nbsp;<strong>DESACTIVATION MEMBRE</strong> : <span class="text-uppercase">calay</span>&nbsp;Fabrice
+            </div>
+            <div class="myBoxContent">
+              <div>Demande introduite le 10/04/2019 à 9:15 par Nicolas Bonjean</div>
+            </div>
+          </div>
+
+          <div (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
+            <div class="myBoxTitle">
+              <i class="fa fa-tasks"></i>&nbsp;<strong>REACTIVATION MEMBRE</strong> : <span class="text-uppercase">calay</span>&nbsp;Fabrice
+            </div>
+            <div class="myBoxContent">
+              <div>Demande introduite le 10/04/2019 à 9:15 par Nicolas Bonjean</div>
+            </div>
+          </div>
+
+          <div (click)="ouvrirTache();" class="myBox text-left" style="cursor:pointer;">
+            <div class="myBoxTitle">
+              <i class="fa fa-tasks"></i>&nbsp;<strong>CHANGEMENT POINTS CORPO</strong> : <span class="text-uppercase">calay</span>&nbsp;Fabrice
+            </div>
+            <div class="myBoxContent">
+              <div>Demande introduite le 10/04/2019 à 9:15 par Nicolas Bonjean</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div #utilisateurDetail class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >-->
+  <!--<app-utilisateur-detail *ngIf="selectedUser" [utilisateur]="selectedUser" (deleteUser)="deleteUtilisateur($event)" ></app-utilisateur-detail>-->
+  <!--</div>-->
+
+</div>

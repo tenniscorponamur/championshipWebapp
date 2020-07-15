@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgClass, DatePipe } from '@angular/common';
+import {FormControl} from '@angular/forms';
 import { Membre } from '../membre';
 import { MembreService } from '../membre.service';
 import {AuthenticationService} from '../authentication.service';
@@ -14,11 +15,15 @@ import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {ClubService} from '../club.service';
 import {Club} from '../club';
+import {Localite} from '../localite';
 import {compare} from '../utility';
 import { saveAs } from 'file-saver';
 import {Genre, GENRES} from '../genre';
 import {ClassementCorpo} from '../classementCorpo';
 import {ClassementMembreService} from '../classement-membre.service';
+import {LocaliteService} from '../localite.service';
+import {AvertissementComponent} from '../avertissement/avertissement.component';
+import {TacheService} from '../tache.service';
 
 @Component({
   selector: 'app-membres',
@@ -281,6 +286,13 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
     }
 
+    nouvelleDemande(){
+
+        this.dialog.open(DemandeDialog, {
+            data: { }, panelClass: "demandeDialog", disableClose:false
+        });
+
+    }
 
 }
 
@@ -329,4 +341,274 @@ export class ImportMembresDialog {
   }
 
 }
+
+@Component({
+  selector: 'demande-dialog',
+  templateUrl: './demandeDialog.html',
+})
+export class DemandeDialog {
+
+  constructor(
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<DemandeDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  nouveauMembre(){
+    this.dialogRef.close();
+    this.dialog.open(NouveauMembreDialog, {
+        data: { }, panelClass: "nouveauMembreDialog", disableClose:true
+    });
+  }
+
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+
+@Component({
+  selector: 'nouveau-membre-dialog',
+  templateUrl: './nouveauMembreDialog.html',
+  styleUrls: ['./nouveauMembreDialog.css']
+})
+export class NouveauMembreDialog implements OnInit {
+
+  genres = GENRES;
+  _genre:string;
+  _prenom:string;
+  _nom:string;
+  _dateNaissance:Date;
+
+   localiteControl = new FormControl();
+   rueControl = new FormControl();
+   private _membre:Membre;
+
+   _codePostal:string;
+   _rueNumero:string;
+   _rueBoite:string;
+
+   localites:Localite[]=[];
+   rues:string[]=[];
+
+   filteredLocalites:Observable<Localite[]>;
+   filteredRues:Observable<string[]>;
+
+   _telephone:string;
+   _gsm:string;
+   _mail:string;
+
+   _club:Club;
+
+   _numeroAft: string;
+   _numeroClubAft: string;
+   _onlyCorpo: boolean=false;
+
+   echellesCorpo:any[]=[];
+   echellesAFT:any[]=[];
+  _codeClassement:string;
+  _points:number;
+
+   _comments:string="";
+  _adhesionPolitique:boolean=false;
+
+  showAlert:boolean=false;
+  showAlertPolitique:boolean=false;
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private classementMembreService: ClassementMembreService,
+    private tacheService:TacheService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<NouveauMembreDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private localiteService: LocaliteService) {
+
+    this.localiteService.getLocalites().subscribe(localites => {
+        this.localites = localites.sort((a,b) => compare(a.nomLocalite,b.nomLocalite,true));
+      }
+    );
+    let user = this.authenticationService.getConnectedUser();
+    if (this.isResponsableClubConnected()){
+      if (user.membre.club!=null){
+         this._club = user.membre.club;
+      }
+    }
+  }
+
+  isResponsableClubConnected(){
+    let user = this.authenticationService.getConnectedUser();
+    if (user!=null){
+      if (user.membre!=null){
+        if (user.membre.responsableClub==true){
+            return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  ngOnInit() {
+    this.filteredLocalites = this.localiteControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterWithLocalite(value))
+      );
+    this.filteredRues = this.rueControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterWithRue(value))
+          );
+
+
+    this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
+        this.echellesCorpo = echelles;
+    });
+
+    this.classementMembreService.getEchellesAFT().subscribe(echelles => {
+        echelles.forEach(echelle => {
+          if (echelle.actif){
+            this.echellesAFT.push(echelle);
+          }
+        });
+    });
+  }
+
+    codePostalChanged(){
+        this.localiteControl.setValue('');
+        if (this._codePostal != null && this._codePostal != undefined && this._codePostal != ''){
+          this.localiteService.getRuesByCodePostal(this._codePostal).subscribe(rues => {
+            this.rues = rues.sort((a,b) => compare(a,b,true));
+          }
+          );
+        }
+    }
+
+    localiteSelected(){
+        if (this._codePostal == null || this._codePostal == undefined || this._codePostal == ''){
+            let localite:Localite = this.localites.find(localite => localite.nomLocalite == this.localiteControl.value);
+            if (localite!=null){
+                this._codePostal=localite.codePostal;
+            }
+        }
+
+    }
+
+  private _filterWithLocalite(value: string): Localite[] {
+    const filterValue = value.toLowerCase();
+    return this.localites.filter(localite => {
+        return localite.nomLocalite.toLowerCase().includes(filterValue)
+            && (this._codePostal==null || this._codePostal==undefined || this._codePostal=='' || localite.codePostal == this._codePostal);
+    }
+    );
+  }
+
+  private _filterWithRue(value: string): string[] {
+    const filterValue = value.toLowerCase();
+      return this.rues.filter(rue => {
+          return rue.toLowerCase().includes(filterValue);
+        }
+      );
+  }
+
+  changeOnlyCorpo(){
+    if (this._onlyCorpo){
+      this._numeroClubAft = "6045";
+    }else{
+      this._numeroClubAft = "";
+    }
+  }
+
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+
+    this.showAlert=false;
+    this.showAlertPolitique=false;
+
+      // Verification du genre
+      if (this._genre){
+          //this.showAlert=false;
+      }else{
+          this.showAlert=true;
+      }
+
+       // Verification du prenom
+      if (this._prenom && this._prenom.trim().length > 0){
+        //this.showAlert=false;
+      }else{
+        this.showAlert=true;
+      }
+
+      // Verification du nom
+      if (this._nom && this._nom.trim().length > 0){
+        //this.showAlert=false;
+      }else{
+        this.showAlert=true;
+      }
+
+      // Check politique confidentialite
+      if (!this._adhesionPolitique){
+        this.showAlertPolitique=true;
+      }
+
+      if (!this.showAlert && !this.showAlertPolitique){
+
+          let membre:Membre  = new Membre();
+          membre.actif=false;
+
+          membre.prenom=this._prenom;
+          membre.nom=this._nom;
+          membre.genre=this._genre;
+          if (this._dateNaissance!=null){
+            membre.dateNaissance = new Date(this._dateNaissance);
+          }else{
+            membre.dateNaissance = null;
+          }
+          if (membre.dateNaissance!=null){
+            membre.dateNaissance.setHours(12);
+          }
+
+          membre.codePostal=this._codePostal;
+          membre.localite=this.localiteControl.value;
+          membre.rue=this.rueControl.value;
+          membre.rueNumero=this._rueNumero;
+          membre.rueBoite=this._rueBoite;
+
+          membre.telephone=this._telephone;
+          membre.gsm=this._gsm;
+          membre.mail=this._mail;
+
+          membre.club=this._club;
+
+          membre.numeroAft=this._numeroAft;
+          membre.numeroClubAft=this._numeroClubAft;
+          membre.onlyCorpo=this._onlyCorpo;
+
+          membre.adhesionPolitique = true;
+
+          this.tacheService.tacheNouveauMembre(membre,this._comments, this._codeClassement, this._points).subscribe(result => {
+            if (result){
+              this.dialogRef.close();
+              this.dialog.open(AvertissementComponent, {
+                  data: {title: "Information", message:"Demande introduite auprès du Comité. Vous pouvez suivre l'évolution de votre demande sur la page d'accueil"}, panelClass: "avertissementDialog", disableClose: false
+              });
+            }
+          });
+
+          //TODO : tester l'existence du numero AFT dans la DB afin d'indiquer si le membre est connu
+          //TODO : faire le test en live pour eviter d'aller plus loin dans le process ?? -- plus tard si demande insistante
+
+
+      }
+
+  }
+
+}
+
 

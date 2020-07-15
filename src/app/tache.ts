@@ -22,14 +22,19 @@ export class Tache {
 
 }
 
+export const TYPE_TACHE_NOUVEAU_MEMBRE: string = "NOUVEAU_MEMBRE";
+export const TYPE_TACHE_DESACTIVATION_MEMBRE: string = "DESACTIVATION_MEMBRE";
+export const TYPE_TACHE_REACTIVATION_MEMBRE: string = "REACTIVATION_MEMBRE";
+export const TYPE_TACHE_CHANGEMENT_POINTS: string = "CHANGEMENT_POINTS_CORPO";
+
 export function getTypeTacheAsString(tache:Tache){
-  if (tache.typeTache=="NOUVEAU_MEMBRE"){
+  if (tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE){
     return "Nouveau membre";
-  }else if (tache.typeTache=="DESACTIVATION_MEMBRE"){
+  }else if (tache.typeTache==TYPE_TACHE_DESACTIVATION_MEMBRE){
     return "Désactivation d'un membre";
-  }else if (tache.typeTache=="REACTIVATION_MEMBRE"){
+  }else if (tache.typeTache==TYPE_TACHE_REACTIVATION_MEMBRE){
     return "Réactivation d'un membre";
-  }else if (tache.typeTache=="CHANGEMENT_POINTS_CORPO"){
+  }else if (tache.typeTache==TYPE_TACHE_CHANGEMENT_POINTS){
     return "Modifications points Corpo";
   }
   return "Type de tâche inconnu";
