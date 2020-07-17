@@ -11,6 +11,7 @@ export class TaskBoardComponent implements OnInit {
 
   tachesOuvertes:Tache[]=[];
   tachesTraitees:Tache[]=[];
+  selectedTask:Tache;
 
   constructor(
     private tacheService:TacheService
@@ -25,8 +26,8 @@ export class TaskBoardComponent implements OnInit {
     return getTypeTacheAsString(tache);
   }
 
-  ouvrirTache(){
-    alert("ouvrir tache");
+  ouvrirTache(tache:Tache){
+    this.selectedTask = tache;
 
     //TODO : archives (taches terminees) : validation/refus le DD/MM/YY à HH:MI par XXX
     //TODO : nouveau membre : tache -> membre avec caracteristique fantome (test numero AFT deja existant --> verifier membre actif ou inactif afin de rediriger vers la bonne operation)

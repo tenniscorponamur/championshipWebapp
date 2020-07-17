@@ -1,0 +1,177 @@
+<div class="card tennisCorpoBox">
+  <h4 class="card-header">
+    {{getTypeTache()}}
+  </h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+          <div>
+            <small>
+              Demande introduite par {{tache.demandeur.prenom}}&nbsp;{{tache.demandeur.nom}} le {{tache.dateDemande | date:'dd/MM/yyyy'}} à {{tache.dateDemande | date:'HH:mm'}}
+            </small>
+          </div>
+        <div>
+          <small>
+            <span *ngIf="tache.validationTraitement" style="color:green;">Demande traitée par {{tache.agentTraitant}} le {{tache.dateTraitement | date:'dd/MM/yyyy'}} à {{tache.dateTraitement | date:'HH:mm'}}</span>
+          </small>
+        </div>
+        <div>
+          <small>
+            <span *ngIf="tache.refusTraitement" style="color:red;">Demande refusée par {{tache.agentTraitant}} le {{tache.dateTraitement | date:'dd/MM/yyyy'}} à {{tache.dateTraitement | date:'HH:mm'}}</span>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="myBox" >
+          <div class="myBoxTitle">
+            Informations générales
+          </div>
+          <div class="myBoxContent">
+            <i class="{{userImage}}"></i>&nbsp;
+            <span><strong>{{tache.membre.nom|uppercase}}</strong>&nbsp;</span><span>{{tache.membre.prenom}}</span>&nbsp;
+            <span>{{tache.membre.dateNaissance| date:'dd/MM/yyyy'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isNouveauMembre()">
+      <div class="row">
+        <div class="col-12">
+          <div  class="myBox">
+            <div class="myBoxTitle" >
+              Coordonnées
+            </div>
+            <div class="myBoxContent">
+              <span>
+                {{tache.membre.rue}}
+              </span>
+              <span>
+                {{tache.membre.rueNumero}}
+              </span>
+              <span *ngIf="tache.membre.rueBoite">
+                /{{tache.membre.rueBoite}}
+              </span>
+              &nbsp;
+              <span>
+                {{tache.membre.codePostal}}
+              </span>
+              <span>
+                {{tache.membre.localite|uppercase}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="myBox" >
+            <div class="myBoxTitle" >
+              Contacts
+            </div>
+            <div class="myBoxContent">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                  <span *ngIf="tache.membre.mail"><i class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{tache.membre.mail}}">{{tache.membre.mail}}</a></span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-right">
+                  <span *ngIf="tache.membre.gsm"><i class="fa fa-mobile"></i>&nbsp;<a href="tel:{{tache.membre.gsm}}">{{tache.membre.gsm}}</a></span>
+                </div>
+                <div *ngIf="tache.membre.telephone" class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+                  <span *ngIf="tache.membre.telephone"><i class="fa fa-phone"></i>&nbsp;<a href="tel:{{tache.membre.telephone}}">{{tache.membre.telephone}}</a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div  class="myBox">
+          <div class="myBoxTitle" >
+            Corporation
+          </div>
+          <div class="myBoxContent">
+            {{tache.membre.club.nom}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div  class="myBox">
+          <div class="myBoxTitle" >
+            Informations tennistiques
+          </div>
+          <div class="myBoxContent">
+            <div class="col-12">
+              <span *ngIf="tache.membre.numeroAft">Numéro AFT : {{tache.membre.numeroAft}}</span>
+              <span *ngIf="!tache.membre.numeroAft" style="color:red;"><em>Pas de numéro AFT précisé</em></span>
+            </div>
+            <div>
+            </div>
+
+            <div *ngIf="tache.membre.onlyCorpo" class="col-12">
+              <div class="alert alert-danger" role="alert">
+                Doit être affilié au Corpo
+              </div>
+            </div>
+            <div *ngIf="!tache.membre.onlyCorpo" class="col-12">
+              <span>Numéro Club AFT : {{tache.membre.numeroClubAft}}</span>
+            </div>
+
+            <div class="col-12">
+              Classement AFT : <span *ngIf="tache.codeClassementAft">{{tache.codeClassementAft}}</span>
+            </div>
+            <div class="col-12">
+              Points Corpo proposé : <span *ngIf="tache.pointsCorpo">{{tache.pointsCorpo}} points</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div  class="myBox">
+          <div class="myBoxTitle" >
+            Commentaires
+          </div>
+          <div class="myBoxContent">
+            {{tache.commentairesDemande}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="tache.commentairesRefus">
+      <div class="col-12">
+        <div  class="myBox">
+          <div class="myBoxTitle" >
+            Commentaires refus
+          </div>
+          <div class="myBoxContent">
+            {{tache.commentairesRefus}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <button class="btn btn-danger" (click)="refuserDemande();">Refuser la demande</button>
+        &nbsp;
+        <button class="btn btn-success" (click)="validerDemande();">Valider la demande</button>
+      </div>
+    </div>
+
+</div>
+

@@ -92,6 +92,7 @@ import { SelectTerrainDialogComponent } from './select-terrain-dialog/select-ter
 import { AvertissementComponent } from './avertissement/avertissement.component';
 import { TaskBoardComponent } from './task-board/task-board.component';
 import { DemandesComponent } from './demandes/demandes.component';
+import { TacheDetailComponent,ValidationNouveauMembreDialog } from './tache-detail/tache-detail.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -175,7 +176,9 @@ registerLocaleData(localeFr, 'fr');
     TaskBoardComponent,
     DemandesComponent,
     DemandeDialog,
-    NouveauMembreDialog
+    NouveauMembreDialog,
+    TacheDetailComponent,
+    ValidationNouveauMembreDialog
   ],
   imports: [
     BrowserModule,
@@ -252,7 +255,8 @@ registerLocaleData(localeFr, 'fr');
       CommentairesEquipeDialog,
       StartDateDialog,
       DemandeDialog,
-      NouveauMembreDialog
+      NouveauMembreDialog,
+      ValidationNouveauMembreDialog
   ],
   providers: [
     AuthenticationService,

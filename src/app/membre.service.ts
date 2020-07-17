@@ -21,6 +21,10 @@ export class MembreService {
     return this.http.get<Membre[]>(this.environmentService.getPublicApiUrl() + "/membres" + (clubId!=null?("?clubId="+clubId):""), this.authenticationService.getPrivateApiHttpOptions());
   }
 
+  findMembreByNumeroAft(numeroAft:string){
+    return this.http.get<Membre>(this.environmentService.getPrivateApiUrl() + "/membre?numeroAft=" + numeroAft,this.authenticationService.getPrivateApiHttpOptions());
+  }
+
   getTemplateImportMembres(){
     let options = this.authenticationService.getPrivateApiHttpOptions();
     options["responseType"] = "blob";

@@ -416,9 +416,11 @@ export class NouveauMembreDialog implements OnInit {
 
   showAlert:boolean=false;
   showAlertPolitique:boolean=false;
+  messageNumeroAft:string;
 
   constructor(
     private authenticationService: AuthenticationService,
+    private membreService: MembreService,
     private classementMembreService: ClassementMembreService,
     private tacheService:TacheService,
     public dialog: MatDialog,
@@ -513,6 +515,26 @@ export class NouveauMembreDialog implements OnInit {
       );
   }
 
+  numeroAftChanged(){
+    if (this._numeroAft!=null && this._numeroAft.length>0){
+      this.membreService.findMembreByNumeroAft(this._numeroAft).subscribe(membre => {
+         if (membre != null){
+           if (membre.fictif){
+              this.messageNumeroAft = "Une demande a déjà été introduite pour ce numéro AFT.";
+           }else if (membre.actif){
+              this.messageNumeroAft = "Un membre actif possède déjà ce numéro AFT.";
+           }else if (!membre.actif){
+              this.messageNumeroAft = "membre existant";
+           }
+         }else{
+           this.messageNumeroAft = null;
+         }
+      });
+    }else{
+       this.messageNumeroAft = null;
+    }
+  }
+
   changeOnlyCorpo(){
     if (this._onlyCorpo){
       this._numeroClubAft = "6045";
@@ -557,7 +579,7 @@ export class NouveauMembreDialog implements OnInit {
         this.showAlertPolitique=true;
       }
 
-      if (!this.showAlert && !this.showAlertPolitique){
+      if (!this.showAlert && !this.showAlertPolitique && this.messageNumeroAft == null){
 
           let membre:Membre  = new Membre();
           membre.actif=false;

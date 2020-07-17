@@ -29,4 +29,5 @@ export class Membre {
   gsm:string;
   mail:string;
   adhesionPolitique:boolean;
+  fictif:boolean;
 }

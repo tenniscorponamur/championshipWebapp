@@ -102,9 +102,14 @@
 
   <h6>Informations tennistiques</h6>
   <div class="row" >
+
+    <div *ngIf="messageNumeroAft" class="col-12" >
+      <span style="color:red;"><small><em>{{messageNumeroAft}}</em></small></span>
+    </div>
+
     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" >
       <mat-form-field>
-        <input matInput placeholder="Numéro AFT" [(ngModel)]="_numeroAft" >
+      <input matInput placeholder="Numéro AFT" [(ngModel)]="_numeroAft" (blur)="numeroAftChanged();">
       </mat-form-field>
     </div>
 

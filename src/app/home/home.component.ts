@@ -108,4 +108,7 @@ export class HomeComponent implements OnInit {
     },error => {console.log(error);});
   }
 
+  //TODO : marquer comme lu uniquement accessible si demande traitee
+  //TODO : trier les demandes en commençant par les demandes traitees et par date decroissante
+
 }

@@ -9,6 +9,7 @@ export class Tache {
   demandeur:Membre;
   membre:Membre;
 
+  codeClassementAft:number;
   pointsCorpo:number;
   desactivationMembre:boolean;
   reactivationMembre:boolean;
@@ -19,6 +20,9 @@ export class Tache {
   validationTraitement:boolean;
   refusTraitement:boolean;
   commentairesRefus:string;
+
+  markAsRead:boolean;
+  archived:boolean;
 
 }
 

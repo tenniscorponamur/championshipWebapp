@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Validation de l'inscription<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+
+  <div *ngIf="alerte" class="col-12">
+    <div class="alert alert-danger" role="alert">
+      {{alerte}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-center" >
+      <mat-form-field>
+        <input matInput placeholder="Numéro AFT" [(ngModel)]="numeroAft" >
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 text-center">
+      <mat-form-field>
+        <mat-select placeholder="Points Corpo" [(ngModel)]="pointsCorpo" >
+          <mat-option *ngFor="let echelleCorpo of echellesCorpo" [value]="echelleCorpo.points">
+            {{ echelleCorpo.points }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+
+  <div align="center">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    &nbsp;
+    <button class="btn btn-success" (click)="save();">Sauver</button>
+  </div>
+
+</div>

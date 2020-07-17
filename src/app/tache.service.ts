@@ -30,5 +30,8 @@ export class TacheService {
     return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches/traitees", this.authenticationService.getPrivateApiHttpOptions());
   }
 
+  traitementTache(tache:Tache, numeroAft:string, pointsCorpo:number, validation:boolean, commentairesRefus:string): Observable<Tache> {
+      return this.http.put<Tache>(this.environmentService.getPrivateApiUrl() + "/tache/" + tache.id + "?validation=" + validation + (numeroAft!=null?("&numeroAft="+numeroAft):"") + (pointsCorpo!=null?("&pointsCorpo="+pointsCorpo):"") + (commentairesRefus!=null?("&commentairesRefus="+commentairesRefus):""), null, this.authenticationService.getPrivateApiHttpOptions());
+  }
 
 }
