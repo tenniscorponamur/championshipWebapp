@@ -55,11 +55,12 @@ export class TacheDetailComponent implements OnInit {
           data: { tache:this.tache }, panelClass: "validationNouveauMembreDialog", disableClose:true
       });
      }
-
   }
 
   refuserDemande(){
-
+      let refusDialogRef = this.dialog.open(RefusDialog, {
+          data: { tache:this.tache }, panelClass: "refusDialog", disableClose:true
+      });
   }
 
 
@@ -133,5 +134,42 @@ export class ValidationNouveauMembreDialog implements OnInit {
 
   }
 
+}
+
+@Component({
+    selector: 'refus-demande-dialog',
+    templateUrl: './refusDemande.html'
+})
+export class RefusDialog implements OnInit {
+
+    private tache:Tache;
+    comments:string;
+
+    constructor(
+        private tacheService:TacheService,
+        public dialogRef: MatDialogRef<RefusDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+          this.tache = data.tache;
+        }
+
+    ngOnInit() {
+    }
+
+    cancel(){
+      this.dialogRef.close();
+    }
+
+    save(){
+          this.tacheService.traitementTache(this.tache, null, null, false, this.comments).subscribe(tacheSaved => {
+              if (tacheSaved){
+                this.tache.dateTraitement = tacheSaved.dateTraitement;
+                this.tache.agentTraitant = tacheSaved.agentTraitant;
+                this.tache.validationTraitement = tacheSaved.validationTraitement;
+                this.tache.refusTraitement = tacheSaved.refusTraitement;
+                this.tache.commentairesRefus = tacheSaved.commentairesRefus;
+                this.dialogRef.close();
+              }
+            });
+    }
 }
 

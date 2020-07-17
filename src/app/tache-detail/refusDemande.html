@@ -1,2 +1,18 @@
-Zone de commentaires pour refus
+<h1 mat-dialog-title>Refus<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
 
+  <div class="row">
+    <div class="col-12 text-center" >
+      <mat-form-field style="width:100%;">
+        <textarea matInput placeholder="Commentaires pour refus" rows=5 [(ngModel)]="comments"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div align="center">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    &nbsp;
+    <button class="btn btn-success" (click)="save();">Sauver</button>
+  </div>
+
+</div>

@@ -22,12 +22,8 @@ export class TacheService {
     return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches", this.authenticationService.getPrivateApiHttpOptions());
   }
 
-  getTachesOuvertes(): Observable<Tache[]> {
-    return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches/ouvertes", this.authenticationService.getPrivateApiHttpOptions());
-  }
-
-  getTachesTraitees(): Observable<Tache[]> {
-    return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches/traitees", this.authenticationService.getPrivateApiHttpOptions());
+  getAllTaches(): Observable<Tache[]> {
+    return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches/all", this.authenticationService.getPrivateApiHttpOptions());
   }
 
   traitementTache(tache:Tache, numeroAft:string, pointsCorpo:number, validation:boolean, commentairesRefus:string): Observable<Tache> {

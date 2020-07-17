@@ -165,7 +165,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="!tache.validationTraitement && !tache.refusTraitement">
       <div class="col-12 text-center">
         <button class="btn btn-danger" (click)="refuserDemande();">Refuser la demande</button>
         &nbsp;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TacheService} from '../tache.service';
 import {Tache, getTypeTacheAsString} from '../tache';
+import {compare} from '../utility';
 
 @Component({
   selector: 'app-task-board',
@@ -9,8 +10,7 @@ import {Tache, getTypeTacheAsString} from '../tache';
 })
 export class TaskBoardComponent implements OnInit {
 
-  tachesOuvertes:Tache[]=[];
-  tachesTraitees:Tache[]=[];
+  taches:Tache[]=[];
   selectedTask:Tache;
 
   constructor(
@@ -18,8 +18,17 @@ export class TaskBoardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tacheService.getTachesOuvertes().subscribe(taches => this.tachesOuvertes = taches);
-    this.tacheService.getTachesTraitees().subscribe(taches => this.tachesTraitees = taches);
+    this.tacheService.getAllTaches().subscribe(taches => {
+      this.taches = taches.sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),false));
+    });
+  }
+
+  get tachesOuvertes(){
+    return this.taches.filter(tache => !tache.validationTraitement && !tache.refusTraitement);
+  }
+
+  get tachesTraitees(){
+    return this.taches.filter(tache => tache.validationTraitement || tache.refusTraitement);
   }
 
   getTypeTache(tache:Tache){
