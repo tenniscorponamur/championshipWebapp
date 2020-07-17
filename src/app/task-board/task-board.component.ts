@@ -42,7 +42,7 @@ export class TaskBoardComponent implements OnInit {
   }
 
   filtre(): void {
-    console.log("test");
+
         this.filteredTaches = this.taches;
 
         if (this._demandeur && this._demandeur.trim().length > 0){
