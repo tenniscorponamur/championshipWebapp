@@ -87,7 +87,7 @@ export class ValidationNouveauMembreDialog implements OnInit {
         public dialogRef: MatDialogRef<ValidationNouveauMembreDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
           this.tache = data.tache;
-          this.numeroAft = this.tache.membre.numeroAft;
+          this.numeroAft = this.tache.numeroAft;
           this.pointsCorpo = this.tache.pointsCorpo;
         }
 
@@ -129,7 +129,7 @@ export class ValidationNouveauMembreDialog implements OnInit {
          }
       });
     }else{
-      this.alerte = "Veuillez préciser un numéro AFT";
+      this.alerte = "Veuillez préciser un numéro AFT et un classement Corpo";
     }
 
   }

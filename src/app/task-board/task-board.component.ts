@@ -19,16 +19,16 @@ export class TaskBoardComponent implements OnInit {
 
   ngOnInit() {
     this.tacheService.getAllTaches().subscribe(taches => {
-      this.taches = taches.sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),false));
+      this.taches = taches;
     });
   }
 
   get tachesOuvertes(){
-    return this.taches.filter(tache => !tache.validationTraitement && !tache.refusTraitement);
+    return this.taches.filter(tache => !tache.validationTraitement && !tache.refusTraitement).sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),true));
   }
 
   get tachesTraitees(){
-    return this.taches.filter(tache => tache.validationTraitement || tache.refusTraitement);
+    return this.taches.filter(tache => tache.validationTraitement || tache.refusTraitement).sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),false));
   }
 
   getTypeTache(tache:Tache){

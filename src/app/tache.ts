@@ -9,6 +9,7 @@ export class Tache {
   demandeur:Membre;
   membre:Membre;
 
+  numeroAft:string;
   codeClassementAft:number;
   pointsCorpo:number;
   desactivationMembre:boolean;

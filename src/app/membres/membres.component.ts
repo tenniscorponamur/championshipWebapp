@@ -524,7 +524,7 @@ export class NouveauMembreDialog implements OnInit {
            }else if (membre.actif){
               this.messageNumeroAft = "Un membre actif possède déjà ce numéro AFT.";
            }else if (!membre.actif){
-              this.messageNumeroAft = "membre existant";
+              this.messageNumeroAft = "Un membre inactif possède déjà ce numéro AFT.";
            }
          }else{
            this.messageNumeroAft = null;
@@ -608,13 +608,12 @@ export class NouveauMembreDialog implements OnInit {
 
           membre.club=this._club;
 
-          membre.numeroAft=this._numeroAft;
           membre.numeroClubAft=this._numeroClubAft;
           membre.onlyCorpo=this._onlyCorpo;
 
           membre.adhesionPolitique = true;
 
-          this.tacheService.tacheNouveauMembre(membre,this._comments, this._codeClassement, this._points).subscribe(result => {
+          this.tacheService.tacheNouveauMembre(membre,this._comments, this._numeroAft, this._codeClassement, this._points).subscribe(result => {
             if (result){
               this.dialogRef.close();
               this.dialog.open(AvertissementComponent, {

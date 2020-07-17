@@ -14,8 +14,8 @@ export class TacheService {
 
   constructor(private http: HttpClient, private environmentService:EnvironmentService, private authenticationService: AuthenticationService) {}
 
-  tacheNouveauMembre(membre:Membre, commentairesDemande:string, codeClassementAft:string, pointsCorpo:number){
-    return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/nouveauMembre?commentairesDemande="+commentairesDemande + (codeClassementAft!=null?("&codeClassementAft="+codeClassementAft):"") + (pointsCorpo!=null?("&pointsCorpo="+pointsCorpo):""),membre, this.authenticationService.getPrivateApiHttpOptions());
+  tacheNouveauMembre(membre:Membre, commentairesDemande:string, numeroAft:string, codeClassementAft:string, pointsCorpo:number){
+    return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/nouveauMembre?commentairesDemande="+commentairesDemande + (numeroAft!=null?("&numeroAft="+numeroAft):"") + (codeClassementAft!=null?("&codeClassementAft="+codeClassementAft):"") + (pointsCorpo!=null?("&pointsCorpo="+pointsCorpo):""),membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
   getTaches(): Observable<Tache[]> {
