@@ -4,6 +4,7 @@ import {Tache} from './tache';
 import {RencontreService} from './rencontre.service';
 import {TacheService} from './tache.service';
 import {AuthenticationService} from './authentication.service';
+import {compare} from './utility';
 
 @Injectable()
 export class AlertesService {
@@ -28,7 +29,9 @@ export class AlertesService {
         this.rencontresAValider = rencontres;
       });
       if (this.authenticationService.isResponsableClubUserConnected()){
-        this.tacheService.getTaches().subscribe(taches => this.taches = taches);
+        this.tacheService.getTaches().subscribe(taches => {
+          this.taches = taches.sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),false));
+        });
       }
     }
   }
