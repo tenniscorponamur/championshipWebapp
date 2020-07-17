@@ -9,17 +9,14 @@
         <div>
 
           <div class="row">
-            <div class="col-12">
-              <small><em>Tri par date décroissante</em></small>
-            </div>
             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
               <mat-form-field>
-                <input matInput placeholder="Demandeur" >
+                <input matInput placeholder="Demandeur" [(ngModel)]="_demandeur" (keyup)="filtre()">
               </mat-form-field>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
               <mat-form-field>
-                <input matInput placeholder="Concerne" >
+                <input matInput placeholder="Concerne" [(ngModel)]="_concerne" (keyup)="filtre()" >
               </mat-form-field>
             </div>
           </div>

@@ -11,6 +11,11 @@ import {compare} from '../utility';
 export class TaskBoardComponent implements OnInit {
 
   taches:Tache[]=[];
+  filteredTaches:Tache[]=[];
+
+  _demandeur:string;
+  _concerne:string;
+
   selectedTask:Tache;
 
   constructor(
@@ -20,19 +25,42 @@ export class TaskBoardComponent implements OnInit {
   ngOnInit() {
     this.tacheService.getAllTaches().subscribe(taches => {
       this.taches = taches;
+      this.filtre();
     });
   }
 
   get tachesOuvertes(){
-    return this.taches.filter(tache => !tache.validationTraitement && !tache.refusTraitement).sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),true));
+    return this.filteredTaches.filter(tache => !tache.validationTraitement && !tache.refusTraitement).sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),true));
   }
 
   get tachesTraitees(){
-    return this.taches.filter(tache => tache.validationTraitement || tache.refusTraitement).sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),false));
+    return this.filteredTaches.filter(tache => tache.validationTraitement || tache.refusTraitement).sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),false));
   }
 
   getTypeTache(tache:Tache){
     return getTypeTacheAsString(tache);
+  }
+
+  filtre(): void {
+    console.log("test");
+        this.filteredTaches = this.taches;
+
+        if (this._demandeur && this._demandeur.trim().length > 0){
+
+            this.filteredTaches = this.filteredTaches.filter(tache =>
+                tache.demandeur.nom.toLowerCase().includes(this._demandeur.toLowerCase())
+             || tache.demandeur.prenom.toLowerCase().includes(this._demandeur.toLowerCase()));
+
+        }
+
+        if (this._concerne && this._concerne.trim().length > 0){
+
+            this.filteredTaches = this.filteredTaches.filter(tache =>
+                tache.membre.nom.toLowerCase().includes(this._concerne.toLowerCase())
+             || tache.membre.prenom.toLowerCase().includes(this._concerne.toLowerCase()));
+
+        }
+
   }
 
   ouvrirTache(tache:Tache){
