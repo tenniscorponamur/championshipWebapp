@@ -173,6 +173,12 @@
       </div>
     </div>
 
+    <div class="row" *ngIf="tache.markAsRead">
+      <div class="col-12 text-center">
+        <span style="color:red;"><em>Marquée comme lue</em></span>
+      </div>
+    </div>
+
     <div class="row" *ngIf="isAdminConnected() && tache.markAsRead && !tache.archived">
       <div class="col-12 text-center">
         <button class="btn btn-warning" (click)="archive();"><i class="fa fa-archive"></i>&nbsp;Archiver</button>

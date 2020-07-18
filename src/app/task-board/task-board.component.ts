@@ -16,6 +16,7 @@ export class TaskBoardComponent implements OnInit {
 
   _demandeur:string;
   _concerne:string;
+  withArchives:boolean=false;
 
   selectedTask:Tache;
 
@@ -25,7 +26,11 @@ export class TaskBoardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tacheService.getTaches().subscribe(taches => {
+    this.refreshTasks();
+  }
+
+  refreshTasks(){
+    this.tacheService.getTaches(this.withArchives).subscribe(taches => {
       this.taches = taches;
       this.filtre();
     });

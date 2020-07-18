@@ -29,7 +29,7 @@ export class AlertesService {
         this.rencontresAValider = rencontres;
       });
       if (this.authenticationService.isResponsableClubUserConnected()){
-        this.tacheService.getTaches().subscribe(taches => {
+        this.tacheService.getTaches(false).subscribe(taches => {
           this.taches = taches.sort((a,b) => compare(new Date(a.dateDemande),new Date(b.dateDemande),false));
         });
       }

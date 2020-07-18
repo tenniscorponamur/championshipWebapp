@@ -18,8 +18,8 @@ export class TacheService {
     return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/nouveauMembre?commentairesDemande="+commentairesDemande + (numeroAft!=null?("&numeroAft="+numeroAft):"") + (codeClassementAft!=null?("&codeClassementAft="+codeClassementAft):"") + (pointsCorpo!=null?("&pointsCorpo="+pointsCorpo):""),membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
-  getTaches(): Observable<Tache[]> {
-    return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches", this.authenticationService.getPrivateApiHttpOptions());
+  getTaches(withArchives:boolean): Observable<Tache[]> {
+    return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches" + (withArchives?"?withArchives=true":""), this.authenticationService.getPrivateApiHttpOptions());
   }
 
   traitementTache(tache:Tache, numeroAft:string, pointsCorpo:number, validation:boolean, commentairesRefus:string): Observable<Tache> {

@@ -21,6 +21,12 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+              <mat-checkbox color="primary" [(ngModel)]="withArchives" (change)="refreshTasks();" >Inclure archives</mat-checkbox>
+            </div>
+          </div>
+
           <mat-tab-group>
             <mat-tab label="Demandes en cours">
               <div *ngFor="let tache of tachesOuvertes" (click)="ouvrirTache(tache);" class="myBox text-left" style="cursor:pointer;">
@@ -36,7 +42,8 @@
               <div *ngFor="let tache of tachesTraitees" (click)="ouvrirTache(tache);" class="myBox text-left" style="cursor:pointer;">
                 <div class="myBoxTitle">
                   <i class="fa fa-tasks"></i>&nbsp;<strong>{{getTypeTache(tache)}}</strong> : <span class="text-uppercase">{{tache.membre.nom}}</span>&nbsp;{{tache.membre.prenom}}
-                  <span *ngIf="tache.markAsRead" style="float:right;"><a><i class="fa fa-envelope-open"></i></a></span>
+                  <span *ngIf="tache.archived" style="float:right;"><a><i class="fa fa-archive"></i>&nbsp;</a></span>
+                  <span *ngIf="tache.markAsRead" style="float:right;"><a><i class="fa fa-envelope-open"></i>&nbsp;</a></span>
                 </div>
                 <div class="myBoxContent">
                   <div>Demande introduite par {{tache.demandeur.prenom}} {{tache.demandeur.nom}} le {{tache.dateDemande | date:'dd/MM/yyyy'}} à {{tache.dateDemande | date:'HH:mm'}}</div>
