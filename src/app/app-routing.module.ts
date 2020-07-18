@@ -16,7 +16,6 @@ import { TerrainsComponent } from './terrains/terrains.component';
 import { SupervisionComponent } from './supervision/supervision.component';
 import {ChampionnatsComponent} from './championnats/championnats.component';
 import {TaskBoardComponent} from './task-board/task-board.component';
-import {DemandesComponent} from './demandes/demandes.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ReleaseNotesComponent} from './release-notes/release-notes.component';
 import {DocumentsComponent} from './documents/documents.component';
@@ -36,7 +35,6 @@ const routes: Routes = [
   { path: 'utilisateurs', component: UtilisateursComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'taskboard', component: TaskBoardComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
-  { path: 'demandes', component: DemandesComponent, canActivate: [IsSecureGuardService,AuthGuardService] },
   { path: 'releaseNotes', component: ReleaseNotesComponent, canActivate: [IsSecureGuardService] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];

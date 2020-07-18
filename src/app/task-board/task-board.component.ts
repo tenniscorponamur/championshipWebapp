@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TacheService} from '../tache.service';
 import {Tache, getTypeTacheAsString} from '../tache';
 import {compare} from '../utility';
+import {AuthenticationService} from '../authentication.service';
 
 @Component({
   selector: 'app-task-board',
@@ -19,14 +20,19 @@ export class TaskBoardComponent implements OnInit {
   selectedTask:Tache;
 
   constructor(
+    private authenticationService: AuthenticationService,
     private tacheService:TacheService
   ) { }
 
   ngOnInit() {
-    this.tacheService.getAllTaches().subscribe(taches => {
+    this.tacheService.getTaches().subscribe(taches => {
       this.taches = taches;
       this.filtre();
     });
+  }
+
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
   }
 
   get tachesOuvertes(){

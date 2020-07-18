@@ -5,6 +5,7 @@ import { Genre, GENRE_HOMME, GENRE_FEMME, GENRES} from '../genre';
 import {TacheService} from '../tache.service';
 import {MembreService} from '../membre.service';
 import {ClassementMembreService} from '../classement-membre.service';
+import {AuthenticationService} from '../authentication.service';
 
 @Component({
   selector: 'app-tache-detail',
@@ -34,11 +35,17 @@ export class TacheDetailComponent implements OnInit {
   }
 
   constructor(
+        private tacheService:TacheService,
+        private authenticationService: AuthenticationService,
         public dialog: MatDialog
     ) {
   }
 
   ngOnInit() {
+  }
+
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
   }
 
   getTypeTache(){
@@ -61,6 +68,16 @@ export class TacheDetailComponent implements OnInit {
       let refusDialogRef = this.dialog.open(RefusDialog, {
           data: { tache:this.tache }, panelClass: "refusDialog", disableClose:true
       });
+  }
+
+  archive(){
+    if (this.tache.markAsRead){
+      this.tacheService.archive(this.tache).subscribe(result => {
+        if (result){
+          this.tache.archived=true;
+        }
+      });
+    }
   }
 
 

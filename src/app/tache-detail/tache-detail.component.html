@@ -165,11 +165,23 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="!tache.validationTraitement && !tache.refusTraitement">
+    <div class="row" *ngIf="isAdminConnected() && !tache.validationTraitement && !tache.refusTraitement">
       <div class="col-12 text-center">
         <button class="btn btn-danger" (click)="refuserDemande();">Refuser la demande</button>
         &nbsp;
         <button class="btn btn-success" (click)="validerDemande();">Valider la demande</button>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isAdminConnected() && tache.markAsRead && !tache.archived">
+      <div class="col-12 text-center">
+        <button class="btn btn-warning" (click)="archive();"><i class="fa fa-archive"></i>&nbsp;Archiver</button>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="tache.archived">
+      <div class="col-12 text-center">
+        <span style="color:red;"><em>Demande archivée</em></span>
       </div>
     </div>
 

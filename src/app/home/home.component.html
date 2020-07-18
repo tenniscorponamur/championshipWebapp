@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="false && isResponsableClubConnected()">
+<div class="row" *ngIf="isResponsableClubConnected()">
   <div class="tennisCorpoBox col-xl-6 col-lg-6 col-md-12 col-sm-12">
     <div class="card text-center">
       <h4 class="card-header">
@@ -29,20 +29,20 @@
       </h4>
       <div class="card-body">
         <div>
-          <div *ngFor="let tache of taches" class="myBox myBoxEditable text-left" >
+          <div *ngFor="let tache of taches" class="myBox text-left" >
             <div class="myBoxTitle">
               <i class="fa fa-tasks"></i>&nbsp;<strong>{{getTypeTache(tache)}}</strong> : <span class="text-uppercase">{{tache.membre.nom}}</span>&nbsp;{{tache.membre.prenom}}
-              <span class="readLink" style="float:right;"><a><i class="fa fa-envelope-open-o fa-2"></i></a></span>
             </div>
             <div class="myBoxContent">
               <div>Demande introduite par {{tache.demandeur.prenom}} {{tache.demandeur.nom}} le {{tache.dateDemande | date:'dd/MM/yyyy'}} à {{tache.dateDemande | date:'HH:mm'}}</div>
               <div><span *ngIf="tache.validationTraitement" style="color:green;">Demande traitée par {{tache.agentTraitant}} le {{tache.dateTraitement | date:'dd/MM/yyyy'}} à {{tache.dateTraitement | date:'HH:mm'}}</span></div>
               <div><span *ngIf="tache.refusTraitement" style="color:red;">Demande refusée par {{tache.agentTraitant}} le {{tache.dateTraitement | date:'dd/MM/yyyy'}} à {{tache.dateTraitement | date:'HH:mm'}}</span></div>
               <div><span *ngIf="tache.refusTraitement && tache.commentairesRefus" style="color:red;"><small><em>{{tache.commentairesRefus}}</em></small></span></div>
+              <div class="text-right" *ngIf="tache.validationTraitement || tache.refusTraitement" ><button class="btn btn-link btn-sm" (click)="markAsRead(tache);" >Marquer comme lu</button></div>
             </div>
           </div>
         </div>
-        <a href="#" class="btn btn-link" routerLink="/demandes" >Voir toutes mes demandes</a>
+        <a href="#" class="btn btn-link" routerLink="/taskboard" >Voir toutes mes demandes</a>
       </div>
     </div>
   </div>

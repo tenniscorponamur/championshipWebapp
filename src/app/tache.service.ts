@@ -22,12 +22,16 @@ export class TacheService {
     return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches", this.authenticationService.getPrivateApiHttpOptions());
   }
 
-  getAllTaches(): Observable<Tache[]> {
-    return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches/all", this.authenticationService.getPrivateApiHttpOptions());
-  }
-
   traitementTache(tache:Tache, numeroAft:string, pointsCorpo:number, validation:boolean, commentairesRefus:string): Observable<Tache> {
       return this.http.put<Tache>(this.environmentService.getPrivateApiUrl() + "/tache/" + tache.id + "?validation=" + validation + (numeroAft!=null?("&numeroAft="+numeroAft):"") + (pointsCorpo!=null?("&pointsCorpo="+pointsCorpo):"") + (commentairesRefus!=null?("&commentairesRefus="+commentairesRefus):""), null, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  markAsRead(tache:Tache) {
+      return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/" + tache.id + "/markAsRead", null, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  archive(tache:Tache) {
+      return this.http.put<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/" + tache.id + "/archive", null, this.authenticationService.getPrivateApiHttpOptions());
   }
 
 }

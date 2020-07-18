@@ -5,9 +5,10 @@ import {Rencontre} from '../rencontre';
 import {Tache, getTypeTacheAsString} from '../tache';
 import {AlertesService} from '../alertes.service';
 import {RencontreService} from '../rencontre.service';
+import {TacheService} from '../tache.service';
 import {AuthenticationService} from '../authentication.service';
 import {getCategorieChampionnatCode, CATEGORIE_CHAMPIONNAT_MESSIEURS, CATEGORIE_CHAMPIONNAT_DAMES, CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
-import {addLeadingZero} from '../utility';
+import {compare,addLeadingZero} from '../utility';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private alertesService:AlertesService,
     private rencontreService:RencontreService,
+    private tacheService:TacheService,
     private membreService: MembreService) { }
   
     ngOnInit(): void {
@@ -56,7 +58,25 @@ export class HomeComponent implements OnInit {
     }
 
     get taches(){
-      return this.alertesService.getTaches();
+
+      // Trier les demandes en commençant par les demandes traitees et par date decroissante
+      // Retirer les taches traitees marquees comme lues
+
+      return this.alertesService.getTaches().filter(tache => !tache.markAsRead).sort((a,b) => {
+        if (a.validationTraitement || a.refusTraitement){
+          if (b.validationTraitement || b.refusTraitement){
+            return compare(new Date(a.dateTraitement), new Date(b.dateTraitement), false);
+          }else{
+            return -1;
+          }
+        }else{
+          if (b.validationTraitement || b.refusTraitement){
+            return 1;
+          }else{
+            return compare(new Date(a.dateDemande), new Date(b.dateDemande), false);
+          }
+        }
+      });
     }
 
   getTypeTache(tache:Tache){
@@ -108,7 +128,14 @@ export class HomeComponent implements OnInit {
     },error => {console.log(error);});
   }
 
-  //TODO : marquer comme lu uniquement accessible si demande traitee
-  //TODO : trier les demandes en commençant par les demandes traitees et par date decroissante
+  markAsRead(tache:Tache){
+    if (tache.validationTraitement || tache.refusTraitement){
+      this.tacheService.markAsRead(tache).subscribe(result => {
+        if (result){
+          tache.markAsRead=true;
+        }
+      });
+    }
+  }
 
 }

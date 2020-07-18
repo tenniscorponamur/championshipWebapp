@@ -91,7 +91,6 @@ import { CompositionEquipeDialogComponent } from './composition-equipe-dialog/co
 import { SelectTerrainDialogComponent } from './select-terrain-dialog/select-terrain-dialog.component';
 import { AvertissementComponent } from './avertissement/avertissement.component';
 import { TaskBoardComponent } from './task-board/task-board.component';
-import { DemandesComponent } from './demandes/demandes.component';
 import { TacheDetailComponent,ValidationNouveauMembreDialog,RefusDialog } from './tache-detail/tache-detail.component';
 
 // the second parameter 'fr' is optional
@@ -174,7 +173,6 @@ registerLocaleData(localeFr, 'fr');
     AvertissementComponent,
     SelectDivisionDialogComponent,
     TaskBoardComponent,
-    DemandesComponent,
     DemandeDialog,
     NouveauMembreDialog,
     TacheDetailComponent,
