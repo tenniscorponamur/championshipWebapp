@@ -26,9 +26,9 @@ export class MembreService {
   }
 
   getTemplateImportMembres(){
-    let options = this.authenticationService.getPrivateApiHttpOptions();
+    let options = this.authenticationService.getPublicApiHttpOptions();
     options["responseType"] = "blob";
-    return this.http.get(this.environmentService.getPrivateApiUrl() + "/membres/import/template",options);
+    return this.http.get(this.environmentService.getPublicApiUrl() + "/membres/import/template",options);
   }
 
   getListeForce(){
