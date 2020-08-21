@@ -10,6 +10,7 @@ import {Division} from '../division';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Observable} from 'rxjs/Observable';
 import {Terrain} from '../terrain';
+import {Championnat,getCategorieChampionnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES,CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_HIVER, TYPE_CHAMPIONNAT_ETE, TYPE_CHAMPIONNAT_CRITERIUM, TYPE_CHAMPIONNAT_COUPE_HIVER} from '../championnat';
 import {Membre} from '../membre';
 
 @Component({
@@ -71,6 +72,30 @@ export class CompositionEquipeDialogComponent {
         }
       });
       return points;
+    }
+
+    getPointsEquipeLimitedToFour(ordreCroissant:boolean):number{
+      // Dans le cadre des championnats et coupe d'hiver, on va regarder les 4 moins bien classes
+      let points:number = 0;
+      let cpt=0;
+      this.membresEquipe.sort((a, b) => {
+          let pointsA = (a.classementCorpoActuel!=null)?a.classementCorpoActuel.points:null;
+          let pointsB = (b.classementCorpoActuel!=null)?b.classementCorpoActuel.points:null;
+          return compare(pointsA, pointsB, ordreCroissant);
+        })
+        .forEach(membre => {
+        if (membre.classementCorpoActuel){
+          if (cpt < 4){
+            points=points+membre.classementCorpoActuel.points;
+          }
+          cpt++;
+        }
+      });
+      return points;
+    }
+
+    isCriterium(){
+      return this.equipeExtended.equipe.division.championnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code;
     }
 
     fermerSelection() {

@@ -8,7 +8,9 @@
     &nbsp;<span *ngIf="membre.classementCorpoActuel">({{membre.classementCorpoActuel.points}} points)&nbsp;</span>
     <button style="float:right;" class="btn btn-sm btn-danger" (click)="retirerMembre(membre);" >Retirer de l'équipe</button>
   </div>
-  <div><strong>Points de l'équipe : {{getPointsEquipe()}} points</strong></div>
+  <div *ngIf="isCriterium();" ><strong>Points de l'équipe : {{getPointsEquipe()}} points</strong></div>
+  <div *ngIf="!isCriterium();" ><strong>Points minimum de l'équipe : {{getPointsEquipeLimitedToFour(true)}} points</strong></div>
+  <div *ngIf="!isCriterium();" ><strong>Points maximum de l'équipe : {{getPointsEquipeLimitedToFour(false)}} points</strong></div>
   <div align="center" style="margin-top:5px;">
     <button class="btn btn-success" (click)="fermerSelection();">Fermer</button>
   </div>
