@@ -74,7 +74,7 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
   ngOnInit() {
 
       this.clubService.getClubs().subscribe(clubs => {
-        this.clubs = clubs;
+        this.clubs = clubs.sort((a, b) => compare(a.nom, b.nom,true));
         if (this.isAdminConnected()){
             let clubInLocalStorage = this.localStorageService.getClubKey();
             if (clubInLocalStorage) {
