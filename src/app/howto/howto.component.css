@@ -1,0 +1,5 @@
+a.documentLink, a.documentLink:hover{
+    text-decoration: underline;
+    color:blue;
+    cursor:pointer;
+}
