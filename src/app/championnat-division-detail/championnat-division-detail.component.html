@@ -29,6 +29,7 @@
                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 {{getTypeChampionnat(championnat).libelle}}
                                 {{championnat.annee}}
+                                {{getCategorieChampionnat(championnat).libelle}}
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center" *ngIf="cloturable" >
                               <button class="btn btn-sm btn-warning" (click)="cloturerChampionnat();" ><i class="fa fa-check"></i>&nbsp;Clôturer</button>
