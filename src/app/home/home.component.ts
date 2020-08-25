@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import {MembreService} from '../membre.service';
 import { saveAs } from 'file-saver';
 import {Rencontre} from '../rencontre';
-import {Tache, getTypeTacheAsString} from '../tache';
+import {Tache, getTypeTacheAsString, TYPE_TACHE_NOUVEAU_MEMBRE, TYPE_TACHE_DESACTIVATION_MEMBRE, TYPE_TACHE_REACTIVATION_MEMBRE, TYPE_TACHE_CHANGEMENT_POINTS} from '../tache';
 import {AlertesService} from '../alertes.service';
 import {RencontreService} from '../rencontre.service';
 import {TacheService} from '../tache.service';
@@ -81,6 +81,32 @@ export class HomeComponent implements OnInit {
 
   getTypeTache(tache:Tache){
     return getTypeTacheAsString(tache);
+  }
+
+  showMembreLink(tache:Tache){
+    if (tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE){
+      if (tache.validationTraitement==true){
+        return true;
+      }
+    }
+    if (tache.typeTache==TYPE_TACHE_DESACTIVATION_MEMBRE){
+      if (!tache.validationTraitement){
+        return true;
+      }
+    }
+    if (tache.typeTache==TYPE_TACHE_REACTIVATION_MEMBRE){
+      if (tache.validationTraitement){
+        return true;
+      }
+    }
+    if (tache.typeTache==TYPE_TACHE_CHANGEMENT_POINTS){
+        return true;
+    }
+    return false;
+  }
+
+  ouvrirFicheMembre(tache:Tache){
+    window.open("./#/membres?memberId=" +tache.membre.id);
   }
 
   getCategorieCode(rencontre:Rencontre):string{

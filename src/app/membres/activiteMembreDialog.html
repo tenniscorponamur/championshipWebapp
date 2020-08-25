@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>{{typeDemande}} un membre de {{_club.nom}}<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content style="min-width:300px;max-width:500px;">
+
+  <button class="btn btn-secondary">Sélectionner le membre à {{typeDemande|lowercase}}</button>
+  Selection d'un membre (actif ou inactif selon demande)
+  Revoir potentiellement le classement corpo en meme temps que la reactivation
+
+  Membre :
+  lien vers la fiche de ce membre
+
+  Une fois réactivé, vous pouvez mettre à jour les informations de ce membre
+
+  <div align="center">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    &nbsp;
+    <button class="btn btn-success" (click)="save();">{{typeDemande}}</button>
+  </div>
+
+</div>

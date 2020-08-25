@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TacheService} from '../tache.service';
-import {Tache, getTypeTacheAsString} from '../tache';
+import {Tache, getTypeTacheAsString, TYPE_TACHE_NOUVEAU_MEMBRE, TYPE_TACHE_DESACTIVATION_MEMBRE, TYPE_TACHE_REACTIVATION_MEMBRE, TYPE_TACHE_CHANGEMENT_POINTS} from '../tache';
 import {compare} from '../utility';
 import {AuthenticationService} from '../authentication.service';
 
@@ -51,6 +51,33 @@ export class TaskBoardComponent implements OnInit {
   getTypeTache(tache:Tache){
     return getTypeTacheAsString(tache);
   }
+
+  showMembreLink(tache:Tache){
+    if (tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE){
+      if (tache.validationTraitement==true){
+        return true;
+      }
+    }
+    if (tache.typeTache==TYPE_TACHE_DESACTIVATION_MEMBRE){
+      if (!tache.validationTraitement){
+        return true;
+      }
+    }
+    if (tache.typeTache==TYPE_TACHE_REACTIVATION_MEMBRE){
+      if (tache.validationTraitement){
+        return true;
+      }
+    }
+    if (tache.typeTache==TYPE_TACHE_CHANGEMENT_POINTS){
+        return true;
+    }
+    return false;
+  }
+
+  ouvrirFicheMembre(tache:Tache){
+    window.open("./#/membres?memberId=" +tache.membre.id);
+  }
+
 
   filtre(): void {
 

@@ -361,6 +361,20 @@ export class DemandeDialog {
     });
   }
 
+  desactiverMembre(){
+    this.dialogRef.close();
+    this.dialog.open(ActiviteMembreDialog, {
+        data: { activite:true }, panelClass: "activiteMembreDialog", disableClose:true
+    });
+  }
+
+  reactiverMembre(){
+    this.dialogRef.close();
+    this.dialog.open(ActiviteMembreDialog, {
+        data: { activite:false }, panelClass: "activiteMembreDialog", disableClose:true
+    });
+  }
+
 
   cancel(): void {
     this.dialogRef.close();
@@ -622,12 +636,65 @@ export class NouveauMembreDialog implements OnInit {
             }
           });
 
-          //TODO : tester l'existence du numero AFT dans la DB afin d'indiquer si le membre est connu
-          //TODO : faire le test en live pour eviter d'aller plus loin dans le process ?? -- plus tard si demande insistante
-
-
       }
 
+  }
+
+}
+
+
+@Component({
+  selector: 'activite-membre-dialog',
+  templateUrl: './activiteMembreDialog.html'
+})
+export class ActiviteMembreDialog implements OnInit {
+
+   typeDemande:string;
+   _membre:Membre;
+   _club:Club;
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private membreService: MembreService,
+    private tacheService:TacheService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<ActiviteMembreDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+
+    //TODO : activite represente l'etat des membres pouvant etre selectionnes
+    // (actifs ou pas selon le type de demande associee) --> va influence le type de tache
+
+    if (data.activite){
+      this.typeDemande = "Désactiver";
+    }else{
+      this.typeDemande = "Réactiver";
+    }
+
+    let user = this.authenticationService.getConnectedUser();
+    if (this.isResponsableClubConnected()){
+      if (user.membre.club!=null){
+         this._club = user.membre.club;
+      }
+    }
+  }
+
+  ngOnInit() {
+  }
+
+  isResponsableClubConnected(){
+    let user = this.authenticationService.getConnectedUser();
+    if (user!=null){
+      if (user.membre!=null){
+        if (user.membre.responsableClub==true){
+            return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  cancel(): void {
+    this.dialogRef.close();
   }
 
 }

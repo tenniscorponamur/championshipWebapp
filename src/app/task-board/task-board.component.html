@@ -35,6 +35,7 @@
                 </div>
                 <div class="myBoxContent">
                   <div>Demande introduite par {{tache.demandeur.prenom}} {{tache.demandeur.nom}} le {{tache.dateDemande | date:'dd/MM/yyyy'}} à {{tache.dateDemande | date:'HH:mm'}}</div>
+                  <div *ngIf="showMembreLink(tache)"><button class="btn btn-sm btn-link" style="cursor:pointer" (click)="ouvrirFicheMembre(tache);">Lien vers la fiche du membre</button></div>
                 </div>
               </div>
             </mat-tab>
@@ -50,6 +51,7 @@
                   <div><span *ngIf="tache.validationTraitement" style="color:green;">Demande traitée par {{tache.agentTraitant}} le {{tache.dateTraitement | date:'dd/MM/yyyy'}} à {{tache.dateTraitement | date:'HH:mm'}}</span></div>
                   <div><span *ngIf="tache.refusTraitement" style="color:red;">Demande refusée par {{tache.agentTraitant}} le {{tache.dateTraitement | date:'dd/MM/yyyy'}} à {{tache.dateTraitement | date:'HH:mm'}}</span></div>
                   <div><span *ngIf="tache.refusTraitement && tache.commentairesRefus" style="color:red;"><small><em>{{tache.commentairesRefus}}</em></small></span></div>
+                  <div *ngIf="showMembreLink(tache)"><button class="btn btn-sm btn-link" style="cursor:pointer" (click)="ouvrirFicheMembre(tache);">Lien vers la fiche du membre</button></div>
                 </div>
               </div>
             </mat-tab>
