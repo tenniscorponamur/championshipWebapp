@@ -650,7 +650,8 @@ export class NouveauMembreDialog implements OnInit {
 export class ActiviteMembreDialog implements OnInit {
 
    typeDemande:string;
-   _membre:Membre;
+   activationMembre:boolean=false;
+   membre:Membre;
    _club:Club;
 
   constructor(
@@ -666,8 +667,10 @@ export class ActiviteMembreDialog implements OnInit {
 
     if (data.activite){
       this.typeDemande = "Désactiver";
+      this.activationMembre=false;
     }else{
       this.typeDemande = "Réactiver";
+      this.activationMembre=true;
     }
 
     let user = this.authenticationService.getConnectedUser();
@@ -691,6 +694,12 @@ export class ActiviteMembreDialog implements OnInit {
       }
     }
     return false;
+  }
+
+  ouvrirFicheMembre(){
+    if (this.membre){
+      window.open("./#/membres?memberId=" + this.membre.id);
+    }
   }
 
   cancel(): void {

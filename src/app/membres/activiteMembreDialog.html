@@ -3,12 +3,20 @@
 
   <button class="btn btn-secondary">Sélectionner le membre à {{typeDemande|lowercase}}</button>
   Selection d'un membre (actif ou inactif selon demande)
-  Revoir potentiellement le classement corpo en meme temps que la reactivation
 
-  Membre :
-  lien vers la fiche de ce membre
+  <div *ngIf="membre">
+    Membre : infos minimum
+  </div>
 
-  Une fois réactivé, vous pouvez mettre à jour les informations de ce membre
+  <div *ngIf="activationMembre && membre">
+    Classement corpo pouvant être revu
+  </div>
+
+  <div *ngIf="!activationMembre && membre"><button class="btn btn-sm btn-link" style="cursor:pointer" (click)="ouvrirFicheMembre();">Lien vers la fiche du membre</button></div>
+
+  <div *ngIf="activationMembre && membre" class="alert alert-info" role="alert">
+    Une fois réactivé, vous pourrez mettre à jour les autres informations de ce membre
+  </div>
 
   <div align="center">
     <button class="btn btn-danger" (click)="cancel();">Annuler</button>
