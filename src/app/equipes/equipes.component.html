@@ -63,6 +63,12 @@
     </div>
   </div>
 
+  <div class="row" style="margin-top:10px;">
+    <div class="col-12">
+      <em>Nombre total d'équipes inscrites pour cette compétition : {{equipes.length}}</em>
+    </div>
+  </div>
+
   <div class="row">
     <div *ngFor="let division of divisions" class="col-sm-12 col-md-6 col-lg-4 col-xl-3" class="pieChartBox">
       <canvas *ngIf="showGraph[division.id]"
