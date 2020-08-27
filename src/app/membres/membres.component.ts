@@ -706,6 +706,10 @@ export class ActiviteMembreDialog implements OnInit {
     this.dialogRef.close();
   }
 
+  save(): void {
+
+  }
+
 }
 
 
