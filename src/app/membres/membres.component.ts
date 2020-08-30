@@ -172,7 +172,8 @@ export class MembresComponent implements OnInit, AfterViewInit {
 
             this.filteredMembers = this.filteredMembers.filter(membre =>
                 membre.nom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
-             || membre.prenom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase()));
+             || membre.prenom.toLowerCase().includes(this.filtreNomPrenom.toLowerCase())
+             || (membre.numeroAft!=null && membre.numeroAft==this.filtreNomPrenom.toLowerCase()) );
 
         }
         if (this.filtreSelectedClubs && this.filtreSelectedClubs.length > 0){
