@@ -1,11 +1,13 @@
 <h1 mat-dialog-title>{{typeDemande}} un membre de {{_club.nom}}<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content style="min-width:300px;max-width:500px;">
 
-  <button class="btn btn-secondary">Sélectionner le membre à {{typeDemande|lowercase}}</button>
-  Selection d'un membre (actif ou inactif selon demande)
+  <div class="text-center" style="margin-bottom:10px;">
+    <button *ngIf="!membre" class="btn btn-secondary" (click)="selectionMembre();">Sélectionner le membre à {{typeDemande|lowercase}}</button>
+  </div>
 
-  <div *ngIf="membre">
-    Membre : infos minimum
+  <div *ngIf="membre" class="membreDiv">
+    <span style="float:right"><a style="cursor:pointer;" (click)="clearMembre();"><i class="fa fa-ban"></i></a></span>
+    {{membre.nom}} {{membre.prenom}}
   </div>
 
   <div *ngIf="activationMembre && membre">

@@ -114,15 +114,15 @@
                 </div>
                 <div *ngIf="isAdminConnected()" class="row" style="margin-top:10px;">
                     <div class="col-6 text-left">
-                        <button class="btn btn-info" (click)="importer();" >Importer</button>
+                        <button class="btn btn-sm btn-info" (click)="importer();" >Importer</button>
                     </div>
                     <div class="col-6 text-right">
-                      <button class="btn btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
+                      <button class="btn btn-sm btn-secondary" (click)="nouveauMembre();" ><i class="fa fa-plus-circle"></i>&nbsp;Nouveau membre</button>
                     </div>
                 </div>
                 <div *ngIf="isResponsableClubConnected()" class="row" style="margin-top:10px;">
                   <div class="col-6 text-left">
-                    <button class="btn btn-info btn-sm" (click)="exportMembresByResponsableClub();" >Exporter les membres de ma corporation</button>
+                    <button class="btn btn-info btn-sm" (click)="exportMembresByResponsableClub();" >Exporter ma corporation</button>
                     &nbsp;
                     <div *ngIf="preparationExportMembres">
                       <small>Préparation du fichier en cours...</small>

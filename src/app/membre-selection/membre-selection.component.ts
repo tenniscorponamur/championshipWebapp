@@ -31,6 +31,7 @@ export class MembreSelectionComponent implements OnInit {
     onlyTeam:boolean=false;
     triAlpha:boolean=true;
     triNumeric:boolean=false;
+    actif:boolean=true;
     anyMemberPossible:boolean=false;
     chargementMembres:boolean=true;
     membresSelectionnables:Membre[]=[];
@@ -55,6 +56,11 @@ export class MembreSelectionComponent implements OnInit {
         this.dateRencontre = data.dateRencontre;
         this.championnatHomme = data.championnatHomme;
         this.deselectionPossible = data.deselectionPossible;
+
+        // Par defaut, on prend les membres actifs
+        if (data.inactif){
+          this.actif=false;
+        }
 
         if (data.triParPoints){
           this.triNumeric=true;
@@ -125,9 +131,7 @@ export class MembreSelectionComponent implements OnInit {
 
       this.filteredMembres = this.membres;
 
-      // On ne va consirer que les membres actifs
-
-      this.filteredMembres = this.filteredMembres.filter(membre => membre.actif);
+      this.filteredMembres = this.filteredMembres.filter(membre =>  membre.actif == this.actif);
 
       // Utilisation du parametre onlyTeam s'il est exploite
       if (this.onlyTeam){

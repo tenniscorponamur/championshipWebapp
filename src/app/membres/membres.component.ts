@@ -7,6 +7,7 @@ import { MembreService } from '../membre.service';
 import {AuthenticationService} from '../authentication.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, Sort} from '@angular/material';
 import {InfosGeneralesMembreDialog} from '../membre-detail/membre-detail.component';
+import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {of} from 'rxjs/observable/of';
@@ -646,7 +647,8 @@ export class NouveauMembreDialog implements OnInit {
 
 @Component({
   selector: 'activite-membre-dialog',
-  templateUrl: './activiteMembreDialog.html'
+  templateUrl: './activiteMembreDialog.html',
+  styleUrls: ['./activiteMembreDialog.css']
 })
 export class ActiviteMembreDialog implements OnInit {
 
@@ -683,6 +685,26 @@ export class ActiviteMembreDialog implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  selectionMembre(){
+      let showMembresInactifs:boolean=false;
+      if (this.activationMembre){
+        showMembresInactifs = true;
+      }
+
+      let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+          data: { club : this._club, inactif:showMembresInactifs }, panelClass: "membreSelectionDialog", disableClose: false
+      });
+     membreSelectionRef.afterClosed().subscribe(membre => {
+      if (membre!==undefined) {
+        this.membre = membre;
+      }
+    });
+  }
+
+  clearMembre(){
+    this.membre=null;
   }
 
   isResponsableClubConnected(){
