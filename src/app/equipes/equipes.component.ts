@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
-import {Championnat} from '../championnat';
+import {Championnat, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {Division} from '../division';
 import {Club} from '../club';
 import {Equipe} from '../equipe';
@@ -113,6 +113,13 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
           this.loadTeams(null);
       }
   }
+
+    isCriterium(){
+      if (this.selectedChampionnat) {
+        return this.selectedChampionnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code;
+      }
+      return false;
+    }
 
   refreshAddable(){
     this.addable = this.selectedChampionnat.autoriserResponsables && !this.selectedChampionnat.calendrierValide;

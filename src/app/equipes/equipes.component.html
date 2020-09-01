@@ -54,10 +54,16 @@
       <div *ngIf="preparationListe"><span><small>Préparation du fichier en cours...</small></span></div>
     </div>
     <div  *ngIf="selectedChampionnat" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
-      <small>
+      <small *ngIf="!isCriterium();">
         <em>
           Si plus de 7 équipes inscrites dans une division <i class="fa fa-arrow-right"></i> 2 poules et interséries simples<br />
           Moins de 4 équipes <i class="fa fa-arrow-right"></i> Analyse avec les capitaines et possibilité d'aller-retour
+        </em>
+      </small>
+      <small *ngIf="isCriterium();">
+        <em>
+          Si 3 équipes dans une division <i class="fa fa-arrow-right"></i> Matchs aller-retour<br />
+          Si plus de 5 équipes dans une division <i class="fa fa-arrow-right"></i> Maximum de 4 rencontres planifiées
         </em>
       </small>
     </div>
