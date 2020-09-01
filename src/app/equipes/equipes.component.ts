@@ -309,6 +309,18 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
     }
   }
 
+  getListeEquipesAvecCompo(){
+   if (this.isAdminConnected()){
+      if (this.selectedChampionnat){
+        this.preparationListe=true;
+        this.championnatService.getListeEquipesAvecCompo(this.selectedChampionnat).subscribe(result => {
+            this.preparationListe = false;
+            saveAs(result, "equipes.pdf");
+        },error => {console.log(error);});
+      }
+    }
+  }
+
   public chartClicked(e:any):void {
     //console.log(e);
   }

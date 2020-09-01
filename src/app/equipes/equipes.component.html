@@ -49,7 +49,8 @@
     <div *ngIf="selectedChampionnat" class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
       <div>
         <button style="margin:5px" class="btn btn-info btn-sm" (click)="getListeCapitaines();">Liste des capitaines</button>
-        <button *ngIf="isAdminConnected();"  style="margin:5px" (click)="getListeEquipes();" class="btn btn-sm btn-info">Liste des équipes</button>
+        <button *ngIf="isAdminConnected();"  style="margin:5px" (click)="getListeEquipes();" class="btn btn-sm btn-info">Equipes</button>
+        <button *ngIf="isAdminConnected();"  style="margin:5px" (click)="getListeEquipesAvecCompo();" class="btn btn-sm btn-info">Equipes avec compositions</button>
       </div>
       <div *ngIf="preparationListe"><span><small>Préparation du fichier en cours...</small></span></div>
     </div>
