@@ -377,6 +377,13 @@ export class DemandeDialog {
     });
   }
 
+  changementPointsMembre(){
+    this.dialogRef.close();
+    this.dialog.open(ChangementPointsMembreDialog, {
+        data: { }, panelClass: "changementPointsMembreDialog", disableClose:true
+    });
+  }
+
 
   cancel(): void {
     this.dialogRef.close();
@@ -652,20 +659,25 @@ export class NouveauMembreDialog implements OnInit {
 })
 export class ActiviteMembreDialog implements OnInit {
 
+   echellesCorpo:any[]=[];
+
    typeDemande:string;
    activationMembre:boolean=false;
    membre:Membre;
    _club:Club;
+  _points:number;
+   _comments:string;
 
   constructor(
     private authenticationService: AuthenticationService,
     private membreService: MembreService,
+    private classementMembreService: ClassementMembreService,
     private tacheService:TacheService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<ActiviteMembreDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-    //TODO : activite represente l'etat des membres pouvant etre selectionnes
+    // Activite represente l'etat des membres pouvant etre selectionnes
     // (actifs ou pas selon le type de demande associee) --> va influence le type de tache
 
     if (data.activite){
@@ -685,6 +697,9 @@ export class ActiviteMembreDialog implements OnInit {
   }
 
   ngOnInit() {
+    this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
+        this.echellesCorpo = echelles;
+    });
   }
 
   selectionMembre(){
@@ -699,12 +714,104 @@ export class ActiviteMembreDialog implements OnInit {
      membreSelectionRef.afterClosed().subscribe(membre => {
       if (membre!==undefined) {
         this.membre = membre;
+        if (membre!=null && membre.classementCorpoActuel!=null){
+          this._points = membre.classementCorpoActuel.points;
+        }else{
+          this._points = null;
+        }
       }
     });
   }
 
   clearMembre(){
     this.membre=null;
+    this._points = null;
+  }
+
+  isResponsableClubConnected(){
+    let user = this.authenticationService.getConnectedUser();
+    if (user!=null){
+      if (user.membre!=null){
+        if (user.membre.responsableClub==true){
+            return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  ouvrirFicheMembre(){
+    if (this.membre){
+      window.open("./#/membres?memberId=" + this.membre.id);
+    }
+  }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+
+  }
+
+}
+
+@Component({
+  selector: 'changement-points-membre-dialog',
+  templateUrl: './changementPointsMembreDialog.html',
+  styleUrls: ['./changementPointsMembreDialog.css']
+})
+export class ChangementPointsMembreDialog implements OnInit {
+
+   echellesCorpo:any[]=[];
+
+   membre:Membre;
+   _club:Club;
+   _points:number;
+   _comments:string;
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private membreService: MembreService,
+    private classementMembreService: ClassementMembreService,
+    private tacheService:TacheService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<ChangementPointsMembreDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+
+    let user = this.authenticationService.getConnectedUser();
+    if (this.isResponsableClubConnected()){
+      if (user.membre.club!=null){
+         this._club = user.membre.club;
+      }
+    }
+  }
+
+  ngOnInit() {
+    this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
+        this.echellesCorpo = echelles;
+    });
+  }
+
+  selectionMembre(){
+      let membreSelectionRef = this.dialog.open(MembreSelectionComponent, {
+          data: { club : this._club }, panelClass: "membreSelectionDialog", disableClose: false
+      });
+     membreSelectionRef.afterClosed().subscribe(membre => {
+      if (membre!==undefined) {
+        this.membre = membre;
+        if (membre!=null && membre.classementCorpoActuel!=null){
+          this._points = membre.classementCorpoActuel.points;
+        }else{
+          this._points = null;
+        }
+      }
+    });
+  }
+
+  clearMembre(){
+    this.membre=null;
+    this._points = null;
   }
 
   isResponsableClubConnected(){

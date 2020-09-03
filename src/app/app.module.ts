@@ -30,7 +30,7 @@ import { ResponsiveModule } from 'ngx-responsive';
 
 import { AppComponent, LoginFormDialog, AskPasswordDialog, CompteUtilisateurDialog, CookieDialog, ChangePasswordDialog } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
-import { MembresComponent, ImportMembresDialog, DemandeDialog, NouveauMembreDialog, ActiviteMembreDialog } from './membres/membres.component';
+import { MembresComponent, ImportMembresDialog, DemandeDialog, NouveauMembreDialog, ActiviteMembreDialog, ChangementPointsMembreDialog } from './membres/membres.component';
 import { RencontresComponent, InterserieDialog } from './rencontres/rencontres.component';
 import { HomeComponent } from './home/home.component';
 import { MembreDetailComponent, InfosAftDialog, InfosLimiteesAftDialog, InfosGeneralesMembreDialog, ClubInfosDialog, ClassementDialog, CoordonneesDialog, ContactsDialog, SimulationClassementDialog, MatchsDialog, AnonymisationDialog } from './membre-detail/membre-detail.component';
@@ -176,6 +176,7 @@ registerLocaleData(localeFr, 'fr');
     DemandeDialog,
     NouveauMembreDialog,
     ActiviteMembreDialog,
+    ChangementPointsMembreDialog,
     TacheDetailComponent,
     ValidationNouveauMembreDialog,
     RefusDialog
@@ -257,6 +258,7 @@ registerLocaleData(localeFr, 'fr');
       DemandeDialog,
       NouveauMembreDialog,
       ActiviteMembreDialog,
+      ChangementPointsMembreDialog,
       ValidationNouveauMembreDialog,
       RefusDialog
   ],

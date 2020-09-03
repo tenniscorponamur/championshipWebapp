@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>{{typeDemande}} un membre de {{_club.nom}}<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<h1 mat-dialog-title>Adaptations de points<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
 <div mat-dialog-content style="min-width:300px;max-width:500px;">
 
   <div class="text-center" style="margin-bottom:10px;">
-    <button *ngIf="!membre" class="btn btn-secondary" (click)="selectionMembre();">Sélectionner le membre à {{typeDemande|lowercase}}</button>
+    <button *ngIf="!membre" class="btn btn-secondary" (click)="selectionMembre();">Sélectionner le membre</button>
   </div>
 
   <div *ngIf="membre" class="membreDiv">
@@ -10,7 +10,7 @@
     {{membre.nom}} {{membre.prenom}}
   </div>
 
-  <div *ngIf="activationMembre && membre" class="text-center">
+  <div *ngIf="membre" class="text-center">
     <mat-form-field>
       <mat-select placeholder="Points Corpo" [(ngModel)]="_points" >
         <mat-option *ngFor="let echelleCorpo of echellesCorpo" [value]="echelleCorpo.points">
@@ -20,11 +20,7 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="!activationMembre && membre"><button class="btn btn-sm btn-link" style="cursor:pointer" (click)="ouvrirFicheMembre();">Lien vers la fiche du membre</button></div>
-
-  <div *ngIf="activationMembre && membre" class="alert alert-info" role="alert">
-    Une fois réactivé, vous pourrez mettre à jour les autres informations de ce membre
-  </div>
+  <div *ngIf="membre"><button class="btn btn-sm btn-link" style="cursor:pointer" (click)="ouvrirFicheMembre();">Lien vers la fiche du membre</button></div>
 
   <div class="row" *ngIf="membre">
     <div class="col-12">
@@ -37,7 +33,7 @@
   <div align="center">
     <button class="btn btn-danger" (click)="cancel();">Annuler</button>
     &nbsp;
-    <button class="btn btn-success" (click)="save();">{{typeDemande}}</button>
+    <button class="btn btn-success" (click)="save();">Sauver</button>
   </div>
 
 </div>
