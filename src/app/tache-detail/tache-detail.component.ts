@@ -60,7 +60,7 @@ export class TacheDetailComponent implements OnInit {
     return this.tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE || this.tache.typeTache==TYPE_TACHE_REACTIVATION_MEMBRE || this.tache.typeTache==TYPE_TACHE_CHANGEMENT_POINTS;
   }
 
-  showMembreLink(tache:Tache){
+  showMembreLink(){
     if (this.tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE){
       if (this.tache.validationTraitement==true){
         return true;
