@@ -132,6 +132,7 @@
               Classement AFT : <span *ngIf="tache.codeClassementAft">{{tache.codeClassementAft}}</span>
             </div>
             <div class="col-12" *ngIf="showPointsCorpo()" >
+              <div *ngIf="tache.membre.classementCorpoActuel">Points Corpo actuels : {{tache.membre.classementCorpoActuel.points}} points</div>
               Points Corpo proposés : <span *ngIf="tache.pointsCorpo">{{tache.pointsCorpo}} points</span>
             </div>
 
