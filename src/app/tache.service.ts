@@ -18,6 +18,14 @@ export class TacheService {
     return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/nouveauMembre?commentairesDemande="+commentairesDemande + (numeroAft!=null?("&numeroAft="+numeroAft):"") + (codeClassementAft!=null?("&codeClassementAft="+codeClassementAft):"") + (pointsCorpo!=null?("&pointsCorpo="+pointsCorpo):""),membre, this.authenticationService.getPrivateApiHttpOptions());
   }
 
+  tacheActiviteMembre(membreId:number, activite:boolean, pointsCorpo:number, commentairesDemande:string){
+    return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/activiteMembre?membreId=" + membreId + "&activite="+ activite + (pointsCorpo!=null?("&pointsCorpo="+pointsCorpo):"") + "&commentairesDemande="+commentairesDemande , null, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
+  tachePointsMembre(membreId:number, pointsCorpo:number, commentairesDemande:string){
+    return this.http.post<boolean>(this.environmentService.getPrivateApiUrl() + "/tache/pointsMembre?membreId=" + membreId + "&pointsCorpo="+pointsCorpo + "&commentairesDemande="+commentairesDemande , null, this.authenticationService.getPrivateApiHttpOptions());
+  }
+
   getTaches(withArchives:boolean): Observable<Tache[]> {
     return this.http.get<Tache[]>(this.environmentService.getPrivateApiUrl() + "/taches" + (withArchives?"?withArchives=true":""), this.authenticationService.getPrivateApiHttpOptions());
   }

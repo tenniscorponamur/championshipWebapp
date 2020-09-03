@@ -56,11 +56,62 @@ export class TacheDetailComponent implements OnInit {
     return this.tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE;
   }
 
+  showPointsCorpo() {
+    return this.tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE || this.tache.typeTache==TYPE_TACHE_REACTIVATION_MEMBRE || this.tache.typeTache==TYPE_TACHE_CHANGEMENT_POINTS;
+  }
+
+  showMembreLink(tache:Tache){
+    if (this.tache.typeTache==TYPE_TACHE_NOUVEAU_MEMBRE){
+      if (this.tache.validationTraitement==true){
+        return true;
+      }
+    }
+    if (this.tache.typeTache==TYPE_TACHE_DESACTIVATION_MEMBRE){
+      if (!this.tache.validationTraitement){
+        return true;
+      }
+    }
+    if (this.tache.typeTache==TYPE_TACHE_REACTIVATION_MEMBRE){
+      if (this.tache.validationTraitement){
+        return true;
+      }
+    }
+    if (this.tache.typeTache==TYPE_TACHE_CHANGEMENT_POINTS){
+        return true;
+    }
+    return false;
+  }
+
+  ouvrirFicheMembre(){
+    window.open("./#/membres?memberId=" +this.tache.membre.id);
+  }
+
   validerDemande(){
      if (this.isNouveauMembre()){
       let validationNouveauMembreDialogRef = this.dialog.open(ValidationNouveauMembreDialog, {
           data: { tache:this.tache }, panelClass: "validationNouveauMembreDialog", disableClose:true
       });
+     }else if (this.tache.typeTache==TYPE_TACHE_DESACTIVATION_MEMBRE){
+
+          this.tacheService.traitementTache(this.tache, null, null, true, null).subscribe(tacheSaved => {
+              if (tacheSaved){
+                this.tache.dateTraitement = tacheSaved.dateTraitement;
+                this.tache.agentTraitant = tacheSaved.agentTraitant;
+                this.tache.validationTraitement = tacheSaved.validationTraitement;
+                this.tache.refusTraitement = tacheSaved.refusTraitement;
+                this.tache.commentairesRefus = tacheSaved.commentairesRefus;
+              }
+            });
+
+     }else if (this.tache.typeTache==TYPE_TACHE_REACTIVATION_MEMBRE){
+        // Pouvoir preciser points corpo
+      let validationPointsMembreDialogRef = this.dialog.open(ValidationPointsCorpoMembreDialog, {
+          data: { tache:this.tache }, panelClass: "validationPointsMembreDialog", disableClose:true
+      });
+     }else if (this.tache.typeTache==TYPE_TACHE_CHANGEMENT_POINTS){
+        let validationPointsMembreDialogRef = this.dialog.open(ValidationPointsCorpoMembreDialog, {
+            data: { tache:this.tache }, panelClass: "validationPointsMembreDialog", disableClose:true
+        });
      }
   }
 
@@ -148,6 +199,57 @@ export class ValidationNouveauMembreDialog implements OnInit {
     }else{
       this.alerte = "Veuillez préciser un numéro AFT et un classement Corpo";
     }
+
+  }
+
+}
+
+@Component({
+    selector: 'validation-points-membre-dialog',
+    templateUrl: './validationPointsMembre.html'
+})
+export class ValidationPointsCorpoMembreDialog implements OnInit {
+
+    private tache:Tache;
+
+    echellesCorpo:any[]=[];
+
+    pointsCorpo:number;
+
+    constructor(
+        private tacheService:TacheService,
+        private membreService:MembreService,
+        private classementMembreService: ClassementMembreService,
+        public dialogRef: MatDialogRef<ValidationNouveauMembreDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+          this.tache = data.tache;
+          this.pointsCorpo = this.tache.pointsCorpo;
+        }
+
+    ngOnInit() {
+      this.classementMembreService.getEchellesCorpo().subscribe(echelles => {
+          this.echellesCorpo = echelles;
+      });
+    }
+
+  cancel(){
+    this.dialogRef.close();
+  }
+
+  save(){
+    if (this.pointsCorpo!=null){
+
+          this.tacheService.traitementTache(this.tache, null, this.pointsCorpo, true, null).subscribe(tacheSaved => {
+              if (tacheSaved){
+                this.tache.dateTraitement = tacheSaved.dateTraitement;
+                this.tache.agentTraitant = tacheSaved.agentTraitant;
+                this.tache.validationTraitement = tacheSaved.validationTraitement;
+                this.tache.refusTraitement = tacheSaved.refusTraitement;
+                this.tache.commentairesRefus = tacheSaved.commentairesRefus;
+                this.dialogRef.close();
+              }
+            });
+      }
 
   }
 

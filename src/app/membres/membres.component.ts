@@ -666,7 +666,7 @@ export class ActiviteMembreDialog implements OnInit {
    membre:Membre;
    _club:Club;
   _points:number;
-   _comments:string;
+   _comments:string="";
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -751,7 +751,16 @@ export class ActiviteMembreDialog implements OnInit {
   }
 
   save(): void {
-
+    if (this.membre){
+          this.tacheService.tacheActiviteMembre(this.membre.id, this.activationMembre, this._points, this._comments).subscribe(result => {
+            if (result){
+              this.dialogRef.close();
+              this.dialog.open(AvertissementComponent, {
+                  data: {title: "Information", message:"Demande introduite auprès du Comité. Vous pouvez suivre l'évolution de votre demande sur la page d'accueil"}, panelClass: "avertissementDialog", disableClose: false
+              });
+            }
+          });
+    }
   }
 
 }
@@ -768,7 +777,7 @@ export class ChangementPointsMembreDialog implements OnInit {
    membre:Membre;
    _club:Club;
    _points:number;
-   _comments:string;
+   _comments:string="";
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -838,6 +847,16 @@ export class ChangementPointsMembreDialog implements OnInit {
 
   save(): void {
 
+    if (this.membre && this._points!=null){
+          this.tacheService.tachePointsMembre(this.membre.id, this._points, this._comments).subscribe(result => {
+            if (result){
+              this.dialogRef.close();
+              this.dialog.open(AvertissementComponent, {
+                  data: {title: "Information", message:"Demande introduite auprès du Comité. Vous pouvez suivre l'évolution de votre demande sur la page d'accueil"}, panelClass: "avertissementDialog", disableClose: false
+              });
+            }
+          });
+    }
   }
 
 }

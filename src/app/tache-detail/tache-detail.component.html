@@ -33,6 +33,7 @@
             <i class="{{userImage}}"></i>&nbsp;
             <span><strong>{{tache.membre.nom|uppercase}}</strong>&nbsp;</span><span>{{tache.membre.prenom}}</span>&nbsp;
             <span>{{tache.membre.dateNaissance| date:'dd/MM/yyyy'}}</span>
+            <div *ngIf="showMembreLink()"><button class="btn btn-sm btn-link" style="cursor:pointer" (click)="ouvrirFicheMembre();">Lien vers la fiche du membre</button></div>
           </div>
         </div>
       </div>
@@ -104,34 +105,34 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="isNouveauMembre() || showPointsCorpo()">
       <div class="col-12">
         <div  class="myBox">
           <div class="myBoxTitle" >
             Informations tennistiques
           </div>
           <div class="myBoxContent">
-            <div class="col-12">
+            <div class="col-12" *ngIf="isNouveauMembre()">
               <span *ngIf="tache.numeroAft">Numéro AFT : {{tache.numeroAft}}</span>
               <span *ngIf="!tache.numeroAft" style="color:red;"><em>Pas de numéro AFT précisé</em></span>
             </div>
             <div>
             </div>
 
-            <div *ngIf="tache.membre.onlyCorpo" class="col-12">
+            <div *ngIf="isNouveauMembre() && tache.membre.onlyCorpo" class="col-12">
               <div class="alert alert-danger" role="alert">
                 Doit être affilié au Corpo
               </div>
             </div>
-            <div *ngIf="!tache.membre.onlyCorpo" class="col-12">
+            <div *ngIf="isNouveauMembre() && !tache.membre.onlyCorpo" class="col-12">
               <span>Numéro Club AFT : {{tache.membre.numeroClubAft}}</span>
             </div>
 
-            <div class="col-12">
+            <div *ngIf="isNouveauMembre()" class="col-12">
               Classement AFT : <span *ngIf="tache.codeClassementAft">{{tache.codeClassementAft}}</span>
             </div>
-            <div class="col-12">
-              Points Corpo proposé : <span *ngIf="tache.pointsCorpo">{{tache.pointsCorpo}} points</span>
+            <div class="col-12" *ngIf="showPointsCorpo()" >
+              Points Corpo proposés : <span *ngIf="tache.pointsCorpo">{{tache.pointsCorpo}} points</span>
             </div>
 
           </div>

@@ -91,7 +91,7 @@ import { CompositionEquipeDialogComponent } from './composition-equipe-dialog/co
 import { SelectTerrainDialogComponent } from './select-terrain-dialog/select-terrain-dialog.component';
 import { AvertissementComponent } from './avertissement/avertissement.component';
 import { TaskBoardComponent } from './task-board/task-board.component';
-import { TacheDetailComponent,ValidationNouveauMembreDialog,RefusDialog } from './tache-detail/tache-detail.component';
+import { TacheDetailComponent,ValidationNouveauMembreDialog, ValidationPointsCorpoMembreDialog, RefusDialog } from './tache-detail/tache-detail.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -179,6 +179,7 @@ registerLocaleData(localeFr, 'fr');
     ChangementPointsMembreDialog,
     TacheDetailComponent,
     ValidationNouveauMembreDialog,
+    ValidationPointsCorpoMembreDialog,
     RefusDialog
   ],
   imports: [
@@ -260,6 +261,7 @@ registerLocaleData(localeFr, 'fr');
       ActiviteMembreDialog,
       ChangementPointsMembreDialog,
       ValidationNouveauMembreDialog,
+      ValidationPointsCorpoMembreDialog,
       RefusDialog
   ],
   providers: [
