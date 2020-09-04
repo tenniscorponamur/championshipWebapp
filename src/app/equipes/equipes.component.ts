@@ -81,15 +81,16 @@ export class EquipesComponent extends ChampionnatDetailComponent implements OnIn
               this.selectedClub = this.clubs.find(club => club.id == JSON.parse(clubInLocalStorage).id);
           }
         }
-      });
 
-      this.championnatService.getChampionnats().subscribe(championnats => {
-          this.championnats = championnats.sort((a, b) => compare(a.ordre, b.ordre, false));
-          let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
-          if (championnatInLocalStorage) {
-            this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
-              this.loadChampionship();
-          }
+        this.championnatService.getChampionnats().subscribe(championnats => {
+            this.championnats = championnats.sort((a, b) => compare(a.ordre, b.ordre, false));
+            let championnatInLocalStorage = this.localStorageService.getChampionshipKey();
+            if (championnatInLocalStorage) {
+              this.selectedChampionnat = this.championnats.find(championnat => championnat.id == JSON.parse(championnatInLocalStorage).id);
+                this.loadChampionship();
+            }
+        });
+
       });
 
   }

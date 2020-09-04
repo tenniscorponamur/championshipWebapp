@@ -76,8 +76,8 @@
                                     </div>
                                     <div class="teamBoxEditable" (click)="ouvrirCompositionEquipe(equipeExtended);">
                                       <small>
-                                        <div>Composition : &nbsp;&nbsp;<i class="fa fa-pencil"></i></div>
-                                        <div *ngFor="let membre of equipeExtended.membresEquipe">
+                                        <div>Composition <span *ngIf="getExtendedCompoMark(equipeExtended);"><i class="fa fa-exclamation-triangle"></i></span> : &nbsp;&nbsp;<i class="fa fa-pencil"></i></div>
+                                        <div *ngFor="let membre of getLimitedCompo(equipeExtended)">
                                           {{membre.nom}} {{membre.prenom.substring(0,1)}}.
                                         </div>
                                       </small>

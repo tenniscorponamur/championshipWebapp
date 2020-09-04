@@ -218,13 +218,32 @@ export class PlanificationCriteriumComponent implements OnInit {
     let equipeExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == equipe.id);
     if (equipeExtended!=null){
       let compoEquipe = "";
-        equipeExtended.membresEquipe.forEach(membre =>{
-          compoEquipe += membre.nom + " " + membre.prenom.substring(0,1) + ". / ";
-        });
-        if (compoEquipe.length>0){
-          compoEquipe=compoEquipe.substring(0,compoEquipe.length-2);
+      // Limiter l'affichage de la compo aux 2 premiers joueurs selon type de rencontre (simple/double)
+      let maxIndex = 2;
+      if (equipe.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+      || equipe.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code){
+          maxIndex = 1;
+      }
+      equipeExtended.membresEquipe.slice(0,maxIndex).forEach(membre =>{
+        compoEquipe += membre.nom + " " + membre.prenom.substring(0,1) + ". / ";
+      });
+      if (compoEquipe.length>0){
+        compoEquipe=compoEquipe.substring(0,compoEquipe.length-2);
+      }
+      if (equipe.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+      || equipe.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code){
+        if (equipeExtended.membresEquipe.length>1){
+          compoEquipe += "*";
         }
-        return compoEquipe;
+      }
+      if (equipe.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code
+      || equipe.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code
+      || equipe.division.championnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code){
+        if (equipeExtended.membresEquipe.length>2){
+          compoEquipe += "*";
+        }
+      }
+      return compoEquipe;
     }
     return "";
   }

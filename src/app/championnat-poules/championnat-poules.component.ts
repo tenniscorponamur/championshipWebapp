@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
+import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {compare} from '../utility';
 import {ChampionnatService} from '../championnat.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -161,6 +161,50 @@ export class ChampionnatPoulesComponent extends ChampionnatDetailComponent imple
             data: {equipe: equipe, poulesPossibles: this.getPoulesByDivision(equipe.division)}, panelClass: "changePouleDialog", disableClose:true
         });
       }
+    }
+
+    getLimitedCompo(equipeExtended:EquipeExtended){
+      if (this.selectedChampionnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code){
+        if (this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+        || this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code){
+          if (equipeExtended.membresEquipe.length>0){
+            return equipeExtended.membresEquipe.slice(0,1);
+          }else{
+            return [];
+          }
+        }
+        if (this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code
+        || this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code
+        || this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code){
+          if (equipeExtended.membresEquipe.length>1){
+            return equipeExtended.membresEquipe.slice(0,2);
+          }else if (equipeExtended.membresEquipe.length>0){
+            return equipeExtended.membresEquipe.slice(0,1);
+          }else{
+            return [];
+          }
+        }
+      }
+      return equipeExtended.membresEquipe;
+    }
+
+    getExtendedCompoMark(equipeExtended:EquipeExtended){
+      if (this.selectedChampionnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code){
+        if (this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS.code
+        || this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES.code){
+          if (equipeExtended.membresEquipe.length>1){
+            return true;
+          }
+        }
+        if (this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS.code
+        || this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES.code
+        || this.selectedChampionnat.categorie == CATEGORIE_CHAMPIONNAT_MIXTES.code){
+          if (equipeExtended.membresEquipe.length>2){
+            return true;
+          }
+        }
+      }
+      return false;
     }
 
     ouvrirCompositionEquipe(equipeExtended:EquipeExtended){
