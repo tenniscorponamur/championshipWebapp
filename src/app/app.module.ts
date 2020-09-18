@@ -50,7 +50,7 @@ import { TraceService } from './trace.service';
 import { AuthGuardService } from './auth-guard.service';
 import { IsSecureGuardService } from './is-secure-guard.service';
 import { RequestInterceptorService } from './request-interceptor.service';
-import { RencontreDetailComponent, AskPasswordToValidateDialog, CapitaineDetailDialog, InfoDialog, AllOrOnlyOneDialog, ResultatsDialog, DateTerrainDialog, CommentairesEncodeurDialog, MessagePoursuiteDialog, TracesRencontreDialog} from './rencontre-detail/rencontre-detail.component';
+import { RencontreDetailComponent, AskPasswordToValidateDialog, TerrainDetailDialog, CapitaineDetailDialog, InfoDialog, AllOrOnlyOneDialog, ResultatsDialog, DateTerrainDialog, CommentairesEncodeurDialog, MessagePoursuiteDialog, TracesRencontreDialog} from './rencontre-detail/rencontre-detail.component';
 import { ClassementDetailComponent, RencontresDialog } from './classement-detail/classement-detail.component';
 import { ClassementsComponent } from './classements/classements.component';
 import { ClubsComponent } from './clubs/clubs.component';
@@ -124,6 +124,7 @@ registerLocaleData(localeFr, 'fr');
     ChangePouleDialog,
     RencontreDetailComponent,
     AskPasswordToValidateDialog,
+    TerrainDetailDialog,
     CapitaineDetailDialog,
     AllOrOnlyOneDialog,
     InfoDialog,
@@ -243,6 +244,7 @@ registerLocaleData(localeFr, 'fr');
       MessagePoursuiteDialog,
       TracesRencontreDialog,
       AskPasswordToValidateDialog,
+      TerrainDetailDialog,
       CapitaineDetailDialog,
       AllOrOnlyOneDialog,
       InfoDialog,

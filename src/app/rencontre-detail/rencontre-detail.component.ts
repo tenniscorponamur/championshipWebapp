@@ -1071,6 +1071,12 @@ export class RencontreDetailComponent extends ChampionnatDetailComponent impleme
         });
     }
 
+    ouvrirInfosTerrain(terrain:Terrain){
+      let terrainDetailRef = this.dialog.open(TerrainDetailDialog, {
+          data: {terrain: terrain}, panelClass: "terrainDetailDialog", disableClose:false
+      });
+    }
+
     ouvrirInfosCapitaine(capitaine:Membre){
       if (this.isUserConnected()){
         let capitaineDetailRef = this.dialog.open(CapitaineDetailDialog, {
@@ -1096,6 +1102,29 @@ class MatchExtended {
     pointsJoueurVisiteurs1:number;
     pointsJoueurVisiteurs2:number;
     sets: Set[] = [];
+
+}
+
+@Component({
+    selector: 'terrain-detail-dialog',
+    templateUrl: './terrainDetailDialog.html'
+})
+export class TerrainDetailDialog implements OnInit {
+
+  terrain:Terrain;
+
+  constructor(
+      public dialogRef: MatDialogRef<TerrainDetailDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.terrain=data.terrain;
+      }
+
+  ngOnInit() {
+  }
+
+  cancel(){
+    this.dialogRef.close();
+  }
 
 }
 

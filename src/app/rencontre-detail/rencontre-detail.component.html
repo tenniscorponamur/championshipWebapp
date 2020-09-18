@@ -123,24 +123,30 @@
                 <div class="col-6">
                     Terrain : <span *ngIf="rencontre.terrain">
                       <a href="https://maps.google.com/?q={{rencontre.terrain.adresse}}" target="_blank">{{rencontre.terrain.nom}}</a>
-                      <span *ngIf="rencontre.terrain.showDrinkDetails">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-beer fa-stack-1x text-warning"></i>
-                          <i *ngIf="!rencontre.terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>
-                        </span>
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-credit-card fa-stack-1x text-info"></i>
-                          <i *ngIf="!rencontre.terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>
-                        </span>
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-qrcode fa-lg fa-stack-1x text-primary"></i>
-                          <i *ngIf="!rencontre.terrain.presencePayconiq" class="fa fa-ban fa-stack-2x text-secondary" ></i>
-                        </span>
-                      </span>
+                        <small>
+                          <span *ngIf="rencontre.terrain.showDrinkDetails">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-beer fa-stack-1x text-warning"></i>
+                                <i *ngIf="!rencontre.terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+                              </span>
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-credit-card fa-stack-1x text-info"></i>
+                                <i *ngIf="!rencontre.terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+                              </span>
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-qrcode fa-lg fa-stack-1x text-primary"></i>
+                                <i *ngIf="!rencontre.terrain.presencePayconiq" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+                              </span>
+                          </span>
+                          <span *ngIf="rencontre.terrain.infosRestauration">&nbsp;<i class="fa fa-cutlery" ></i></span>
+                        </small>
                     </span>
                 </div>
                 <div class="col-6" *ngIf="rencontre.court">
                     Court : {{rencontre.court.code}}
+                </div>
+                <div class="col-12" *ngIf="rencontre.terrain">
+                  <button class="btn btn-link btn-sm" (click)="ouvrirInfosTerrain(rencontre.terrain);">Détails sur ce lieu</button>
                 </div>
             </div>
         </div>

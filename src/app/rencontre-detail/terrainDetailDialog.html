@@ -1,0 +1,65 @@
+<h1 mat-dialog-title>Terrain {{terrain.nom}}&nbsp;<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+  <div class="row" *ngIf="terrain.description">
+    <div class="col-12">
+      {{terrain.description}}
+    </div>
+  </div>
+  <div class="row" *ngIf="terrain.adresse">
+    <div class="col-12">
+      <small>
+        Adresse : <a href="https://maps.google.com/?q={{terrain.adresse}}" target="_blank">{{terrain.adresse}}</a>
+      </small>
+    </div>
+  </div>
+  <div class="row" >
+    <small>
+      <div class="col-12" *ngIf="terrain.nomContact">
+          Personne de contact : {{terrain.nomContact}}
+      </div>
+      <div class="col-12" *ngIf="terrain.mail">
+        <i class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{terrain.mail}}">{{terrain.mail}}</a>
+      </div>
+      <div class="col-12" *ngIf="terrain.telephone">
+        <i class="fa fa-phone"></i>&nbsp;<a href="mailto:{{terrain.telephone}}">{{terrain.telephone}}</a>
+      </div>
+    </small>
+  </div>
+  <div class="row" *ngIf="terrain.showDrinkDetails">
+    <small>
+      <div class="col-12">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-beer fa-stack-1x text-warning"></i>
+          <i *ngIf="!terrain.presenceBuvette" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+        </span>
+        <span *ngIf="terrain.presenceBuvette">Présence d'une buvette</span>
+        <span *ngIf="!terrain.presenceBuvette">Pas de buvette</span>
+      </div>
+      <div class="col-12">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-credit-card fa-stack-1x text-info"></i>
+          <i *ngIf="!terrain.presenceBancontact" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+        </span>
+        <span *ngIf="terrain.presenceBancontact">Paiement par bancontact possible</span>
+        <span *ngIf="!terrain.presenceBancontact">Pas de bancontact</span>
+      </div>
+      <div class="col-12">
+        <span class="fa-stack fa-lg">
+          <i class="fa fa-qrcode fa-lg fa-stack-1x text-primary"></i>
+          <i *ngIf="!terrain.presencePayconiq" class="fa fa-ban fa-stack-2x text-secondary" ></i>
+        </span>
+        <span *ngIf="terrain.presencePayconiq">Paiement par smartphone possible</span>
+        <span *ngIf="!terrain.presencePayconiq">Pas de paiement par smartphone</span>
+      </div>
+    </small>
+  </div>
+
+    <div class="row" *ngIf="terrain.infosRestauration">
+      <div class="col-12">
+        <small>
+          <i class="fa fa-cutlery" ></i>&nbsp;{{terrain.infosRestauration}}
+        </small>
+      </div>
+    </div>
+
+</div>
