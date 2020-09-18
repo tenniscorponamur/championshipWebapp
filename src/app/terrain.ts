@@ -5,11 +5,15 @@ export class Terrain {
   nom:string;
   description: string;
   adresse:string;
-  terrainCriteriumParDefaut:boolean=false;
+  nomContact:string;
+  mail:string;
+  telephone:string;
+  infosRestauration:string;
   showDrinkDetails:boolean=false;
   presenceBuvette:boolean=false;
   presenceBancontact:boolean=false;
   presencePayconiq:boolean=false;
+  terrainCriteriumParDefaut:boolean=false;
   actif: boolean=true;
 }
 

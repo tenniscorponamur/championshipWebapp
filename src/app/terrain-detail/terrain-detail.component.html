@@ -45,6 +45,24 @@
             {{terrain.description}}
             <br/>
             <a href="https://maps.google.com/?q={{terrain.adresse}}" target="_blank">{{terrain.adresse}}</a>
+            <small>
+              <span *ngIf="terrain.nomContact">
+                <br />
+                Personne de contact : {{terrain.nomContact}}
+              </span>
+              <span *ngIf="terrain.mail">
+                <br />
+                <i class="fa fa-envelope-o"></i>&nbsp;<a href="mailto:{{terrain.mail}}">{{terrain.mail}}</a>
+              </span>
+              <span *ngIf="terrain.telephone">
+                <br />
+                <i class="fa fa-phone"></i>&nbsp;<a href="mailto:{{terrain.telephone}}">{{terrain.telephone}}</a>
+              </span>
+              <span *ngIf="terrain.infosRestauration">
+                <br />
+                <i class="fa fa-cutlery" ></i>&nbsp;{{terrain.infosRestauration}}
+              </span>
+            </small>
           </div>
         </div>
       </div>
