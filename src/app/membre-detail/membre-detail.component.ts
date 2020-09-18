@@ -101,6 +101,7 @@ export class MembreDetailComponent implements OnInit {
   set membre(membre: Membre) {
     this._membre = membre;
     this.resetPasswordOk=false;
+    this.newPassword=null;
     this.refreshUserImage();
     this.refreshDeletable();
     this.refreshClassement();
