@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Terrain {{terrain.nom}}&nbsp;<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
-<div mat-dialog-content >
+<div mat-dialog-content style="min-width:300px;max-width:500px;">
   <div class="row" *ngIf="terrain.description">
     <div class="col-12">
       {{terrain.description}}
