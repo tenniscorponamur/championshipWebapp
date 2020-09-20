@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Nouvelle rencontre<span style="float:right;margin-left:20px;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+  <div>
+    {{getTypeChampionnat(championnat).libelle}}
+    {{championnat.annee}}
+    {{getCategorieChampionnat(championnat).libelle}}
+  </div>
+  <div>
+    Division {{division.numero}} - Points max : {{division.pointsMaximum}}
+  </div>
+  <div>
+  Poule {{poule.numero}}
+  </div>
+
+  <div class="row">
+    <div class="col-12" style="margin:10px;">
+      <mat-form-field>
+        <input matInput type="number" placeholder="Journée" [(ngModel)]="numeroJournee" >
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" style="margin:10px;">
+      <mat-select placeholder="Equipe visités" [(ngModel)]="equipeVisites" style="width:100%">
+        <mat-option>-</mat-option>
+        <mat-option *ngFor="let equipe of equipes" [value]="equipe">
+          <small>
+            {{equipe.codeAlphabetique}}
+          </small>
+        </mat-option>
+      </mat-select>
+    </div>
+    <div class="col-12" style="margin:10px;">
+      <mat-select placeholder="Equipe visiteurs" [(ngModel)]="equipeVisiteurs" style="width:100%">
+        <mat-option>-</mat-option>
+        <mat-option *ngFor="let equipe of equipes" [value]="equipe">
+          <small>
+            {{equipe.codeAlphabetique}}
+          </small>
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+
+  <div align="center" style="margin-top:5px;">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    &nbsp;
+    <button class="btn btn-success" (click)="creerRencontre();">Ajouter</button>
+  </div>
+</div>

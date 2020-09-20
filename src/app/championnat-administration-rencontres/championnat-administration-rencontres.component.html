@@ -1,0 +1,68 @@
+
+<div style="margin-top:10px;margin-bottom:10px;">
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-danger" role="alert">
+        N'utilisez ces fonctionnalités qu'en connaissance de cause
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div style="margin:10px;">
+        <mat-select placeholder="Championnat" [(ngModel)]="selectedChampionnat" (selectionChange)="loadDivisions();" style="width:100%">
+          <mat-option *ngFor="let championnat of championnats" [value]="championnat">
+              <span>
+                  <i class="{{getTrophyClass(championnat)}}"></i>
+                  <i class="{{getTypeClass(championnat)}}" ></i>
+              </span>
+            <small>
+              {{getTypeChampionnat(championnat).libelle}}
+              {{championnat.annee}}
+              {{getCategorieChampionnat(championnat).libelle}}
+            </small>
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div style="margin:10px;">
+        <mat-select placeholder="Division" [(ngModel)]="selectedDivision" (selectionChange)="loadPoules();" style="width:100%">
+          <mat-option *ngFor="let division of divisions" [value]="division">
+            <small>
+              Division {{division.numero}} - Points max : {{division.pointsMaximum}}
+            </small>
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div style="margin:10px;">
+        <mat-select placeholder="Poule" [(ngModel)]="selectedPoule" (selectionChange)="loadRencontres();" style="width:100%">
+          <mat-option *ngFor="let poule of poules" [value]="poule">
+            <small>
+              Poule {{poule.numero}}
+            </small>
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="rencontres.length>0">
+    <strong>Rencontres non-planifiées : </strong>
+    <div *ngFor="let rencontre of rencontres" class="rencontreDiv">
+      <button class="btn btn-danger btn-sm" (click)="supprimerRencontre(rencontre);">Supprimer cette rencontre</button>
+      {{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}}
+      <em>(Journée {{rencontre.numeroJournee}})</em>
+    </div>
+  </div>
+  <div class="row" *ngIf="selectedPoule">
+    <div class="col-12">
+      <button class="btn btn-info" (click)="ajouterRencontre();">Ajouter rencontre</button>
+    </div>
+  </div>
+</div>

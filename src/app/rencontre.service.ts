@@ -83,6 +83,10 @@ export class RencontreService {
         return this.http.put<Rencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }
 
+    deleteRencontre(rencontre:Rencontre){
+        return this.http.delete<boolean>(this.environmentService.getPrivateApiUrl() + "/rencontre/" + rencontre.id, this.authenticationService.getPrivateApiHttpOptions());
+    }
+
     updateRencontrePoints(rencontre: Rencontre) {
         return this.http.put<Rencontre>(this.environmentService.getPrivateApiUrl() + "/rencontre/points", rencontre, this.authenticationService.getPrivateApiHttpOptions());
     }

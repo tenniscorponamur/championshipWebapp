@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Confirmation<span style="float:right;margin-left:20px;"><button class="close" (click)="cancel();">&times;</button></span></h1>
+<div mat-dialog-content >
+  Confirmez-vous la suppression de la rencontre {{rencontre.equipeVisites.codeAlphabetique}} - {{rencontre.equipeVisiteurs.codeAlphabetique}} ?
+  <div align="center" style="margin-top:5px;">
+    <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    &nbsp;
+    <button class="btn btn-success" (click)="confirmerSuppression();">Confirmer</button>
+  </div>
+</div>

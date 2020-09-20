@@ -92,6 +92,7 @@ import { SelectTerrainDialogComponent } from './select-terrain-dialog/select-ter
 import { AvertissementComponent } from './avertissement/avertissement.component';
 import { TaskBoardComponent } from './task-board/task-board.component';
 import { TacheDetailComponent,ValidationNouveauMembreDialog, ValidationPointsCorpoMembreDialog, RefusDialog } from './tache-detail/tache-detail.component';
+import { ChampionnatAdministrationRencontresComponent, ConfirmationSuppressionDialog, AjoutRencontreDialog} from './championnat-administration-rencontres/championnat-administration-rencontres.component';
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -181,7 +182,10 @@ registerLocaleData(localeFr, 'fr');
     TacheDetailComponent,
     ValidationNouveauMembreDialog,
     ValidationPointsCorpoMembreDialog,
-    RefusDialog
+    RefusDialog,
+    ChampionnatAdministrationRencontresComponent,
+    ConfirmationSuppressionDialog,
+    AjoutRencontreDialog
   ],
   imports: [
     BrowserModule,
@@ -264,7 +268,9 @@ registerLocaleData(localeFr, 'fr');
       ChangementPointsMembreDialog,
       ValidationNouveauMembreDialog,
       ValidationPointsCorpoMembreDialog,
-      RefusDialog
+      RefusDialog,
+      ConfirmationSuppressionDialog,
+      AjoutRencontreDialog
   ],
   providers: [
     AuthenticationService,
