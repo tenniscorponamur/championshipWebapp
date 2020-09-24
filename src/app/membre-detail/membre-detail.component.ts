@@ -870,6 +870,8 @@ export class InfosLimiteesAftDialog implements OnInit {
 
 
    private _membre:Membre;
+   showAlert:boolean=false;
+   updateClubDisabled:boolean=false;
    _numeroAft: string;
    _numeroClubAft: string;
    _onlyCorpo: boolean;
@@ -887,6 +889,9 @@ export class InfosLimiteesAftDialog implements OnInit {
         this._numeroAft = this._membre.numeroAft;
         this._numeroClubAft = this._membre.numeroClubAft;
         this._onlyCorpo = this._membre.onlyCorpo;
+        if (this._onlyCorpo){
+          this.updateClubDisabled=true;
+        }
         if (this._membre.classementAFTActuel!=null){
             this._codeClassement = this._membre.classementAFTActuel.codeClassement;
         }
@@ -899,11 +904,38 @@ export class InfosLimiteesAftDialog implements OnInit {
 
   }
 
+  changeClubAft(){
+      /*
+      // Desactivation de ce systeme si on ne passe pas par la pour mettre a jour l'affiliation aft
+      if (this._numeroClubAft == "6045"){
+        this._onlyCorpo = true;
+      }else{
+        this._onlyCorpo = false;
+      }
+
+      */
+
+      this.checkAffiliationViaCorpo();
+  }
+
     changeOnlyCorpo(){
       if (this._onlyCorpo){
         this._numeroClubAft = "6045";
       }else{
         this._numeroClubAft = "";
+      }
+
+      this.checkAffiliationViaCorpo();
+
+    }
+
+    checkAffiliationViaCorpo(){
+      // N'autoriser le 6045 qu'a la condition que ce soit le club actuel
+      // Si changement vers 6045 indique -> alerte, afficher un message indiquant qu'il faut passer par le comite (adresse mail)
+      if (this._membre.numeroClubAft != "6045" && this._numeroClubAft == "6045"){
+        this.showAlert=true;
+      }else{
+        this.showAlert=false;
       }
     }
 
@@ -931,16 +963,18 @@ export class InfosLimiteesAftDialog implements OnInit {
 
   save(): void {
 
-      //Mise a jour des infos AFT du membre
-      this.membreService.updateInfosLimiteesAft(this._membre.id, this._numeroClubAft,this._onlyCorpo, this._codeClassement).subscribe(
-          result => {
+      if (!this.showAlert){
+        //Mise a jour des infos AFT du membre
+        this.membreService.updateInfosLimiteesAft(this._membre.id, this._numeroClubAft,this._onlyCorpo, this._codeClassement).subscribe(
+            result => {
 
-              this._membre.numeroClubAft=this._numeroClubAft;
-              this._membre.onlyCorpo=this._onlyCorpo;
-              this._membre.classementAFTActuel=result;
+                this._membre.numeroClubAft=this._numeroClubAft;
+                this._membre.onlyCorpo=this._onlyCorpo;
+                this._membre.classementAFTActuel=result;
 
-              this.dialogRef.close(this._membre);
-       });
+                this.dialogRef.close(this._membre);
+         });
+      }
 
   }
 

@@ -1,18 +1,30 @@
 <h1 mat-dialog-title>Informations AFT<span style="float:right;"><button class="close" (click)="cancel();">&times;</button></span></h1>
-<div mat-dialog-content >
+<div mat-dialog-content style="min-width:300px;max-width:500px;">
+
+  <div *ngIf="showAlert" class="col-12">
+    <div class="alert alert-danger" role="alert">
+      Pour affilier à l'AFT via le Corpo, prenez contact avec le comité : <a href="mailto:tenniscorponamur@gmail.com">tenniscorponamur@gmail.com</a>
+    </div>
+  </div>
+
+  <div *ngIf="updateClubDisabled" class="col-12">
+    <div class="alert alert-success" role="alert">
+      Pour ne plus affilier à l'AFT via le Corpo, prenez contact avec le comité : <a href="mailto:tenniscorponamur@gmail.com">tenniscorponamur@gmail.com</a>
+    </div>
+  </div>
 
   <div class="col-12" style="margin-bottom:10px;">
     <strong>Numéro AFT :   {{_numeroAft}}</strong>
   </div>
 
-  <div class="col-12">
+  <div class="col-12" *ngIf="!_onlyCorpo">
     <mat-form-field>
-      <input matInput placeholder="Numéro Club AFT" [(ngModel)]="_numeroClubAft" disabled="{{_onlyCorpo}}">
+      <input matInput placeholder="Numéro Club AFT" [(ngModel)]="_numeroClubAft" (keyup.enter)="checkAffiliationViaCorpo();" (blur)="checkAffiliationViaCorpo();" >
     </mat-form-field>
   </div>
 
-  <div class="col-12">
-    <mat-checkbox color="primary" [(ngModel)]="_onlyCorpo" (change)="changeOnlyCorpo();" >Corpo uniquement</mat-checkbox>
+  <div class="col-12" *ngIf="updateClubDisabled">
+    <mat-checkbox color="primary" [(ngModel)]="_onlyCorpo" (change)="changeOnlyCorpo();" disabled="{{updateClubDisabled}}" >Affilié à l'AFT via le Corpo</mat-checkbox>
   </div>
 
   <div class="col-12">
@@ -27,6 +39,7 @@
 
   <div align="center" style="margin-top:5px;">
     <button class="btn btn-danger" (click)="cancel();">Annuler</button>
+    &nbsp;
     <button class="btn btn-success" (click)="save();">Sauver</button>
   </div>
 
