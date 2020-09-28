@@ -9,6 +9,7 @@ import {Terrain} from '../terrain';
 import {DivisionService} from '../division.service';
 import {EquipeService} from '../equipe.service';
 import {TerrainService} from '../terrain.service';
+import {AuthenticationService} from '../authentication.service';
 import {MembreSelectionComponent} from '../membre-selection/membre-selection.component';
 import {SelectTerrainDialogComponent} from '../select-terrain-dialog/select-terrain-dialog.component';
 import { CompositionEquipeDialogComponent } from '../composition-equipe-dialog/composition-equipe-dialog.component';
@@ -44,14 +45,23 @@ export class EquipeDetailComponent implements OnInit {
 
   constructor(
         public dialog: MatDialog,
-        private equipeService: EquipeService
+        private equipeService: EquipeService,
+        private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit() {
   }
 
-  get boxClass(): string{
+  get boxClassDivision(): string{
     if (this.deletable){
+      return "myBox myBoxEditable";
+    }else{
+      return "myBox";
+    }
+  }
+
+  get boxClassCommentaires(): string{
+    if (this.deletable || this.isAdminConnected()){
       return "myBox myBoxEditable";
     }else{
       return "myBox";
@@ -69,6 +79,10 @@ export class EquipeDetailComponent implements OnInit {
       }
     }
     return "fa fa-users fa-4x undefinedTeam";
+  }
+
+  isAdminConnected(){
+      return this.authenticationService.isAdminUserConnected();
   }
 
   refreshDeletable(){
@@ -138,7 +152,7 @@ export class EquipeDetailComponent implements OnInit {
     }
 
     ouvrirCommentairesEquipe(){
-      if (this.deletable){
+      if (this.deletable || this.isAdminConnected()){
         let commentairesEquipeDialogRef = this.dialog.open(CommentairesEquipeDialog, {
             data: {equipe: this.equipe}, panelClass: "commentairesEquipeDialog", disableClose:true
         });
