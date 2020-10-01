@@ -457,6 +457,14 @@ export class RencontresComponent extends ChampionnatDetailComponent implements O
 //        }
 //    }
 
+
+  isDivisionCriterium(){
+      if (this.selectedDivision){
+        return this.selectedDivision.championnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code;
+      }
+      return false;
+  }
+
     isCriterium(rencontre:Rencontre):boolean{
       return rencontre.division.championnat.type==TYPE_CHAMPIONNAT_CRITERIUM.code;
     }

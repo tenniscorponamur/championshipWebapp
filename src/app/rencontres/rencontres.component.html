@@ -234,7 +234,7 @@
 
                 </div>
 
-                <div *ngIf="divisionView" style="margin-top:10px;">
+                <div *ngIf="divisionView && !isDivisionCriterium()" style="margin-top:10px;">
                   <div *ngIf="poules.length>1 && selectedDivision && !selectedDivision.multiIS && !selectedDivision.withFinales" class="alert alert-info" role="alert">
                     <small>Une rencontre intersérie sera organisée entre les premiers de chaque poule.</small>
                   </div>
