@@ -46,6 +46,15 @@
     <div>
       <small><em>{{getCompoEquipe(rencontre.equipeVisites)}} - {{getCompoEquipe(rencontre.equipeVisiteurs)}}</em></small>
     </div>
+    <div *ngIf="isDoublon(rencontre)">
+      <small style="color:red;">Joue(nt) déjà au même moment</small>
+    </div>
+    <div *ngIf="rencontre.equipeVisites.commentaires">
+      <small style="color:red;">{{rencontre.equipeVisites.commentaires}}</small>
+    </div>
+    <div *ngIf="rencontre.equipeVisiteurs.commentaires">
+      <small style="color:red;">{{rencontre.equipeVisiteurs.commentaires}}</small>
+    </div>
     <div>
       <small>{{getCategorieCode(rencontre)}}<span *ngIf="rencontre.poule">&nbsp;- Poule {{rencontre.poule.numero}}</span>&nbsp;- Journée {{rencontre.numeroJournee}}</small>
     </div>

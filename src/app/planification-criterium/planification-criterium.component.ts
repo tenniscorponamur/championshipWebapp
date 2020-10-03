@@ -248,6 +248,54 @@ export class PlanificationCriteriumComponent implements OnInit {
     return "";
   }
 
+  isDoublon(horaire:Horaire,thisRencontre:RencontreExtended){
+    // Parcourir les compositions et si un joueur est deja present, on retourne true
+    let isDoublon:boolean=false;
+
+    horaire.rencontres.forEach(rencontre => {
+      // On analyse parmi les autres rencontres de ce moment
+      if (rencontre.rencontre.id != thisRencontre.rencontre.id){
+
+        let otherEquipeVisitesExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == rencontre.rencontre.equipeVisites.id);
+        let otherEquipeVisiteursExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == rencontre.rencontre.equipeVisiteurs.id);
+
+        let thisEquipeVisitesExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == thisRencontre.rencontre.equipeVisites.id);
+        let thisEquipeVisiteursExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == thisRencontre.rencontre.equipeVisiteurs.id);
+
+        thisEquipeVisitesExtended.membresEquipe.forEach(membre => {
+          otherEquipeVisitesExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+          otherEquipeVisiteursExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+        });
+
+        thisEquipeVisiteursExtended.membresEquipe.forEach(membre => {
+          otherEquipeVisitesExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+          otherEquipeVisiteursExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+        });
+
+      }
+    });
+
+    return isDoublon;
+  }
+
+
+
 }
 
 @Component({
@@ -401,6 +449,52 @@ export class ChoixRencontreCriteriumDialog implements OnInit {
       }
       return "";
     }
+
+  isDoublon(thisRencontre:Rencontre){
+    // Parcourir les compositions et si un joueur est deja present, on retourne true
+    let isDoublon:boolean=false;
+
+    this.horaire.rencontres.forEach(rencontre => {
+      // On analyse parmi les autres rencontres de ce moment
+      if (rencontre.rencontre.id != thisRencontre.id){
+
+        let otherEquipeVisitesExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == rencontre.rencontre.equipeVisites.id);
+        let otherEquipeVisiteursExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == rencontre.rencontre.equipeVisiteurs.id);
+
+        let thisEquipeVisitesExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == thisRencontre.equipeVisites.id);
+        let thisEquipeVisiteursExtended = this.equipesAvecCompo.find(equipeAvecCompo => equipeAvecCompo.equipe.id == thisRencontre.equipeVisiteurs.id);
+
+        thisEquipeVisitesExtended.membresEquipe.forEach(membre => {
+          otherEquipeVisitesExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+          otherEquipeVisiteursExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+        });
+
+        thisEquipeVisiteursExtended.membresEquipe.forEach(membre => {
+          otherEquipeVisitesExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+          otherEquipeVisiteursExtended.membresEquipe.forEach(otherMembre => {
+            if (otherMembre.id == membre.id){
+              isDoublon = true;
+            }
+          });
+        });
+
+      }
+    });
+
+    return isDoublon;
+  }
 
     loadDivisions(){
       this.divisions = [];

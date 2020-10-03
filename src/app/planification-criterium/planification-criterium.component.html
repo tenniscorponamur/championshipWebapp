@@ -58,6 +58,9 @@
                 <span><small>Journée {{rencontre.rencontre.numeroJournee}}</small></span>&nbsp;
                 <span><small>Poule {{rencontre.rencontre.poule.numero}}</small></span>
               </div>
+              <div *ngIf="isDoublon(horaire, rencontre);">
+                <small style="color:red;">Joue(nt) déjà au même moment</small>
+              </div>
               <div>
 
                 <select [(ngModel)]="rencontre.courtId"
