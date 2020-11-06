@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS} from '../championnat';
+import {Championnat,CATEGORIE_CHAMPIONNAT_MESSIEURS,CATEGORIE_CHAMPIONNAT_DAMES,CATEGORIE_CHAMPIONNAT_MIXTES, CATEGORIE_CHAMPIONNAT_SIMPLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_DAMES, CATEGORIE_CHAMPIONNAT_DOUBLE_MESSIEURS, CATEGORIE_CHAMPIONNAT_SIMPLE_MESSIEURS, TYPE_CHAMPIONNAT_CRITERIUM} from '../championnat';
 import {compare} from '../utility';
 import {Equipe, EquipeExtended} from '../equipe';
 import {Membre} from '../membre';
@@ -83,6 +83,13 @@ export class EquipeDetailComponent implements OnInit {
 
   isAdminConnected(){
       return this.authenticationService.isAdminUserConnected();
+  }
+
+  isCriterium(){
+    if (this.selectedChampionnat) {
+      return this.selectedChampionnat.type == TYPE_CHAMPIONNAT_CRITERIUM.code;
+    }
+    return false;
   }
 
   refreshDeletable(){
